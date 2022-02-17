@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/shared/head'); %>
+</head>
+
+<body>
+  <!-- <div id="upper_left" class="svg"></div>
+  <div id="upper_right" class="svg"></div> -->
+  <!-- <div id="lower_left"></div> -->
+  <div id="lower_right" class="svg"></div>
+  <div class="container">
+    <%- include('../partials/shared/navbar'); %>
+    <h1 class="servervar">
+      <%= title %>
+    </h1>
+    <p class="servervar"> 🗯  <%= message %> </p>
+
+    <%- include('partials/prepare_js'); %>
+    <%- include('../partials/shared/footer'); %>
+  </div>
+</body>
+<%- include('../partials/conf/afterbody'); %>
+</html>

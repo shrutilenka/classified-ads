@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin</title>
+    <!-- <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon"> -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.zinggrid.com/zinggrid.min.js" defer></script>
+    <style>
+      /* 
+       While ZingGrid is loading display a height to prevent screen jank.
+       This [loading] attribute is native to the library and will be added
+       regardless of whether you define it or not
+      */
+      zing-grid[loading] { height:500px; }
+    </style>
+  </head>
+  
+  <body>
+    
+    <main>
+      <h1>Admin</h1>
+      <p>
+        Approve carefully 
+      </p>
+      <zing-grid caption="Unapproved Listings" layout="card" layout-controls=true pager page-size="10" page-size-options="10,20,100" editor editor-controls>
+        <zg-data >
+          <zg-param name="src" value="/admin/"></zg-param>
+          <zg-param name="idKey" value="_id"></zg-param>
+        </zg-data>
+        <zg-colgroup>
+          <zg-column index="title" header="Title"></zg-column>
+          <zg-column index="tags" header="Tags"></zg-column>
+          <zg-column index="desc" header="Description"></zg-column>
+          <zg-column index="section" header="Section"></zg-column>
+          <zg-column index="usr" header="User"></zg-column>
+          <zg-column index="img" type="image" header="Image"></zg-column>
+        </zg-colgroup>
+      </zing-grid>
+      <!-- <zing-grid caption="Unapproved Listings" pager page-size="10" page-size-options="10,20,100" layout-controls=true src="/admin/" editor editor-controls></zing-grid> -->
+    </main>
+
+  </body>
+</html>

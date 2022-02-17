@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/shared/head'); %>
+</head>
+
+<body>
+  <%- include('../partials/shared/navbar'); %>
+  <div class="container">
+    <section id="docs">
+      <header class="row">
+        <div class="col-sm-6">
+          <h1 class="display-2 py-2 text-xs-center text-sm-left servervar">
+            <%= title %>
+          </h1>
+        </div>
+        <div class="col-sm-6 hidden">
+          <h2>Docs</h2>
+        </div>
+        <div class="col-sm-6 d-flex align-items-center justify-content-stretch">
+          <nav class="navbar navbar-expand navbar-light bg-light mb-0 w-100">
+            <ul class="navbar-nav w-100 justify-content-around">
+              <% for(var i=0; i < sections.length; i++) { %>
+                <li class="nav-item"><a class="nav-link" href="#<%= sections[i].id %>"><%= sections[i].id %></a></li>
+              <% } %>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      <br>
+      <p>
+        In "Classified-ads", we organise posts in three sections, where you can search and also post after logging. Sections are Donations, skills and blogs.
+      </p>
+    </section>
+
+    <% for(var i=0; i < sections.length; i++) { %>
+      <h3 id="<%= sections[i].id %>"><%= sections[i].id %></h3>
+      <p><%- sections[i].html %></p>
+    <% } %>
+    <%- include('../partials/shared/footer'); %>
+  </div>
+  <%- include('../partials/conf/prepare_js'); %>
+</body>
+<%- include('../partials/conf/afterbody'); %>
+
+</html>

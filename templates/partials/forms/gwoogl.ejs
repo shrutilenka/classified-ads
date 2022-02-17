@@ -1,0 +1,31 @@
+<% if(typeof section != 'undefined' && (section == 'donations' || section == 'skills')){ %>
+    <details>
+        <summary class="text-dark" data-trans="(search)">Fuzzy Search</summary>
+        <h2 class="text-dark hidden" data-trans="(fuzzysearch)">Fuzzy search</h2>
+        <form action="/listings/gwoogl" method="POST">
+            <div class="row">
+                <!-- <label for="title_desc">Title and description</label> -->
+                <div class="w-100 my-auto py-1">
+                    <label class="text-dark" for="exact" data-trans="(exact?)">Exact ?</label>
+                    <input type="checkbox" class="query m-1" name="exact" id="exact">
+                </div>
+                <div class="w-100 my-auto py-1 col-lg">
+                    <input class="w-100 p-1" name="title_desc" value="" placeholder="Title or description"
+                        data-trans="placeholder=(title|description);html=(title|description)">
+                </div>
+                <div class="w-100 my-auto py-1 col-lg">
+                    <input class="w-100 p-1" id="autoComplete-states" name="div_q" value="" placeholder="Divisions"
+                        data-trans="placeholder=(divisions);html=(divisions)">
+                </div>
+                <div class="w-100 my-auto py-1 d-flex justify-content-stretch col-lg">
+                    <label class="text-dark flex-grow-1 my-auto" for="since" data-trans="(sincedate)" style="margin-right:5px;">Since date</label>
+                    <input class="w-auto flex text-muted p-1 flex-grow-1" type="date" name="since" value="2021-04-01" min="2021-04-01">
+                </div>
+                <div class="w-100 my-auto py-1 col-lg">
+                    <button class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1" data-trans="(search)">Search</button>
+                </div>
+            </div>
+            <input type="hidden" name="section" value='<%=section%>'>
+        </form>
+    </details>
+<% } %>

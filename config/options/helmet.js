@@ -1,0 +1,19 @@
+const toBeReplaced = '42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com'
+module.exports = () => {
+    // TODO: remove "'unsafe-eval'" again. It is left for client side EJS rendering
+    return {
+        crossOriginEmbedderPolicy: false,
+        crossOriginResourcePolicy: { policy: 'same-site'}, 
+        contentSecurityPolicy: {
+            directives: {
+                ...require("fastify-helmet").contentSecurityPolicy.getDefaultDirectives(),
+                "default-src": ["'self'", "'unsafe-eval'", 'fonts.googleapis.com', 'www.googleapis.com', 'app.zingsoft.com', toBeReplaced],
+                "style-src": ["'self'", "'unsafe-inline'", 'unpkg.com', 'cdn.jsdelivr.net',
+                    'fonts.googleapis.com', 'use.fontawesome.com', 'maxcdn.bootstrapcdn.com'],
+                "script-src": ["'self'", "'unsafe-eval'", 'unpkg.com', "cdn.jsdelivr.net", "cdn.zinggrid.com", "'unsafe-inline'"], // "localhost:3002" Ackee tracker test
+                "img-src": ["'self'", "data:", "*.tile.osm.org", 'unpkg.com', 'live.staticflickr.com', 'storage.googleapis.com', toBeReplaced],
+                "font-src": ["'self'", 'fonts.googleapis.com', 'fonts.gstatic.com', 'use.fontawesome.com', 'maxcdn.bootstrapcdn.com']
+            },
+        },
+    }
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/shared/head'); %>
+</head>
+
+<body lang="en">
+  <div class="main-content">
+    <div id="sidebar" class="sidebar">
+      <div class="sidebar__inner">
+        <%- include('../partials/shared/sidebar'); %>
+      </div>
+    </div>
+    <div id="content" class="content">
+      <!-- <div id="upper_left" class="svg mt-4"></div>
+      <div id="upper_right" class="svg mt-4"></div> -->
+      <!-- <div id="lower_left"></div> -->
+      <!-- <div id="lower_right" class="svg"></div>-->
+      <%- include('../partials/shared/navbar'); %>
+      <div class="container">
+        <div class="jumbotron py-3">
+          <h1 class="display-4 text-center sm:text-left anima">Classified-ads</h1>
+          <p class="text-center sm:text-left servervar">Welcome to <%= title %></p>
+        </div>
+        <div class="jumbotron text-center">
+          <h1><span class="fa fa-lock"></span> Node Authentication</h1>
+  
+          <p>Login or Register with:</p>
+  
+          <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+          <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+        </div>
+  
+        <div id="delimitations-map" ></div>
+  
+        <div class="search d-flex py-4">
+          <div class="mx-auto mx-lg-0">
+            <label class="text-centermb-1 sm:mb-0" for="qsearch">Highlight listings</label>
+            <input type="qsearch" name="qsearch" placeholder="Today listings" required>  
+          </div>
+        </div>
+        <br>
+        <%- include('../partials/sections/listings_parser'); %>
+        <%- include('../partials/shared/pagination'); %>
+        <%- include('../partials/shared/footer'); %>
+      </div>
+    </div>
+  </div>
+</body>
+
+<%- include('../partials/conf/afterbody'); %>
+
+</html>

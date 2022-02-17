@@ -1,0 +1,545 @@
+
+// @import "../../node_modules/bootstrap/scss/bootstrap";
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+@import "../../node_modules/pell/src/pell.scss";
+@import "../../node_modules/@yaireo/tagify/src/tagify.scss";
+// Doesn't provide scss
+@import "../../node_modules/@tarekraafat/autocomplete.js/dist/css/autoComplete.02";
+// https://github.com/dbrekalo/simpleLightbox/pull/14
+// @import "../../node_modules/simple-lightbox/src/simpleLightbox.scss";
+// Doesn't provide scss
+@import "../../node_modules/egalink-toasty.js/src/toasty";
+// most important comes last
+@import "../../node_modules/leaflet/dist/leaflet";
+@import "../../node_modules/leaflet.fullscreen/Control.FullScreen";
+@import "../../node_modules/leaflet.markercluster/dist/MarkerCluster";
+
+:root {
+  --map-tiles-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg)
+    saturate(0.3) brightness(0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  .tiles-colors {
+    filter: var(--map-tiles-filter, none);
+  }
+}
+// SIDE BAR TODO: add ResizeSensor.js
+@media screen and (min-width: 1400px) {
+  .sidebar {
+    display: none;
+  }
+}
+.sidebar{
+  will-change: min-height;
+}
+
+.sidebar__inner{
+  transform: translate(0, 0); /* For browsers don't support translate3d. */
+  transform: translate3d(0, 0, 0);
+  will-change: position, transform;
+}
+
+.CA48-listing {
+  // TODO: put this guy on right of the card
+}
+.CA48-listings .CA48-listing {
+  cursor: pointer;
+  right: 0;
+  top: 0;
+  position: absolute;
+}
+.CA48-listings .CA48-listing:hover:after,
+.CA48-listings .CA48-listing.favourites:after {
+  content: ' \2605';
+  color: rgb(255, 203, 0);
+}
+.CA48-listings .CA48-listing.favourites:hover:after {
+  content: ' \2606';
+}
+
+.servervar {
+  background-image: repeating-linear-gradient(
+      180deg,
+      #333333,
+      #333333 10px,
+      transparent 10px,
+      transparent 20px,
+      #333333 20px
+    ),
+    repeating-linear-gradient(
+      270deg,
+      #333333,
+      #333333 10px,
+      transparent 10px,
+      transparent 20px,
+      #333333 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      #333333,
+      #333333 10px,
+      transparent 10px,
+      transparent 20px,
+      #333333 20px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #333333,
+      #333333 10px,
+      transparent 10px,
+      transparent 20px,
+      #333333 20px
+    );
+  background-size: 2px calc(100% + 20px), calc(100% + 20px) 2px,
+    2px calc(100% + 20px), calc(100% + 20px) 2px;
+  background-position: 0 0, 0 0, 100% 0, 0 100%;
+  background-repeat: no-repeat;
+  animation: borderAnimation 1s infinite linear reverse;
+}
+
+@keyframes borderAnimation {
+  from {
+    background-position: 0 0, -20px 0, 100% -20px, 0 100%;
+  }
+  to {
+    background-position: 0 -20px, 0 0, 100% 0, -20px 100%;
+  }
+}
+
+label {
+  padding-top: 1% !important;
+}
+
+code {
+  opacity: 75%;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+}
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+}
+
+h5 {
+  font-family: "Montserrat", sans-serif;
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+}
+
+blockquote {
+  font-family: News Cycle;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+pre {
+  font-family: News Cycle;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 18.5667px;
+}
+
+.header {
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+
+  font-size: 80px;
+  text-transform: uppercase;
+  display: inline-block;
+  line-height: 72px;
+  margin-bottom: 20px;
+}
+
+.head {
+  text-align: center;
+  position: relative;
+}
+
+.subhead {
+  text-transform: uppercase;
+  border-bottom: 2px solid #2f2f2f;
+  border-top: 2px solid #2f2f2f;
+  padding: 12px 0 12px 0;
+}
+
+.navbar {
+  margin-bottom: 3rem;
+}
+
+.sexybox {
+  position: relative;
+  width: 12%;
+  left: 10px;
+  border: 3px double #2f2f2f;
+  padding: 10px 15px 10px 15px;
+  line-height: 20px;
+  display: inline-block;
+  margin: 0 10% 20px -50%;
+}
+
+.card {
+  border-style: dashed;
+  border-width: thin;
+  border-color: #a19f9a50;
+  background-color: #f5eabf28;
+}
+
+.card.donations {
+  background-color: rgba(110, 63, 1, 0.2);
+}
+
+.card.skills {
+  background-color: rgba(127, 255, 212, 0.2);
+}
+
+.card.blogs {
+  background-color: rgba(128, 128, 128, 0.2);
+}
+
+#characters-left {
+  font-family: Lucida Console;
+  background-color: antiquewhite;
+  color: black;
+}
+
+.pell-content {
+  background-color: #309ae641;
+}
+
+.pell-button {
+  color: #333 !important;
+}
+
+/* font picker */
+
+.dropdown-button,
+.font-list-item {
+  color: black !important;
+}
+
+#listing-map {
+  height: 400px;
+  z-index: 99;
+}
+
+#delimitations-map {
+  height: 400px;
+  z-index: 99;
+}
+
+#geo-search-map {
+  height: 400px;
+  z-index: 99;
+}
+
+#game-map {
+  height: 400px;
+  z-index: 99;
+}
+/* Style the Image Used to Trigger the Modal */
+
+#imgg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#imgg:hover {
+  opacity: 0.7;
+}
+
+/* The Modal (background) */
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 100;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9);
+  /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+
+.modal-content,
+#caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* The Close Button */
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+
+@media only screen and (max-width: 700px) {
+  .modal-content {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  #upper_left {
+    width: 125px;
+    height: 125px;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    background-image: url("/images/1546457182.svg");
+    background-repeat: no-repeat;
+  }
+  #upper_right {
+    width: 125px;
+    height: 125px;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    background-image: url("/images/1546457622.svg");
+    background-repeat: no-repeat;
+  }
+  #lower_right {
+    width: 125px;
+    height: 125px;
+    bottom: 5%;
+    right: 5%;
+    position: fixed;
+    background-image: url("/images/1548790076.svg");
+    background-repeat: no-repeat;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.loading-text {
+  font-size: 60px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  visibility: hidden;
+}
+
+/* Image miniatures grid */
+.img-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin-left: 10px;
+}
+
+.img-radio {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+.center {
+  text-align: center;
+  margin: 2rem;
+  width: 100%;
+  border: 0.1rem dotted green;
+  padding: 1rem;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Ruda:900");
+
+form {
+  padding: 0.5em 0.5em 0;
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.185);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+// details {
+//   border: 0.1rem solid #c4c4c4a2;
+//   padding: 0.5em 0.5em 0;
+//   margin-top: 1rem;
+
+//   background-image: url(//www.toptal.com/designers/subtlepatterns/patterns/symphony.png);
+//   background-position: bottom;
+//   animation: 15s linear 0s infinite bp;
+//   display: flex;
+// }
+
+// @keyframes bp {
+//   from {
+//     background-position: 198px 0;
+//   }
+
+//   to {
+//     background-position: 0 198px;
+//   }
+// }
+
+summary {
+  font-weight: bold;
+  margin: -0.5em -0.5em 0;
+  padding: 0.5em;
+}
+
+details[open] {
+  padding: 0.5em;
+}
+
+details[open] summary {
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 0.5em;
+}
+
+$details_colors: (#cb997e50, #ddbea950, #ffe8d650, #b7b7a450, #a5a58d50);
+
+$forms_colors: (#8e9aaf50, #cbc0d350, #efd3d750, #feeafa50, #dee2ff50);
+
+$bootstrap_mapping: (Indigo, Purple, Pink, Teal, Cyan);
+
+@for $i from 1 through 5 {
+  details:nth-of-type(#{$i}) {
+    background-color: nth($details_colors, $i) !important;
+    margin-top: 1rem;
+  }
+  // form:nth-of-type(#{$i}) {
+  //   background-color: nth($forms_colors, $i) !important;
+  //   margin-top: 1rem;
+  // }
+}
+
+/* Chat containers */
+.chat {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1a4;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+/* Darker chat container */
+.chat-darker {
+  border-color: rgb(126, 125, 125);
+  background-color: rgba(126, 125, 125, 0.692);
+}
+
+/* Darker chat container */
+.chat-reply {
+  border-color: rgb(126, 125, 125);
+  background-color: rgba(51, 122, 45, 0.692);
+  width: 90%;
+}
+
+/* Clear floats */
+.chat::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Style images */
+.chat img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+/* Style the right image */
+.chat img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+/* Style time text */
+.chat-time-right {
+  float: right;
+}
+
+/* Style time text */
+.chat-time-left {
+  float: left;
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/shared/head'); %>
+  <% if(typeof(title) != 'undefined' && title === 'Reactivate') { %>
+    <style>
+      body {
+        background-image: linear-gradient(transparent 50%, rgb(226 169 169 / 50%) 50%);
+        background-size: 1px 4px;
+      }
+    </style>
+  <% } %>
+</head>
+
+<body>
+
+  <!-- TODO: reactive style if title == 'reactivate' -->
+  <!-- <div id="upper_left" class="svg my-3"></div>
+  <div id="upper_right" class="svg my-3"></div> -->
+  <!-- <div id="lower_left"></div> -->
+  <div id="lower_right" class="svg"></div>
+  <%- include('../partials/shared/navbar'); %>
+  <div class="container">
+    <h1 class="servervar">
+      <%= title %>
+    </h1>
+    <p>Posted by:
+    </p>
+    <img id='avatar' width="80" height="80" alt="User">
+    <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
+      <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
+    <% } %>
+    <% if (data.undraw) { %>
+      <div id="undraw-output">
+        <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= data.undraw.split('#')[0]+'.svg' %>" alt="<%= data.undraw.split('#')[0] %>" style="width: 40rem;">
+      </div>
+    <% } %>
+    
+    <div id="font-picker"></div>
+    <% if (data.title && data.desc) { %>
+      <h2><%= data.title.charAt(0).toUpperCase() + data.title.slice(1) %></h2>
+      <p class="apply-font"><%- data.desc %></p>
+      <% if (data.section == 'donations') { %>
+        <div id="listing-map" ></div>
+      <% } %>
+      <br>
+      <hr>
+      <div class="d-flex">
+        <div class="mx-auto mx-lg-0">
+          <img id="imgg" src="<%- data.img %>" width="200rem"> 
+        </div>
+      </div>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+
+        <!-- The Close Button -->
+        <span class="close">&times;</span>
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="img01">
+        
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+      </div>
+      <% if (data.pass) { %>
+        <p>Your listing has been added. Wait for admin approval. Only with this password <code><%- data.pass %></code> you could deactivate this listing. Please keep it safe.</p>
+      <% } %>
+
+      <div class="row" id="comments">
+        <% for (var i = 0; comments.length> 0 && i < comments.length && i < 10 ; i++) { %>
+          <div x-data="{ open: false }">
+              <% if (comments[i].from === user.nickname) { %>
+                  <div class="chat chat-darker" x-on:click="open = ! open">
+                      <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="<%= comments[i].from %>" class="right">
+                      <p><%= comments[i].message %></p>
+                      <span class="chat-time-left"><%= new Date(parseInt(comments[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></span>
+                  </div>
+              <% } else { %>
+                  <div class="chat" x-on:click="open = ! open">
+                      <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="<%= comments[i].from %>">
+                      <p><%= comments[i].message %></p>
+                      <span class="chat-time-right"><%= new Date(parseInt(comments[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></span>
+                  </div>
+              <% }%>
+              <!-- TODO: only if author is the logged in user/ reply section -->
+              <% if (author === user.nickname) { %>
+                  <span x-show="open" x-transition>
+                      <div class="chat chat-reply">
+                          <form action="comment" method="POST">
+                              <div>
+                                  <label for="message">Reply...</label>
+                                  <textarea class="w-100" rows="3" name="message" id="message"></textarea>
+                              </div>
+                              <div>
+                                  <button class="btn btn-primary my-2 w-25">Send</button>
+                              </div>
+                          </form>
+                      </div>
+                  </span>
+              <% }%>
+          </div>
+      <% }%>
+      </div>
+      <form action="comment" method="POST">
+        <div>
+          <label for="message">Message to the announcer</label>
+          <textarea class="w-100" rows="3" name="message" id="message"></textarea>
+        </div>
+        <div>
+          <button class="btn btn-primary my-2 w-25">Send</button>
+        </div>
+      </form>
+
+      <% if(typeof(title) != 'undefined' && title !== 'Reactivate') { %>
+        <div class="jumbotron bg-light mt-4">
+          <h2>Deactivate</h2>
+          <form action="deactivate" method="POST">
+            <div>
+              <label for="password">You need the password for the announcement</label>
+              <input class="w-100" name="password" id="password" value="password..." type="password">
+            </div>
+            <div>
+              <button class="btn btn-danger my-2 w-25">Deactivate</button>
+            </div>
+          </form>
+        </div>
+      <% } %>
+    <% } %>
+
+    <% if(typeof(title) != 'undefined' && title === 'Reactivate') { %>
+      <div class="jumbotron bg-light">
+        <h2>Reactivate</h2>
+        <form action="/listings/reactivate" method="POST">
+          <div>
+            <label for="password">You need the password for the announcement</label>
+            <input class="w-100" name="password" id="password" value="password..." type="password">
+          </div>
+          <div>
+            <button class="btn btn-success my-2 w-25">Reactivate</button>
+          </div>
+        </form>
+      </div>
+    <% } %>
+
+    <%- include('../partials/conf/prepare_js'); %>
+    <%- include('../partials/shared/footer'); %>
+  </div>
+
+  
+</body>
+<%- include('../partials/conf/afterbody'); %>
+<script src="/unversioned_js/ejs.min.js"></script>
+<script>
+  {
+    const scriptElement = document.createElement("script")
+    scriptElement.src = "/javascripts/listing.js"
+    document.body.appendChild(scriptElement)
+
+  }
+</script>
+</html>
