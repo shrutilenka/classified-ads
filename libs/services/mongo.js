@@ -375,6 +375,29 @@ module.exports = function (db) {
         })
     }
 
+    let topTags
+    let lastSeen = Infinity
+    let ttl = 300000 // 5 minutes
+    this.topTags = async function () {
+        if (topTags && (Date.now() - lastSeen) < ttl)
+            return topTags
+        lastSeen = Date.now()
+        const collection = db.collection('listing')
+        const pipeline = [
+            { $unwind: "$tags" },
+            // by section
+            { $group: {
+                "_id": { tags: "$tags", section: "$section" },
+                "count": { "$sum": 1 }
+            } },
+            // { $group: { "_id": "$tags", "count": { "$sum": 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 20 }
+        ]
+        topTags = await collection.aggregate(pipeline).toArray();
+        return topTags
+    }
+
     this.getDocumentsForApproval = async function () {
         const collection = db.collection('listing')
         const query = { /*d: false, a: true*/ }

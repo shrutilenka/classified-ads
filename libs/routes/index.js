@@ -125,12 +125,18 @@ async function routes(fastify, options) {
         const keyword = req.params.keyword
         const elems = await QInstance.autocomplete(keyword)
         if (elems) {
-            return reply.send(elems)
+            return elems
         }
         reply.blabla([{}, 'listing', 'not found'], req)
         return reply
     })
 
+    /* GET Top listings by tag. */
+    fastify.get('/top', async function (req, reply) {
+        const topTags = await QInstance.topTags()
+        return topTags
+    })
+    
     // Blog pages are pages with little server processing
     fastify.get('/categories', function (req, reply) {
         reply.view('/templates/pages/blog', {

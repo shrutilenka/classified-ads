@@ -81,6 +81,14 @@ const checkSimilarity = (keyword) => {
 
 // REFRESH TOPK
 const refreshTopK = (keyword) => {
+    // split a phrase into words
+    if (keyword.split(' ').length > 1) {
+        keyword.split(' ').forEach(word => {
+            if(word.length > 2)
+                refreshTopK(word)
+        })
+        return
+    }
     purgeOld()
     const similar = checkSimilarity(keyword)
     if (similar)
@@ -98,5 +106,5 @@ const refreshTopK = (keyword) => {
     }
 }
 
-module.exports = { refreshTopK }
-// refreshTopK("new search")
+// refresh() must be called once
+module.exports = { refreshTopK, topk }
