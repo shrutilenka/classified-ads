@@ -193,8 +193,9 @@ async function instantiateApp() {
         const { db } = fastify.mongo
         const collection = db.collection('listing')
         // Create indexes
-        //process.env.NODE_ENV in {development, localhost, monkey chaos}
-        if (NODE_ENV < 2) {
+        //process.env.NODE_ENV in {localhost, monkey chaos}
+        if (NODE_ENV < 1) {
+            bootstrap.famousSearches()
             await collection.deleteMany({})
             bootstrap.seedDevelopmenetData(db).then(async (reply) => {
                 await bootstrap.createIndexes(db)

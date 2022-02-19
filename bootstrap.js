@@ -176,4 +176,36 @@ ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
     }, task)
     scheduler.addSimpleIntervalJob(job)
 }
+
+const fs = require('fs')
+const path = require('path')
+const { refreshTopK, topk } = require('./libs/services/miner')
+ops.famousSearches = function famousSearches() {
+    const splitBy = (sep) => (str) =>
+        str.split(sep).map((x) => x.trim())
+    const splitLine = splitBy('-')
+    const splitCategories = splitBy('>')
+    const load = (lines) =>
+        [lines]
+            .map((lines) => lines.map(splitLine))
+            .map((lines) => lines.map(([id, cats]) => splitCategories(cats)))
+            .pop()
+
+    const taxonomyPathEn = './data/taxonomy/taxonomy-with-ids.en-US.txt'
+    const fileSyncEn = fs.readFileSync(path.join(__dirname, taxonomyPathEn)).toString()
+    const fileContentEn = fileSyncEn.replace(',', '_').split('\n').filter(Boolean)
+
+    const googleTagsEn = [...new Set(
+        load(fileContentEn)
+            .filter((arr) => arr.length == 3 && arr[2].length < 30), (x) => x.join('')
+    )].map(arr => arr[1]).slice(1, 200)
+    googleTagsEn.forEach(search => {
+        refreshTopK(search)
+    });
+    // for (let item of topk.values()) {
+    //     console.log(
+    //         `Item "${item.value}" is in position ${item.rank} with an estimated frequency of ${item.frequency}`
+    //     )
+    // }
+}
 module.exports.ops = ops
