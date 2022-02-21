@@ -382,10 +382,10 @@ module.exports = function (db) {
         let res = {};
         let sections = [...new Set(aa.map(a => a._id.section))]
         let section
-        do {
+        while ((section = sections.pop()) !== undefined) {
             res[section] = aa.filter(z => z._id.section === section)
                 .map(l => { return { count: l.count, tag: l._id.tags } })
-        } while ((section = sections.pop()) !== null)
+        }
     }
 
 
