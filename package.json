@@ -4,6 +4,7 @@
   "description": "A performant classified-ads website with maps and tags",
   "main": "index.js",
   "scripts": {
+    "build": "npm install && cd client && npm install && npm run dev:client",
     "start": "node app.js",
     "dev:start": "nodemon app.js",
     "prestart": "cd client && npm run dev:client",

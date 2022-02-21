@@ -375,6 +375,20 @@ module.exports = function (db) {
         })
     }
 
+    // { _id: { tags: 'qui', section: 'blogs' }, count: 11 }
+    // { _id: { tags: 'voluptatem', section: 'skills' }, count: 8 }
+    // { _id: { tags: 'rerum', section: 'skills' }, count: 8 }
+    const reformat = (aa) => {
+        let res = {};
+        let sections = [...new Set(aa.map(a => a._id.section))]
+        let section
+        do {
+            res[section] = aa.filter(z => z._id.section === section)
+                .map(l => { return { count: l.count, tag: l._id.tags } })
+        } while ((section = sections.pop()) !== null)
+    }
+
+
     let topTags
     let lastSeen = Infinity
     let ttl = 300000 // 5 minutes
@@ -386,16 +400,36 @@ module.exports = function (db) {
         const pipeline = [
             { $unwind: "$tags" },
             // by section
-            { $group: {
-                "_id": { tags: "$tags", section: "$section" },
-                "count": { "$sum": 1 }
-            } },
+            {
+                $group: {
+                    "_id": { tags: "$tags", section: "$section" },
+                    "count": { "$sum": 1 }
+                }
+            },
             // { $group: { "_id": "$tags", "count": { "$sum": 1 } } },
             { $sort: { count: -1 } },
             { $limit: 20 }
         ]
         topTags = await collection.aggregate(pipeline).toArray();
-        return topTags
+        return reformat(topTags)
+    }
+
+    // { _id: 'Tindouf', count: 8 }
+    // { _id: 'Tebessa', count: 7 }
+    // { _id: 'Ouargla', count: 6 }
+    let topByDiv = {}
+    this.topBydivision = async function (section) {
+        if (topByDiv[section])
+            return topByDiv[section]
+        const collection = db.collection('listing')
+        const pipeline = [
+            { $match: { section: section } },
+            { $group: { _id: "$div", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 10 }
+        ]
+        topByDiv[section] = await collection.aggregate(pipeline).toArray();
+        return topByDiv[section]
     }
 
     this.getDocumentsForApproval = async function () {
