@@ -52,7 +52,7 @@ async function instantiateApp() {
     const adminRouter = require('./libs/routes/admin.js')
     const listingsRouter = require('./libs/routes/listings.js')
     const dataRouter = require('./libs/routes/data.js')
-    const devRouter = require('./libs/routes/dev.js')
+    const debugRouter = require('./libs/routes/debug.js')
     const gameRouter = require('./libs/routes/game.js')
 
     // const ffPlugin = require('fastify-feature-flags')
@@ -172,7 +172,7 @@ async function instantiateApp() {
     fastify.register(listingsRouter, { prefix: 'listings' })
     fastify.register(dataRouter, { prefix: 'data' })
     if (NODE_ENV < 1) {
-        fastify.register(devRouter, { prefix: 'mongo' })
+        fastify.register(debugRouter, { prefix: 'debug' })
     }
     fastify.register(gameRouter, { prefix: 'game' })
 
