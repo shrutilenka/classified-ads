@@ -19,7 +19,13 @@ Notes:
 🧰 Tech stack
 ---
 <img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" alt="JavaScript logo" width="50" height="50" /> <img src="https://github.com/devicons/devicon/blob/master/icons/webpack/webpack-original.svg" alt="Webpack logo" width="50" height="50" /> <img src="https://github.com/devicons/devicon/blob/master/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap logo" width="50" height="50" /> <img src="https://cdn.worldvectorlogo.com/logos/leaflet-1.svg" alt="Leaflet logo" width="100" height="50" /> <img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original.svg" alt="NodeJS logo" width="50" height="50" /> <img src="https://github.com/fastify/graphics/raw/HEAD/fastify-landscape-outlined.svg" alt="Fastify logo" width="50" height="50" /> <img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original.svg" alt="MongoDB logo" width="50" height="50" /> 
+
+🧰 Front-end JS/CSS
 ---
+<img src="https://raw.githubusercontent.com/jaredreich/pell/master/images/logo.png" alt="Pell logo" width="50" height="50" /> <img src="https://raw.githubusercontent.com/yairEO/tagify/master/docs/readme-header.svg" alt="Tagify" width="50" height="50" /> <img src="https://haroen.me/holmes/images/holmes_logo-hover.svg" alt="Holmes" width="50" height="50" /> <img src="https://cdn.worldvectorlogo.com/logos/leaflet-1.svg" alt="Leaflet logo" width="100" height="50" /> <img src="https://camo.githubusercontent.com/2ad966e7273e5fa36e98a63f6ad2c99e023ac67f0bef3bb8ff3a308a12d219aa/68747470733a2f2f67626c6f627363646e2e676974626f6f6b2e636f6d2f7370616365732532462d4c39695336576d3268796e53354839476a376a2532466176617461722e706e673f616c743d6d65646961" alt="I18n
+" width="50" height="50" /> <img src="https://camo.githubusercontent.com/b9f9f0f7f6eba68351d09485a9555ce9ec94195da3e471a6917d26908f40b283/68747470733a2f2f73747265746368792e7665726f752e6d652f6c6f676f2e737667236e6f74657874" alt="Stretchy" width="50" height="50" />
+<p>... and many others</p>
+
 
 ## Functionalities
 
@@ -117,19 +123,16 @@ With a different geoJSON data, you might need to change encoders in both files `
 - As a contributor, you can be a UI designer (CSS / image designer...), a developer or a devOps. So you can contribute without knowing much coding for instance. However, if you are a developer, you should have learned basics of web development and how browsers work, JavaScript in front and back-end and so.
 
 - We rely on dozens of open sources projects particularly for front-end particularly. These are lightweight, minimal and safe libraries. Some examples are: 
-    * CSS files
-    * pell
-    * @yaireo\tagify
-    * @tarekraafat\autocomplete.js
-    * leaflet.fullscreen
-    * simple-lightbox
-    * egalink-toasty.js
-    * holmes
-    * Leaflet (very important)
-    * mobile-detect
-    * svg-injector
-    * datatables.net-dt
-    * avatar-initials
+
+  * pell: 📝 the simplest and smallest WYSIWYG text editor for web, with no dependencies [repo](https://github.com/jaredreich/pell)
+  * tagify: 🔖 lightweight, efficient Tags input component in Vanilla JS / React / Angular / Vue  [repo](https://github.com/yairEO/tagify)
+  * toasty: A minimal JavaScript notification plugin that provides a simple way to display customizable toast messages on the web page with CSS3 transition effects. [repo](https://github.com/egalink/Toasty.js)
+  * holmes: Fast and easy searching inside a page [repo](https://github.com/Haroenv/holmes) It uses microlight also.
+  * auto-complete:  An extremely lightweight and powerful vanilla JavaScript completion suggester. [repo](https://github.com/Pixabay/JavaScript-autoComplete)
+  * jsi18n: Simple client side internationalization with javascript. [repo](https://github.com/danabr/jsI18n) 
+  * avatar: Library for showing Gravatars or generating user avatars. [repo](https://github.com/MatthewCallis/avatar) 
+  * FontPicker: Font selector component for Google Fonts . [repo](https://github.com/samuelmeuli/font-picker)
+  * stretchy: Form element autosizing, the way it should be. [repo](https://github.com/LeaVerou/stretchy)
 
     This raises multiple challenges mainly for upgrading and actively maintained from their authors. We would like to rely always on the latest versions but we would change one library by another if the project seems inactive or very old (like not supporting modules or so).
     Leaflet particularly is the most important in this regard.
