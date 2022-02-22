@@ -18,12 +18,22 @@ Notes:
 
 🧰 Tech stack
 ---
-<img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" alt="JavaScript logo" width="50" height="50" /> <img src="https://github.com/devicons/devicon/blob/master/icons/webpack/webpack-original.svg" alt="Webpack logo" width="50" height="50" /> <img src="https://github.com/devicons/devicon/blob/master/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap logo" width="50" height="50" /> <img src="https://cdn.worldvectorlogo.com/logos/leaflet-1.svg" alt="Leaflet logo" width="100" height="50" /> <img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original.svg" alt="NodeJS logo" width="50" height="50" /> <img src="https://github.com/fastify/graphics/raw/HEAD/fastify-landscape-outlined.svg" alt="Fastify logo" width="50" height="50" /> <img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original.svg" alt="MongoDB logo" width="50" height="50" /> 
+[<img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" alt="JavaScript logo" width="50" height="50" />](https://www.javascript.com/) 
+[<img src="https://github.com/devicons/devicon/blob/master/icons/webpack/webpack-original.svg" alt="Webpack logo" width="50" height="50" />](https://webpack.js.org/)
+[<img src="https://github.com/devicons/devicon/blob/master/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap logo" width="50" height="50" />](https://getbootstrap.com/docs/5.0/)
+[<img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original.svg" alt="NodeJS logo" width="50" height="50" />](https://nodejs.org/)
+[<img src="https://github.com/fastify/graphics/raw/HEAD/fastify-landscape-outlined.svg" alt="Fastify logo" width="50" height="50" />](https://fastify.io/)
+[<img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original.svg" alt="MongoDB logo" width="50" height="50" />](https://docs.mongodb.com/drivers/node/current/)
 
 🧰 Front-end JS/CSS
 ---
-<img src="https://raw.githubusercontent.com/jaredreich/pell/master/images/logo.png" alt="Pell logo" width="50" height="50" /> <img src="https://raw.githubusercontent.com/yairEO/tagify/master/docs/readme-header.svg" alt="Tagify" width="50" height="50" /> <img src="https://haroen.me/holmes/images/holmes_logo-hover.svg" alt="Holmes" width="50" height="50" /> <img src="https://cdn.worldvectorlogo.com/logos/leaflet-1.svg" alt="Leaflet logo" width="100" height="50" /> <img src="https://camo.githubusercontent.com/2ad966e7273e5fa36e98a63f6ad2c99e023ac67f0bef3bb8ff3a308a12d219aa/68747470733a2f2f67626c6f627363646e2e676974626f6f6b2e636f6d2f7370616365732532462d4c39695336576d3268796e53354839476a376a2532466176617461722e706e673f616c743d6d65646961" alt="I18n
-" width="50" height="50" /> <img src="https://camo.githubusercontent.com/b9f9f0f7f6eba68351d09485a9555ce9ec94195da3e471a6917d26908f40b283/68747470733a2f2f73747265746368792e7665726f752e6d652f6c6f676f2e737667236e6f74657874" alt="Stretchy" width="50" height="50" />
+[<img src="https://raw.githubusercontent.com/jaredreich/pell/master/images/logo.png" alt="Pell logo" width="50" height="50" />](https://github.com/jaredreich/pell)
+[<img src="https://raw.githubusercontent.com/yairEO/tagify/master/docs/readme-header.svg" alt="Tagify" width="50" height="50" />](https://github.com/yairEO/tagify)
+[<img src="https://haroen.me/holmes/images/holmes_logo-hover.svg" alt="Holmes" width="50" height="50" />](https://github.com/Haroenv/holmes)
+[<img src="https://cdn.worldvectorlogo.com/logos/leaflet-1.svg" alt="Leaflet logo" width="100" height="50" />](https://leafletjs.com/)
+[<img src="https://camo.githubusercontent.com/2ad966e7273e5fa36e98a63f6ad2c99e023ac67f0bef3bb8ff3a308a12d219aa/68747470733a2f2f67626c6f627363646e2e676974626f6f6b2e636f6d2f7370616365732532462d4c39695336576d3268796e53354839476a376a2532466176617461722e706e673f616c743d6d65646961" alt="I18n
+" width="50" height="50" />](https://github.com/danabr/jsI18n)
+[<img src="https://camo.githubusercontent.com/b9f9f0f7f6eba68351d09485a9555ce9ec94195da3e471a6917d26908f40b283/68747470733a2f2f73747265746368792e7665726f752e6d652f6c6f676f2e737667236e6f74657874" alt="Stretchy" width="50" height="50" />](https://github.com/LeaVerou/stretchy)
 <p>... and many others</p>
 
 
@@ -140,11 +150,11 @@ With a different geoJSON data, you might need to change encoders in both files `
     I don't know much yet about versionning in npm, although [it is very very important](https://docs.npmjs.com/about-semantic-versioning). I suggest to install [ndm](https://720kb.github.io/ndm/) and add two projects `./` and `./client/` to have an eye on last versions and what to expect.
 
 On the occasion, I would like to thank the following contributors:  
-[mbussert](https://github.com/mbussert) for helping dark theme  
-[leycnmhd](https://github.com/leycnmhd) for helping refactoring client code  
-[jimmywarting](https://github.com/jimmywarting) for helping cleaning code and some nice advices  
-[jayeclark](https://github.com/jayeclark) for helping CSS layouts (Bootstrap)  
-[Fastify team](https://github.com/fastify/help/)  
+  - [mbussert](https://github.com/mbussert) for helping dark theme  
+  - [leycnmhd](https://github.com/leycnmhd) for helping refactoring client code  
+  - [jimmywarting](https://github.com/jimmywarting) for helping cleaning code and some nice advices  
+  - [jayeclark](https://github.com/jayeclark) for helping CSS layouts (Bootstrap)  
+  - [Fastify team](https://github.com/fastify/help/)  
 *I'm sorry all commits were lost, the project was reworked from Express to Fastify, ziped, unziped, uploaded, ... so thanks to y'all*
 
 
