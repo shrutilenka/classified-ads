@@ -67,7 +67,7 @@
         <p>Your listing has been added. Wait for admin approval. Only with this password <code><%- data.pass %></code> you could deactivate this listing. Please keep it safe.</p>
       <% } %>
 
-      <div class="row" id="comments">
+      <div class="row" id="sync-comments">
         <% for (var i = 0; comments.length> 0 && i < comments.length && i < 10 ; i++) { %>
           <div x-data="{ open: false }">
               <% if (comments[i].from === user.nickname) { %>

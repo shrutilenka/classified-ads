@@ -132,11 +132,16 @@ async function routes(fastify, options) {
     })
 
     /* GET Top listings by tag. */
-    fastify.get('/top', async function (req, reply) {
+    fastify.get('/top/tags', async function (req, reply) {
         const topTags = await QInstance.topTags()
         return topTags
     })
     
+    fastify.get('/top/div/:section', async function (req, reply) {
+        const section = req.params.section
+        const topTags = await QInstance.topBydivision(section)
+        return topTags
+    })
     // Blog pages are pages with little server processing
     fastify.get('/categories', function (req, reply) {
         reply.view('/templates/pages/blog', {

@@ -10,5 +10,4 @@ export const renderComments = () => {
     .then(data => {
       console.log(data)
     });
-
 }

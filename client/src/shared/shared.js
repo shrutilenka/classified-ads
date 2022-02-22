@@ -12,6 +12,7 @@ import { setupMaps } from './maps/setup-maps'
 import { setupAutoComplete } from './search/setup-autocomplete'
 import { setupHolmes } from './search/setup-holmes'
 import { setupStickySidebar } from './sticky-sidebar/setup-sticky-sidebar'
+import { renderShared } from './syncing/render-json'
 import { setupInputTags } from './tags/setup-input-tags'
 import { runToasts } from './toasts/toasts'
 const MobileDetect = require('mobile-detect')
@@ -67,6 +68,7 @@ export const setupShared = async () => {
   // Other function calls that are not yet promisified
   // because I'm not sure yet what's asynchronous in there
   setupMaps()
+  renderShared()
   // TODO: review sockets
   // setupSocket()
   // Global objects
