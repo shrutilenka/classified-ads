@@ -130,12 +130,15 @@ dist
 .pnp.*
 
 # /Client build code
-/public/javascripts
+# Heroku
+# /public/javascripts
 /package-lock.json
 /client/package-lock.json
-/public/stylesheets/style.css
-/public/stylesheets/style.css.map
+# Heroku
+# /public/stylesheets/style.css
+# /public/stylesheets/style.css.map
 /authdb
 /creds
 /logs/all.log
-/client/dist
+# Heroku
+# /client/dist
