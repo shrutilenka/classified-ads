@@ -8,7 +8,7 @@ async function routes(fastify, options, next) {
     queriesMethods.forEach((url) => {
         fastify.post(`/${url}`, async (request, reply) => {
             const { body } = request
-            const params = Object.values(body)
+            const params = body ? Object.values(body) : []
             const pagination = { perPage: 9, page: 1 }
             let res
             try {

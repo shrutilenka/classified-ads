@@ -386,6 +386,7 @@ module.exports = function (db) {
             res[section] = aa.filter(z => z._id.section === section)
                 .map(l => { return { count: l.count, tag: l._id.tags } })
         }
+        return res
     }
 
 
@@ -394,7 +395,7 @@ module.exports = function (db) {
     let ttl = 300000 // 5 minutes
     this.topTags = async function () {
         if (topTags && (Date.now() - lastSeen) < ttl)
-            return topTags
+            return reformat(topTags)
         lastSeen = Date.now()
         const collection = db.collection('listing')
         const pipeline = [
@@ -417,19 +418,19 @@ module.exports = function (db) {
     // { _id: 'Tindouf', count: 8 }
     // { _id: 'Tebessa', count: 7 }
     // { _id: 'Ouargla', count: 6 }
-    let topByDiv = {}
-    this.topBydivision = async function (section) {
-        if (topByDiv[section])
-            return topByDiv[section]
+    let topByDiv
+    this.topBydivision = async function () {
+        if (topByDiv)
+            return topByDiv
         const collection = db.collection('listing')
         const pipeline = [
-            { $match: { section: section } },
+            // { $match: { section: section } },
             { $group: { _id: "$div", count: { $sum: 1 } } },
             { $sort: { count: -1 } },
             { $limit: 10 }
         ]
-        topByDiv[section] = await collection.aggregate(pipeline).toArray();
-        return topByDiv[section]
+        topByDiv = await collection.aggregate(pipeline).toArray();
+        return topByDiv.map(a => { return { tag: a._id, count: a.count } })
     }
 
     this.getDocumentsForApproval = async function () {

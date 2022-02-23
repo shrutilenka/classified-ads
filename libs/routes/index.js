@@ -137,9 +137,9 @@ async function routes(fastify, options) {
         return topTags
     })
     
-    fastify.get('/top/div/:section', async function (req, reply) {
-        const section = req.params.section
-        const topTags = await QInstance.topBydivision(section)
+    fastify.get('/top/div', async function (req, reply) {
+        // const section = req.params.section
+        const topTags = await QInstance.topBydivision()
         return topTags
     })
     // Blog pages are pages with little server processing
