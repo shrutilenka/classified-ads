@@ -4,7 +4,7 @@ const config = require('config')
 const JWT_SECRET = process.env.JWT_SECRET
 const COOKIE_NAME = config.get('COOKIE_NAME')
 
-async function verifyJWT (request, reply, done) {
+async function verifyJWT (request, reply) {
     if (!request.cookies) {
         throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
     }
@@ -21,7 +21,7 @@ async function verifyJWT (request, reply, done) {
 }
 
 // Soft verification does not block the page from viewing if user is not logged in !!!!
-async function softVerifyJWT(request, reply, done) {
+async function softVerifyJWT(request, reply) {
     if (!request.cookies) {
         return
     }
@@ -32,8 +32,7 @@ async function softVerifyJWT(request, reply, done) {
             return
         }
         request.params.username = data.username
-        // TODO: no done in a callback
-        // return done()
+        return
     }
 
     jwt.verify(cookie, JWT_SECRET, verificationCallback)

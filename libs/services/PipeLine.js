@@ -131,7 +131,7 @@ PipeLine.prototype = {
         let solution = true
         try {
             let tags = JSON.parse(this.data.tags)
-            this.data.tags = _.pluck(tags, 'value')
+            this.data.tags = tags.map(a => a.value)
         } catch (error) {
             this.error['isTagsValid'] = error.message
             solution = false

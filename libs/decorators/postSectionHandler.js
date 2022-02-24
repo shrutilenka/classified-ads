@@ -28,9 +28,9 @@ function isArabic(str) {
     const count = str.match(arabic)
     return count && ((count.length / str.length) > 0.5)
 }
-const insertDocument = async (QInstance, req, reply, blob, upload) => {
+const insertDocument = async (QInstance, req, blob, upload) => {
     const { body } = req
-    const section = body.section
+    
     // The public URL can be used to directly access the file via HTTP.
     const publicUrl = upload ? format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`) : 'blaaaaa'
     const entry = Object.assign(body, {
@@ -42,16 +42,16 @@ const insertDocument = async (QInstance, req, reply, blob, upload) => {
         ara: isArabic(body.desc)
     })
     let acknowledged = await QInstance.insertDocument(entry)
-    const data = { data: entry, messages: [] }
-    reply.blabla([data, 'listing', section])
+    return { data: entry, messages: [] }    
 }
 
 module.exports = (fastify) => {
     const { db } = fastify.mongo
     const logger = fastify.log
     const QInstance = new queries(db, logger)
-    return (req, reply, done) => {
+    return async (req, reply) => {
         const { body } = req
+        const section = body.section
         const { error, tagsValid, geoValid, undrawValid } = validationPipeLine(req)
         const valid = (isEmpty(error)) && tagsValid && geoValid && undrawValid
         if (!valid) {
@@ -63,15 +63,16 @@ module.exports = (fastify) => {
         } else {
             body.desc = new stringTransformer(body.desc).sanitize().cleanSensitive().valueOf()
             // Files other than images are undefined
-            if (!req.file) {
-                return reply.send({
+            if (!req.file && NODE_ENV > 0) {
+                reply.send({
                     message: 'Invalid request',
                     data: body,
                     error: 'file not found'
                 })
             }
             if (NODE_ENV < 1) {
-                let acknowledged = insertDocument(QInstance, req, reply, null, false)
+                let data = await insertDocument(QInstance, req, null, false)
+                reply.blabla([data, 'listing', section])
             } else {
                 // Upload that damn picture
                 // Create a new blob in the bucket and upload the file data.
@@ -81,10 +82,11 @@ module.exports = (fastify) => {
                 const blobStream = blob.createWriteStream()
                 blobStream.on('error', (err) => {
                     // TODO: do not call done inside promises
-                    done(err)
+                    throw (err)
                 })
                 blobStream.on('finish', async () => {
-                    let acknowledged = insertDocument(QInstance, req, reply, blob, true)
+                    let data = await insertDocument(QInstance, req, blob, true)
+                    reply.blabla([data, 'listing', section])
                 })
                 blobStream.end(req.file.buffer)
             }

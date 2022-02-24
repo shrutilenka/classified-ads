@@ -153,7 +153,7 @@ async function instantiateApp() {
         dns.resolve4([process.env.HONEYPOT_KEY, reversedIp, 'dnsbl.httpbl.org'].join('.'),
             function (err, addresses) {
                 if (!addresses) {
-                    done()
+                    return
                 } else {
                     const _response = addresses.toString().split('.').map(Number)
                     // https://www.projecthoneypot.org/threat_info.php
@@ -161,7 +161,7 @@ async function instantiateApp() {
                     if (test) {
                         reply.send({ msg: 'we hate spam to begin with!' })
                     }
-                    done()
+                    return
                 }
             })
     })

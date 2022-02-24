@@ -68,7 +68,7 @@
       <% } %>
 
       <div class="row" id="sync-comments">
-        <% for (var i = 0; comments.length> 0 && i < comments.length && i < 10 ; i++) { %>
+        <% for (var i = 0; typeof comments != 'undefined' && comments.length> 0 && i < comments.length && i < 10 ; i++) { %>
           <div x-data="{ open: false }">
               <% if (comments[i].from === user.nickname) { %>
                   <div class="chat chat-darker" x-on:click="open = ! open">
