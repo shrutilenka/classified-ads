@@ -3,7 +3,7 @@ const { constraints } = require('../constraints/constraints')
 const { html, reb, rew } = require('../constraints/regex')
 const sanitizeHtml = require('sanitize-html')
 const nlp = require('wink-nlp-utils');
-const _ = require('underscore')
+
 const coordinates = geoEncoder.getBorders()
 
 function sanitize(str) {
