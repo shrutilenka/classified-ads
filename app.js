@@ -182,10 +182,11 @@ async function instantiateApp() {
     const { ops: bootstrap } = require('./bootstrap.js')
 
     //  Run only on one node
-    if (process.env.worker_id == '1') {
+    // no on heroku 
+    if (fastify.conf('HEROKU') || process.env.worker_id == '1') {
         fastify.log.info('Checking environment data once')
         fastify.register(fastifySchedulePlugin)
-        bootstrap.checkEnvironmentData(fastify.conf('DATABASE'))
+        bootstrap.checkEnvironmentData(process.env.MONGODB_URI || fastify.conf('DATABASE'))
             .then(reply => prepareData())
             .catch((err) => {
                 fastify.log.error('Refusing to start because of ' + err)
@@ -234,17 +235,18 @@ async function instantiateApp() {
         fastify.get(`/${secretPath}/visitors`, visitors.handler)
     }
 }
-const os = require('os')
-const cluster = require('cluster')
-const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
+// const os = require('os')
+// const cluster = require('cluster')
+// const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
 
-if (cluster.isMaster) {
-    for (let i = 0; i < CPUS; i++) {
-        cluster.fork({ worker_id: String(i) })
-    }
-    cluster.on('exit', (worker) => {
-        console.log(`worker ${worker.process.pid} died`)
-    })
-} else {
-    instantiateApp()
-}
+// if (cluster.isMaster) {
+//     for (let i = 0; i < CPUS; i++) {
+//         cluster.fork({ worker_id: String(i) })
+//     }
+//     cluster.on('exit', (worker) => {
+//         console.log(`worker ${worker.process.pid} died`)
+//     })
+// } else {
+//     instantiateApp()
+// }
+instantiateApp()

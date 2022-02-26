@@ -4,10 +4,11 @@ module.exports = {
         b: false,
     },
     NODE_PORT: 3000,
+    HEROKU: true,
     ERROR_STACK: false,
     PIPELINE_KEYWORDS_SECONDS: 86400, //seconds in a day
-    DATABASE : 'mongodb://localhost:27017/listings_db_dev',
-    APIHost: 'http://localhost:3000',
+    // DATABASE : 'mongodb://localhost:27017/listings_db_dev',
+    APIHost: 'https://classified-ads-bacloud14.herokuapp.com/',
     COOKIE_NAME: 'classified-ads-login',
     OUTLOOK: {
     // Office 365 server
