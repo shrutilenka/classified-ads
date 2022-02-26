@@ -960,10 +960,10 @@ const setupImageModal = () => {
 
 /***/ }),
 
-/***/ "./src/views/listings/syncing/render-json.js":
-/*!***************************************************!*\
-  !*** ./src/views/listings/syncing/render-json.js ***!
-  \***************************************************/
+/***/ "./src/views/listings/syncing/render-comments.js":
+/*!*******************************************************!*\
+  !*** ./src/views/listings/syncing/render-comments.js ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -984,7 +984,9 @@ const renderComments = () => {
     .then(data => {
       console.log(data)
     });
+
 }
+
 
 /***/ }),
 
@@ -1128,7 +1130,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _gravatar_setup_gravatar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gravatar/setup-gravatar */ "./src/views/listings/gravatar/setup-gravatar.js");
 /* harmony import */ var _modals_setup_image_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modals/setup-image-modal */ "./src/views/listings/modals/setup-image-modal.js");
-/* harmony import */ var _syncing_render_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./syncing/render-json */ "./src/views/listings/syncing/render-json.js");
+/* harmony import */ var _syncing_render_comments__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./syncing/render-comments */ "./src/views/listings/syncing/render-comments.js");
 /* harmony import */ var _undraw_output_undraw_output__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./undraw-output/undraw-output */ "./src/views/listings/undraw-output/undraw-output.js");
 
 
@@ -1137,11 +1139,12 @@ __webpack_require__.r(__webpack_exports__);
 (0,_gravatar_setup_gravatar__WEBPACK_IMPORTED_MODULE_0__.setupGravatar)()
 ;(0,_modals_setup_image_modal__WEBPACK_IMPORTED_MODULE_1__.setupImageModal)()
 ;(0,_undraw_output_undraw_output__WEBPACK_IMPORTED_MODULE_3__.undrawOutput)()
-;(0,_syncing_render_json__WEBPACK_IMPORTED_MODULE_2__.renderComments)()
+;(0,_syncing_render_comments__WEBPACK_IMPORTED_MODULE_2__.renderComments)()
 
 let people = ['geddy', 'neil', 'alex'];
 let html = window.ejs.render(`<%= people.join(", "); %>`, {people: people});
 console.log(html)
+
 })();
 
 /******/ })()

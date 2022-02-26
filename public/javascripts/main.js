@@ -25396,6 +25396,9 @@ const renderShared = () => {
 
 function renderComments() {
   const comments = _helpers_lis__WEBPACK_IMPORTED_MODULE_0__.LIS.id('sync-comments')
+  if (!comments) {
+    return
+  }
   fetch(`/listings/id/${window.__id__}/comments`)
     .then(response => response.json())
     .then(data => {
@@ -25409,6 +25412,9 @@ function renderComments() {
 // { _id: { tags: 'rerum', section: 'skills' }, count: 8 }
 function renderTopTags(section) {
   const topTags = _helpers_lis__WEBPACK_IMPORTED_MODULE_0__.LIS.id('sync-top-tags')
+  if (!topTags) {
+    return
+  }
   fetch(`/top/tags`)
     .then(response => response.json())
     .then(data => {
@@ -25422,6 +25428,9 @@ function renderTopTags(section) {
 // { _id: 'Ouargla', count: 6 }
 function renderTopByDiv() {
   const topTags = _helpers_lis__WEBPACK_IMPORTED_MODULE_0__.LIS.id('sync-top-by-div')
+  if (!topTags) {
+    return
+  }
   fetch(`/top/div`)
     .then(response => response.json())
     .then(data => {
