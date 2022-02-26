@@ -7,7 +7,6 @@
     "build": "npm install && cd client && npm install && npm run dev:client && cd ..",
     "start": "node app.js",
     "dev:start": "nodemon app.js",
-    "prestart": "cd client && npm run dev:client",
     "lint": "prettier --ignore-path .gitignore --check . && eslint  --ignore-path .gitignore .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

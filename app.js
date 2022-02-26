@@ -62,7 +62,7 @@ async function instantiateApp() {
     fastify.register(helmet, require('./config/options/helmet'))
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
-    fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') })
+    fastify.register(mongodb, { forceClose: true, url: process.env.MONGODB_URI || config.get('DATABASE') })
 
     fastify.register(require('fastify-jwt'), { secret: process.env.JWT_SECRET })
     fastify.register(require('fastify-auth')) // just 'fastify-auth' IRL
@@ -187,7 +187,9 @@ async function instantiateApp() {
         fastify.log.info('Checking environment data once')
         fastify.register(fastifySchedulePlugin)
         bootstrap.checkEnvironmentData(process.env.MONGODB_URI || fastify.conf('DATABASE'))
-            .then(reply => prepareData())
+            .then(reply => {
+                prepareData()
+            })
             .catch((err) => {
                 fastify.log.error('Refusing to start because of ' + err)
                 process.exit()
@@ -201,11 +203,11 @@ async function instantiateApp() {
         const collection = db.collection('listing')
         // Create indexes
         //process.env.NODE_ENV in {localhost, monkey chaos}
-        if (NODE_ENV < 1) {
-            bootstrap.famousSearches()
+        if (NODE_ENV <= 1) {
             await collection.deleteMany({})
             bootstrap.seedDevelopmenetData(db).then(async (reply) => {
                 await bootstrap.createIndexes(db)
+                bootstrap.famousSearches()
                 await bootstrap.fastifyInjects(fastify)
                 bootstrap.registerPipelines(db, fastify.scheduler, seconds)
             }).catch((err) => {

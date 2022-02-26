@@ -136,7 +136,7 @@ dist
 
 # Heroku
 /public/javascripts
-/public/stylesheetf/style.css
+/public/stylesheets/style.css
 /public/stylesheets/style.css.map
 /authdb
 /creds
