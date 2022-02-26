@@ -7,7 +7,7 @@ module.exports = {
     ERROR_STACK: false,
     PIPELINE_KEYWORDS_SECONDS: 86400, //seconds in a day
     DATABASE : 'mongodb://The Internet',
-    APIHost: 'https://xx.herokuapp.com',
+    APIHost: 'https://The Internet',
     COOKIE_NAME: 'classified-ads-login',
     OUTLOOK: {
     // Office 365 server

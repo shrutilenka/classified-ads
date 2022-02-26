@@ -213,7 +213,9 @@ async function instantiateApp() {
                 await bootstrap.createIndexes(db)
                 bootstrap.famousSearches()
                 await bootstrap.fastifyInjects(fastify)
-                bootstrap.registerPipelines(db, fastify.scheduler, seconds)
+                // not working on heroku for some reason
+                if(!fastify.conf('HEROKU'))
+                    bootstrap.registerPipelines(db, fastify.scheduler, seconds)
             }).catch((err) => {
                 fastify.log.error('Refusing to start because of ' + err)
                 process.exit()
