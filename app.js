@@ -228,6 +228,7 @@ async function instantiateApp() {
     // Don't track for monkey chaos env (API testing)
     // TODO: secure all /admin routes ? 
     const secretPath = process.env.SECRET_PATH
+
     if (NODE_ENV > -1) {
         const visitors = require('./libs/decorators/visitors-handler')
         fastify.addHook('preHandler', async (req, reply) => {

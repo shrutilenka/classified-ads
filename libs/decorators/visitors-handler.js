@@ -10,8 +10,11 @@ const params = (req, param) => {
     return query[param] || typeof query[param] === 'string'
 }
 let stats
+
+const dbName = process.env.NODE_ENV === 'development'? 'listings_db_dev': 'listings_db'
+
 module.exports.getStats = async function getStats(){
-    stats = stats || await visitorCounter({ mongourl: 'mongodb://localhost:27017/', dbName: 'listings_db' })
+    stats = stats || await visitorCounter({ mongourl: process.env.MONGODB_URI || 'mongodb://localhost:27017/', dbName: dbName })
     return stats
 }
 module.exports.handler = async (req, reply) => {
