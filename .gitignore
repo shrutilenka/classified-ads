@@ -1,5 +1,5 @@
 # Logs
-logs
+# logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -139,7 +139,8 @@ dist
 # /public/stylesheets/style.css.map
 /authdb
 /creds
-/logs/all.log
+
 # Heroku
 # /client/dist
 
+/logs/all.log
