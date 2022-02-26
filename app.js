@@ -200,11 +200,13 @@ async function instantiateApp() {
     // Use connect method to connect to the Server
     const prepareData = async () => {
         const { db } = fastify.mongo
-        const collection = db.collection('listing')
+        const colListings = db.collection('listing')
+        const colUsers = db.collection('users')
         // Create indexes
         //process.env.NODE_ENV in {localhost, monkey chaos}
         if (NODE_ENV <= 1) {
-            await collection.deleteMany({})
+            await colListings.deleteMany({})
+            await colUsers.deleteMany({})
             bootstrap.seedDevelopmenetData(db).then(async (reply) => {
                 await bootstrap.createIndexes(db)
                 bootstrap.famousSearches()
