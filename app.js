@@ -59,8 +59,8 @@ async function instantiateApp() {
     // const ConfigProvider = require('fastify-feature-flags/dist/providers/config')
     // fastify.register(ffPlugin, { providers: [new ConfigProvider.ConfigProvider({ prefix: 'features' })] })
 
-    fastify.register(helmet, require("./config/options/helmet"))
-    // fastify.register(cors, require("./config/options/cors"))
+    fastify.register(helmet, require('./config/options/helmet'))
+    // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
     fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') })
 
@@ -69,8 +69,8 @@ async function instantiateApp() {
     // TODO: fastify.after(routes)
     fastify.register(require('fastify-cookie'))
     const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
-    fastify.decorate("verifyJWT", verifyJWT)
-    fastify.decorate("softVerifyJWT", softVerifyJWT)
+    fastify.decorate('verifyJWT', verifyJWT)
+    fastify.decorate('softVerifyJWT', softVerifyJWT)
 
     fastify.route({
         method: 'GET',
@@ -234,8 +234,8 @@ async function instantiateApp() {
         fastify.get(`/${secretPath}/visitors`, visitors.handler)
     }
 }
-const os = require("os")
-const cluster = require("cluster")
+const os = require('os')
+const cluster = require('cluster')
 const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
 
 if (cluster.isMaster) {
