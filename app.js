@@ -31,7 +31,9 @@ async function instantiateApp() {
     const logger = pino('./logs/all.log')
     const fastify = fastify_({
         logger: logger,
-        disableRequestLogging: false
+        disableRequestLogging: false,
+        keepAliveTimeout: 10000,
+        requestTimeout: 5000,
     })
     fastify.decorate('conf', (tag) => config.get(tag))
     fastify.register(formbody)
