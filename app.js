@@ -85,7 +85,7 @@ async function instantiateApp() {
         try {
             // whatever the env (like heroku)  wants
             const port = process.env.PORT || fastify.conf('NODE_PORT')
-            await fastify.listen(port)
+            await fastify.listen(port, '0.0.0.0')
             //  Run only on one node
             if (NODE_ENV == 0/*process.env.worker_id == '1'*/) {
                 fastify.swagger()
