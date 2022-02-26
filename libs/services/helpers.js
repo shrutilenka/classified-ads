@@ -25,9 +25,8 @@ ops.cloudMulter = Multer({
             file.mimetype == 'image/jpeg') {
             cb(null, true)
         } else {
-        // cb(null, false)
             req.error = 'Only .png, .jpg and .jpeg allowed'
-            return cb(null, false, new Error('Only .png, .jpg and .jpeg format allowed!'))
+            cb(null, false, new Error('Only .png, .jpg and .jpeg format allowed!'))
         }
     }
 }).single('avatar')

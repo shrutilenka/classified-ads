@@ -3,7 +3,7 @@ const { constraints } = require('../constraints/constraints')
 const { html, reb, rew } = require('../constraints/regex')
 const sanitizeHtml = require('sanitize-html')
 const nlp = require('wink-nlp-utils');
-const _ = require('underscore')
+
 const coordinates = geoEncoder.getBorders()
 
 function sanitize(str) {
@@ -131,7 +131,7 @@ PipeLine.prototype = {
         let solution = true
         try {
             let tags = JSON.parse(this.data.tags)
-            this.data.tags = _.pluck(tags, 'value')
+            this.data.tags = tags.map(a => a.value)
         } catch (error) {
             this.error['isTagsValid'] = error.message
             solution = false
