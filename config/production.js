@@ -3,7 +3,7 @@ module.exports = {
         a: true,
         b: false,
     },
-    NODE_PORT: 3000,
+    NODE_PORT: 8080,
     ERROR_STACK: false,
     PIPELINE_KEYWORDS_SECONDS: 86400, //seconds in a day
     DATABASE : 'mongodb://The Internet',
