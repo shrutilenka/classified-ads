@@ -4,6 +4,7 @@
 // Each ID in LIS.id('comments') must be uniq
 import { LIS } from '../../helpers/lis';
 import { commentsTemplate } from './comments-template';
+import { topDivsTemplate } from './top-divs-template';
 import { topTagsTemplate } from './top-tags-template';
 // renderTopByDiv
 // on Index page
@@ -60,7 +61,7 @@ function renderTopByDiv() {
   fetch(`/top/div`)
     .then(response => response.json())
     .then(data => {
-      const html = window.ejs.render(topTagsTemplate, { tags: data })
+      const html = window.ejs.render(topDivsTemplate, { tags: data })
       topTags.innerHTML = html
     });
 }

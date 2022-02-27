@@ -10,7 +10,7 @@ const NODE_ENV = {
 }[process.env.NODE_ENV]
 const pino = require('pino')
 
-require ('newrelic');
+// require ('newrelic')
 const dns = require('dns')
 const { fastifySchedulePlugin } = require('fastify-schedule')
 const fastify_ = require('fastify')
@@ -29,7 +29,8 @@ var middleware = require('i18next-http-middleware')
 
 
 async function instantiateApp() {
-    const logger = pino('./logs/all.log')
+    console.log(config.get('HEROKU'))
+    const logger = config.get('HEROKU') ? true : pino('./logs/all.log')
     const fastify = fastify_({
         logger: logger,
         disableRequestLogging: false,
@@ -217,7 +218,7 @@ async function instantiateApp() {
                 bootstrap.famousSearches()
                 await bootstrap.fastifyInjects(fastify)
                 // not working on heroku for some reason
-                if(!fastify.conf('HEROKU'))
+                if (!fastify.conf('HEROKU'))
                     bootstrap.registerPipelines(db, fastify.scheduler, seconds)
             }).catch((err) => {
                 fastify.log.error('Refusing to start because of ' + err)

@@ -110,8 +110,8 @@ ops.seedDevelopmenetData = async function seedDevelopmenetData(db) {
 }
 
 const logRequest = (response, app) => {
-    console.log('status code: ', response.statusCode)
-    console.log('body: ', response.body)
+    app.log.info('status code: ', response.statusCode)
+    app.log.info('body: ', response.body)
 }
 ops.fastifyInjects = async function fastifyInjects(app) {
     let response = await app.inject({
