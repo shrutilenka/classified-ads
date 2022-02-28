@@ -144,3 +144,4 @@ dist
 # Heroku
 # /client/dist
 /newrelic_agent.log
+/logs/all.log

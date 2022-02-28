@@ -29,7 +29,6 @@ var middleware = require('i18next-http-middleware')
 
 
 async function instantiateApp() {
-    console.log(config.get('HEROKU'))
     const logger = config.get('HEROKU') ? true : pino('./logs/all.log')
     const fastify = fastify_({
         logger: logger,
@@ -146,35 +145,35 @@ async function instantiateApp() {
 
 
     // TODO: Rate limiter && honeyPot except in process.env === 'monkey chaos'
-    // fastify.addHook('preHandler', (req, reply, done) => {
-    //     // TODO: req.socket ? does it work ?
-    //     let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-    //     if (ip.substr(0, 7) === '::ffff:') {
-    //         ip = ip.substr(7)
-    //     }
-    //     // if (NODE_ENV < 1 || ip.split('.')[0] === '127') {
-    //     //     done()
-    //     //     return
-    //     // }
-    //     const reversedIp = ip.split('.').reverse().join('.')
-    //     dns.resolve4([process.env.HONEYPOT_KEY, reversedIp, 'dnsbl.httpbl.org'].join('.'),
-    //         function (err, addresses) {
-    //             console.log(addresses)
-    //             if (!addresses) {
-    //                 done()
-    //                 return
-    //             } else {
-    //                 const _response = addresses.toString().split('.').map(Number)
-    //                 // https://www.projecthoneypot.org/threat_info.php
-    //                 const test = (_response[0] === 127 && _response[2] > 50)
-    //                 if (test) {
-    //                     reply.send({ msg: 'we hate spam to begin with!' })
-    //                 }
-    //                 done()
-    //                 return
-    //             }
-    //         })
-    // })
+    fastify.addHook('preHandler', (req, reply, done) => {
+        // TODO: req.socket ? does it work ?
+        let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+        if (ip.substr(0, 7) === '::ffff:') {
+            ip = ip.substr(7)
+        }
+        if (NODE_ENV < 1 || ip.split('.')[0] === '127') {
+            done()
+            return
+        }
+        const reversedIp = ip.split('.').reverse().join('.')
+        dns.resolve4([process.env.HONEYPOT_KEY, reversedIp, 'dnsbl.httpbl.org'].join('.'),
+            function (err, addresses) {
+                console.log(addresses)
+                if (!addresses) {
+                    done()
+                    return
+                } else {
+                    const _response = addresses.toString().split('.').map(Number)
+                    // https://www.projecthoneypot.org/threat_info.php
+                    const test = (_response[0] === 127 && _response[2] > 50)
+                    if (test) {
+                        reply.send({ msg: 'we hate spam to begin with!' })
+                    }
+                    done()
+                    return
+                }
+            })
+    })
 
     fastify.register(authRouter)
     fastify.register(indexRouter)
@@ -251,18 +250,17 @@ async function instantiateApp() {
         fastify.get(`/${secretPath}/visitors`, visitors.handler)
     }
 }
-// const os = require('os')
-// const cluster = require('cluster')
-// const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
+const os = require('os')
+const cluster = require('cluster')
+const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
 
-// if (cluster.isMaster) {
-//     for (let i = 0; i < CPUS; i++) {
-//         cluster.fork({ worker_id: String(i) })
-//     }
-//     cluster.on('exit', (worker) => {
-//         console.log(`worker ${worker.process.pid} died`)
-//     })
-// } else {
-//     instantiateApp()
-// }
-instantiateApp()
+if (cluster.isMaster) {
+    for (let i = 0; i < CPUS; i++) {
+        cluster.fork({ worker_id: String(i) })
+    }
+    cluster.on('exit', (worker) => {
+        console.log(`worker ${worker.process.pid} died`)
+    })
+} else {
+    instantiateApp()
+}
