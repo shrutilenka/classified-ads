@@ -96,7 +96,7 @@ module.exports = function (data, route, kind) {
             title: 'Classified-ads -- One listing',
             success: 'Yep we got the listing :)'
         }, data))
-    case "listing|not found":
+    case "message|not found":
         return (Object.assign({
             title: 'Classified-ads',
             message: 'No listing found, it can be deactivated or not approved yet :(',
@@ -136,13 +136,19 @@ module.exports = function (data, route, kind) {
             error: 'Image will be loaded shortly!'
         }, data))
         // Unsuccess ;(
-    case "listing|server error":
+    case "message|server error":
         return (Object.assign({
             title: 'Classified-ads',
             message: 'Oops, an internal error accured :(',
             error: 'Oops, an internal error accured :('
         }, data))
     case "listing|contact":
+        return (Object.assign({
+            title: 'Classified-ads',
+            message: 'Email successfully sent to publisher, he may repond to you.',
+            success: 'Email successfully sent to publisher'
+        }, data))
+    case "message|contact":
         return (Object.assign({
             title: 'Classified-ads',
             message: 'Email successfully sent to publisher, he may repond to you.',

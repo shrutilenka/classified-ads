@@ -76,17 +76,19 @@ async function routes(fastify, options, next) {
         let data = {}
         if (elem) {
             const peer2 = elem.usr;
+
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
-            let comments = []
-            if (req.params.username) {
-                const peer1 = req.params.username
-                comments = await QInstance.getComments(peer1, peer2, req.params.id)
-                comments.forEach(comment => {
-                    comment.from = helpers.initials(comment.from)
-                    comment.to = helpers.initials(comment.to)
-                });
-            }
-            data = { data: elem, section: elem.section, comments: comments, author: peer2 }
+            // TODO: wip rendered on client side EJS
+            // let comments = []
+            // if (req.params.username) {
+            //     const peer1 = req.params.username
+            //     comments = await QInstance.getComments(peer1, peer2, req.params.id)
+            //     comments.forEach(comment => {
+            //         comment.from = helpers.initials(comment.from)
+            //         comment.to = helpers.initials(comment.to)
+            //     });
+            // }
+            data = { data: elem, section: elem.section, /*comments: comments,*/ author: peer2 }
             reply.blabla([data, 'listing', 'id'], req)
             return reply
         }
@@ -95,6 +97,7 @@ async function routes(fastify, options, next) {
     })
 
     /* GET one listing; must not be deactivated. */
+    const COOKIE_NAME = config.get('COOKIE_NAME')
     fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
@@ -103,6 +106,8 @@ async function routes(fastify, options, next) {
         if (elem) {
             const peer2 = elem.usr;
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
+            const user = {}
+            user['nickname'] = req.params.username ? req.params.username : req.cookies[COOKIE_NAME] ? '🏠' : ''
             let comments = []
             if (req.params.username) {
                 const peer1 = req.params.username
@@ -112,14 +117,14 @@ async function routes(fastify, options, next) {
                     comment.to = helpers.initials(comment.to)
                 });
             }
-            reply.send(comments)
+            reply.send({ comments: comments, user: user, auther: peer2 })
             return reply
         }
         reply.code(500).send("A very event happened!");
         return reply
     })
 
-        
+
     const gwooglSchema = constraints[process.env.NODE_ENV].POST.queryGwoogl.schema
     /* Query listings not including deactivated */
     fastify.post(
@@ -234,19 +239,8 @@ async function routes(fastify, options, next) {
             message: body.message
         }
         const acknowledged = await QInstance.insertMessage(msg)
-        const peer2 = elem.usr;
-        elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
-        // TODO: decouple this to a POST route (to be fetched on client side by client-EJS)
-        let comments = []
-        if (req.params.username) {
-            const peer1 = req.params.username
-            comments = await QInstance.getComments(peer1, peer2, req.params.id)
-            comments.forEach(comment => {
-                comment.from = helpers.initials(comment.from)
-                comment.to = helpers.initials(comment.to)
-            });
-        }
-        reply.blabla([{ data: elem, comments: comments }, 'listing', 'contact'], req)
+
+        reply.blabla([{ data: elem }, 'listing', 'contact'], req)
         return reply
     })
 
