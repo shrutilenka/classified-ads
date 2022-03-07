@@ -78,17 +78,7 @@ async function routes(fastify, options, next) {
             const peer2 = elem.usr;
 
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
-            // TODO: wip rendered on client side EJS
-            // let comments = []
-            // if (req.params.username) {
-            //     const peer1 = req.params.username
-            //     comments = await QInstance.getComments(peer1, peer2, req.params.id)
-            //     comments.forEach(comment => {
-            //         comment.from = helpers.initials(comment.from)
-            //         comment.to = helpers.initials(comment.to)
-            //     });
-            // }
-            data = { data: elem, section: elem.section, /*comments: comments,*/ author: peer2 }
+            data = { data: elem, section: elem.section, author: peer2 }
             reply.blabla([data, 'listing', 'id'], req)
             return reply
         }
@@ -174,26 +164,6 @@ async function routes(fastify, options, next) {
     fastify.post('/skills', { preHandler: [auth, upload] }, postSectionHandler)
     fastify.post('/blogs', { preHandler: auth }, postSectionHandler)
 
-    /* Deactivate one listing. */
-    // TODO: revise the whole moderation things
-    // fastify.post('/deactivate', {}, async function (req, reply) {
-    //     const { body } = req
-    //     const listing = Joi.object().keys({
-    //         password: Joi.string().min(6).max(9).required()
-    //     })
-
-    //     const id = await QInstance.deactivateDocument(body.password)
-    //     // TODO: render the other case
-    //     const io = req.app.get('socketio')
-    //     io.emit('broadcast', id)
-    //     reply.view('/templates/messages', {
-    //         title: 'Express',
-    //         message: 'Item deactivated',
-    //         success: 'Listing has been successfully deactivated. ' +
-    //                 'Users will not see it again :)'
-    //     })
-    // })
-
     const adminPass = process.env.SECRET_PATH
 
     /* Admin Checks one listing; */
@@ -230,16 +200,27 @@ async function routes(fastify, options, next) {
             reply.blabla([{}, 'listing', 'not found'], req)
             return reply
         }
+        const from = req.params.username
+        let to = elem.usr
         const { body } = req
+        // from: the sender, which is the one logged in
+        // to: two scenarion:
+        // Sender is a visitor to the thread, then "to" is simply the "author" of the listing
+        // Sender is the "author" of the thread, then "comment id" must be present, to derive 'from' from it.
+        // author is the one logged in and now responding to a comment
+        if (to === from && body.commentId) {
+            const commentId = body.commentId
+            const [commentFrom, commentTo] = await QInstance.getCommentById(commentId)
+            to = commentFrom
+        }
         const msg = {
-            from: req.params.username,
-            to: elem.usr,
+            from: from,
+            to: to,
             sent: new Date(),
             thread: req.params.id,
             message: body.message
         }
         const acknowledged = await QInstance.insertMessage(msg)
-
         reply.blabla([{ data: elem }, 'listing', 'contact'], req)
         return reply
     })

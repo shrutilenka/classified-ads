@@ -46,7 +46,7 @@ module.exports = function (db) {
         return result.acknowledged
     }
     /**
-   * Get documents -messages from DB
+   * Get comments from DB
    * @param {string} peer1 email of sender or reciever
    * @param {string} peer2 email of sender or reciever
    * @param {string} thread id of the thread where a message was sent/recieved
@@ -60,6 +60,35 @@ module.exports = function (db) {
         const query = { $and: [bidirection, { thread: thread }] }
         return await db.collection('comment').find(query).sort({ sent: -1 }).toArray()
     }
+
+    /**
+    * Get the comment from DB
+    * @param {string} peer1 email of sender or reciever
+    * @param {string} peer2 email of sender or reciever
+    * @param {string} thread id of the thread where a message was sent/recieved
+    * @return {Promise}
+    */
+    this.getCommentById = async function (id) {
+        const collection = db.collection('listing')
+        const query = JSON.parse(JSON.stringify(baseQuery))
+        const projection = {
+            from: 1.0,
+            to: 1.0,
+        }
+        return new Promise(function (resolve, reject) {
+            try {
+                new ObjectId(id)
+            } catch (err) {
+                return reject(err)
+            }
+            query._id = new ObjectId(id)
+            collection.findOne(query, { projection: projection })
+                .then((doc) => {
+                    resolve([doc.from, doc.to])
+                })
+        })
+    }
+
 
     const baseQuery = { d: false, a: true }
     const baseProjection = { pass: 0.0, geolocation: 0.0, d: 0.0, a: 0.0 }
