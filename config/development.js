@@ -7,7 +7,8 @@ module.exports = {
     HEROKU: true,
     ERROR_STACK: false,
     PIPELINE_KEYWORDS_SECONDS: 86400, //seconds in a day
-    // DATABASE : 'mongodb://localhost:27017/listings_db_dev',
+    // secret in env file
+    DATABASE : '',
     APIHost: 'https://classified-ads-bacloud14.herokuapp.com/',
     COOKIE_NAME: 'classified-ads-login',
     OUTLOOK: {

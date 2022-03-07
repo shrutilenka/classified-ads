@@ -65,7 +65,7 @@ async function instantiateApp() {
     fastify.register(helmet, require('./config/options/helmet'))
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
-    fastify.register(mongodb, { forceClose: true, url: process.env.MONGODB_URI || config.get('DATABASE') })
+    fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
 
     fastify.register(require('fastify-jwt'), { secret: process.env.JWT_SECRET })
     fastify.register(require('fastify-auth')) // just 'fastify-auth' IRL
@@ -194,7 +194,7 @@ async function instantiateApp() {
     if (fastify.conf('HEROKU') || process.env.worker_id == '1') {
         fastify.log.info('Checking environment data once')
         fastify.register(fastifySchedulePlugin)
-        bootstrap.checkEnvironmentData(process.env.MONGODB_URI || fastify.conf('DATABASE'))
+        bootstrap.checkEnvironmentData(fastify.conf('DATABASE') || process.env.MONGODB_URI)
             .then(reply => {
                 prepareData()
             })
@@ -241,14 +241,14 @@ async function instantiateApp() {
     // TODO: secure all /admin routes ? 
     const secretPath = process.env.SECRET_PATH
 
-    if (NODE_ENV > -1) {
-        const visitors = require('./libs/decorators/visitors-handler')
-        fastify.addHook('preHandler', async (req, reply) => {
-            let stats = await visitors.getStats()
-            stats.record(req, reply)
-        })
-        fastify.get(`/${secretPath}/visitors`, visitors.handler)
-    }
+    // if (NODE_ENV > -1) {
+    //     const visitors = require('./libs/decorators/visitors-handler')
+    //     fastify.addHook('preHandler', async (req, reply) => {
+    //         let stats = await visitors.getStats()
+    //         stats.record(req, reply)
+    //     })
+    //     fastify.get(`/${secretPath}/visitors`, visitors.handler)
+    // }
 }
 const os = require('os')
 const cluster = require('cluster')

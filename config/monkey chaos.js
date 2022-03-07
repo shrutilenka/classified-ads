@@ -4,6 +4,7 @@ module.exports = {
         b: false,
     },
     NODE_PORT: 3000,
+    HEROKU: false,
     ERROR_STACK: false,
     PIPELINE_KEYWORDS_SECONDS: 86400, //seconds in a day
     DATABASE : 'mongodb://localhost:27017/listings_db',
