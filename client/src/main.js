@@ -9,7 +9,7 @@
 
   - pell -> __pell: https://github.com/jaredreich/pell
   - new Tagify: https://github.com/yairEO/tagify
-  - new Toasty: https://github.com/egalink/Toasty.js
+  - new Notyf: https://github.com/caroso1222/notyf
   - holmes: https://github.com/Haroenv/holmes
   - new autoComplete:  https://github.com/Pixabay/JavaScript-autoComplete
   - jsI18n: https://github.com/danabr/jsI18n

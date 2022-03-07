@@ -108,8 +108,7 @@ module.exports = {
  * @tarekraafat\autocomplete.js\dist\css\autoComplete.02
  * leaflet.fullscreen\Control.FullScreen && icon-fullscreen
  * simple-lightbox\dist\simpleLightbox.min
- * egalink-toasty.js\dist\toasty.min
- * 
+ * node_modules/notyf/notyf.min
  * Todo
  * leaflet
  * 
