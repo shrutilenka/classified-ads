@@ -100,9 +100,11 @@ module.exports = function (db) {
    * @param {Boolean} isAdmin if the caller is admin
    * @return {Promise}
    */
-    this.getDocumentById = async function (id, isAdmin) {
+    this.getDocumentById = async function (id, isAdmin, viewer) {
         const collection = db.collection('listing')
-        const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
+        // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
+        const query = {}
+        const projection = { pass: 0.0, geolocation: 0.0 }
         return new Promise(function (resolve, reject) {
             try {
                 new ObjectId(id)
@@ -110,9 +112,21 @@ module.exports = function (db) {
                 return reject(err)
             }
             query._id = new ObjectId(id)
-            collection.findOne(query, { projection: baseProjection })
+            collection.findOne(query, { projection: projection })
                 .then((doc) => {
-                    resolve(doc)
+                    if(!doc) {
+                        resolve()
+                        return
+                    }
+                    console.log(`viewer ${viewer}`)
+                    console.log(`admin ${isAdmin}`)
+                    console.log(doc)
+                    const isAuthor = doc.usr === viewer
+                    if (isAdmin || isAuthor || doc['a']) {
+                        resolve(doc)
+                    } else {
+                        resolve()
+                    }
                 })
         })
     }

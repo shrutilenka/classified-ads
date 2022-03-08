@@ -103,12 +103,7 @@ module.exports = {
 
 /**
  * CSS files
- * pell\dist\pell.min
- * @yaireo\tagify\dist\tagify.min
- * @tarekraafat\autocomplete.js\dist\css\autoComplete.02
- * leaflet.fullscreen\Control.FullScreen && icon-fullscreen
  * simple-lightbox\dist\simpleLightbox.min
- * node_modules/notyf/notyf.min
  * Todo
  * leaflet
  * 

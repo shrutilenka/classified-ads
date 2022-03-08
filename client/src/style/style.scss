@@ -27,7 +27,7 @@
   }
 }
 // SIDE BAR TODO: add ResizeSensor.js
-@media screen and (min-width: 1400px) {
+@media screen and (max-width: 1400px) {
   .sidebar {
     display: none;
   }
@@ -42,21 +42,21 @@
   will-change: position, transform;
 }
 
-.CA48-listing {
+.CA-listing {
   // TODO: put this guy on right of the card
 }
-.CA48-listings .CA48-listing {
+.CA-listings .CA-listing {
   cursor: pointer;
   right: 0;
   top: 0;
   position: absolute;
 }
-.CA48-listings .CA48-listing:hover:after,
-.CA48-listings .CA48-listing.favourites:after {
+.CA-listings .CA-listing:hover:after,
+.CA-listings .CA-listing.favourites:after {
   content: ' \2605';
   color: rgb(255, 203, 0);
 }
-.CA48-listings .CA48-listing.favourites:hover:after {
+.CA-listings .CA-listing.favourites:hover:after {
   content: ' \2606';
 }
 

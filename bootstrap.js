@@ -133,15 +133,19 @@ ops.fastifyInjects = async function fastifyInjects(app) {
         }
     })
     logRequest(response, app)
-    response = await app.inject({
-        method: 'POST',
-        url: '/login',
-        payload: {
-            username: "user@mail.com",
-            password: "blablabla111SSS."
-        }
-    })
-    logRequest(response, app)
+    // hard to login user using Inject and follow with session and roles
+    // response = await app.inject({
+    //     method: 'POST',
+    //     url: '/login',
+    //     payload: {
+    //         username: "user@mail.com",
+    //         password: "blablabla111SSS."
+    //     },
+    //     cookies: {
+    //         foo: 'bar'
+    //     }
+    // })
+    // logRequest(response, app)
 }
 
 ops.createIndexes = async function createIndexes(db) {

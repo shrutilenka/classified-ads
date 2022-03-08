@@ -71,7 +71,7 @@ async function routes(fastify, options, next) {
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
-            ? await QInstance.getDocumentById(req.params.id, false)
+            ? await QInstance.getDocumentById(req.params.id, false, req.params.username)
             : undefined
         let data = {}
         if (elem) {
@@ -91,7 +91,7 @@ async function routes(fastify, options, next) {
     fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
-            ? await QInstance.getDocumentById(req.params.id, false)
+            ? await QInstance.getDocumentById(req.params.id, false, req.params.username)
             : undefined
         if (elem) {
             const peer2 = elem.usr;
@@ -101,16 +101,17 @@ async function routes(fastify, options, next) {
             let comments = []
             if (req.params.username) {
                 const peer1 = req.params.username
+                console.log(`=====fetching comments=====\npeer1 ${peer1} & peer2 ${peer2} & thread ${req.params.id}\n`)
                 comments = await QInstance.getComments(peer1, peer2, req.params.id)
                 comments.forEach(comment => {
                     comment.from = helpers.initials(comment.from)
                     comment.to = helpers.initials(comment.to)
                 });
             }
-            reply.send({ comments: comments, user: user, auther: peer2 })
+            reply.send({ comments: comments, user: user, author: peer2 })
             return reply
         }
-        reply.code(500).send("A very event happened!");
+        reply.code(500).send("A very bad event happened!");
         return reply
     })
 
@@ -170,7 +171,7 @@ async function routes(fastify, options, next) {
     fastify.get(`/admin/check/${adminPass}/:id`, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
-            ? await QInstance.getDocumentById(req.params.id, true)
+            ? await QInstance.getDocumentById(req.params.id, true, req.params.username)
             : undefined
         if (elem) {
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
@@ -194,7 +195,7 @@ async function routes(fastify, options, next) {
     fastify.post('/id/:id/comment', { schema: commentSchema, preHandler: auth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
-            ? await QInstance.getDocumentById(req.params.id, false)
+            ? await QInstance.getDocumentById(req.params.id, false, req.params.username)
             : undefined
         if (!elem) {
             reply.blabla([{}, 'listing', 'not found'], req)

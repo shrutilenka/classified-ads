@@ -30,7 +30,7 @@ export const commentsTemplate = `
                     </div>
                 </span>
             <% }%>
-            <input type="button" value="replyTo" onclick="updateCommentId(<%= comments[i]._id %>)">
+            <input type="button" value="replyTo" onclick="updateCommentId('<%= comments[i]._id %>')">
         </div>
     <% }%>
 `
