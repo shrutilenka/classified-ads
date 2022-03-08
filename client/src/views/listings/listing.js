@@ -4,3 +4,8 @@ import { undrawOutput } from './undraw-output/undraw-output';
 setupGravatar()
 setupImageModal()
 undrawOutput()
+
+window.updateCommentId = function (commentId){
+  console.log(commentId)
+  console.log('wow')
+}

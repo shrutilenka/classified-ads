@@ -1,6 +1,6 @@
 export const commentsTemplate = `
     <% for (var i = 0; comments.length> 0 && i < comments.length && i < 10 ; i++) { %>
-        <div x-data="{ open: false }">
+        <div x-data="{ open: false }" id="<%= comments[i]._id %>">
             <% if (comments[i].from === user.nickname) { %>
                 <div class="chat chat-darker" x-on:click="open = ! open">
                     <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="<%= comments[i].from %>" class="right">
@@ -30,6 +30,7 @@ export const commentsTemplate = `
                     </div>
                 </span>
             <% }%>
+            <input type="button" value="replyTo" onclick="updateCommentId(<%= comments[i]._id %>)">
         </div>
     <% }%>
 `

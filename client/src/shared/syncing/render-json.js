@@ -16,9 +16,7 @@ export const renderShared = () => {
     renderTopTags(window.__section__)
   }
   renderTopByDiv()
-  // if (index page) {
-  //   renderTopByDiv()
-  // }
+  renderComments()
 }
 
 function renderComments() {
@@ -30,7 +28,8 @@ function renderComments() {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      window.ejs.render(commentsTemplate, { comments: data })
+      const html = window.ejs.render(commentsTemplate, data)
+      comments.innerHTML = html
     });
 }
 
