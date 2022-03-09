@@ -32,7 +32,7 @@ async function instantiateApp() {
     const logger = config.get('HEROKU') ? true : pino('./logs/all.log')
     const fastify = fastify_({
         logger: logger,
-        disableRequestLogging: false,
+        disableRequestLogging: true,
         keepAliveTimeout: 10000,
         requestTimeout: 5000,
     })

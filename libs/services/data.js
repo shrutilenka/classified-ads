@@ -49,21 +49,21 @@ give.googleTagsEn = [...new Set(
         .filter((arr) => arr.length == 3 && arr[2].length < TAG_SIZE), (x) => x.join('')
 )]
 give.googleTagsEnLite = give.googleTagsEn
-    .map((elem) => elem[2]).filter((el) => el.length < TAG_SIZE)
+    .map((elem) => elem[2])
 
 give.googleTagsAr = [...new Set(
     load(fileContentAr)
         .filter((arr) => arr.length == 3 && arr[2].length < TAG_SIZE), (x) => x.join('')
 )]
 give.googleTagsArLite = give.googleTagsAr
-    .map((elem) => elem[2]).filter((el) => el.length < TAG_SIZE)
+    .map((elem) => elem[2])
 
 give.googleTagsFr = [...new Set(
     load(fileContentFr)
         .filter((arr) => arr.length == 3 && arr[2].length < TAG_SIZE), (x) => x.join('')
 )]
 give.googleTagsFrLite = give.googleTagsFr
-    .map((elem) => elem[2]).filter((el) => el.length < TAG_SIZE)
+    .map((elem) => elem[2])
 
 give.ESCOTagsFr = []
 give.ESCOTagsEn = []

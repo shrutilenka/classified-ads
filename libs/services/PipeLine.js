@@ -105,13 +105,14 @@ function getKey(value, level) {
         }
     }
 }
-const { give } = require('./data').give
+const give = require('./data').give
 const googleTagsEn = give.googleTagsEn
+const googleTagsEnLite = give.googleTagsEnLite
 // // example getting parent of 'dresses'
-// var level1 = groupOneLevel(googleTagsEn, 0, 1)
-// var level2 = groupOneLevel(googleTagsEn, 1, 2)
-// var parent = getKey('Dresses', level2)
-// var granpa = getKey(parent, level1)
+var googleTagsEnLevel1 = groupOneLevel(googleTagsEn, 0, 1)
+var googleTagsEnLevel2 = groupOneLevel(googleTagsEn, 1, 2)
+// var parent = getKey('Dresses', googleTagsEnLevel2)
+// var granpa = getKey(parent, googleTagsEnLevel1)
 
 function PipeLine(data) {
     this.data = data
@@ -196,8 +197,18 @@ PipeLine.prototype = {
         return this
     },
     // Expects this.data to be body having body.tags
-    deriveTagsCategories: function () {
-        // [this.data.undraw, this.data.color] = this.data.undraw.split('#')
+    // only if one single tag, and in English !!!
+    deriveTagsParents: function () {
+        if(this.data.tags.length !== 1 || googleTagsEnLite.indexOf(this.data.tags[0]) < 0)
+            return this
+        try {
+            var parent = getKey(this.data.tags[0], googleTagsEnLevel2)
+            var granpa = getKey(parent, googleTagsEnLevel1)
+            this.parent = parent
+            this.granpa = granpa
+        } catch (error) {
+            this.error['deriveTagsParents'] = error.message
+        }
         return this
     },
     evaluate: function () {
@@ -223,7 +234,7 @@ function validationPipeLine(req) {
     const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().validateBetween(singletonSchema).postValidate()
     const tagsValid = !body.tags ? true : bodyPipeline.isTagsValid().evaluate().isTrue
     // TODO: start with section donations at least
-    // const tagsCatgories = !body.tags ? true : bodyPipeline.deriveTagsCategories().evaluate()
+    // const tagsCatgories = !body.tags ? true : bodyPipeline.deriveTagsParents().evaluate()
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
     const valid = singletonSchema.called ? true : validate(body)
