@@ -125,6 +125,12 @@ async function instantiateApp() {
         return { translationWorks: req.t('greeting') }
     })
 
+    fastify.get('/i18n/:locale', (req, reply) => {
+        reply.setCookie('locale', req.params.locale)
+        if (req.headers.referer) reply.redirect(req.headers.referer)
+        else reply.redirect('/')
+    })
+
     // TODO: find a way to strip very long ejs logging errors
     fastify.register(viewsPlugin, {
         engine: {
