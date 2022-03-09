@@ -86,6 +86,32 @@ function stringTransformer(s) {
         return nlp.string.removeExtraSpaces(internal)
     }
 }
+// derive parent tag from an array of arrays
+function groupOneLevel(data, fstIdx, sndIdx) {
+    const result = {}
+    data.forEach(row => {
+        if (!result[row[fstIdx]]) {
+            result[row[fstIdx]] = new Set()
+        }
+        result[row[fstIdx]].add(row[sndIdx])
+    })
+    return result
+}
+
+function getKey(value, level) {
+    for (const [key,values] of Object.entries(level)) {
+        if (values.has(value)) {
+            return key
+        }
+    }
+}
+const { give } = require('./data').give
+const googleTagsEn = give.googleTagsEn
+// // example getting parent of 'dresses'
+// var level1 = groupOneLevel(googleTagsEn, 0, 1)
+// var level2 = groupOneLevel(googleTagsEn, 1, 2)
+// var parent = getKey('Dresses', level2)
+// var granpa = getKey(parent, level1)
 
 function PipeLine(data) {
     this.data = data
@@ -156,17 +182,22 @@ PipeLine.prototype = {
             : assign(and, this, solution)
         return this
     },
-    // Expects this.data to be body.undraw
+    // Expects this.data to be body having body.undraw
     undrawSplit: function () {
         [this.data.undraw, this.data.color] = this.data.undraw.split('#')
         return this
     },
-    // Expects this.data to be body.undraw.color
+    // Expects this.data to be body having body.undraw.color
     postValidate: function () {
         this.data.undraw = this.data.undraw + '#' + this.data.color
         delete this.data.color
         delete this.data.illu_q
         delete this.data.img_radio
+        return this
+    },
+    // Expects this.data to be body having body.tags
+    deriveTagsCategories: function () {
+        // [this.data.undraw, this.data.color] = this.data.undraw.split('#')
         return this
     },
     evaluate: function () {
@@ -191,7 +222,8 @@ function validationPipeLine(req) {
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
     const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().validateBetween(singletonSchema).postValidate()
     const tagsValid = !body.tags ? true : bodyPipeline.isTagsValid().evaluate().isTrue
-
+    // TODO: start with section donations at least
+    // const tagsCatgories = !body.tags ? true : bodyPipeline.deriveTagsCategories().evaluate()
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
     const valid = singletonSchema.called ? true : validate(body)
