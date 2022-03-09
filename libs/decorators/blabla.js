@@ -10,12 +10,12 @@ const NODE_ENV = {
 }[process.env.NODE_ENV]
 const COOKIE_NAME = config.get('COOKIE_NAME')
 
-function blabla(context, req) {
+function blabla(context) {
     // get priore user info somehow
     const user = {}
     // safe add cookies when not present, for app-light.js (testing case)
-    req['cookies'] =  req['cookies'] ? req['cookies'] : {}
-    user['nickname'] = req.params.username ? req.params.username : req.cookies[COOKIE_NAME] ? '🏠' : ''
+    this.request.req['cookies'] =  this.request.req['cookies'] ? this.request.req['cookies'] : {}
+    user['nickname'] = this.request.params.username ? this.request.params.username : this.request.cookies[COOKIE_NAME] ? '🏠' : ''
     if (NODE_ENV == -1) {
         this.send(context[0])
     } else {
