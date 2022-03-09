@@ -1,0 +1,38 @@
+{"level":30,"time":1646857086874,"pid":3820,"hostname":"WIN-E91D14FS6F4","msg":"Checking environment data once"}
+{"level":30,"time":1646857087482,"pid":10024,"hostname":"WIN-E91D14FS6F4","msg":"Server listening at http://0.0.0.0:3000"}
+{"level":30,"time":1646857087483,"pid":3820,"hostname":"WIN-E91D14FS6F4","msg":"Server listening at http://0.0.0.0:3000"}
+{"level":30,"time":1646857087973,"pid":3820,"hostname":"WIN-E91D14FS6F4","msg":"status code: "}
+{"level":30,"time":1646857087973,"pid":3820,"hostname":"WIN-E91D14FS6F4","msg":"body: "}
+{"level":30,"time":1646857088056,"pid":3820,"hostname":"WIN-E91D14FS6F4","msg":"status code: "}
+{"level":30,"time":1646857088056,"pid":3820,"hostname":"WIN-E91D14FS6F4","msg":"body: "}
+{"level":30,"time":1646857090591,"pid":3820,"hostname":"WIN-E91D14FS6F4","reqId":"req-8","msg":"Route GET:/favicon.ico not found"}
+{"level":30,"time":1646857097358,"pid":3820,"hostname":"WIN-E91D14FS6F4","reqId":"req-g","msg":"Route GET:/favicon.ico not found"}
+{"level":50,"time":1646857139281,"pid":3820,"hostname":"WIN-E91D14FS6F4","reqId":"req-v","err":{"type":"FastifyError","message":"Promise may not be fulfilled with 'undefined' when statusCode is not 204","stack":"FastifyError: Promise may not be fulfilled with 'undefined' when statusCode is not 204\n    at C:\\Users\\Administrator\\Documents\\classifier-ads-project\\listings\\node_modules\\fastify\\lib\\wrapThenable.js:30:30\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)","name":"FastifyError","code":"FST_ERR_PROMISE_NOT_FULFILLED","statusCode":500},"msg":"Promise may not be fulfilled with 'undefined' when statusCode is not 204"}
+{"level":50,"time":1646857167522,"pid":3820,"hostname":"WIN-E91D14FS6F4","reqId":"req-10","err":{"type":"FastifyError","message":"Promise may not be fulfilled with 'undefined' when statusCode is not 204","stack":"FastifyError: Promise may not be fulfilled with 'undefined' when statusCode is not 204\n    at C:\\Users\\Administrator\\Documents\\classifier-ads-project\\listings\\node_modules\\fastify\\lib\\wrapThenable.js:30:30\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)","name":"FastifyError","code":"FST_ERR_PROMISE_NOT_FULFILLED","statusCode":500},"msg":"Promise may not be fulfilled with 'undefined' when statusCode is not 204"}
+{"level":30,"time":1646857167581,"pid":3820,"hostname":"WIN-E91D14FS6F4","reqId":"req-13","msg":"Route GET:/listings/blaaaaa not found"}
+{"level":30,"time":1646857167608,"pid":3820,"hostname":"WIN-E91D14FS6F4","reqId":"req-14","msg":"Route GET:/listings/blaaaaa not found"}
+{"level":30,"time":1646857167730,"pid":10024,"hostname":"WIN-E91D14FS6F4","reqId":"req-o","msg":"Route GET:/favicon.ico not found"}
+{"level":30,"time":1646857257846,"pid":232,"hostname":"WIN-E91D14FS6F4","msg":"Checking environment data once"}
+{"level":30,"time":1646857258307,"pid":232,"hostname":"WIN-E91D14FS6F4","msg":"Server listening at http://0.0.0.0:3000"}
+{"level":30,"time":1646857258308,"pid":5628,"hostname":"WIN-E91D14FS6F4","msg":"Server listening at http://0.0.0.0:3000"}
+{"level":30,"time":1646857258797,"pid":232,"hostname":"WIN-E91D14FS6F4","msg":"status code: "}
+{"level":30,"time":1646857258797,"pid":232,"hostname":"WIN-E91D14FS6F4","msg":"body: "}
+{"level":30,"time":1646857258886,"pid":232,"hostname":"WIN-E91D14FS6F4","msg":"status code: "}
+{"level":30,"time":1646857258886,"pid":232,"hostname":"WIN-E91D14FS6F4","msg":"body: "}
+{"level":50,"time":1646857260364,"pid":5628,"hostname":"WIN-E91D14FS6F4","reqId":"req-2","err":{"type":"Error","message":"premature close","stack":"Error: premature close\n    at onclosenexttick (C:\\Users\\Administrator\\Documents\\classifier-ads-project\\listings\\node_modules\\end-of-stream\\index.js:54:86)\n    at processTicksAndRejections (node:internal/process/task_queues:78:11)"},"msg":"premature close"}
+{"level":50,"time":1646857280253,"pid":5628,"hostname":"WIN-E91D14FS6F4","reqId":"req-3","err":{"type":"FastifyError","message":"Promise may not be fulfilled with 'undefined' when statusCode is not 204","stack":"FastifyError: Promise may not be fulfilled with 'undefined' when statusCode is not 204\n    at C:\\Users\\Administrator\\Documents\\classifier-ads-project\\listings\\node_modules\\fastify\\lib\\wrapThenable.js:30:30\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)","name":"FastifyError","code":"FST_ERR_PROMISE_NOT_FULFILLED","statusCode":500},"msg":"Promise may not be fulfilled with 'undefined' when statusCode is not 204"}
+{"level":30,"time":1646857280328,"pid":5628,"hostname":"WIN-E91D14FS6F4","reqId":"req-6","msg":"Route GET:/listings/blaaaaa not found"}
+{"level":30,"time":1646857280346,"pid":5628,"hostname":"WIN-E91D14FS6F4","reqId":"req-7","msg":"Route GET:/listings/blaaaaa not found"}
+{"level":30,"time":1646857280423,"pid":5628,"hostname":"WIN-E91D14FS6F4","reqId":"req-b","msg":"Route GET:/favicon.ico not found"}
+{"level":30,"time":1646857315590,"pid":1372,"hostname":"WIN-E91D14FS6F4","msg":"Checking environment data once"}
+{"level":30,"time":1646857316103,"pid":1372,"hostname":"WIN-E91D14FS6F4","msg":"Server listening at http://0.0.0.0:3000"}
+{"level":30,"time":1646857316105,"pid":1712,"hostname":"WIN-E91D14FS6F4","msg":"Server listening at http://0.0.0.0:3000"}
+{"level":30,"time":1646857316544,"pid":1372,"hostname":"WIN-E91D14FS6F4","msg":"status code: "}
+{"level":30,"time":1646857316544,"pid":1372,"hostname":"WIN-E91D14FS6F4","msg":"body: "}
+{"level":30,"time":1646857316628,"pid":1372,"hostname":"WIN-E91D14FS6F4","msg":"status code: "}
+{"level":30,"time":1646857316628,"pid":1372,"hostname":"WIN-E91D14FS6F4","msg":"body: "}
+{"level":50,"time":1646857318836,"pid":1372,"hostname":"WIN-E91D14FS6F4","reqId":"req-4","err":{"type":"Error","message":"premature close","stack":"Error: premature close\n    at onclosenexttick (C:\\Users\\Administrator\\Documents\\classifier-ads-project\\listings\\node_modules\\end-of-stream\\index.js:54:86)\n    at processTicksAndRejections (node:internal/process/task_queues:78:11)"},"msg":"premature close"}
+{"level":50,"time":1646857328786,"pid":1372,"hostname":"WIN-E91D14FS6F4","reqId":"req-5","err":{"type":"FastifyError","message":"Promise may not be fulfilled with 'undefined' when statusCode is not 204","stack":"FastifyError: Promise may not be fulfilled with 'undefined' when statusCode is not 204\n    at C:\\Users\\Administrator\\Documents\\classifier-ads-project\\listings\\node_modules\\fastify\\lib\\wrapThenable.js:30:30\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)","name":"FastifyError","code":"FST_ERR_PROMISE_NOT_FULFILLED","statusCode":500},"msg":"Promise may not be fulfilled with 'undefined' when statusCode is not 204"}
+{"level":30,"time":1646857328853,"pid":1372,"hostname":"WIN-E91D14FS6F4","reqId":"req-9","msg":"Route GET:/listings/blaaaaa not found"}
+{"level":30,"time":1646857328876,"pid":1372,"hostname":"WIN-E91D14FS6F4","reqId":"req-a","msg":"Route GET:/listings/blaaaaa not found"}
+{"level":30,"time":1646857328972,"pid":1372,"hostname":"WIN-E91D14FS6F4","reqId":"req-g","msg":"Route GET:/favicon.ico not found"}

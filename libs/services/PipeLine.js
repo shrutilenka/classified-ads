@@ -105,12 +105,21 @@ function getKey(value, level) {
         }
     }
 }
+// TODO: could be much cleaner
 const give = require('./data').give
 const googleTagsEn = give.googleTagsEn
+const googleTagsFr = give.googleTagsFr
+const googleTagsAr = give.googleTagsAr
 const googleTagsEnLite = give.googleTagsEnLite
+const googleTagsFrLite = give.googleTagsFrLite
+const googleTagsArLite = give.googleTagsArLite
 // // example getting parent of 'dresses'
 var googleTagsEnLevel1 = groupOneLevel(googleTagsEn, 0, 1)
 var googleTagsEnLevel2 = groupOneLevel(googleTagsEn, 1, 2)
+var googleTagsFrLevel1 = groupOneLevel(googleTagsFr, 0, 1)
+var googleTagsFrLevel2 = groupOneLevel(googleTagsFr, 1, 2)
+var googleTagsArLevel1 = groupOneLevel(googleTagsAr, 0, 1)
+var googleTagsArLevel2 = groupOneLevel(googleTagsAr, 1, 2)
 // var parent = getKey('Dresses', googleTagsEnLevel2)
 // var granpa = getKey(parent, googleTagsEnLevel1)
 
@@ -198,14 +207,30 @@ PipeLine.prototype = {
     },
     // Expects this.data to be body having body.tags
     // only if one single tag, and in English !!!
+    // TODO: could be much cleaner
     deriveTagsParents: function () {
-        if(this.data.tags.length !== 1 || googleTagsEnLite.indexOf(this.data.tags[0]) < 0)
+        const english = googleTagsEnLite.indexOf(this.data.tags[0]) > -1
+        const french = english ? false : googleTagsFrLite.indexOf(this.data.tags[0]) > -1
+        const arabic = english ? false : french ? false : googleTagsArLite.indexOf(this.data.tags[0]) > -1
+        
+        if(this.data.tags.length !== 1 || (!english && !french && !arabic))
             return this
         try {
-            var parent = getKey(this.data.tags[0], googleTagsEnLevel2)
-            var granpa = getKey(parent, googleTagsEnLevel1)
-            this.parent = parent
-            this.granpa = granpa
+            var parent, granpa;
+            if(english) {
+                parent = getKey(this.data.tags[0], googleTagsEnLevel2)
+                granpa = getKey(parent, googleTagsEnLevel1)
+            }
+            if(french) {
+                parent = getKey(this.data.tags[0], googleTagsFrLevel2)
+                granpa = getKey(parent, googleTagsFrLevel1)
+            }
+            if(arabic) {
+                parent = getKey(this.data.tags[0], googleTagsArLevel2)
+                granpa = getKey(parent, googleTagsArLevel1)
+            }
+            this.data.parent = parent
+            this.data.granpa = granpa
         } catch (error) {
             this.error['deriveTagsParents'] = error.message
         }
@@ -232,9 +257,10 @@ function validationPipeLine(req) {
     const bodyPipeline = new PipeLine(body)
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
     const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().validateBetween(singletonSchema).postValidate()
-    const tagsValid = !body.tags ? true : bodyPipeline.isTagsValid().evaluate().isTrue
-    // TODO: start with section donations at least
-    // const tagsCatgories = !body.tags ? true : bodyPipeline.deriveTagsParents().evaluate()
+    // TODO: deriveTagsParents with section donations at least
+    // add other languages
+    const tagsValid = !body.tags ? true : bodyPipeline.isTagsValid().deriveTagsParents().evaluate().isTrue
+    
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
     const valid = singletonSchema.called ? true : validate(body)
