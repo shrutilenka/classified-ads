@@ -1,18 +1,16 @@
 import * as L from 'leaflet'
 import 'leaflet.fullscreen'
-import screenfull from 'screenfull'
-
 import { io } from 'socket.io-client'
 import { onEachFeature } from './helpers/on-each-feature/on-each-feature'
 import { styleStatesClosure } from './helpers/style-states'
 import { geoJson, map } from './state'
 
 
+
 const geoJSON = require('../../../data/geoJSONEncoder')
 const coordinates = geoJSON.getBorders()
 const states = geoJSON.getStates()
 
-window.screenfull = screenfull
 const latLngs = []
 const someColor = (idx) => {
   return ['#fff100', '#ff8c00', '#e81123', '#ec008c', '#68217a',

@@ -14,7 +14,7 @@ function blabla(context) {
     // get priore user info somehow
     const user = {}
     // safe add cookies when not present, for app-light.js (testing case)
-    this.request.req['cookies'] =  this.request.req['cookies'] ? this.request.req['cookies'] : {}
+    this.request.raw['cookies'] =  this.request.raw['cookies'] ? this.request.raw['cookies'] : {}
     user['nickname'] = this.request.params.username ? this.request.params.username : this.request.cookies[COOKIE_NAME] ? '🏠' : ''
     if (NODE_ENV == -1) {
         this.send(context[0])

@@ -1,10 +1,8 @@
 import * as L from 'leaflet'
 import 'leaflet.fullscreen'
-import screenfull from 'screenfull'
 import { moveableMarker } from './helpers/marker/setup-marker'
 
 const coordinates = require('../../../data/geoJSONEncoder').getBorders()
-window.screenfull = screenfull
 
 let map
 let circle

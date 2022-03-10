@@ -1,0 +1,37 @@
+<!-- abondonned pass functionality -->
+<% if (data.pass) { %>
+    <p>Your listing has been added. Wait for admin approval. Only with this password <code><%- data.pass %></code> you could deactivate this listing. Please keep it safe.</p>
+  <% } %>
+  
+<!-- snippet to deactivate -->
+      <% if(typeof(title) != 'undefined' && title !== 'Reactivate') { %>
+        <div class="jumbotron bg-light mt-4">
+          <h2>Deactivate</h2>
+          <form action="deactivate" method="POST">
+            <div>
+              <label for="password">You need the password for the announcement</label>
+              <input class="w-100" name="password" id="password" value="password..." type="password">
+            </div>
+            <div>
+              <button class="btn btn-danger my-2 w-25">Deactivate</button>
+            </div>
+          </form>
+        </div>
+      <% } %>
+    
+
+<!-- snippet to reactivate -->
+    <% if(typeof(title) != 'undefined' && title === 'Reactivate') { %>
+      <div class="jumbotron bg-light">
+        <h2>Reactivate</h2>
+        <form action="/listings/reactivate" method="POST">
+          <div>
+            <label for="password">You need the password for the announcement</label>
+            <input class="w-100" name="password" id="password" value="password..." type="password">
+          </div>
+          <div>
+            <button class="btn btn-success my-2 w-25">Reactivate</button>
+          </div>
+        </form>
+      </div>
+    <% } %>
