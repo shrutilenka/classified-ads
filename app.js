@@ -49,6 +49,7 @@ async function instantiateApp() {
     if (NODE_ENV < 1 /*&& process.env.worker_id == '1'*/) {
         const swagger = require('./config/options/swagger')
         fastify.register(require('fastify-swagger'), swagger.options)
+        console.log(`Please check localhost:${process.env.PORT || fastify.conf('NODE_PORT')}/documentation it's a nice start`)
     }
     const authRouter = require('./libs/routes/auth.js')
     const indexRouter = require('./libs/routes/index.js')
@@ -118,11 +119,6 @@ async function instantiateApp() {
     fastify.register(middleware.plugin, {
         i18next,
         ignoreRoutes: ['/data/', '/admin/']
-    })
-
-    // Endpoints
-    fastify.get('/__ping_trans', async (req, reply) => {
-        return { translationWorks: req.t('greeting') }
     })
 
     fastify.get('/i18n/:locale', (req, reply) => {
@@ -247,14 +243,14 @@ async function instantiateApp() {
     // TODO: secure all /admin routes ? 
     const secretPath = process.env.SECRET_PATH
 
-    // if (NODE_ENV > -1) {
-    //     const visitors = require('./libs/decorators/visitors-handler')
-    //     fastify.addHook('preHandler', async (req, reply) => {
-    //         let stats = await visitors.getStats()
-    //         stats.record(req, reply)
-    //     })
-    //     fastify.get(`/${secretPath}/visitors`, visitors.handler)
-    // }
+    if (NODE_ENV > -1) {
+        const visitors = require('./libs/decorators/visitors-handler')
+        fastify.addHook('preHandler', async (req, reply) => {
+            let stats = await visitors.getStats()
+            stats.record(req, reply)
+        })
+        fastify.get(`/${secretPath}/visitors`, visitors.handler)
+    }
 }
 const os = require('os')
 const cluster = require('cluster')

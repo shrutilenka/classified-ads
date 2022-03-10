@@ -1,5 +1,6 @@
 // No auth
 require('dotenv').config()
+const config = require('config')
 const secretPath = process.env.SECRET_PATH
 
 const visitorCounter = require('visitor-counter')
@@ -14,7 +15,7 @@ let stats
 const dbName = process.env.NODE_ENV === 'development'? 'listings_db_dev': 'listings_db'
 
 module.exports.getStats = async function getStats(){
-    stats = stats || await visitorCounter({ mongourl: process.env.MONGODB_URI || 'mongodb://localhost:27017/', dbName: dbName })
+    stats = stats || await visitorCounter({ mongourl: config.get('DATABASE') || process.env.MONGODB_URI, dbName: dbName })
     return stats
 }
 module.exports.handler = async (req, reply) => {
