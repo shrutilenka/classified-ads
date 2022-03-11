@@ -113,13 +113,14 @@ const googleTagsAr = give.googleTagsAr
 const googleTagsEnLite = give.googleTagsEnLite
 const googleTagsFrLite = give.googleTagsFrLite
 const googleTagsArLite = give.googleTagsArLite
-// // example getting parent of 'dresses'
+
 var googleTagsEnLevel1 = groupOneLevel(googleTagsEn, 0, 1)
 var googleTagsEnLevel2 = groupOneLevel(googleTagsEn, 1, 2)
 var googleTagsFrLevel1 = groupOneLevel(googleTagsFr, 0, 1)
 var googleTagsFrLevel2 = groupOneLevel(googleTagsFr, 1, 2)
 var googleTagsArLevel1 = groupOneLevel(googleTagsAr, 0, 1)
 var googleTagsArLevel2 = groupOneLevel(googleTagsAr, 1, 2)
+// Example getting parent of 'Dresses'
 // var parent = getKey('Dresses', googleTagsEnLevel2)
 // var granpa = getKey(parent, googleTagsEnLevel1)
 

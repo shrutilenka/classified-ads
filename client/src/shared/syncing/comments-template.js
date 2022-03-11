@@ -26,7 +26,7 @@ export const commentsTemplate = `
                 <span x-show="open" x-transition>
                     <div class="chat chat-reply">
                         <div>
-                            <button class="btn btn-primary my-2 w-25" value="replyTo" onclick="postComment('<%= comments[i]._id %>')">Send</button>
+                            <button class="btn btn-primary my-2 w-25" value="replyTo" onclick="postComment('<%= comments[i]._id %>')">Reply to this ...</button>
                         </div>
                     </div>
                 </span>
@@ -37,11 +37,11 @@ export const commentsTemplate = `
         </div>
     <% }%>
 
-    <form id="commentForm" action="#">
+    <form id="commentForm">
         <div>
             <label for="message">Reply...</label>
             <textarea class="w-100" rows="3" name="message" id="message"></textarea>
         </div>
-        
+        <input type="submit" onclick="postComment()">
     </form>
 `

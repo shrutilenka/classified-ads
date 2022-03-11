@@ -222,8 +222,10 @@ async function routes(fastify, options, next) {
             message: body.message
         }
         const acknowledged = await QInstance.insertMessage(msg)
-        reply.blabla([{ data: elem }, 'listing', 'contact'], req)
+        reply.send({ wow: true})
         return reply
+        // reply.blabla([{ data: elem }, 'listing', 'contact'], req)
+        // return reply
     })
 
     fastify.get('/user', { preHandler: auth }, async function (req, reply) {
