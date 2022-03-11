@@ -75,10 +75,42 @@ async function routes(fastify, options) {
         return reply
     })
 
+    // TODO: three repetitive methods but fine, 
+    // maybe they evolve differently in future 
     fastify.get('/tag/:tag', async function (req, reply) {
         const tag = req.params.tag
         const listings = await QInstance.getDocumentsByTag(
-            tag, req.pagination)
+            tag, 'origin', req.pagination)
+        const { page, perPage } = req.pagination
+        const data = {
+            title: tag,
+            listings: listings.documents,
+            current: page,
+            pages: Math.ceil(listings.count / perPage)
+        }
+        reply.blabla([data, 'index', 'tags'], req)
+        return reply
+    })
+
+    fastify.get('/tag/parent/:tag', async function (req, reply) {
+        const tag = req.params.tag
+        const listings = await QInstance.getDocumentsByTag(
+            tag, 'parent', req.pagination)
+        const { page, perPage } = req.pagination
+        const data = {
+            title: tag,
+            listings: listings.documents,
+            current: page,
+            pages: Math.ceil(listings.count / perPage)
+        }
+        reply.blabla([data, 'index', 'tags'], req)
+        return reply
+    })
+
+    fastify.get('/tag/granpa/:tag', async function (req, reply) {
+        const tag = req.params.tag
+        const listings = await QInstance.getDocumentsByTag(
+            tag, 'granpa', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
             title: tag,
@@ -142,6 +174,20 @@ async function routes(fastify, options) {
         const topTags = await QInstance.topBydivision()
         return topTags
     })
+
+    // TODO: not being called in UI yet, 
+    fastify.get('/top/parent/tags', async function (req, reply) {
+        // const section = req.params.section
+        const topTags = await QInstance.topByParentTag()
+        return topTags
+    })
+
+    fastify.get('/top/granpa/tags', async function (req, reply) {
+        // const section = req.params.section
+        const topTags = await QInstance.topByParentTag()
+        return topTags
+    })
+
     // Blog pages are pages with little server processing
     fastify.get('/categories', function (req, reply) {
         reply.view('/templates/pages/blog', {

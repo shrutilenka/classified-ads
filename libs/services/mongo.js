@@ -114,7 +114,7 @@ module.exports = function (db) {
             query._id = new ObjectId(id)
             collection.findOne(query, { projection: projection })
                 .then((doc) => {
-                    if(!doc) {
+                    if (!doc) {
                         resolve()
                         return
                     }
@@ -240,13 +240,25 @@ module.exports = function (db) {
    * @param {*} pagination number of pages and listings in each page
    * @return {Promise}
    */
-    this.getDocumentsByTag = async function (tag, pagination) {
+    this.getDocumentsByTag = async function (tag, level, pagination) {
         const daysBefore = 100
         const collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
         const query = JSON.parse(JSON.stringify(baseQuery))
         query._id = { $gt: ObjectId }
-        query.tags = tag
+        switch (level) {
+        case 'origin':
+            query.tags = tag
+            break
+        case 'parent':
+            query.parent = tag
+            break
+        case 'granpa':
+            query.granpa = tag
+            break
+        default:
+            break
+        }
         return new Promise(function (resolve, reject) {
             collection.find(query)
                 .project(baseProjection)
@@ -422,7 +434,7 @@ module.exports = function (db) {
     // { _id: { tags: 'voluptatem', section: 'skills' }, count: 8 }
     // { _id: { tags: 'rerum', section: 'skills' }, count: 8 }
     const reformat = (aa) => {
-        let res = {};
+        let res = {}
         let sections = [...new Set(aa.map(a => a._id.section))]
         let section
         while ((section = sections.pop()) !== undefined) {
@@ -454,10 +466,12 @@ module.exports = function (db) {
             { $sort: { count: -1 } },
             { $limit: 20 }
         ]
-        topTags = await collection.aggregate(pipeline).toArray();
+        topTags = await collection.aggregate(pipeline).toArray()
         return reformat(topTags)
     }
 
+    // TODO: three repetitive methods but fine, 
+    // maybe they evolve differently in future 
     // { _id: 'Tindouf', count: 8 }
     // { _id: 'Tebessa', count: 7 }
     // { _id: 'Ouargla', count: 6 }
@@ -472,8 +486,38 @@ module.exports = function (db) {
             { $sort: { count: -1 } },
             { $limit: 10 }
         ]
-        topByDiv = await collection.aggregate(pipeline).toArray();
+        topByDiv = await collection.aggregate(pipeline).toArray()
         return topByDiv.map(a => { return { tag: a._id, count: a.count } })
+    }
+
+    let topByParentTag
+    this.topByParentTag = async function () {
+        if (topByParentTag)
+            return topByParentTag
+        const collection = db.collection('listing')
+        const pipeline = [
+            // { $match: { section: section } },
+            { $group: { _id: "$parent", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 10 }
+        ]
+        topByParentTag = await collection.aggregate(pipeline).toArray()
+        return topByParentTag.map(a => { return { tag: a._id, count: a.count } })
+    }
+
+    let topByGranpaTag
+    this.topByGranpaTag = async function () {
+        if (topByGranpaTag)
+            return topByGranpaTag
+        const collection = db.collection('listing')
+        const pipeline = [
+            // { $match: { section: section } },
+            { $group: { _id: "$granpa", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 10 }
+        ]
+        topByGranpaTag = await collection.aggregate(pipeline).toArray()
+        return topByGranpaTag.map(a => { return { tag: a._id, count: a.count } })
     }
 
     this.getDocumentsForApproval = async function () {
