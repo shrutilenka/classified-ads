@@ -1,4 +1,4 @@
-
+// TODO: secure access with an Admin role
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
@@ -10,14 +10,14 @@ async function routes(fastify, options) {
     let realtimeJSON
     // TODO: secure, but doubleSecure (admin)
     fastify.get('/admin/', async function (req, reply) {
-        const listings = await QInstance.getDocumentsForApproval()
+        const listings = await QInstance.getDocumentsForModeration(true)
         realtimeJSON = listings.documents
         // realtimeJSON.forEach((a, idx) => a.id = idx+1)
         reply.send(realtimeJSON)
     })
 
     fastify.get('/admin/dashboard', async function (req, reply) {
-        reply.view('/templates/admin', {})
+        reply.view('/templates/pages/admin', {})
     })
 
     // CREATE
@@ -40,6 +40,7 @@ async function routes(fastify, options) {
         else {
             const match = getMatch(req)
             realtimeJSON[match] = Object.assign({}, realtimeJSON[match], req.body)
+            await QInstance.updateDocument(realtimeJSON[match])
             reply.send(realtimeJSON)
         }
     })
@@ -50,6 +51,7 @@ async function routes(fastify, options) {
         console.log('--- PUT 200 ---')
         const match = getMatch(req)
         realtimeJSON[match] = req.body
+        await QInstance.updateDocument(realtimeJSON[match])
         reply.send(realtimeJSON)
     })
 
@@ -57,6 +59,7 @@ async function routes(fastify, options) {
     fastify.delete('/admin/:id', async function (req, reply) {
         console.log('--- DELETE 200 ---')
         const match = getMatch(req)
+        await QInstance.removeDocument(realtimeJSON[match]._id.toString())
         if (match !== -1) realtimeJSON.splice(match, 1)
         reply.send(realtimeJSON)
     })

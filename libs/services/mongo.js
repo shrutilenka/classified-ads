@@ -33,8 +33,8 @@ module.exports = function (db) {
             coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)]
         }
         // TODO: isArabic?
-        const collection = db.collection('listing')
-        return collection.insertOne(elem).acknowledged
+        const result = await db.collection('listing').insertOne(elem)
+        return result.acknowledged
     }
     /**
    * Insert a document -message into DB
@@ -520,23 +520,32 @@ module.exports = function (db) {
         return topByGranpaTag.map(a => { return { tag: a._id, count: a.count } })
     }
 
-    this.getDocumentsForApproval = async function () {
+    /**
+    * Get documents for approval or general review
+    * When admin doing approval, we only need not yet approved listings
+    * When he/she is not, he/she is still doing moderation on all items
+    * @param {*} elem a JSON representation of a Listing
+    * @return {Promise}
+    */
+    this.getDocumentsForModeration = async function (approving) {
         const collection = db.collection('listing')
-        const query = { /*d: false, a: true*/ }
+        const query = approving ? { a: false } : {}
         const projection = {
             pass: 0.0,
             geolocation: 0.0,
-            d: 0.0,
-            a: 0.0,
+            // ...(!approving && {d: 0.0, a: 0.0,}),
             lat: 0.0,
             lng: 0.0,
             ara: 0.0,
             div: 0.0
         }
+        // TODO: find a solution to limit number of docs not to block UI
+        const limit = approving ? 0 : 200
         return new Promise(function (resolve, reject) {
             collection.find(query)
                 .project(projection)
                 .sort(baseSort)
+                .limit(limit)
                 .toArray(async function (err, docs) {
                     if (err) {
                         return reject(err)
@@ -545,6 +554,32 @@ module.exports = function (db) {
                     return resolve({ documents: docs, count: count })
                 })
         })
+    }
+
+    /**
+    * Update a document in DB
+    * @param {*} elem a JSON representation of a Listing
+    * @return {Promise}
+    */
+    this.updateDocument = async function (elem) {
+        const result = await db.collection('listing').updateOne(
+            { _id: ObjectId(elem._id) },
+            { $set: elem },
+            { upsert: false }
+        )
+        return result
+    }
+
+    /**
+    * Remove a document in DB
+    * @param {*} id An ID of a Listing
+    * @return {Promise}
+    */
+    this.removeDocument = async function (id) {
+        const result = await db.collection('listing').deleteOne(
+            { _id: ObjectId(id) },
+        )
+        return result
     }
 
 }
