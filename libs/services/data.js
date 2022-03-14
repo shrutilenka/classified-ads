@@ -81,11 +81,12 @@ getTags('../../data/taxonomy/occupations_fr.csv', give.ESCOTagsFr)
 getTags('../../data/taxonomy/occupations_ar.csv', give.ESCOTagsAr)
 getTags('../../data/taxonomy/occupations_en.csv', give.ESCOTagsEn)
 
-const handler = {
-    get(target, property) {
-    // fastify.log.info(`Raw data ${property} loaded`)
-        return target[property];
-    }
-}
+// const handler = {
+//     get(target, property) {
+//     // fastify.log.info(`Raw data ${property} loaded`)
+//         return target[property];
+//     }
+// }
 // Wrapping give object breaks some IDR links but,,,
-module.exports.give = new Proxy(give, handler);
+// module.exports.give = new Proxy(give, handler);
+module.exports = { give }

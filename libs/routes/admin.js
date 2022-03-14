@@ -31,7 +31,6 @@ async function routes(fastify, options) {
     // Replace some or all of an existing movie's properties
     // Using `patch` instead of `put` to allow partial update
     fastify.patch('/admin/:id', async function (req, reply) {
-        console.log('--- PATCH 200 ---')
         // Early Exit
         if (!Object.keys(req.body).length) {
             reply.send('The request object has no options or is not in the correct format (application/json).')
@@ -48,7 +47,6 @@ async function routes(fastify, options) {
     // PUT (For multi-cell edit)
     // Replaces record instead of merging (patch)
     fastify.put('/admin/:id', async function (req, reply) {
-        console.log('--- PUT 200 ---')
         const match = getMatch(req)
         realtimeJSON[match] = req.body
         await QInstance.updateDocument(realtimeJSON[match])
@@ -57,7 +55,6 @@ async function routes(fastify, options) {
 
     // DELETE
     fastify.delete('/admin/:id', async function (req, reply) {
-        console.log('--- DELETE 200 ---')
         const match = getMatch(req)
         await QInstance.removeDocument(realtimeJSON[match]._id.toString())
         if (match !== -1) realtimeJSON.splice(match, 1)

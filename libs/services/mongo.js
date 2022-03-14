@@ -444,14 +444,27 @@ module.exports = function (db) {
         return res
     }
 
+    class EphemeralData {
+        constructor(ttl) {
+            this.ttl = ttl;
+            this.lastSeen = Infinity;
+            this.data = undefined
+        }
+        reset() {
+            this.lastSeen = Date.now()
+        }
+        isSame() {
+            return (this.data && (Date.now() - this.lastSeen) < this.ttl)
+        }
+    }
 
-    let topTags
-    let lastSeen = Infinity
-    let ttl = 300000 // 5 minutes
+    // 5 minutes
+    let topTags = new EphemeralData(300000)
     this.topTags = async function () {
-        if (topTags && (Date.now() - lastSeen) < ttl)
-            return reformat(topTags)
-        lastSeen = Date.now()
+        if (topTags.isSame()) {
+            return reformat(topTags.data)
+        }
+        topTags.reset()
         const collection = db.collection('listing')
         const pipeline = [
             { $unwind: "$tags" },
@@ -466,8 +479,8 @@ module.exports = function (db) {
             { $sort: { count: -1 } },
             { $limit: 20 }
         ]
-        topTags = await collection.aggregate(pipeline).toArray()
-        return reformat(topTags)
+        topTags.data = await collection.aggregate(pipeline).toArray()
+        return reformat(topTags.data)
     }
 
     // TODO: three repetitive methods but fine, 
@@ -475,10 +488,13 @@ module.exports = function (db) {
     // { _id: 'Tindouf', count: 8 }
     // { _id: 'Tebessa', count: 7 }
     // { _id: 'Ouargla', count: 6 }
-    let topByDiv
+    // 5 minutes
+    let topByDiv = new EphemeralData(300000)
     this.topBydivision = async function () {
-        if (topByDiv)
-            return topByDiv
+        if (topByDiv.isSame()) {
+            return topByDiv.data
+        }
+        topByDiv.reset()
         const collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
@@ -486,14 +502,18 @@ module.exports = function (db) {
             { $sort: { count: -1 } },
             { $limit: 10 }
         ]
-        topByDiv = await collection.aggregate(pipeline).toArray()
-        return topByDiv.map(a => { return { tag: a._id, count: a.count } })
+        const tmp = await collection.aggregate(pipeline).toArray()
+        topByDiv.data = tmp.map(a => { return { tag: a._id, count: a.count } })
+        return topByDiv.data
     }
 
-    let topByParentTag
+    let topByParentTag = new EphemeralData(300000)
+    // 5 minutes
     this.topByParentTag = async function () {
-        if (topByParentTag)
-            return topByParentTag
+        if (topByParentTag.isSame()) {
+            return topByParentTag.data
+        }
+        topByParentTag.reset()
         const collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
@@ -501,14 +521,18 @@ module.exports = function (db) {
             { $sort: { count: -1 } },
             { $limit: 10 }
         ]
-        topByParentTag = await collection.aggregate(pipeline).toArray()
-        return topByParentTag.map(a => { return { tag: a._id, count: a.count } })
+        const tmp = await collection.aggregate(pipeline).toArray()
+        topByParentTag.data = tmp.map(a => { return { tag: a._id, count: a.count } })
+        return topByParentTag.data
     }
 
-    let topByGranpaTag
+    let topByGranpaTag = new EphemeralData(300000)
+    // 5 minutes
     this.topByGranpaTag = async function () {
-        if (topByGranpaTag)
-            return topByGranpaTag
+        if (topByGranpaTag.isSame()) {
+            return topByGranpaTag.data
+        }
+        topByGranpaTag.reset()
         const collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
@@ -516,8 +540,9 @@ module.exports = function (db) {
             { $sort: { count: -1 } },
             { $limit: 10 }
         ]
-        topByGranpaTag = await collection.aggregate(pipeline).toArray()
-        return topByGranpaTag.map(a => { return { tag: a._id, count: a.count } })
+        const tmp = await collection.aggregate(pipeline).toArray()
+        topByGranpaTag.data = tmp.map(a => { return { tag: a._id, count: a.count } })
+        return topByGranpaTag.data
     }
 
     /**

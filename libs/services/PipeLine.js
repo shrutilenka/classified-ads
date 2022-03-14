@@ -99,27 +99,29 @@ function groupOneLevel(data, fstIdx, sndIdx) {
 }
 
 function getKey(value, level) {
-    for (const [key,values] of Object.entries(level)) {
+    for (const [key, values] of Object.entries(level)) {
         if (values.has(value)) {
             return key
         }
     }
 }
+
+function getAscendants(keyword, lang) {
+    const parent = getKey(keyword, leveled[lang].level2)
+    const granpa = getKey(parent, leveled[lang].level1)
+    return [parent, granpa]
+}
 // TODO: could be much cleaner
 const give = require('./data').give
-const googleTagsEn = give.googleTagsEn
-const googleTagsFr = give.googleTagsFr
-const googleTagsAr = give.googleTagsAr
-const googleTagsEnLite = give.googleTagsEnLite
-const googleTagsFrLite = give.googleTagsFrLite
-const googleTagsArLite = give.googleTagsArLite
-
-var googleTagsEnLevel1 = groupOneLevel(googleTagsEn, 0, 1)
-var googleTagsEnLevel2 = groupOneLevel(googleTagsEn, 1, 2)
-var googleTagsFrLevel1 = groupOneLevel(googleTagsFr, 0, 1)
-var googleTagsFrLevel2 = groupOneLevel(googleTagsFr, 1, 2)
-var googleTagsArLevel1 = groupOneLevel(googleTagsAr, 0, 1)
-var googleTagsArLevel2 = groupOneLevel(googleTagsAr, 1, 2)
+const { googleTagsEn, googleTagsFr, googleTagsAr } = give
+const { googleTagsEnLite, googleTagsFrLite, googleTagsArLite } = give
+const leveled = { 'en': {}, 'fr': {}, 'ar': {} }
+leveled.en['level1'] = groupOneLevel(googleTagsEn, 0, 1)
+leveled.en['level2'] = groupOneLevel(googleTagsEn, 1, 2)
+leveled.fr['level1'] = groupOneLevel(googleTagsFr, 0, 1)
+leveled.fr['level2'] = groupOneLevel(googleTagsFr, 1, 2)
+leveled.ar['level1'] = groupOneLevel(googleTagsAr, 0, 1)
+leveled.ar['level2'] = groupOneLevel(googleTagsAr, 1, 2)
 // Example getting parent of 'Dresses'
 // var parent = getKey('Dresses', googleTagsEnLevel2)
 // var granpa = getKey(parent, googleTagsEnLevel1)
@@ -213,22 +215,19 @@ PipeLine.prototype = {
         const english = googleTagsEnLite.indexOf(this.data.tags[0]) > -1
         const french = english ? false : googleTagsFrLite.indexOf(this.data.tags[0]) > -1
         const arabic = english ? false : french ? false : googleTagsArLite.indexOf(this.data.tags[0]) > -1
-        
-        if(this.data.tags.length !== 1 || (!english && !french && !arabic))
+
+        if (this.data.tags.length !== 1 || (!english && !french && !arabic))
             return this
         try {
             var parent, granpa;
-            if(english) {
-                parent = getKey(this.data.tags[0], googleTagsEnLevel2)
-                granpa = getKey(parent, googleTagsEnLevel1)
+            if (english) {
+                [parent, granpa] = getAscendants(this.data.tags[0], 'en')
             }
-            if(french) {
-                parent = getKey(this.data.tags[0], googleTagsFrLevel2)
-                granpa = getKey(parent, googleTagsFrLevel1)
+            if (french) {
+                [parent, granpa] = getAscendants(this.data.tags[0], 'fr')
             }
-            if(arabic) {
-                parent = getKey(this.data.tags[0], googleTagsArLevel2)
-                granpa = getKey(parent, googleTagsArLevel1)
+            if (arabic) {
+                [parent, granpa] = getAscendants(this.data.tags[0], 'ar')
             }
             this.data.parent = parent
             this.data.granpa = granpa
@@ -241,7 +240,7 @@ PipeLine.prototype = {
         return { isTrue: this.value, data: this.data, error: this.error }
     }
 }
-const Ajv = require('ajv')
+const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true, coerceTypes: 'number' })
 function validationPipeLine(req) {
     const { body } = req
@@ -261,7 +260,7 @@ function validationPipeLine(req) {
     // TODO: deriveTagsParents with section donations at least
     // add other languages
     const tagsValid = !body.tags ? true : bodyPipeline.isTagsValid().deriveTagsParents().evaluate().isTrue
-    
+
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
     const valid = singletonSchema.called ? true : validate(body)
