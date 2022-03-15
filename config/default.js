@@ -18,16 +18,8 @@ module.exports = {
         TLS: { ciphers: 'SSLv3' }
     },
     PING_LIMITER: {
-        RATE_LIMIT: {
-            windowMs: 15 * 60 * 1000, // 15 minutes
-            max: 5 // limit each IP to 100 requests per windowMs
-        },
-        SLOW_DOWN_LIMIT: {
-            windowMs: 15 * 60 * 1000, // 15 minutes
-            delayAfter: 100, // allow 100 requests per 15 minutes, then...
-            delayMs: 500 // begin adding 500ms of delay per request above 100:
-            // request # 101 is delayed by  500ms
-        }
+        max: 100,
+        timeWindow: '1 minute'
     },
     TAG_SIZE: 35
 }

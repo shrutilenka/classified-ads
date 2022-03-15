@@ -17,7 +17,10 @@ module.exports = {
         SMTP_PORT: '587',
         TLS: { ciphers: 'SSLv3' }
     },
-    PING_LIMITER: {},
+    PING_LIMITER: {
+        max: 100,
+        timeWindow: '1 minute'
+    },
     TAG_SIZE: 35
 }
 

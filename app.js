@@ -23,6 +23,7 @@ const path = require('path')
 const serve = require('fastify-static')
 const mongodb = require('fastify-mongodb')
 const formbody = require('fastify-formbody')
+const rateLimit = require('fastify-rate-limit')
 
 var i18next = require('i18next')
 var middleware = require('i18next-http-middleware')
@@ -144,7 +145,14 @@ async function instantiateApp() {
         req.pagination = { perPage: perPage, page: page }
         done()
     })
-
+    
+    fastify.register(rateLimit, config.get('PING_LIMITER'))
+    
+    // fastify.setNotFoundHandler({
+    //     preHandler: fastify.rateLimit()
+    // }, function (request, reply) {
+    //     reply.code(404).send({ hello: 'world' })
+    // })
 
     // TODO: Rate limiter && honeyPot except in process.env === 'monkey chaos'
     fastify.addHook('preHandler', (req, reply, done) => {
