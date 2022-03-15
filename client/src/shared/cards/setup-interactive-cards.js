@@ -10,9 +10,12 @@ export const setupInteractiveCards = async () => {
     }
     
     try {
-      tippy('.card', {
-        content: "I'm a Tippy tooltip!",
-      });
+      const instances = tippy('.deactivated', {
+        content: "Deactivated, you can reactivate it again!",
+      })
+      const instances2 = tippy('.notapproved', {
+        content: "Not yet approved, wait for approval!",
+      })
       return resolve('### function "setupInteractiveCards" run successfully')
     } catch (error) {
       console.log(
