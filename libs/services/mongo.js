@@ -170,11 +170,17 @@ module.exports = function (db) {
     this.getDocumentsByUser = async function (user) {
         const collection = db.collection('listing')
         const query = {}
+        const projection = { pass: 0.0, geolocation: 0.0, /*d: 0.0, a: 0.0*/ }
         query.usr = user
-        return await collection.find(query)
-            .project(baseProjection)
+        const tmp = await collection.find(query)
+            .project(projection)
             .sort(baseSort)
             .toArray()
+        tmp.forEach(l => {
+            l.a = l.a ? '' : 'notapproved'
+            l.d = l.d ? 'deactivated' : ''
+        })
+        return tmp
     }
 
     /**

@@ -1,6 +1,7 @@
 // import { setupStretchy } from "./stretchy/setup-stretchy";
 import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords'
 import { setupUndrawKeywords } from './auto-complete/setup-undraw-keywords'
+import { setupInteractiveCards } from './cards/setup-interactive-cards'
 import { setupPell } from './editor/setup-pell'
 import { setupFavourites } from './favourites/setup-favourites'
 // import { setupFontPicker } from './fonts/setup-font-picker'
@@ -41,6 +42,7 @@ export const setupShared = async () => {
     [runToasts, true],
     [setupFavourites, true],
     [setupStickySidebar, false],
+    [setupInteractiveCards, false]
   ]
   if (md.mobile()) {
     log.info('RUNNING ON A MOBILE DEVICE')

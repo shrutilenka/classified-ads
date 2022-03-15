@@ -15,6 +15,8 @@
 @import "../../node_modules/leaflet/dist/leaflet";
 @import "../../node_modules/leaflet.fullscreen/Control.FullScreen";
 @import "../../node_modules/leaflet.markercluster/dist/MarkerCluster";
+// Doesn't provide scss
+@import '../../node_modules/tippy.js/dist/tippy';
 
 :root {
   --map-tiles-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg)
@@ -192,6 +194,17 @@ pre {
   border-width: thin;
   border-color: #a19f9a50;
   background-color: #f5eabf28;
+}
+
+.card.notapproved {
+
+}
+
+.card.deactivated {
+  background-image: repeating-conic-gradient(rgba(0, 0, 0, 0.06) 0% 25%, rgba(255, 255, 255, 0.1) 0% 50%);
+  background-position: 0 0, 14px 14px;
+  background-size: 28px 28px;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .card.donations {
