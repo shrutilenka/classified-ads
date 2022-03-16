@@ -17,10 +17,11 @@ async function routes(fastify, options, next) {
     const { db } = fastify.mongo
     const logger = fastify.log
     const QInstance = new queries(db, logger)
-    let auth, softAuth
+    let auth, adminAuth, softAuth
     if (fastify.auth) {
-        auth = fastify.auth([fastify.verifyJWT,])
-        softAuth = fastify.auth([fastify.softVerifyJWT])
+        auth = fastify.auth([fastify.verifyJWT('regular'),])
+        adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
+        softAuth = fastify.auth([fastify.softVerifyJWT,])
     } else if (NODE_ENV < 1) {
         auth = softAuth = (fastify, opts, done) => { done() }
     } else {
@@ -168,7 +169,7 @@ async function routes(fastify, options, next) {
     const adminPass = process.env.SECRET_PATH
 
     /* Admin Checks one listing; */
-    fastify.get(`/admin/check/${adminPass}/:id`, async function (req, reply) {
+    fastify.get(`/admin/check/${adminPass}/:id`, { preHandler: adminAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
             ? await QInstance.getDocumentById(req.params.id, true, req.params.username)

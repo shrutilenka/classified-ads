@@ -47,7 +47,7 @@ async function routes(fastify, options) {
                 if (!isMatch) {
                     throw { statusCode: 401, message: 'INCORRECT_CREDENTIALS' }
                 } else {
-                    const token = await jwt.sign({ username }, JWT_SECRET)
+                    const token = await jwt.sign({ username: username, role: user.role }, JWT_SECRET)
                     reply.setCookie(COOKIE_NAME, token)
                     // this.user = username
                     return { msg: "SUCCESS" }
@@ -64,11 +64,11 @@ async function routes(fastify, options) {
     fastify.post('/signup', { schema: loginSchema2 }, async function (request, reply) {
         const username = request.body.username
         const password = request.body.password
-        // for tests
-        const injected = (username === 'user2@mail.com' || username === 'user@mail.com') 
+        // Always 'regular' by default (except user@mail.com for tests)
+        const role = (username === 'user@mail.com') ? 'admin' : 'regular'
         try {
             const user = await QInstance.getUserById(username)
-            if (user && !injected) {
+            if (user) {
                 throw { statusCode: 400, message: 'USER_TAKEN' }
             } else {
                 let hash_pass
@@ -77,7 +77,7 @@ async function routes(fastify, options) {
                 } catch (err) {
                     throw { statusCode: 500, message: 'Something went wrong! Please try again' }
                 }
-                const new_user = await QInstance.insertUser({ username, password: hash_pass })
+                const new_user = await QInstance.insertUser({ username, password: hash_pass, role: role})
                 return { msg: "SUCCESS" }
             }
         } catch (err) {

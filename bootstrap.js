@@ -120,7 +120,7 @@ ops.fastifyInjects = async function fastifyInjects(app) {
         url: '/signup',
         payload: {
             username: "user2@mail.com",
-            password: "blablabla111SSS."
+            password: "blablabla111SSS.",
         }
     })
     logRequest(response, app)
@@ -129,7 +129,7 @@ ops.fastifyInjects = async function fastifyInjects(app) {
         url: '/signup',
         payload: {
             username: "user@mail.com",
-            password: "blablabla111SSS."
+            password: "blablabla111SSS.",
         }
     })
     logRequest(response, app)

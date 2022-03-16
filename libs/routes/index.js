@@ -17,10 +17,11 @@ async function routes(fastify, options) {
     const { db } = fastify.mongo
     const logger = fastify.log
     const QInstance = new queries(db, logger)
-    let auth, softAuth
+    let auth, adminAuth, softAuth
     if (fastify.auth) {
-        auth = fastify.auth([fastify.verifyJWT,])
-        softAuth = fastify.auth([fastify.softVerifyJWT])
+        auth = fastify.auth([fastify.verifyJWT('regular'),])
+        adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
+        softAuth = fastify.auth([fastify.softVerifyJWT,])
     } else if (NODE_ENV < 1) {
         auth = softAuth = (fastify, opts, done) => { done() }
     } else {
