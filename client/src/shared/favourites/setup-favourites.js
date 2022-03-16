@@ -1,7 +1,7 @@
 // Define the modal (for the image onclick) behaviour
 import { LIS } from '../../helpers/lis'
 
-export const setupFavourites = () => {
+export const setupFavourites = async () => {
   return new Promise(function (resolve, reject) {
     if (!document.querySelector('.CA-listings')) {
       return resolve('### function "setupFavourites" ignored well')
@@ -10,14 +10,14 @@ export const setupFavourites = () => {
       // get favorites from local storage or empty array
       var favorites = JSON.parse(localStorage.getItem('favorites')) || []
       // add class 'favourites' to each favorite
-      favorites.forEach(function(favorite) {
+      favorites.forEach(function (favorite) {
         const elem = LIS.id(favorite)
         if (elem) {
           elem.className = 'CA-listing favourites'
         }
       })
       // register click event listener
-      document.querySelector('.CA-listings').addEventListener('click', function(e) {
+      document.querySelector('.CA-listings').addEventListener('click', function (e) {
         var id = e.target.id,
           item = e.target,
           index = favorites.indexOf(id)
@@ -35,13 +35,13 @@ export const setupFavourites = () => {
         // store array in local storage
         localStorage.setItem('favorites', JSON.stringify(favorites))
       })
-    // local storage stores strings so we use JSON to stringify for storage and parse to get out of storage
+      // local storage stores strings so we use JSON to stringify for storage and parse to get out of storage
+      return resolve('### function "setupFavourites" run successfully')
     } catch (error) {
       console.log(
         error.message
       )
-      reject(new Error('### function "setupFavourites" failed'))
+      return reject(new Error('### function "setupFavourites" failed'))
     }
-
   })
 }

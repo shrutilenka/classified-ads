@@ -1,6 +1,8 @@
+import { LIS } from '../../helpers/lis'
 import { setupGravatar } from './gravatar/setup-gravatar'
 import { setupImageModal } from './modals/setup-image-modal'
 import { undrawOutput } from './undraw-output/undraw-output'
+
 setupGravatar()
 setupImageModal()
 undrawOutput()
@@ -63,12 +65,16 @@ window.postComment = function (commentId) {
         // if (res.success) return location.reload()
       })
   }
-  document.getElementById('commentForm').addEventListener('submit', e => {
+  if(commentForm) {
+    commentForm.addEventListener('submit', e => {
+      e.preventDefault()
+      closure()
+    })
+  }
+}
+const commentForm = LIS.id('commentForm')
+if(commentForm) {
+  commentForm.addEventListener('submit', e => {
     e.preventDefault()
-    closure()
   })
 }
-
-document.getElementById('commentForm').addEventListener('submit', e => {
-  e.preventDefault()
-})

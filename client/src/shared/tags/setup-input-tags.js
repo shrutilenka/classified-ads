@@ -27,9 +27,9 @@ export const setupInputTags = async () => {
       arTags = getTags(arr[0].tags)
       enTags = getTags(arr[1].tags)
       frTags = getTags(arr[2].tags)
-      resolve('### function "setupInputTags" run successfully')
+      return resolve('### function "setupInputTags" run successfully')
     }).catch(err => {
-      reject(new Error('### function "setupInputTags" failed'))
+      return reject(new Error('### function "setupInputTags" failed'))
     })
 
     const enChoice = choices[0]

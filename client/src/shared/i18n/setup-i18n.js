@@ -7,8 +7,9 @@ import {
   __fr_translations
 } from './translations'
 
-export const setupI18n = () => {
+export const setupI18n = async () => {
   return new Promise(function (resolve, reject) {
+    // reject(new Error('baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'))
     try {
       jsI18n.addLocale('ar', __ar_translations)
       jsI18n.addLocale('fr', __fr_translations)
@@ -24,16 +25,16 @@ export const setupI18n = () => {
           document.body.setAttribute('dir', 'rtl')
         }
         const langOptions = document.getElementsByTagName('option')
-        const opt = [...langOptions].filter(
+        const opt = [...langOptions].find(
           (opt) => opt.value === cookizz.locale
-        )[0]
+        )
         opt.selected = 'selected'
         console.log('SET LANGUAGE TO: ' + cookizz.locale)
       }
       window.langSelect = langSelect
-      return resolve('### function "setupI18n" run successfully')
+      resolve('### function "setupI18n" run successfully')
     } catch (error) {
-      return reject(new Error(`### function "setupI18n" failed with error ${error.message}`))
+      reject(new Error(`### function "setupI18n" failed with error ${error.message}`))
     }
   })
 }

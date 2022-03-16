@@ -23,12 +23,13 @@ const MobileDetect = require('mobile-detect')
  * Also crushes if one or all fail depending on environment
  * production is more permissive for fails than local/dev
  */
-export const setupShared = async () => {
+export const setupShared = () => {
   const log = window.log
+  log.info('Logging setup shared')
   const toArray = (a) => Array.isArray(a) ? a : [a]
   // setupStretchy();
   const md = new MobileDetect(window.navigator.userAgent)
-  let promises = [
+  let functions = [
     [setupI18n, true],
     [setupHolmes, true],
     [setupAutoComplete, true],
@@ -46,18 +47,21 @@ export const setupShared = async () => {
   ]
   if (md.mobile()) {
     log.info('RUNNING ON A MOBILE DEVICE')
-    promises = promises.filter(p => p[1])
+    functions = functions.filter(p => p[1])
   }
-  promises = promises.map(p => p[0]())
+  // Starts executing
+  let promises = functions.map(p => p[0]())
+
   const logPromises = (results) => {
+    log.info('Logging succeeded promises')
     toArray(results).forEach((result) => log.info(result))
   }
   const logErrors = (errors) => {
-    toArray(errors).forEach((error) => log.error(error))
+    log.info('Logging failed promises')
+    toArray(errors).forEach((error) => log.info(error.message))
   }
-  // Reject as soon as possible for dev environments
-  // More permissive for production environment.
-  // Counterintuitive huh ?
+
+  
   if (['development', 'localhost'].includes(process.env.NODE_ENV)) {
     Promise.all(promises)
       .then((results) => logPromises(results))
@@ -67,6 +71,7 @@ export const setupShared = async () => {
       .then((results) => logPromises(results))
       .catch((errors) => logErrors(errors))
   }
+
   // Other function calls that are not yet promisified
   // because I'm not sure yet what's asynchronous in there
   setupMaps()
