@@ -9,7 +9,6 @@ import {
 
 export const setupI18n = async () => {
   return new Promise(function (resolve, reject) {
-    // reject(new Error('baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'))
     try {
       jsI18n.addLocale('ar', __ar_translations)
       jsI18n.addLocale('fr', __fr_translations)
