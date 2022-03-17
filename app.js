@@ -25,8 +25,9 @@ const mongodb = require('fastify-mongodb')
 const formbody = require('fastify-formbody')
 const rateLimit = require('fastify-rate-limit')
 
-var i18next = require('i18next')
-var middleware = require('i18next-http-middleware')
+const i18next = require('i18next')
+const Backend = require('i18next-fs-backend')
+const i18nextMiddleware = require('i18next-http-middleware')
 
 
 async function instantiateApp() {
@@ -103,9 +104,9 @@ async function instantiateApp() {
     start()
 
     // Seeming heavy and not so important bootstrap stuff 
-    i18next.use(middleware.LanguageDetector).init({
+    i18next.use(Backend).use(i18nextMiddleware.LanguageDetector).init({
         backend: {
-            loadPath: __dirname + '/data/locales/{{lng}}/{{ns}}.json'
+            loadPath: __dirname + '/data/locales/{{lng}}/translation.json'
         },
         fallbackLng: 'en',
         preload: ['en', 'ar', 'fr'],
@@ -117,14 +118,14 @@ async function instantiateApp() {
         }
     })
 
-    fastify.register(middleware.plugin, {
+    fastify.register(i18nextMiddleware.plugin, {
         i18next,
         ignoreRoutes: ['/data/', '/admin/']
     })
 
-    // fastify.get('/__ping_trans', async (req, reply) => {
-    //     return { translationWorks: req.t('greeting') }
-    // })
+    fastify.get('/__ping_trans', async (req, reply) => {
+        return { translationWorks: req.t('greeting') }
+    })
 
     fastify.get('/i18n/:locale', (req, reply) => {
         reply.setCookie('locale', req.params.locale)

@@ -48,6 +48,7 @@
     "fluent-json-schema": "^3.0.1",
     "fuzzyset": "^1.0.7",
     "i18next": "^21.6.6",
+    "i18next-fs-backend": "^1.1.4",
     "i18next-http-middleware": "^3.1.5",
     "json-schema-faker": "^0.5.0-rcv.42",
     "jsonwebtoken": "^8.5.1",
