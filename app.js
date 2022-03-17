@@ -70,8 +70,8 @@ async function instantiateApp() {
     fastify.register(compressPlugin) // Compress all possible types > 1024o
     fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
 
-    fastify.register(require('fastify-jwt'), { secret: process.env.JWT_SECRET })
-    fastify.register(require('fastify-auth')) // just 'fastify-auth' IRL
+    await fastify.register(require('fastify-jwt'), { secret: process.env.JWT_SECRET })
+    await fastify.register(require('fastify-auth')) // just 'fastify-auth' IRL
     // TODO: fastify.after(routes)
     fastify.register(require('fastify-cookie'))
     const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
@@ -124,7 +124,7 @@ async function instantiateApp() {
     })
 
     fastify.get('/__ping_trans', async (req, reply) => {
-        return { translationWorks: req.t('greeting') }
+        return { translationWorks: req.t('greetings.title') }
     })
 
     fastify.get('/i18n/:locale', (req, reply) => {
@@ -150,9 +150,9 @@ async function instantiateApp() {
         req.pagination = { perPage: perPage, page: page }
         done()
     })
-    
+
     fastify.register(rateLimit, config.get('PING_LIMITER'))
-    
+
     // fastify.setNotFoundHandler({
     //     preHandler: fastify.rateLimit()
     // }, function (request, reply) {
@@ -255,14 +255,14 @@ async function instantiateApp() {
     // Don't track for monkey chaos env (API testing)
     // TODO: secure all /admin routes ? 
     const secretPath = process.env.SECRET_PATH
-
+    const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
     if (NODE_ENV > -1) {
         const visitors = require('./libs/decorators/visitors-handler')
         fastify.addHook('preHandler', async (req, reply) => {
             let stats = await visitors.getStats()
             stats.record(req, reply)
         })
-        fastify.get(`/${secretPath}/visitors`, visitors.handler)
+        fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
     }
 }
 const os = require('os')

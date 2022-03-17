@@ -5,23 +5,23 @@ async function routes(fastify, options) {
     const logger = fastify.log
     const queries = require('../services/mongo')
     const QInstance = new queries(db, logger)
-
+    const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
     // CLONE BASE DATA LIST
     let realtimeJSON
     // TODO: secure, but doubleSecure (admin)
-    fastify.get('/admin/', async function (req, reply) {
+    fastify.get('/admin/', { preHandler: adminAuth }, async function (req, reply) {
         const listings = await QInstance.getDocumentsForModeration(true)
         realtimeJSON = listings.documents
         // realtimeJSON.forEach((a, idx) => a.id = idx+1)
         reply.send(realtimeJSON)
     })
 
-    fastify.get('/admin/dashboard', async function (req, reply) {
+    fastify.get('/admin/dashboard', { preHandler: adminAuth }, async function (req, reply) {
         reply.view('/templates/pages/admin', {})
     })
 
     // CREATE
-    fastify.post('/admin/', async function (req, reply) {
+    fastify.post('/admin/', { preHandler: adminAuth }, async function (req, reply) {
         realtimeJSON.push(req.body)
         // Return list
         reply.send(realtimeJSON)
@@ -30,7 +30,7 @@ async function routes(fastify, options) {
     // UPDATE (Patch for single-cell edit)
     // Replace some or all of an existing movie's properties
     // Using `patch` instead of `put` to allow partial update
-    fastify.patch('/admin/:id', async function (req, reply) {
+    fastify.patch('/admin/:id', { preHandler: adminAuth }, async function (req, reply) {
         // Early Exit
         if (!Object.keys(req.body).length) {
             reply.send('The request object has no options or is not in the correct format (application/json).')
@@ -46,7 +46,7 @@ async function routes(fastify, options) {
 
     // PUT (For multi-cell edit)
     // Replaces record instead of merging (patch)
-    fastify.put('/admin/:id', async function (req, reply) {
+    fastify.put('/admin/:id', { preHandler: adminAuth }, async function (req, reply) {
         const match = getMatch(req)
         realtimeJSON[match] = req.body
         await QInstance.updateDocument(realtimeJSON[match])
@@ -54,7 +54,7 @@ async function routes(fastify, options) {
     })
 
     // DELETE
-    fastify.delete('/admin/:id', async function (req, reply) {
+    fastify.delete('/admin/:id', { preHandler: adminAuth }, async function (req, reply) {
         const match = getMatch(req)
         await QInstance.removeDocument(realtimeJSON[match]._id.toString())
         if (match !== -1) realtimeJSON.splice(match, 1)
