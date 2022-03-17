@@ -122,6 +122,10 @@ async function instantiateApp() {
         ignoreRoutes: ['/data/', '/admin/']
     })
 
+    // fastify.get('/__ping_trans', async (req, reply) => {
+    //     return { translationWorks: req.t('greeting') }
+    // })
+
     fastify.get('/i18n/:locale', (req, reply) => {
         reply.setCookie('locale', req.params.locale)
         if (req.headers.referer) reply.redirect(req.headers.referer)
