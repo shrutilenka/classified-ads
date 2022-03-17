@@ -16,24 +16,24 @@ const messages = {
  * @param {*} kind abstracts the response route. An EJS view or an indication of the kind/context of response
  * @param {*} data is the additionnal data to render
  * @param {*} req request object to derive localized messages from
- * @param {*} res response object to deliver messages
  * Examples
  * {post, get}('listings/^\/(donations|skills|blogs)/') => 'listings|donations'
  * post('listings/gwoogl') => 'listings|gwoogl' or 'listings|not found' or 'listings|server error'
  * {post, get}('listings/id/:id/') => 'listing|id' or 'listing|not found' or 'listing|server error'
  * get('listings/tags') => 'tags|tags'
  */
-module.exports = function (data, route, kind) {
+module.exports = function (data, route, kind, req) {
     // No variables should be derived from data to fill
     // title, intro, context, success, because these must be predefined
     // in a nice UX
     // console.log(JSON.stringify(data) + '\n' + route + '\n' + kind)
     // logger.log({ level: 'info', message: JSON.stringify(data) + '\n' + kind + '\n' + route })
-    switch (route + "|" + kind) {
+    const uniq = route + "|" + kind
+    switch (uniq) {
     case "listings|listings":
         return (Object.assign({
-            title: 'Classified-ads',
-            intro: 'Classified advertising brought to the web',
+            title: 'Classified-ads -- all listings',
+            intro:  req.t(`${uniq}.intro`),
             context: 'listings',
             success: 'Hello there :)',
         }, data))

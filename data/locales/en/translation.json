@@ -8,13 +8,12 @@
        "Validation":"Before you can see your post, an Administrator needs to validate its content, later it becomes visible. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. .",
        "about":"Listings is here to let anyone post on the internet, but <em>seriously</em> and for <em>free</em>. Like newspapers and magazines, Listings has these three main sections: <b>Donnations, Artworks and Blog posts.</b>"
     },
-    "greeting": "voila",
     "greetings":{
        "title":"Hello!"
     },
     "listings|listings":{
        "title":"",
-       "intro":"",
+       "intro":"Classified advertising brought to the web",
        "message":"",
        "success":"",
        "error":""

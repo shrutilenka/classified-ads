@@ -20,7 +20,7 @@ function blabla(context) {
         this.send(context[0])
     } else {
         Object.assign(context[0], { user: user })
-        const userFriendlyMsg = renderer(...context)
+        const userFriendlyMsg = renderer(...context, this.request)
         const route = context[1]
         this.view(`/templates/pages/${route}`, userFriendlyMsg)
     }
