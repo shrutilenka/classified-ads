@@ -173,7 +173,6 @@ async function instantiateApp() {
         const reversedIp = ip.split('.').reverse().join('.')
         dns.resolve4([process.env.HONEYPOT_KEY, reversedIp, 'dnsbl.httpbl.org'].join('.'),
             function (err, addresses) {
-                console.log(addresses)
                 if (!addresses) {
                     done()
                     return
