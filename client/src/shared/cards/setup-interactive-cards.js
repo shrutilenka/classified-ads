@@ -3,6 +3,7 @@
  */
 import tippy from 'tippy.js'
 import { LIS } from '../../helpers/lis'
+import { share } from './share'
 
 export const setupInteractiveCards = async () => {
   return new Promise(function (resolve, reject) {
@@ -17,6 +18,7 @@ export const setupInteractiveCards = async () => {
       const instances2 = tippy('.notapproved', {
         content: "Not yet approved, wait for approval!",
       })
+      window.share = share
       return resolve('### function "setupInteractiveCards" run successfully')
     } catch (error) {
       console.log(
