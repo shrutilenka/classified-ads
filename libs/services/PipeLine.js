@@ -74,7 +74,11 @@ function cleanSensitive(blob, maxlen) {
 // Chain wrapper for Strings
 function stringTransformer(s) {
     var internal = String(s)
-    this.sanitize = function () {
+    // this.checkHTML = function () {
+    //     internal = sanitize(s)
+    //     return this
+    // }
+    this.sanitizeHTML = function () {
         internal = sanitize(s)
         return this
     }
