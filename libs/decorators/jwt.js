@@ -19,10 +19,11 @@ function verifyJWT(roles = []) {
             if (err) {
                 throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
             }
-            if (roles.length && !roles.includes(data.role)) {
+            if (roles.length && !roles.includes(data.role) && data.role !== 'admin') {
                 // user's role is not authorized
                 throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
             }
+            // If logged user has 'admin' role then let go
             request.params.username = data.username
         }
 
