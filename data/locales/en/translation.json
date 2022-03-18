@@ -15,28 +15,28 @@
        "title":"",
        "intro":"Classified advertising brought to the web",
        "message":"",
-       "success":"",
+       "success":"We got listings from all sections :)",
        "error":""
     },
     "listings|donations":{
        "title":"",
        "intro":"",
        "message":"",
-       "success":"",
+       "success":"Yep we got some donations :)",
        "error":""
     },
     "listings|skills":{
        "title":"",
        "intro":"",
        "message":"",
-       "success":"",
+       "success":"Yep we got some skills :)",
        "error":""
     },
     "listings|blogs":{
        "title":"",
        "intro":"",
        "message":"",
-       "success":"",
+       "success":"Yep we got some blogs :)",
        "error":""
     },
     "index|listings":{
@@ -50,21 +50,21 @@
        "title":"",
        "intro":"",
        "message":"",
-       "success":"",
+       "success":"We got listings from all sections which are related to the tag :)",
        "error":""
     },
     "index|division":{
        "title":"",
        "intro":"",
        "message":"",
-       "success":"",
+       "success":"We got listings from all sections which are located in this division :)",
        "error":""
     },
     "index|keyword":{
        "title":"",
        "intro":"",
        "message":"",
-       "success":"",
+       "success":"We got listings from all sections for this keyword :)",
        "error":""
     },
     "tags|tags":{
@@ -84,15 +84,15 @@
     "message|not found":{
        "title":"",
        "intro":"",
-       "message":"",
+       "message":"No listing found, it can be deactivated or not approved yet :(",
        "success":"",
-       "error":""
+       "error":"Listing not found"
     },
     "listings|gwoogl":{
        "title":"",
        "intro":"",
        "message":"",
-       "success":"",
+       "success":"Yep, we got results for your search :)",
        "error":""
     },
     "listings|geolocation":{

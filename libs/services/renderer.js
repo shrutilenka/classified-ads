@@ -35,7 +35,7 @@ module.exports = function (data, route, kind, req) {
             title: 'Classified-ads -- all listings',
             intro:  req.t(`${uniq}.intro`),
             context: 'listings',
-            success: 'Hello there :)',
+            success: 'We got listings from all sections :)',
         }, data))
     case "listings|donations":
         return (Object.assign({
