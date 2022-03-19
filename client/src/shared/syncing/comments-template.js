@@ -37,7 +37,7 @@ export const commentsTemplate = `
         </div>
     <% }%>
 
-    <form id="commentForm">
+    <form id="commentForm" name="addComment">
         <div>
             <label for="message">Reply...</label>
             <textarea class="w-100" rows="3" name="message" id="message"></textarea>

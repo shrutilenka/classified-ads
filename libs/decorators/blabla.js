@@ -25,7 +25,7 @@ function blabla(context) {
         const userFriendlyMsg = renderer(...context, this.request)
         const route = context[1]
         const routeC = constraints[process.env.NODE_ENV].GET[route]
-        const UXConstraints = routeC ? { UXConstraints: routeC.requiredUXInputs } : {}
+        const UXConstraints = routeC ? { UXConstraints: routeC } : {}
         const data = { ...userFriendlyMsg, ...UXConstraints }
         this.view(`/templates/pages/${route}`, data)
     }

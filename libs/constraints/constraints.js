@@ -63,7 +63,7 @@ const skillsSchema = () => {
             .prop('color', S.string().regex(/^[0-9a-f]{3,10}$/i))
             // TODO: properly validate this
             .prop('img_radio', S.string())
-            // avatar, S.string().required()
+        // avatar, S.string().required()
     }
 }
 
@@ -73,8 +73,21 @@ const commentSchema = {
     body: comment,
 }
 
+/*
+    These are rules to be maintained all over the app; On server side but
+    also sometimes passed to client to be maintained on the browser.
+    Keys as defined might represent the actual name of some context (HTTP method, route, EJS page, partial..)
+    Or arbitrary chosen and reused elswhere in the app.
+    TODO: I will try to make some intelligence and have a clear definition of keys.
+    Example 1: on localhost env, the login page is requested (/login => login.ejs), HTML form must have required tag
+    Example 2: on localhost env, the listings page is requested (/listings/, /listings/{section}/...),
+    .........it includes partial ie: HTML named form 'queryGeolocation', inputs in `requiredUXInputs` must have required tag
+    Example 3: on localhost env, user POSTs data, the appropriate endpoint handles validation accordingly
+**/
 const constraints = {
     'localhost': {
+        // GET represents endpoints which are ejs pages...
+        // Each page might contain partials (which are forms here)
         'GET': {
             'login': {
                 requiredUXInputs: ['username', 'password']
@@ -82,22 +95,27 @@ const constraints = {
             'signup': {
                 requiredUXInputs: ['username', 'password']
             },
-            'queryGeolocation': {
-                requiredUXInputs: []
+            'listings': {
+                'queryGeolocation': {
+                    requiredUXInputs: []
+                },
+                'queryGwoogl': {
+                    requiredUXInputs: ['title_desc']
+                },
+                'addSkill': {
+                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
+                },
+                'addDonation': {
+                    requiredUXInputs: ['title', 'desc', 'tags']
+                },
             },
-            'queryGwoogl': {
-                requiredUXInputs: ['title_desc']
-            },
-            'skills': {
-                requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
-            },
-            'donations': {
-                requiredUXInputs: ['title', 'desc', 'tags']
-            },
-            'comment': {
-                requiredUXInputs: ['message']
+            'listing': {
+                'addComment': {
+                    requiredUXInputs: ['message']
+                },
             }
         },
+        // POST represents constraints to be maintained on server, when data is POSTed
         'POST': {
             'login': {
                 schema: loginSchema,
@@ -167,20 +185,27 @@ const constraints = {
             'login': {
                 requiredUXInputs: ['username', 'password']
             },
-            'queryGeolocation': {
-                requiredUXInputs: []
+            'signup': {
+                requiredUXInputs: ['username', 'password']
             },
-            'queryGwoogl': {
-                requiredUXInputs: ['title_desc']
+            'listings': {
+                'queryGeolocation': {
+                    requiredUXInputs: []
+                },
+                'queryGwoogl': {
+                    requiredUXInputs: ['title_desc']
+                },
+                'addSkill': {
+                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
+                },
+                'addDonation': {
+                    requiredUXInputs: ['title', 'desc', 'tags']
+                },
             },
-            'skills': {
-                requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
-            },
-            'donations': {
-                requiredUXInputs: ['title', 'desc', 'tags']
-            },
-            'comment': {
-                requiredUXInputs: ['message']
+            'listing': {
+                'addComment': {
+                    requiredUXInputs: ['message']
+                },
             }
         },
         'POST': {
@@ -218,20 +243,27 @@ const constraints = {
             'login': {
                 requiredUXInputs: ['username', 'password']
             },
-            'queryGeolocation': {
-                requiredUXInputs: []
+            'signup': {
+                requiredUXInputs: ['username', 'password']
             },
-            'queryGwoogl': {
-                requiredUXInputs: ['title_desc']
+            'listings': {
+                'queryGeolocation': {
+                    requiredUXInputs: []
+                },
+                'queryGwoogl': {
+                    requiredUXInputs: ['title_desc']
+                },
+                'addSkill': {
+                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
+                },
+                'addDonation': {
+                    requiredUXInputs: ['title', 'desc', 'tags']
+                },
             },
-            'skills': {
-                requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
-            },
-            'donations': {
-                requiredUXInputs: ['title', 'desc', 'tags']
-            },
-            'comment': {
-                requiredUXInputs: ['message']
+            'listing': {
+                'addComment': {
+                    requiredUXInputs: ['message']
+                },
             }
         },
         'POST': {
