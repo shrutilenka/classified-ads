@@ -29,6 +29,35 @@ const i18next = require('i18next')
 const Backend = require('i18next-fs-backend')
 const i18nextMiddleware = require('i18next-http-middleware')
 
+const swStats = require('swagger-stats')
+// downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
+const apiSpec = require('./swagger.json')
+async function setSwaggerStats(fastify, opts) {
+    await fastify.register(require('fastify-express'))
+    fastify.register(swStats.getFastifyPlugin, {
+        name: 'swagger-stats-authtest',
+        version: '0.94.0',
+        hostname: "hostname",
+        ip: "127.0.0.1:3000",
+        timelineBucketDuration: 60000,
+        swaggerSpec: apiSpec,
+        uriPath: '/swagger-stats',
+        durationBuckets: [50, 100, 200, 500, 1000, 5000],
+        requestSizeBuckets: [500, 5000, 15000, 50000],
+        responseSizeBuckets: [600, 6000, 6000, 60000],
+        // Make sure both 50 and 50*4 are buckets in durationBuckets, 
+        // so Apdex could be calculated in Prometheus 
+        apdexThreshold: 50,
+        authentication: true,
+        elasticsearch: 'http://127.0.0.1:9200',
+        onAuthenticate: function (req, username, password) {
+            // simple check for username and password
+            return ((username === 'swagger-stats')
+                && (password === 'swagger-stats'));
+        }
+
+    });
+}
 
 async function instantiateApp() {
     const logger = config.get('HEROKU') ? true : pino('./logs/all.log')
@@ -47,11 +76,16 @@ async function instantiateApp() {
     if (fastify.conf('ERROR_STACK')) {
         fastify.register(errorPlugin)
     }
+
     //  Run only on one node
     if (NODE_ENV < 1 /*&& process.env.worker_id == '1'*/) {
         const swagger = require('./config/options/swagger')
         fastify.register(require('fastify-swagger'), swagger.options)
         console.log(`Please check localhost:${process.env.PORT || fastify.conf('NODE_PORT')}/documentation it's a nice start`)
+        // fastify.register(setSwaggerStats)
+        // setTimeout(() => {
+        //     console.log(swStats.getCoreStats())
+        // }, 10000);
     }
     const authRouter = require('./libs/routes/auth.js')
     const indexRouter = require('./libs/routes/index.js')

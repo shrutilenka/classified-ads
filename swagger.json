@@ -1,0 +1,874 @@
+{
+    "swagger":"2.0",
+    "info":{
+       "title":"Classified-ads API",
+       "description":"Check the API, any help or bug fix is really appreciated! <a href=\"github.com/bacloud22/classified-ads/issues\">Open an issue or follow with a pull request</a>",
+       "version":"1.0.0"
+    },
+    "definitions":{
+       
+    },
+    "paths":{
+       "/home":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/__ping_trans":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/i18n/{locale}":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/login":{
+          "post":{
+             "parameters":[
+                {
+                   "name":"body",
+                   "in":"body",
+                   "schema":{
+                      "$schema":"http://json-schema.org/draft-07/schema#",
+                      "type":"object",
+                      "properties":{
+                         "username":{
+                            "type":"string",
+                            "format":"email"
+                         },
+                         "password":{
+                            "type":"string",
+                            "minLength":3,
+                            "maxLength":40
+                         }
+                      },
+                      "required":[
+                         "username",
+                         "password"
+                      ]
+                   }
+                }
+             ],
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          },
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/signup":{
+          "post":{
+             "parameters":[
+                {
+                   "name":"body",
+                   "in":"body",
+                   "schema":{
+                      "$schema":"http://json-schema.org/draft-07/schema#",
+                      "type":"object",
+                      "properties":{
+                         "username":{
+                            "type":"string",
+                            "format":"email"
+                         },
+                         "password":{
+                            "type":"string",
+                            "minLength":3,
+                            "maxLength":40
+                         }
+                      },
+                      "required":[
+                         "username",
+                         "password"
+                      ]
+                   }
+                }
+             ],
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          },
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/private":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/upload":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/tags":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/tag/{tag}":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/tag/parent/{tag}":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/tag/granpa/{tag}":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/division/{division}":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/keyword/{keyword}":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/autocomplete/{keyword}":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/top/tags":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/top/div":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/top/parent/tags":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/top/granpa/tags":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/categories":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/about":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/howto":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/policy":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/fennec-fox":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/admin/":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          },
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/admin/dashboard":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/admin/{id}":{
+          "patch":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          },
+          "put":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          },
+          "delete":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/donations":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          },
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/skills":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          },
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/blogs":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          },
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/id/{id}/":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/id/{id}/comments":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/gwoogl":{
+          "post":{
+             "parameters":[
+                {
+                   "name":"body",
+                   "in":"body",
+                   "schema":{
+                      "$schema":"http://json-schema.org/draft-07/schema#",
+                      "type":"object",
+                      "properties":{
+                         "title_desc":{
+                            "type":"string",
+                            "minLength":3,
+                            "maxLength":100
+                         },
+                         "exact":{
+                            "type":"boolean",
+                            "default":false
+                         },
+                         "div_q":{
+                            "type":"string",
+                            "minLength":3,
+                            "maxLength":40
+                         },
+                         "since":{
+                            "type":"string",
+                            "format":"date"
+                         },
+                         "section":{
+                            "type":"string",
+                            "enum":[
+                               "donations",
+                               "skills"
+                            ]
+                         }
+                      },
+                      "required":[
+                         "title_desc",
+                         "section"
+                      ]
+                   }
+                }
+             ],
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/geolocation":{
+          "post":{
+             "parameters":[
+                {
+                   "name":"body",
+                   "in":"body",
+                   "schema":{
+                      "$schema":"http://json-schema.org/draft-07/schema#",
+                      "type":"object",
+                      "properties":{
+                         "lat":{
+                            "type":"number",
+                            "maximum":90,
+                            "minimum":-90
+                         },
+                         "lng":{
+                            "type":"number",
+                            "maximum":180,
+                            "minimum":-180
+                         },
+                         "section":{
+                            "type":"string",
+                            "enum":[
+                               "donations",
+                               "skills"
+                            ]
+                         }
+                      },
+                      "required":[
+                         "lat",
+                         "lng",
+                         "section"
+                      ]
+                   }
+                }
+             ],
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/admin/check/sthtwnXLob/{id}":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/id/{id}/comment":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/listings/user":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_tags_en":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_tags_ar":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_tags_fr":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_donations_tags_en":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_donations_tags_ar":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_donations_tags_fr":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_skills_tags_en":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_skills_tags_fr":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/data/get_skills_tags_ar":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/insertDocument":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/insertMessage":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getComments":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getCommentById":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getDocumentById":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getDocumentsSince":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getDocumentsByUser":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getUserById":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/insertUser":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/gwoogl":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getDocumentsByTag":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getDocumentsByDivision":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getDocumentsByGeolocation":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/deactivateDocument":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/approveDocument":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/reactivateDocument":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/autocomplete":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getDocumentsByKeyword":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/topTags":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/topBydivision":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/topByParentTag":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/topByGranpaTag":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/getDocumentsForModeration":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/updateDocument":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/debug/removeDocument":{
+          "post":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/game/":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       },
+       "/sthtwnXLob/visitors":{
+          "get":{
+             "responses":{
+                "200":{
+                   "description":"Default Response"
+                }
+             }
+          }
+       }
+    },
+    "host":"localhost:3000",
+    "schemes":[
+       "http"
+    ],
+    "consumes":[
+       "application/json"
+    ],
+    "produces":[
+       "application/json"
+    ],
+    "externalDocs":{
+       "url":"https://swagger.io",
+       "description":"Find more info here"
+    }
+ }
