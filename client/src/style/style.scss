@@ -34,6 +34,16 @@
     display: none;
   }
 }
+
+#footer_ads {        /* sets Ad size */
+  height: 600px;
+  width: 300px;
+}
+#footer_ads img {    /* set img elements to be responsive */
+  height: 100%;
+  width: 100%;
+}
+
 .sidebar{
   will-change: min-height;
 }

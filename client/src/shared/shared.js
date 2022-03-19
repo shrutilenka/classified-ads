@@ -1,4 +1,5 @@
 // import { setupStretchy } from "./stretchy/setup-stretchy";
+import { setupAdsRotator } from './ads/setup-ads-rotator'
 import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords'
 import { setupUndrawKeywords } from './auto-complete/setup-undraw-keywords'
 import { setupInteractiveCards } from './cards/setup-interactive-cards'
@@ -16,6 +17,7 @@ import { setupStickySidebar } from './sticky-sidebar/setup-sticky-sidebar'
 import { renderShared } from './syncing/render-json'
 import { setupInputTags } from './tags/setup-input-tags'
 import { runToasts } from './toasts/toasts'
+
 const MobileDetect = require('mobile-detect')
 
 /**
@@ -43,7 +45,8 @@ export const setupShared = () => {
     [runToasts, true],
     [setupFavourites, true],
     [setupStickySidebar, false],
-    [setupInteractiveCards, false]
+    [setupInteractiveCards, false],
+    [setupAdsRotator, false]
   ]
   if (md.mobile()) {
     log.info('RUNNING ON A MOBILE DEVICE')

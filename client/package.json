@@ -11,6 +11,7 @@
   "dependencies": {
     "@tarekraafat/autocomplete.js": "^10.2.6",
     "@yaireo/tagify": "^4.9.8",
+    "ad-rotator": "^5.0.0",
     "avatar-initials": "^5.0.0",
     "before-build-webpack": "^0.2.11",
     "bootstrap": "^5.1.3",
