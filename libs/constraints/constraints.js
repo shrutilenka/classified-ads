@@ -76,34 +76,54 @@ const commentSchema = {
 const constraints = {
     'localhost': {
         'GET': {
-
+            'login': {
+                requiredUXInputs: ['username', 'password']
+            },
+            'signup': {
+                requiredUXInputs: ['username', 'password']
+            },
+            'queryGeolocation': {
+                requiredUXInputs: []
+            },
+            'queryGwoogl': {
+                requiredUXInputs: ['title_desc']
+            },
+            'skills': {
+                requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
+            },
+            'donations': {
+                requiredUXInputs: ['title', 'desc', 'tags']
+            },
+            'comment': {
+                requiredUXInputs: ['message']
+            }
         },
         'POST': {
             'login': {
-                schema: loginSchema
+                schema: loginSchema,
             },
             'queryGeolocation': {
-                schema: geolocationSchema
+                schema: geolocationSchema,
             },
             'queryGwoogl': {
-                schema: gwooglSchema
+                schema: gwooglSchema,
             },
             'skills': {
                 secured: true,
                 upload: true,
                 geolocation: false,
                 illustrations: true,
-                schema: skillsSchema
+                schema: skillsSchema,
             },
             'donations': {
                 secured: true,
                 upload: true,
                 geolocation: true,
                 illustrations: false,
-                schema: donationsSchema
+                schema: donationsSchema,
             },
             'comment': {
-                schema: commentSchema
+                schema: commentSchema,
             }
         }
     },
@@ -144,68 +164,102 @@ const constraints = {
     // to change
     'development': {
         'GET': {
-
+            'login': {
+                requiredUXInputs: ['username', 'password']
+            },
+            'queryGeolocation': {
+                requiredUXInputs: []
+            },
+            'queryGwoogl': {
+                requiredUXInputs: ['title_desc']
+            },
+            'skills': {
+                requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
+            },
+            'donations': {
+                requiredUXInputs: ['title', 'desc', 'tags']
+            },
+            'comment': {
+                requiredUXInputs: ['message']
+            }
         },
         'POST': {
             'login': {
-                schema: loginSchema
+                schema: loginSchema,
             },
             'queryGeolocation': {
-                schema: geolocationSchema
+                schema: geolocationSchema,
             },
             'queryGwoogl': {
-                schema: gwooglSchema
+                schema: gwooglSchema,
             },
             'skills': {
                 secured: true,
                 upload: true,
                 geolocation: false,
                 illustrations: true,
-                schema: skillsSchema
+                schema: skillsSchema,
             },
             'donations': {
                 secured: true,
                 upload: true,
                 geolocation: true,
                 illustrations: false,
-                schema: donationsSchema
+                schema: donationsSchema,
             },
             'comment': {
-                schema: commentSchema
+                schema: commentSchema,
             }
         }
     },
     // to change
     'production': {
         'GET': {
-    
+            'login': {
+                requiredUXInputs: ['username', 'password']
+            },
+            'queryGeolocation': {
+                requiredUXInputs: []
+            },
+            'queryGwoogl': {
+                requiredUXInputs: ['title_desc']
+            },
+            'skills': {
+                requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
+            },
+            'donations': {
+                requiredUXInputs: ['title', 'desc', 'tags']
+            },
+            'comment': {
+                requiredUXInputs: ['message']
+            }
         },
         'POST': {
             'login': {
-                schema: loginSchema
+                schema: loginSchema,
             },
             'queryGeolocation': {
-                schema: geolocationSchema
+                schema: geolocationSchema,
             },
             'queryGwoogl': {
-                schema: gwooglSchema
+                schema: gwooglSchema,
             },
             'skills': {
                 secured: true,
                 upload: true,
                 geolocation: false,
                 illustrations: true,
-                schema: skillsSchema
+                schema: skillsSchema,
             },
             'donations': {
                 secured: true,
                 upload: true,
                 geolocation: true,
                 illustrations: false,
-                schema: donationsSchema
+                schema: donationsSchema,
             },
             'comment': {
-                schema: commentSchema
+                schema: commentSchema,
             }
         }
     },

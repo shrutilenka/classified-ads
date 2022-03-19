@@ -1,6 +1,8 @@
-const renderer = require('../services/renderer')
 require('dotenv').config()
 const config = require('config')
+
+const renderer = require('../services/renderer')
+const { constraints } = require('../constraints/constraints')
 // incremental is better at least here in app.js
 const NODE_ENV = {
     'monkey chaos': -1,
@@ -14,15 +16,18 @@ function blabla(context) {
     // get priore user info somehow
     const user = {}
     // safe add cookies when not present, for app-light.js (testing case)
-    this.request.raw['cookies'] =  this.request.raw['cookies'] ? this.request.raw['cookies'] : {}
+    this.request.raw['cookies'] = this.request.raw['cookies'] ? this.request.raw['cookies'] : {}
     user['nickname'] = this.request.params.username ? this.request.params.username : this.request.cookies[COOKIE_NAME] ? '🏠' : ''
     if (NODE_ENV == -1) {
         this.send(context[0])
     } else {
-        Object.assign(context[0], { user: user })
+        Object.assign(context[0], { user })
         const userFriendlyMsg = renderer(...context, this.request)
         const route = context[1]
-        this.view(`/templates/pages/${route}`, userFriendlyMsg)
+        const routeC = constraints[process.env.NODE_ENV].GET[route]
+        const UXConstraints = routeC ? { UXConstraints: routeC.requiredUXInputs } : {}
+        const data = { ...userFriendlyMsg, ...UXConstraints }
+        this.view(`/templates/pages/${route}`, data)
     }
 }
 

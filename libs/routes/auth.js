@@ -87,12 +87,12 @@ async function routes(fastify, options) {
 
     /* GET login page. */
     fastify.get('/login', async function (req, reply) {
-        reply.view(`/templates/pages/login`, {})
+        reply.view(`/templates/pages/login`, { UXConstraints: constraints[process.env.NODE_ENV].GET.login.requiredUXInputs })
     })
 
     /* GET subscribe page. */
     fastify.get('/signup', async function (req, reply) {
-        reply.view(`/templates/pages/signup`, {})
+        reply.view(`/templates/pages/signup`, { UXConstraints: constraints[process.env.NODE_ENV].GET.signup.requiredUXInputs })
     })
 
 }
