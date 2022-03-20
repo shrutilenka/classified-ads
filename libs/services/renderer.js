@@ -99,8 +99,7 @@ module.exports = function (data, route, kind, req) {
     case "message|not found":
         return (Object.assign({
             title: 'Classified-ads',
-            message: 'No listing found, it can be deactivated or not approved yet :(',
-            error: 'Listing not found'
+            error: 'No listing found, it can be deactivated or not approved yet :('
         }, data))
     case "listings|gwoogl":
         return (Object.assign({
@@ -139,19 +138,16 @@ module.exports = function (data, route, kind, req) {
     case "message|server error":
         return (Object.assign({
             title: 'Classified-ads',
-            message: 'Oops, an internal error accured :(',
             error: 'Oops, an internal error accured :('
         }, data))
     case "listing|contact":
         return (Object.assign({
             title: 'Classified-ads',
-            message: 'Email successfully sent to publisher, he may repond to you.',
             success: 'Email successfully sent to publisher'
         }, data))
     case "message|contact":
         return (Object.assign({
             title: 'Classified-ads',
-            message: 'Email successfully sent to publisher, he may repond to you.',
             success: 'Email successfully sent to publisher'
         }, data))
     }

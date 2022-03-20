@@ -76,12 +76,13 @@ const commentSchema = {
 /*
     These are rules to be maintained all over the app; On server side but
     also sometimes passed to client to be maintained on the browser.
-    Keys as defined might represent the actual name of some context (HTTP method, route, EJS page, partial..)
-    Or arbitrary chosen and reused elswhere in the app.
-    TODO: I will try to make some intelligence and have a clear definition of keys.
-    Example 1: on localhost env, the login page is requested (/login => login.ejs), HTML form must have required tag
+    Keys as defined might represent:
+    * The actual name of some context (HTTP method, route, EJS page, named forms (in partials)...)
+    * Arbitrary chosen and reused elswhere in the app 
+    TODO: I will try to make some intelligence and have a clear definition of keys (the earlier case).
+    Example 1: on localhost env, the login page is requested (/login => login.ejs), inputs in HTML named form 'doLogin' must have required tag
     Example 2: on localhost env, the listings page is requested (/listings/, /listings/{section}/...),
-    .........it includes partial ie: HTML named form 'queryGeolocation', inputs in `requiredUXInputs` must have required tag
+    .........it includes partials ex: HTML named form 'queryGeolocation', inputs in HTML named form 'queryGeolocation' must have required tag
     Example 3: on localhost env, user POSTs data, the appropriate endpoint handles validation accordingly
 **/
 const constraints = {
@@ -90,10 +91,10 @@ const constraints = {
         // Each page might contain partials (which are forms here)
         'GET': {
             'login': {
-                requiredUXInputs: ['username', 'password']
+                'doLogin': { requiredUXInputs: ['username', 'password'] },
             },
             'signup': {
-                requiredUXInputs: ['username', 'password']
+                'doSignup': { requiredUXInputs: ['username', 'password'] },
             },
             'listings': {
                 'queryGeolocation': {
