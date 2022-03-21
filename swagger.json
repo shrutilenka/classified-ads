@@ -613,7 +613,7 @@
              }
           }
        },
-       "/debug/insertDocument":{
+       "/debug/insertListing":{
           "post":{
              "responses":{
                 "200":{
@@ -622,7 +622,7 @@
              }
           }
        },
-       "/debug/insertMessage":{
+       "/debug/insertComment":{
           "post":{
              "responses":{
                 "200":{

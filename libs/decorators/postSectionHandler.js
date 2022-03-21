@@ -31,7 +31,7 @@ function isArabic(str) {
     const count = str.match(arabic)
     return count && ((count.length / str.length) > 0.5)
 }
-const insertDocument = async (QInstance, req, blob, upload) => {
+const formatInsertDocument = async (QInstance, req, blob, upload) => {
     const { body } = req
     
     // The public URL can be used to directly access the file via HTTP.
@@ -43,7 +43,7 @@ const insertDocument = async (QInstance, req, blob, upload) => {
         usr: req.params.username,
         ara: isArabic(body.desc)
     })
-    let acknowledged = await QInstance.insertDocument(entry)
+    let acknowledged = await QInstance.insertListing(entry)
     return { data: entry, messages: [] }    
 }
 
@@ -79,7 +79,7 @@ module.exports = (fastify) => {
                 })
             }
             if (NODE_ENV < 1) {
-                let data = await insertDocument(QInstance, req, null, false)
+                let data = await formatInsertDocument(QInstance, req, null, false)
                 reply.blabla([data, 'listing', section])
             } else {
                 // Upload that damn picture
@@ -90,7 +90,7 @@ module.exports = (fastify) => {
                 const blobStream = blob.createWriteStream()
                 blobStream.on('error', (err) => { throw (err) })
                 blobStream.on('finish', async () => {
-                    let data = await insertDocument(QInstance, req, blob, true)
+                    let data = await formatInsertDocument(QInstance, req, blob, true)
                     reply.blabla([data, 'listing', section])
                 })
                 blobStream.end(req.file.buffer)

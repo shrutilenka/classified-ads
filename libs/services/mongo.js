@@ -4,6 +4,7 @@
 // */
 
 const { ObjectId } = require('fastify-mongodb')
+const { Donation, Skill, Blog, Comment, User } = require('../constraints/db_models')
 /**
  * This function returns an ObjectId embedded with a given datetime
  * Accepts number of days since document was created
@@ -26,14 +27,28 @@ module.exports = function (db) {
    * @param {*} elem a JSON representation of a Listing
    * @return {Promise}
    */
-    this.insertDocument = async function (elem) {
+    this.insertListing = async function (elem) {
         // https://stackoverflow.com/a/59841285/1951298
         elem.geolocation = {
             type: 'Point',
             coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)]
         }
+        let listing
         // TODO: isArabic?
-        const result = await db.collection('listing').insertOne(elem)
+        switch (elem.section) {
+        case 'donations':
+            listing = new Donation(elem)
+            break;
+        case 'skills':
+            listing = new Skill(elem)
+            break;
+        case 'blogs':
+            listing = new Blog(elem)
+            break;
+        default:
+            break;
+        }
+        const result = await db.collection('listing').insertOne(listing)
         return result.acknowledged
     }
     /**
@@ -41,8 +56,9 @@ module.exports = function (db) {
    * @param {*} elem a JSON representation of a Listing
    * @return {Promise}
   */
-    this.insertMessage = async function (elem) {
-        const result = await db.collection('comment').insertOne(elem)
+    this.insertComment = async function (elem) {
+        const comment = new Comment(elem)
+        const result = await db.collection('comment').insertOne(comment)
         return result.acknowledged
     }
     /**
@@ -201,8 +217,9 @@ module.exports = function (db) {
    * @return {Promise}
    */
     this.insertUser = async function (elem) {
+        const user = new User(elem)
         const collection = db.collection('users')
-        return await collection.insertOne(elem)
+        return await collection.insertOne(user)
     }
 
     /**

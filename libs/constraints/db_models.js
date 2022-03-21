@@ -1,4 +1,5 @@
 const { BasicModel, ObjectModel, ArrayModel } = require("objectmodel")
+const { ObjectId } = require('fastify-mongodb')
 
 var URL = "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?"
 const Coordinate = new BasicModel(Number)
@@ -36,5 +37,20 @@ const Skill = Listing.extend({
 
 const Blog = Listing
 
+const Comment = new ObjectModel({
+    from: String,
+    to: String,
+    sent: Date,
+    thread: String,
+    message: String
+}).assert(c => c.from !== c.to, "comment to someone else")
+    .assert(c => ObjectId.isValid(c.thread), "thread Id is not a valid Mongo Id")
 
-module.exports = { Donation, Skill, Blog}
+
+const User = new ObjectModel({
+    username: String,
+    password: String,
+    role: ['admin', 'regular']
+})
+
+module.exports = { Donation, Skill, Blog, Comment, User }

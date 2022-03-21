@@ -222,7 +222,7 @@ async function routes(fastify, options, next) {
             thread: req.params.id,
             message: body.message
         }
-        const acknowledged = await QInstance.insertMessage(msg)
+        const acknowledged = await QInstance.insertComment(msg)
         reply.send({ wow: true})
         return reply
         // reply.blabla([{ data: elem }, 'listing', 'contact'], req)
