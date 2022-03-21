@@ -1,4 +1,4 @@
-// import { LIS } from '../../helpers/lis';
+// import { LIS } from '../../../helpers/lis';
 // expects __UXConstraints__
 
 export function markRequiredInputs() {

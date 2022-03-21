@@ -118,9 +118,9 @@ module.exports = function (db) {
                         resolve()
                         return
                     }
-                    console.log(`viewer ${viewer}`)
-                    console.log(`admin ${isAdmin}`)
-                    console.log(doc)
+                    // console.log(`viewer ${viewer}`)
+                    // console.log(`admin ${isAdmin}`)
+                    // console.log(doc)
                     const isAuthor = doc.usr === viewer
                     if (isAdmin || isAuthor || doc['a']) {
                         resolve(doc)

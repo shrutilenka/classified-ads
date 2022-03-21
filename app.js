@@ -28,7 +28,7 @@ const rateLimit = require('fastify-rate-limit')
 const i18next = require('i18next')
 const Backend = require('i18next-fs-backend')
 const i18nextMiddleware = require('i18next-http-middleware')
-
+const metricsPlugin = require('fastify-metrics');
 const swStats = require('swagger-stats')
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 const apiSpec = require('./swagger.json')
@@ -296,6 +296,8 @@ async function instantiateApp() {
             stats.record(req, reply)
         })
         fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
+        
+        fastify.register(metricsPlugin, { endpoint: '/metrics' });
     }
 }
 const os = require('os')

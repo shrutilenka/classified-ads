@@ -102,7 +102,7 @@ async function routes(fastify, options, next) {
             let comments = []
             if (req.params.username) {
                 const peer1 = req.params.username
-                console.log(`=====fetching comments=====\npeer1 ${peer1} & peer2 ${peer2} & thread ${req.params.id}\n`)
+                // console.log(`=====fetching comments=====\npeer1 ${peer1} & peer2 ${peer2} & thread ${req.params.id}\n`)
                 comments = await QInstance.getComments(peer1, peer2, req.params.id)
                 comments.forEach(comment => {
                     comment.from = helpers.initials(comment.from)
