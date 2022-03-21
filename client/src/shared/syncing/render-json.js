@@ -5,12 +5,16 @@
 import { markRequiredInputs } from './ReactiveUI/constraints'
 import { renderComments, renderTopByDiv, renderTopTags } from './renderers/renderer'
 export const renderShared = () => {
-  if (window.__section__) {
-    renderTopTags(window.__section__)
+  try {
+    if (window.__section__) {
+      renderTopTags(window.__section__)
+    }
+    renderTopByDiv()
+    renderComments()
+    markRequiredInputs()
+  } catch (error) {
+    console.log(error)
   }
-  renderTopByDiv()
-  renderComments()
-  markRequiredInputs()
 }
 
 
