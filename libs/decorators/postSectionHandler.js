@@ -41,7 +41,6 @@ const insertDocument = async (QInstance, req, blob, upload) => {
         a: false,
         img: publicUrl,
         usr: req.params.username,
-        usr_profile: req.params.username,
         ara: isArabic(body.desc)
     })
     let acknowledged = await QInstance.insertDocument(entry)

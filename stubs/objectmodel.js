@@ -28,6 +28,7 @@ const Coordinate = new BasicModel(Number);
 
 const Listing = new ObjectModel({
     title: String,
+    tags: ArrayModel(String),
     desc: String,
     section: ['donations', 'skills', 'blogs'],
     d: Boolean,
@@ -48,9 +49,8 @@ const Donation = Listing.extend({
         coordinates: ArrayModel(Coordinate).extend()
             .assert(a => a.length === 2, "should have two coordinates"),
     },
-}).assert(o => o.lat === o.geolocation.coordinates[1] &&
-    o.lng === o.geolocation.coordinates[0] &&
-    o.lang === o.tagsLang)
+}).assert(o => o.lat === o.geolocation.coordinates[1] && o.lng === o.geolocation.coordinates[0], "should have two coordinates | point mismatch")
+    .assert(o => o.lang === o.tagsLang, "language mismatch")
 
 const listing = new Listing({
     "title": "reprehenderit sunt ullamco ut eiusmod",
