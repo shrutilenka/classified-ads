@@ -1,7 +1,8 @@
 // expects __UXConstraints__
 
 export function markRequiredInputs() {
-  
+  if (!window.__UXConstraints__)
+    return
   for (let [formName, constraint] of Object.entries(window.__UXConstraints__)) {
     if (constraint.requiredUXInputs.length === 0)
       continue
