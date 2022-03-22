@@ -29,7 +29,7 @@
   }
 }
 // SIDE BAR TODO: add ResizeSensor.js
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1600px) {
   .sidebar {
     display: none;
   }
@@ -52,6 +52,10 @@
   transform: translate(0, 0); /* For browsers don't support translate3d. */
   transform: translate3d(0, 0, 0);
   will-change: position, transform;
+}
+// for the sidebar
+nav#sidebar_nav {
+  width: fit-content;
 }
 
 .CA-listing {
