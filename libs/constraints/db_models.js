@@ -1,3 +1,4 @@
+// TODO: catch errors on use of these models (in mongo.js and in routes)
 const { BasicModel, ObjectModel, ArrayModel } = require("objectmodel")
 const { ObjectId } = require('fastify-mongodb')
 
@@ -50,8 +51,10 @@ const Comment = new ObjectModel({
 
 const User = new ObjectModel({
     username: String,
+    pass: String,
     password: String,
     role: ['admin', 'regular']
-})
+}).assert(u => u.username !== u.pass, "username and password must differ")
+    .assert(u => u.pass.length < 8, "password is too weak")       
 
 module.exports = { Donation, Skill, Blog, Comment, User }

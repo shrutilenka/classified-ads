@@ -157,8 +157,10 @@ ops.createIndexes = async function createIndexes(db) {
     await listingCollection.createIndex({ tags: 1 })
     await listingCollection.createIndex({ div: 1 })
     await listingCollection.createIndex({ geolocation: '2dsphere' })
-    const userCollection = db.collection('user')
-    await userCollection.createIndex({ to: 1, sent: 1 })
+    const commentCollection = db.collection('comment')
+    await commentCollection.createIndex({ to: 1, from: 1, sent: 1 })
+    const usersCollection = db.collection('users')
+    await usersCollection.createIndex( { "username" : 1 }, { unique : true } )
 }
 const scripts = require('./libs/services/mongoScripts')
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {

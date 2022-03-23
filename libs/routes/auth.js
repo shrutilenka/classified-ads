@@ -84,7 +84,7 @@ async function routes(fastify, options) {
                 } catch (err) {
                     throw { statusCode: 500, message: 'Something went wrong! Please try again' }
                 }
-                const new_user = await QInstance.insertUser({ username, password: hash_pass, role: role })
+                const new_user = await QInstance.insertUser({ username, pass: password, password: hash_pass, role: role })
                 reply.redirect('/')
                 return
             }

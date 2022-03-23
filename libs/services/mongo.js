@@ -218,6 +218,7 @@ module.exports = function (db) {
    */
     this.insertUser = async function (elem) {
         const user = new User(elem)
+        delete user.pass // send real password to nil (heat generation)
         const collection = db.collection('users')
         return await collection.insertOne(user)
     }
