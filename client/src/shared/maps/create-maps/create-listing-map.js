@@ -14,7 +14,8 @@ let moveable
 export function listingMap ({ lat, lng, zoom, layerFactory }) {
   map = new L.Map('listing-map')
   map.name = 'listingMap'
-  map.addLayer(layerFactory(osmUrl, osmAttrib, true))
+  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  map.addLayer(layerFactory(osmUrl, osmAttrib, isDarkMode))
   map.setView(new L.LatLng(lat, lng), zoom)
   // transform geojson coordinates into an array of L.LatLng
   for (let i = 0; i < coordinates.length; i++) {

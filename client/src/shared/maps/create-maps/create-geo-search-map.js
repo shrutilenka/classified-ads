@@ -17,7 +17,8 @@ let moveable
 export function geoSearchMap ({ lat, lng, layerFactory, clusterFactory, zoom }) {
   map = new L.Map('geo-search-map')
   map.name = 'geoSearchMap'
-  map.addLayer(layerFactory(osmUrl, osmAttrib, true))
+  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  map.addLayer(layerFactory(osmUrl, osmAttrib, isDarkMode))
   map.setView(new L.LatLng(lat, lng), zoom)
   // create a fullscreen button and add it to the map
   L.control.fullscreen({

@@ -12,10 +12,11 @@ const Listing = new ObjectModel({
     d: Boolean,
     a: Boolean,
     usr: String,
-    lang: ['ar', 'fr', 'en'], //check
-    img: new RegExp(URL),
+    // TODO: add front end constraints
+    // lang: ['ar', 'fr', 'en'], //check
+    // img: new RegExp(URL),
     div: String,
-    tagsLang: ['ar', 'fr', 'en'], //check
+    // tagsLang: ['ar', 'fr', 'en'], //check
 });
 
 const Donation = Listing.extend({
@@ -28,7 +29,7 @@ const Donation = Listing.extend({
             .assert(a => a.length === 2, "should have two coordinates"),
     },
 }).assert(o => o.lat === o.geolocation.coordinates[1] && o.lng === o.geolocation.coordinates[0], "should have two coordinates | point mismatch")
-    .assert(o => o.lang === o.tagsLang, "language mismatch")
+// .assert(o => o.lang === o.tagsLang, "language mismatch")
 
 const Skill = Listing.extend({
     section: 'skills',

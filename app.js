@@ -162,7 +162,7 @@ async function instantiateApp() {
     })
 
     fastify.get('/i18n/:locale', (req, reply) => {
-        reply.setCookie('locale', req.params.locale)
+        reply.cookie('locale', req.params.locale, { path: '/' })
         if (req.headers.referer) reply.redirect(req.headers.referer)
         else reply.redirect('/')
     })
@@ -296,7 +296,7 @@ async function instantiateApp() {
             stats.record(req, reply)
         })
         fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
-        
+
         fastify.register(metricsPlugin, { endpoint: '/metrics' });
     }
 }

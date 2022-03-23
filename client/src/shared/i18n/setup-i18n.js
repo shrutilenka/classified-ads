@@ -19,7 +19,7 @@ export const setupI18n = async () => {
       if (cookizz.locale) {
         jsI18n.setLocale(cookizz.locale)
         jsI18n.processPage()
-        // document.body.setAttribute('lang', cookizz.locale);
+        document.body.setAttribute('lang', cookizz.locale)
         if (cookizz.locale === 'ar') {
           document.body.setAttribute('dir', 'rtl')
         }
