@@ -50,7 +50,14 @@ async function routes(fastify, options) {
                     const token = await jwt.sign({ username: username, role: user.role }, JWT_SECRET)
                     reply.setCookie(COOKIE_NAME, token)
                     // this.user = username
-                    return { msg: "SUCCESS" }
+                    if (request.headers.referer) {
+                        reply.redirect(request.headers.referer)
+                        return
+                    }
+                    else {
+                        reply.redirect('/')
+                        return
+                    }
                 }
             } catch (err) {
                 throw { statusCode: 500, message: 'Something went wrong! Please try again' }
@@ -77,8 +84,9 @@ async function routes(fastify, options) {
                 } catch (err) {
                     throw { statusCode: 500, message: 'Something went wrong! Please try again' }
                 }
-                const new_user = await QInstance.insertUser({ username, password: hash_pass, role: role})
-                return { msg: "SUCCESS" }
+                const new_user = await QInstance.insertUser({ username, password: hash_pass, role: role })
+                reply.redirect('/')
+                return
             }
         } catch (err) {
             throw { statusCode: 500, message: 'Something went wrong! Please try again' }

@@ -11,17 +11,23 @@ function verifyJWT(roles = []) {
 
     return async function (request, reply) {
         if (!request.cookies) {
-            throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
+            reply.redirect('/')
+            return
+            // throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
         }
         
         const cookie = request.cookies[COOKIE_NAME]
         const verificationCallback = (err, data) => {
             if (err) {
-                throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
+                reply.redirect('/login')
+                return
+                // throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
             }
             if (roles.length && !roles.includes(data.role) && data.role !== 'admin') {
                 // user's role is not authorized
-                throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
+                reply.redirect('/login')
+                return
+                // throw { statusCode: 401, message: 'UNAUTHORIZED_ACCESS' }
             }
             // If logged user has 'admin' role then let go
             request.params.username = data.username

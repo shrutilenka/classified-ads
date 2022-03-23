@@ -21,11 +21,23 @@
                         <option value="fr" data-content='Français'>🇫🇷</option>
                     </select>
                 </li>
-                <% if(typeof user == 'undefined'){ %>
-                    <li class="nav-item px-xl-2"><a class="nav-link" data-trans="(login)" href="/login">Login 🔒</a></li>
-                <% } else { %>
-                    <li class="nav-item px-xl-2"><a class="nav-link" href="/listings/user">Welcome <%= user.nickname %></a></li>
-                <% }%>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="fa fa-home"></span> </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <% if(typeof user == 'undefined'){ %>
+                            <li><a class="dropdown-item" data-trans="(login)" href="/login">Login 🔒</a></li>
+                        <% } else { %>
+                            <li><a class="dropdown-item" href="/listings/user"><span class="fa fa-user"></span> Welcome <%= user.nickname %></a></li>
+                        <% }%>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/login"> Login</a></li>
+                        <li><a class="dropdown-item" href="/signup"> Signup</a></li>
+                    </ul>
+                </li>
             </ul>
             <form class="form-inline p-0 mx-auto mt-xl-0" style="max-width:400px">
                     <input id="autoComplete" class="form-control w-100" type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off"
