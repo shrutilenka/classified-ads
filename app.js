@@ -290,12 +290,15 @@ async function instantiateApp() {
     const secretPath = process.env.SECRET_PATH
     const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
     if (NODE_ENV > -1) {
-        const visitors = require('./libs/decorators/visitors-handler')
-        fastify.addHook('preHandler', async (req, reply) => {
-            let stats = await visitors.getStats()
-            stats.record(req, reply)
-        })
-        fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
+        // TODO: modify https://github.com/bacloud22/visitor-counter/ to 
+        // accept fastify.mongo instance instead
+        // const myMongoDatabase = fastify.mongo.client.db('dbname')
+        // const visitors = require('./libs/decorators/visitors-handler')
+        // fastify.addHook('preHandler', async (req, reply) => {
+        //     let stats = await visitors.getStats()
+        //     stats.record(req, reply)
+        // })
+        // fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
 
         fastify.register(metricsPlugin, { endpoint: '/metrics' });
     }
