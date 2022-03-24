@@ -189,6 +189,13 @@ async function routes(fastify, options) {
         return topTags
     })
 
+    /* GET Top listings by tag. */
+    fastify.get('/explore/tags', async function (req, reply) {
+        reply.view('/templates/pages/tags', {
+            title: 'Explore all tags!',
+        })
+    })
+    
     // Blog pages are pages with little server processing
     fastify.get('/categories', function (req, reply) {
         reply.view('/templates/pages/blog', {
