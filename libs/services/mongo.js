@@ -5,6 +5,8 @@
 
 const { ObjectId } = require('fastify-mongodb')
 const { Donation, Skill, Blog, Comment, User } = require('../constraints/db_models')
+const { refreshTopK, topk } = require('../services/miner')
+
 /**
  * This function returns an ObjectId embedded with a given datetime
  * Accepts number of days since document was created
@@ -225,6 +227,7 @@ module.exports = function (db) {
 
     /**
    * Approximate search based on indexed text fields: title, desc, tags
+   * It also feeds topK miner
    * @param {*} phrase sentense to search
    * @param {*} exact whether search the exact sentense or separate terms
    * @param {*} division which division
@@ -252,6 +255,9 @@ module.exports = function (db) {
                         return reject(err)
                     }
                     const count = await collection.countDocuments(query)
+                    if(count > 3) {
+                        refreshTopK(phrase)
+                    }
                     return resolve({ documents: docs, count: count })
                 })
         })
