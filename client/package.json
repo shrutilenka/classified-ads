@@ -20,6 +20,7 @@
     "font-picker": "^3.5.1",
     "geojson-validation": "^1.0.2",
     "holmes.js": "^1.17.3",
+    "intro.js": "^5.0.0",
     "leaflet": "1.7.1",
     "leaflet.fullscreen": "^2.0.0",
     "leaflet.markercluster": "^1.5.0",

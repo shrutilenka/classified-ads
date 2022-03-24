@@ -1,11 +1,11 @@
-import { getCookies } from './helpers/get-cookies'
-import { jsI18n } from './helpers/vendors/jsi18n'
-import { langSelect } from './lang-select'
 import {
   __ar_translations,
   __en_translations,
   __fr_translations
-} from './translations'
+} from '../../data/translations'
+import { getCookies } from './helpers/get-cookies'
+import { jsI18n } from './helpers/vendors/jsi18n'
+import { langSelect } from './lang-select'
 
 export const setupI18n = async () => {
   return new Promise(function (resolve, reject) {

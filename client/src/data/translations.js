@@ -26,7 +26,8 @@ export const __ar_translations = {
   '(title)': 'عنوان',
   '(title|description)': 'عنوان أو محتوى',
   '(divisions)': 'ولاية',
-  '(today-listings)': 'قوائم اليوم'
+  '(today-listings)': 'قوائم اليوم',
+  '(tour-hello)': 'تجربة تاور'
 }
 export const __fr_translations = {
   '(today)': 'Nouveautés',
@@ -52,7 +53,8 @@ export const __fr_translations = {
   '(title)': 'Titre',
   '(title|description)': 'Titre ou description',
   '(divisions)': 'Wilaya',
-  '(today-listings)': 'Annonces d\'aujourd\'hui'
+  '(today-listings)': 'Annonces d\'aujourd\'hui',
+  '(tour-hello)': 'On test tour.js'
 }
 export const __en_translations = {
   '(today)': 'Today\'s',
@@ -78,5 +80,6 @@ export const __en_translations = {
   '(title)': 'Titre',
   '(title|description)': 'Title or description',
   '(divisions)': 'Divisions',
-  '(today-listings)': 'Today listings'
+  '(today-listings)': 'Today listings',
+  '(tour-hello)': 'testing tour'
 }
