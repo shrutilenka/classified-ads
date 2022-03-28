@@ -30,27 +30,36 @@ module.exports = function (db) {
    * @return {Promise}
    */
     this.insertListing = async function (elem) {
+        let listing
+        const collection = db.collection('listing')
         // https://stackoverflow.com/a/59841285/1951298
         elem.geolocation = {
             type: 'Point',
             coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)]
         }
-        let listing
-        switch (elem.section) {
-        case 'donations':
-            listing = new Donation(elem)
-            break;
-        case 'skills':
-            listing = new Skill(elem)
-            break;
-        case 'blogs':
-            listing = new Blog(elem)
-            break;
-        default:
-            break;
-        }
-        const result = await db.collection('listing').insertOne(listing)
-        return result.acknowledged
+        return new Promise(function (resolve, reject) {
+            try {
+                switch (elem.section) {
+                case 'donations':
+                    listing = new Donation(elem)
+                    break;
+                case 'skills':
+                    listing = new Skill(elem)
+                    break;
+                case 'blogs':
+                    listing = new Blog(elem)
+                    break;
+                default:
+                    break;
+                }
+                collection.insertOne(listing, function(err, res) {
+                    if (err) reject(err)
+                    resolve(res.acknowledged)
+                })
+            } catch (err) {
+                reject(err)
+            }
+        })
     }
     /**
    * Insert a document -message into DB
@@ -58,9 +67,19 @@ module.exports = function (db) {
    * @return {Promise}
   */
     this.insertComment = async function (elem) {
-        const comment = new Comment(elem)
-        const result = await db.collection('comment').insertOne(comment)
-        return result.acknowledged
+        let comment
+        const collection = db.collection('comment')
+        return new Promise(function (resolve, reject) {
+            try {
+                comment = new Comment(elem)
+                collection.insertOne(comment, function(err, res) {
+                    if (err) reject(err)
+                    resolve(res.acknowledged)
+                })
+            } catch (err) {
+                reject(err)
+            }
+        })
     }
     /**
    * Get comments from DB
@@ -220,17 +239,21 @@ module.exports = function (db) {
    * @return {Promise}
    */
     this.insertUser = async function (elem) {
-        // TODO: promise is better here
         let user
-        try {
-            new User(elem)
-            user = new User(elem)
-        // TODO: remove pass again, but objectmodel restricts that :(
-        } catch (err) {
-            console.log(err)
-        } 
         const collection = db.collection('users')
-        return await collection.insertOne(user)
+        return new Promise(function (resolve, reject) {
+            try {
+                user = new User(elem)
+                // delete user.pass
+                // TODO: remove pass again, but objectmodel restricts that :(
+                collection.insertOne(user, function(err, res) {
+                    if (err) reject(err)
+                    resolve(res.acknowledged)
+                })
+            } catch (err) {
+                reject(err)
+            }
+        })
     }
 
     /**
@@ -251,6 +274,7 @@ module.exports = function (db) {
         const collation = lang === 'und' ? baseCollation : { locale: lang }
         query.$text = { $search: phrase }
         query._id = { $gt: ObjectId }
+        if (lang !== 'und') query.lang = lang
         if (section) query.section = section
         if (division) query.div = division
         return new Promise(function (resolve, reject) {
@@ -271,7 +295,6 @@ module.exports = function (db) {
                     return resolve({ documents: docs, count: count })
                 })
         })
-
     }
 
     /**
