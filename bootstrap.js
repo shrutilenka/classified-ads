@@ -1,4 +1,10 @@
-const jsf = require('json-schema-faker')
+var jsf_en, jsf_fr, jsf_ar
+jsf_en = jsf_fr = jsf_ar = require('json-schema-faker')
+
+jsf_en.extend('faker', () => require('@faker-js/faker/locale/en'));
+jsf_fr.extend('faker', () => require('@faker-js/faker/locale/fr'));
+jsf_ar.extend('faker', () => require('@faker-js/faker/locale/ar'));
+
 const { MongoClient } = require('mongodb')
 const { schema } = require('./config/options/bootstrap')
 const { SimpleIntervalJob, AsyncTask } = require('toad-scheduler')
@@ -6,10 +12,14 @@ const geoJSONEncoder = require('./data/geo/geoJSONEncoder')
 
 const states = geoJSONEncoder.getStateNames('en')
 
-const langs = ['english', 'arabic', 'french']
+const langs = ['en', 'ar', 'fr']
+const langsFaker = {
+    'en': jsf_en,
+    'fr': jsf_fr,
+    'ar': jsf_ar
+}
 const sections = ['donations', 'skills', 'blogs']
 
-// jsf.extend('faker', () => require('faker'))
 const items = []
 // Approximate algeria bounding box:
 const minLng = -0.19775390625
@@ -35,10 +45,13 @@ for (let i = 0; i < 200; i++) {
     if (i < 20 && i > 10) {
         email = 'user@mail.com'
     }
-    const item = jsf.generate(schema)
+    const randomLang = langs[Math.floor(Math.random() * langs.length)]
+    const item = langsFaker[randomLang].generate(schema)
+    item.tagsLang = item.lang = randomLang
     item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
     item.div = states[Math.floor(Math.random() * states.length)]
-    item.tagsLang = langs[Math.floor(Math.random() * langs.length)]
+
+
     item.section = sections[Math.floor(Math.random() * sections.length)]
     item.lat = getRandomInRange(minLat, maxLat, 3)
     item.lng = getRandomInRange(minLng, maxLng, 3)
@@ -46,7 +59,7 @@ for (let i = 0; i < 200; i++) {
         type: 'Point',
         coordinates: [item.lng, item.lat]
     }
-    item.usr = email ? email : item.usr
+    item.usr = email || item.usr
     items.push(item)
 }
 

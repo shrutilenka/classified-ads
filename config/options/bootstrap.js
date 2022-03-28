@@ -15,11 +15,10 @@ const schema = {
             lat: 36.68339,
             lng: 2.89224,
             section: 'donations',
-            pass: 'a7egz7vrl',
             d: false,
             a: true,
             usr: 'you@there.com',
-            ara: false
+            lang: 'en'
         }
     ],
     required: [
@@ -29,11 +28,10 @@ const schema = {
         'lat',
         'lng',
         'section',
-        'pass',
         'd',
         'a',
         'usr',
-        'ara'
+        'lang'
     ],
     properties: {
         title: {
@@ -128,17 +126,6 @@ const schema = {
                 'donations'
             ]
         },
-        pass: {
-            $id: '#/properties/pass',
-            type: 'string',
-            title: 'The pass schema',
-            description: 'An explanation about the purpose of this instance.',
-            default: '',
-            faker: 'lorem.word',
-            examples: [
-                'a7egz7vrl'
-            ]
-        },
         d: {
             $id: '#/properties/d',
             type: 'boolean',
@@ -170,14 +157,14 @@ const schema = {
                 'you@there.com'
             ]
         },
-        ara: {
-            $id: '#/properties/ara',
+        lang: {
+            $id: '#/properties/lang',
             type: 'boolean',
-            title: 'The ara schema',
+            title: 'The lang schema',
             description: 'An explanation about the purpose of this instance.',
-            default: false,
+            default: 'en',
             examples: [
-                false
+                'en'
             ]
         }
     },
