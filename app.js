@@ -34,29 +34,7 @@ const swStats = require('swagger-stats')
 const apiSpec = require('./swagger.json')
 async function setSwaggerStats(fastify, opts) {
     await fastify.register(require('fastify-express'))
-    fastify.register(swStats.getFastifyPlugin, {
-        name: 'swagger-stats-authtest',
-        version: '0.94.0',
-        hostname: "hostname",
-        ip: "127.0.0.1:3000",
-        timelineBucketDuration: 60000,
-        swaggerSpec: apiSpec,
-        uriPath: '/swagger-stats',
-        durationBuckets: [50, 100, 200, 500, 1000, 5000],
-        requestSizeBuckets: [500, 5000, 15000, 50000],
-        responseSizeBuckets: [600, 6000, 6000, 60000],
-        // Make sure both 50 and 50*4 are buckets in durationBuckets, 
-        // so Apdex could be calculated in Prometheus 
-        apdexThreshold: 50,
-        authentication: true,
-        elasticsearch: 'http://127.0.0.1:9200',
-        onAuthenticate: function (req, username, password) {
-            // simple check for username and password
-            return ((username === 'swagger-stats')
-                && (password === 'swagger-stats'));
-        }
-
-    });
+    fastify.register(swStats.getFastifyPlugin, { });
 }
 
 async function instantiateApp() {

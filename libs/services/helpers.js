@@ -33,6 +33,16 @@ ops.cloudMulter = Multer({
 
 ops.localMulter = Multer({ dest: 'uploads/' }).single('avatar')
 
+const LanguageDetection = require('@smodin/fast-text-language-detection')
+const lid = new LanguageDetection()
+ops.getLanguage = async (text) => {
+    const language = await lid.predict(text, 3)
+    if(language[0].prob > 0.5)
+        return language[0].lang
+    else
+        return 'und'
+}
+
 /**
  * Limit HTML tags of a listings description
  * @param {String} str

@@ -14,6 +14,7 @@ async function routes(fastify, options, next) {
     const { constraints } = require('../constraints/constraints')
     const blabla = require('../decorators/blabla')
     const queries = require('../services/mongo')
+
     const { db } = fastify.mongo
     const logger = fastify.log
     const QInstance = new queries(db, logger)
@@ -123,8 +124,9 @@ async function routes(fastify, options, next) {
         '/gwoogl', { schema: gwooglSchema, preHandler: softAuth, preValidation: require('../decorators/preValidation') },
         async (req, reply) => {
             const { body } = req
+            const lang = await helpers.getLanguage(body.title_desc)
             let listings = await QInstance.gwoogl(body.title_desc,
-                body.exact, body.div_q, body.section, req.pagination)
+                body.exact, body.div_q, body.section, lang, req.pagination)
             const { page, perPage } = req.pagination
             const data = {
                 section: body.section,

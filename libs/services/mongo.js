@@ -110,6 +110,7 @@ module.exports = function (db) {
     const baseQuery = { d: false, a: true }
     const baseProjection = { pass: 0.0, geolocation: 0.0, d: 0.0, a: 0.0 }
     const baseSort = [['_id', 'desc']]
+    const baseCollation = { }
     /**
    * Get a document from DB
    * If Admin then get unnaproved document
@@ -241,18 +242,20 @@ module.exports = function (db) {
    * @param {*} section which section
    * @return {Promise}
    */
-    this.gwoogl = async function (phrase, exact, division, section, pagination) {
+    this.gwoogl = async function (phrase, exact, division, section, lang, pagination) {
         const daysBefore = 100
         const collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
         phrase = exact ? `"${phrase}"` : phrase
         const query = JSON.parse(JSON.stringify(baseQuery))
+        const collation = lang === 'und' ? baseCollation : { locale: lang }
         query.$text = { $search: phrase }
         query._id = { $gt: ObjectId }
         if (section) query.section = section
         if (division) query.div = division
         return new Promise(function (resolve, reject) {
             collection.find(query, { score: { $meta: 'textScore' } })
+                .collation(collation)
                 .project(baseProjection)
                 .sort({ score: { $meta: 'textScore' } })
                 .skip((pagination.perPage * pagination.page) - pagination.perPage)

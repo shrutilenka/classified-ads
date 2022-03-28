@@ -155,6 +155,10 @@ ops.createIndexes = async function createIndexes(db) {
         { title: 'text', desc: 'text' },
         { weights: { title: 3, desc: 1 } }
     )
+    // doesn't support indexing one key based on value 
+    // await listingCollection.createIndex({ lang: 'fr' }, { collation: { locale: "fr" }})
+    // await listingCollection.createIndex({ lang: 'en' }, { collation: { locale: "en" }})
+    // await listingCollection.createIndex({ lang: 'ar' }, { collation: { locale: "ar" }})
     await listingCollection.createIndex({ tags: 1 })
     await listingCollection.createIndex({ div: 1 })
     await listingCollection.createIndex({ geolocation: '2dsphere' })
