@@ -2,6 +2,7 @@ const { Storage } = require('@google-cloud/storage')
 // const Joi = require('joi')
 const path = require('path')
 const { format, promisify } = require('util')
+const LanguageDetection = require('@smodin/fast-text-language-detection')
 
 const storage = new Storage({ keyFilename: process.env.CREDS_PATH })
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
@@ -21,16 +22,8 @@ const NODE_ENV = {
 }[process.env.NODE_ENV]
 
 const isEmpty = (o) => Object.keys(o).length === 0
-const arabic = /[\u0600-\u06FF]/g
-/**
-   * Detects if String is Arabic, if ration of arabic characters count is at least 0.5
-   * @param {string} str The first number.
-   * @return {boolean} isArabic or null.
-   */
-function isArabic(str) {
-    const count = str.match(arabic)
-    return count && ((count.length / str.length) > 0.5)
-}
+const lid = new LanguageDetection()
+
 const formatInsertDocument = async (QInstance, req, blob, upload) => {
     const { body } = req
     
@@ -41,12 +34,18 @@ const formatInsertDocument = async (QInstance, req, blob, upload) => {
         a: false,
         img: publicUrl,
         usr: req.params.username,
-        ara: isArabic(body.desc)
     })
     let acknowledged = await QInstance.insertListing(entry)
     return { data: entry, messages: [] }    
 }
 
+const getLanguage = async (text) => {
+    const language = await lid.predict(text, 3)
+    if(language[0].prob > 0.5)
+        return language[0].lang
+    else
+        return 'und'
+}
 
 // options http://api.html-tidy.org/tidy/tidylib_api_5.6.0/tidy_quickref.html
 const opt = { 'show-body-only': 'yes' }
@@ -68,8 +67,11 @@ module.exports = (fastify) => {
                 error: error
             })
         } else {
-            const html = await tidyP(body.desc, opt)
+            const html = body.desc
+            // Tidy not working on Ubuntu
+            // const html = await tidyP(body.desc, opt)
             body.desc = new stringTransformer(html).sanitizeHTML().cleanSensitive().valueOf()
+            body.lang = await getLanguage(body.desc)
             // Files other than images are undefined
             if (!req.file && NODE_ENV > 0) {
                 reply.send({

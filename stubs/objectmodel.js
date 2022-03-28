@@ -87,3 +87,21 @@ const donation = new Donation({
         "coordinates": [7.098, 31.313]
     }
 })
+
+const User = new ObjectModel({
+    username: String,
+    pass: String,
+    password: String,
+    role: ['admin', 'regular']
+}).assert(u => u.username !== u.pass, "username and password must differ")
+    .assert(u => u.pass.length >= 8, "password is too weak")       
+
+const user =  {
+  username: 'user2@mail.com',
+  pass: 'blablabla111SSS.',
+  password: '$2a$10$vLvHw0FcvTnjxj5FIXuemeRzEO3jlJrN59L.8OmX4ZwFbEuIT2LOK',
+  role: 'regular'
+}
+
+const instance = new User(user)
+console.log(instance)

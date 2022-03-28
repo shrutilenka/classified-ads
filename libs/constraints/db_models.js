@@ -14,7 +14,7 @@ const Listing = new ObjectModel({
     a: Boolean,
     usr: String,
     // TODO: add front end constraints
-    // lang: ['ar', 'fr', 'en'], //check
+    lang: ['ar', 'fr', 'en', 'und'], //check
     // img: new RegExp(URL),
     div: String,
     // tagsLang: ['ar', 'fr', 'en'], //check
@@ -55,6 +55,6 @@ const User = new ObjectModel({
     password: String,
     role: ['admin', 'regular']
 }).assert(u => u.username !== u.pass, "username and password must differ")
-    .assert(u => u.pass.length < 8, "password is too weak")       
+    .assert(u => u.pass.length >= 8, "password is too weak")       
 
 module.exports = { Donation, Skill, Blog, Comment, User }

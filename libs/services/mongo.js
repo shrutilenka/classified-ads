@@ -36,7 +36,6 @@ module.exports = function (db) {
             coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)]
         }
         let listing
-        // TODO: isArabic?
         switch (elem.section) {
         case 'donations':
             listing = new Donation(elem)
@@ -207,6 +206,7 @@ module.exports = function (db) {
    * @return {Promise}
    */
     this.getUserById = async function (username) {
+
         const collection = db.collection('users')
         const query = {}
         query.username = username
@@ -219,8 +219,15 @@ module.exports = function (db) {
    * @return {Promise}
    */
     this.insertUser = async function (elem) {
-        const user = new User(elem)
-        delete user.pass // send real password to nil (heat generation)
+        // TODO: promise is better here
+        let user
+        try {
+            new User(elem)
+            user = new User(elem)
+        // TODO: remove pass again, but objectmodel restricts that :(
+        } catch (err) {
+            console.log(err)
+        } 
         const collection = db.collection('users')
         return await collection.insertOne(user)
     }

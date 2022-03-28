@@ -77,6 +77,7 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
                         const check = (
                             collectionNames.indexOf('words') >= 0 &&
                             collectionNames.indexOf('listing') >= 0 &&
+                            collectionNames.indexOf('users') >= 0 &&
                             collectionNames.indexOf('comment') >= 0
                         )
                         if (!check) {
@@ -133,19 +134,6 @@ ops.fastifyInjects = async function fastifyInjects(app) {
         }
     })
     logRequest(response, app)
-    // hard to login user using Inject and follow with session and roles
-    // response = await app.inject({
-    //     method: 'POST',
-    //     url: '/login',
-    //     payload: {
-    //         username: "user@mail.com",
-    //         password: "blablabla111SSS."
-    //     },
-    //     cookies: {
-    //         foo: 'bar'
-    //     }
-    // })
-    // logRequest(response, app)
 }
 
 ops.createIndexes = async function createIndexes(db) {
