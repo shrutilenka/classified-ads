@@ -1,4 +1,6 @@
-function prevalidation_1(request, reply, done) {
+// A pre-validation helper particularly for user POST requests
+
+function preValidation(request, reply, done) {
     // This hook will always be executed after the shared `preValidation` hooks
     request.body = Object.fromEntries(
         // request.body[key].value ???????
@@ -19,4 +21,4 @@ function prevalidation_1(request, reply, done) {
     done()
 }
 
-module.exports = prevalidation_1
+module.exports = preValidation

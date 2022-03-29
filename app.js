@@ -28,8 +28,9 @@ const rateLimit = require('fastify-rate-limit')
 const i18next = require('i18next')
 const Backend = require('i18next-fs-backend')
 const i18nextMiddleware = require('i18next-http-middleware')
-const metricsPlugin = require('fastify-metrics');
+const metricsPlugin = require('fastify-metrics')
 const swStats = require('swagger-stats')
+const miner = require('./libs/decorators/miner').miner
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 const apiSpec = require('./swagger.json')
 async function setSwaggerStats(fastify, opts) {
@@ -162,6 +163,10 @@ async function instantiateApp() {
         req.pagination = { perPage: perPage, page: page }
         done()
     })
+
+    // Mine topK events
+    // TODO: must be very save, and minimal
+    fastify.addHook('preHandler', miner)
 
     fastify.register(rateLimit, config.get('PING_LIMITER'))
 
