@@ -1,0 +1,10 @@
+# prometheus.yml => - targets: ["localhost:3000"]
+./prometheus  --web.listen-address="localhost:9093"
+
+# http_request_summary_seconds{route='/'}
+# http_request_summary_seconds{method='POST'}
+# rate(http_request_duration_seconds_sum[5m]) / rate(http_request_duration_seconds_count[5m])  => average request for the last 5 minutes
+# sum(rate(nodejs_heap_space_size_used_bytes[5m])) by (space) / sum(rate(nodejs_heap_space_size_available_bytes[5m])) by (space)
+
+
+# histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) 

@@ -267,7 +267,7 @@ async function instantiateApp() {
     // TODO: secure all /admin routes ? 
     const secretPath = process.env.SECRET_PATH
     const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
-    if (NODE_ENV > -1) {
+    if (NODE_ENV > -1 && process.env.worker_id == '1') {
         // TODO: modify https://github.com/bacloud22/visitor-counter/ to 
         // accept fastify.mongo instance instead
         // const myMongoDatabase = fastify.mongo.client.db('dbname')
@@ -277,10 +277,11 @@ async function instantiateApp() {
         //     stats.record(req, reply)
         // })
         // fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
-
-        fastify.register(metricsPlugin, { endpoint: '/metrics' });
+        // Metrics exporter at least for one node to have a view on performance
+        fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true });
     }
 }
+
 const os = require('os')
 const cluster = require('cluster')
 const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
