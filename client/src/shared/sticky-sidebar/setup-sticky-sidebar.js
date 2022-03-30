@@ -1,5 +1,5 @@
 // Put here one liners with simple configurations
-import StickySidebar from 'sticky-sidebar';
+import StickySidebar from 'sticky-sidebar-v2';
 
 export const setupStickySidebar = async () => {
   return new Promise(function (resolve, reject) {

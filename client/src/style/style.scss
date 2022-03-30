@@ -30,7 +30,7 @@
     filter: var(--map-tiles-filter, none);
   }
 }
-// SIDE BAR TODO: add ResizeSensor.js
+
 @media screen and (max-width: 1600px) {
   .sidebar {
     display: none;
