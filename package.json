@@ -10,6 +10,9 @@
     "lint": "prettier --ignore-path .gitignore --check . && eslint  --ignore-path .gitignore .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "keywords": [
     "Node.js",
     "JavaScript",
