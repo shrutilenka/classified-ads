@@ -10,7 +10,6 @@ const NODE_ENV = {
 }[process.env.NODE_ENV]
 const pino = require('pino')
 
-// require ('newrelic')
 const dns = require('dns')
 const { fastifySchedulePlugin } = require('fastify-schedule')
 const fastify_ = require('fastify')

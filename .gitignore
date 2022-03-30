@@ -143,7 +143,6 @@ dist
 
 # Heroku
 # /client/dist
-/newrelic_agent.log
 /logs/all.log
 /logs/pm2/combined.log
 /logs/pm2/err.log

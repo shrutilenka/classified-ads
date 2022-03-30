@@ -62,7 +62,6 @@
     "jsonwebtoken": "^8.5.1",
     "lorem-ipsum": "^2.0.4",
     "middie": "^6.0.0",
-    "newrelic": "^8.8.0",
     "objectmodel": "^4.3.0",
     "pino": "^7.6.5",
     "point-of-view": "^5.0.0",
