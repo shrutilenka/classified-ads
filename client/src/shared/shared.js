@@ -52,6 +52,7 @@ export const setupShared = () => {
     [setupAdsRotator, false],
     [setupTips, true],
     [setupTour, false],
+    [renderShared, true],
   ]
   if (md.mobile()) {
     log.info('RUNNING ON A MOBILE DEVICE')
@@ -83,7 +84,6 @@ export const setupShared = () => {
   // Other function calls that are not yet promisified
   // because I'm not sure yet what's asynchronous in there
   setupMaps()
-  renderShared()
   // TODO: review sockets
   // setupSocket()
   // Global objects

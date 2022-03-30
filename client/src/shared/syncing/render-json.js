@@ -4,17 +4,24 @@
 
 import { markRequiredInputs } from './ReactiveUI/constraints'
 import { renderComments, renderTopByDiv, renderTopTags } from './renderers/renderer'
-export const renderShared = () => {
-  try {
-    if (window.__section__) {
-      renderTopTags(window.__section__)
+export const renderShared = async () => {
+  return new Promise(function (resolve, reject) {
+    try {
+      if (window.__section__) {
+        renderTopTags(window.__section__)
+      }
+      renderTopByDiv()
+      renderComments()
+      markRequiredInputs()
+      return resolve('### function "renderShared" run successfully')
+    } catch (error) {
+      console.log(
+        'EJS rendering error | ERROR: ',
+        error.message
+      )
+      return reject(new Error('### function "renderShared" failed'))
     }
-    renderTopByDiv()
-    renderComments()
-    markRequiredInputs()
-  } catch (error) {
-    console.log(error)
-  }
+  })
 }
 
 
