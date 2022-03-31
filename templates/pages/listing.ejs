@@ -25,49 +25,49 @@
     <h1 class="servervar">
       <%= title %>
     </h1>
-    <p>Posted by:
-    </p>
-    <img id='avatar' width="80" height="80" alt="User">
-    <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
-      <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
-    <% } %>
-    <% if (data.undraw) { %>
-      <div id="undraw-output">
-        <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= data.undraw.split('#')[0]+'.svg' %>" alt="<%= data.undraw.split('#')[0] %>" style="width: 40rem;">
-      </div>
-    <% } %>
+  <% if(typeof data.lang === 'undefined' || data.lang !== 'ar'){ %>
+    <div class="listing">
+  <% } else { %>
+    <div class="listing" dir="rtl">
+  <% }%>
     
-    <div id="font-picker"></div>
-    <% if (data.title && data.desc) { %>
-      <h2><%= data.title.charAt(0).toUpperCase() + data.title.slice(1) %></h2>
-      <p class="apply-font"><%- data.desc %></p>
-      <% if (data.section == 'donations') { %>
-        <div id="listing-map" ></div>
+      <p>Posted by:
+      </p>
+      <img id='avatar' width="80" height="80" alt="User">
+      <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
+        <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
       <% } %>
-      <br>
-      <hr>
-      <div class="d-flex">
-        <div class="mx-auto mx-lg-0">
-          <img id="imgg" src="<%- data.img %>" width="200rem"> 
+      <% if (data.undraw) { %>
+        <div id="undraw-output">
+          <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= data.undraw.split('#')[0]+'.svg' %>" alt="<%= data.undraw.split('#')[0] %>" style="width: 40rem;">
         </div>
-      </div>
-      <!-- The Modal -->
-      <div id="myModal" class="modal">
+      <% } %>
+      
+      <div id="font-picker"></div>
 
-        <!-- The Close Button -->
-        <span class="close">&times;</span>
+      <% if (data.title && data.desc) { %>
+        <h2><%= data.title.charAt(0).toUpperCase() + data.title.slice(1) %></h2>
+        <p class="apply-font"><%- data.desc %></p>
+        <% if (data.section == 'donations') { %>
+          <div id="listing-map" ></div>
+        <% } %>
+        <br>
+        <hr>
+        <div class="d-flex">
+          <div class="mx-auto mx-lg-0">
+            <img id="imgg" src="<%- data.img %>" width="200rem"> 
+          </div>
+        </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+          <span class="close">&times;</span>
+          <img class="modal-content" id="img01">
+          <div id="caption"></div>
+        </div>
+        <div class="row" id="sync-comments"></div>
+      <% } %>
 
-        <!-- Modal Content (The Image) -->
-        <img class="modal-content" id="img01">
-        
-        <!-- Modal Caption (Image Text) -->
-        <div id="caption"></div>
-      </div>
-
-
-      <div class="row" id="sync-comments"></div>
-
-    <% } %>
+    </div>
     <%- include('../partials/conf/prepare_js'); %>
     <%- include('../partials/shared/footer'); %>
   </div>

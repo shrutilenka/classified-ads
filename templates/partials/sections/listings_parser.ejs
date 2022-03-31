@@ -3,6 +3,9 @@
     <div class="col-sm col-md-6 col-xl-4">
         <div class="h-100 pb-3" id="<%= listings[i]._id %>-@@@@@">
             <div class="card mb-3 h-100 <%= listings[i].section %> <%= listings[i].a %> <%= listings[i].d %>">
+                <% if(typeof listings[i].img != 'undefined'){ %>
+                    <img src="<%- listings[i].img %>" alt="" class="card-img-top">
+                <% } %>
                 <div class="card-body d-flex flex-wrap align-content-between">
                     <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title.charAt(0).toUpperCase() + listings[i].title.slice(1) %></a></h5>
                     
