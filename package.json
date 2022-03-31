@@ -4,7 +4,7 @@
   "description": "A performant classified-ads website with maps and tags",
   "main": "index.js",
   "scripts": {
-    "build": "npm install && cd client && npm install && npm run dev:client && cd ..",
+    "build": "sudo apt-get install -y build-essential && npm install && cd client && npm install && npm run dev:client && cd ..",
     "start": "node app.js",
     "dev:start": "nodemon app.js",
     "lint": "prettier --ignore-path .gitignore --check . && eslint  --ignore-path .gitignore .",
