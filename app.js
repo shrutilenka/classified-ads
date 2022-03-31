@@ -8,7 +8,6 @@ const NODE_ENV = {
     'development': 1,
     'production': 2
 }[process.env.NODE_ENV]
-const pino = require('pino')
 
 const dns = require('dns')
 const { fastifySchedulePlugin } = require('fastify-schedule')
@@ -31,6 +30,10 @@ const metricsPlugin = require('fastify-metrics')
 const swStats = require('swagger-stats')
 const miner = require('./libs/decorators/miner').miner
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
+const swagger_ = require('./config/options/swagger')
+const logger_ = require('./config/options/logger')()
+const helmet_ = require('./config/options/helmet')()
+
 const apiSpec = require('./swagger.json')
 async function setSwaggerStats(fastify, opts) {
     await fastify.register(require('fastify-express'))
@@ -38,10 +41,9 @@ async function setSwaggerStats(fastify, opts) {
 }
 
 async function instantiateApp() {
-    const logger = config.get('HEROKU') ? true : pino('./logs/all.log')
     const fastify = fastify_({
-        logger: logger,
-        disableRequestLogging: true,
+        logger: logger_,
+        disableRequestLogging: false,
         keepAliveTimeout: 10000,
         requestTimeout: 5000,
     })
@@ -57,8 +59,7 @@ async function instantiateApp() {
 
     //  Run only on one node
     if (NODE_ENV < 1 /*&& process.env.worker_id == '1'*/) {
-        const swagger = require('./config/options/swagger')
-        fastify.register(require('fastify-swagger'), swagger.options)
+        fastify.register(require('fastify-swagger'), swagger_.options)
         console.log(`Please check localhost:${process.env.PORT || fastify.conf('NODE_PORT')}/documentation it's a nice start`)
         // fastify.register(setSwaggerStats)
         // setTimeout(() => {
@@ -77,7 +78,7 @@ async function instantiateApp() {
     // const ConfigProvider = require('fastify-feature-flags/dist/providers/config')
     // fastify.register(ffPlugin, { providers: [new ConfigProvider.ConfigProvider({ prefix: 'features' })] })
 
-    fastify.register(helmet, require('./config/options/helmet'))
+    fastify.register(helmet, helmet_)
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
     fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
