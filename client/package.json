@@ -20,6 +20,9 @@
     "font-picker": "^3.5.1",
     "geojson-validation": "^1.0.2",
     "holmes.js": "^1.17.3",
+    "i18next": "^21.6.14",
+    "i18next-browser-languagedetector": "^6.1.4",
+    "i18next-http-backend": "^1.4.0",
     "intro.js": "^5.0.0",
     "leaflet": "1.7.1",
     "leaflet.fullscreen": "^2.0.0",
@@ -33,6 +36,7 @@
     "sticky-sidebar-v2": "^1.1.1",
     "svg-injector": "^1.1.3",
     "tippy.js": "^6.3.7",
+    "translation-check": "^1.0.2",
     "vanilla-picker": "2.11.2"
   },
   "devDependencies": {

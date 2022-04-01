@@ -1,3 +1,7 @@
+import i18next from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import HttpApi from 'i18next-http-backend'
+import { i18nextPlugin, showTranslations } from 'translation-check'
 import {
   __ar_translations,
   __en_translations,
@@ -7,7 +11,34 @@ import { getCookies } from './helpers/get-cookies'
 import { jsI18n } from './helpers/vendors/jsi18n'
 import { langSelect } from './lang-select'
 
+
 export const setupI18n = async () => {
+  i18next
+    .use(HttpApi)
+    .use(LanguageDetector)
+    .use(i18nextPlugin)
+    .init({
+      fallbackLng: 'en-US',
+      debug: true,
+      ns: ['common'],
+      defaultNS: 'common',
+      backend: {
+        // load from i18next-gitbook repo
+        loadPath: '/locales/{{lng}}/common.json',
+        crossDomain: true
+      }
+    }).then(function(t) {
+      // initialized and ready to go!
+      document.getElementById('output').innerHTML = i18next.t('greetings.title')
+      document.getElementById("open-editor").onclick = function (){
+        showTranslations(i18next, { // optional options, if not provided it will guess based on your i18next config
+          sourceLng: 'en-US',
+          targetLngs: ['fr', 'ar'],
+          preserveEmptyStrings: false
+        }) 
+      }
+    })
+
   return new Promise(function (resolve, reject) {
     try {
       jsI18n.addLocale('ar', __ar_translations)

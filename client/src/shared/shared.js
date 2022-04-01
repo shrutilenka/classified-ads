@@ -1,24 +1,24 @@
 // import { setupStretchy } from "./stretchy/setup-stretchy";
-import { setupTips } from './accessibility/setupTips'
-import { setupTour } from './accessibility/setupTour'
-import { setupAdsRotator } from './ads/setup-ads-rotator'
-import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords'
-import { setupUndrawKeywords } from './auto-complete/setup-undraw-keywords'
-import { setupInteractiveCards } from './cards/setup-interactive-cards'
-import { setupPell } from './editor/setup-pell'
-import { setupFavourites } from './favourites/setup-favourites'
+import { setupTips } from './accessibility/setupTips';
+import { setupTour } from './accessibility/setupTour';
+import { setupAdsRotator } from './ads/setup-ads-rotator';
+import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords';
+import { setupUndrawKeywords } from './auto-complete/setup-undraw-keywords';
+import { setupInteractiveCards } from './cards/setup-interactive-cards';
+import { setupPell } from './editor/setup-pell';
+import { setupFavourites } from './favourites/setup-favourites';
 // import { setupFontPicker } from './fonts/setup-font-picker'
-import { dateFromObjectId } from './formatters/date-from-objectId'
-import { setupI18n } from './i18n/setup-i18n'
-import { loadFile } from './load-file/load-file'
+import { dateFromObjectId } from './formatters/date-from-objectId';
+import { setupI18n } from './i18n/setup-i18n';
+import { loadFile } from './load-file/load-file';
 // import { setupLeaflet } from "./maps/setup-leaflet";
-import { setupMaps } from './maps/setup-maps'
-import { setupAutoComplete } from './search/setup-autocomplete'
-import { setupHolmes } from './search/setup-holmes'
-import { setupStickySidebar } from './sticky-sidebar/setup-sticky-sidebar'
-import { renderShared } from './syncing/render-json'
-import { setupInputTags } from './tags/setup-input-tags'
-import { runToasts } from './toasts/toasts'
+import { setupMaps } from './maps/setup-maps';
+import { setupAutoComplete } from './search/setup-autocomplete';
+import { setupHolmes } from './search/setup-holmes';
+import { setupStickySidebar } from './sticky-sidebar/setup-sticky-sidebar';
+import { renderShared } from './syncing/render-json';
+import { setupInputTags } from './tags/setup-input-tags';
+import { runToasts } from './toasts/toasts';
 
 const MobileDetect = require('mobile-detect')
 
