@@ -65,16 +65,20 @@ First, no captures are attached here, follow with installation and see the beaut
 All other configurations should live in `/config/{NODE_env}.json` file.
 
 
+`.env` files hold secret keys and configurations which you want to hide.  
+All other configurations should live in `/config/{NODE_env}.json` file.
+
 - Install sass globally
 `npm install -g sass`
 -  Install webpack globally
 `npm install -g webpack`
 -  Create environment files
 `touch /.env && /client/.env`
--  Fulfill environment variables on server
+-  Fulfill environment variables on server (note that `localhost` is meant for easy deployment on your machine  
+while `development` is meant for deployment on cloud providers (tested on Heroku))
    - NODE_ENV=localhost
    - HONEYPOT_KEY=
-   - MONGODB_URI=mongodb+srv://###
+   - MONGODB_URI=mongodb+srv://### (optional for localhost env)
    - CREDS_PATH=./creds/##.json
    - GCLOUD_STORAGE_BUCKET=
    - JWT_SECRET=
@@ -88,16 +92,17 @@ All other configurations should live in `/config/{NODE_env}.json` file.
    - BORDERS_FILE_URL=
    - STATES_FILE_URL=
    -
--  Generate client public JS/CSS
-`npm run prestart`
 -  Preapare database
 MongoDB must be up with the following dbs and collections  
 `DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, users, visitors-default-current, visitors-default}`
--  Fulfill Google Cloud credentials (for storage)
-`./creds/############.json`
--  Change environment file accordingly
-`touch /.env && /client/.env`
+-  Fulfill Google Cloud credentials (for storage) (optional for localhost env)
+`./creds/############.json` 
+-  Change environment files accordingly
 -  Verify configuration on your environments as you want here `/config`
+- Build the whole project
+`npm run build`
+- Or don't be afraid of running commands here step by step: `sudo apt-get install -y build-essential && npm install && cd client && npm install && npm run dev:client && cd ..`
+
 
 ### Note
 

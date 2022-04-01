@@ -29,7 +29,9 @@
 
 ## Notes
 
-- Please check README
+- It is advised to install **Classified-ads** on Linux, I think you can try it on Windows or Mac if necessary.
+- Problems that might occur during installation are due to these two packages `htmltidy2` and `@smodin/fast-text-language-detection` which requires `node-gyp` which is tricky. I suggest to make `python` command available and pointing to `python2.7` on your system. This command `sudo apt-get install -y build-essential && ` when you run `npm run build` also helps with `node-gyp` installation.
+- Don't hesitate to open new issues about installation as well.
 
 ## Deployment
 
@@ -61,16 +63,16 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
    - BORDERS_FILE_URL=
    - STATES_FILE_URL=
    -
--  Generate client public JS/CSS
-`npm run prestart`
 -  Preapare database
 MongoDB must be up with the following dbs and collections  
 `DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, users, visitors-default-current, visitors-default}`
 -  Fulfill Google Cloud credentials (for storage) (optional for localhost env)
 `./creds/############.json` 
--  Change environment file accordingly
-`touch /.env && /client/.env`
+-  Change environment files accordingly
 -  Verify configuration on your environments as you want here `/config`
+- Build the whole project
+`npm run build`
+- Or don't be afraid of running commands here step by step: `sudo apt-get install -y build-essential && npm install && cd client && npm install && npm run dev:client && cd ..`
 
 ### Note
 
