@@ -9,10 +9,10 @@ const isHashable = (s) => s && typeof s === 'string' && s.length > 3
 
 function miner(request, reply, done) {
     try {
-        if (request.url.indexOf('listings') >= 0) {
-            console.log(request.method)
+        if (request.url.indexOf('listings') < 0) {
+            done()
+            return
         }
-
         // can add more if necessary
         const host = request.headers.host
         const ua = request.headers['user-agent']

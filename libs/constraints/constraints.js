@@ -44,7 +44,7 @@ const donationsSchema = () => {
             .prop('lng', S.number().maximum(180).minimum(-180))
             .prop('div', S.string().minLength(3).maxLength(40))
             .prop('section', S.string().enum(['donations']).required())
-            .prop('tagsLang', S.string().enum(['ar', 'en', 'fr']))
+            .prop('tagsLang', S.string().enum(['arabic', 'english', 'french']))
         // avatar, S.string().required()
     }
 }

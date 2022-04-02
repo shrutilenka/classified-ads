@@ -3,6 +3,7 @@ const { Storage } = require('@google-cloud/storage')
 // const Joi = require('joi')
 const path = require('path')
 const { format, promisify } = require('util')
+const sharp = require('sharp')
 
 const storage = new Storage({ keyFilename: process.env.CREDS_PATH })
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
@@ -72,6 +73,14 @@ module.exports = (fastify) => {
                     error: 'file not found'
                 })
             }
+            // TODO: must be safer
+            // TODO: should get another buffer (thumbnail) and upload as well
+            const buffer = await sharp(req.file.buffer)
+                .resize(1800, 948)
+                .toFormat("jpeg")
+                .jpeg({ quality: 80 })
+                .toBuffer()
+            
             if (NODE_ENV < 1) {
                 let data = await formatInsertDocument(QInstance, req, null, false)
                 reply.blabla([data, 'listing', section])
@@ -82,12 +91,14 @@ module.exports = (fastify) => {
                 const filename = suffix + path.extname(req.file.originalname)
                 const blob = bucket.file(filename)
                 const blobStream = blob.createWriteStream()
+                // const blobStream2 = blob.createWriteStream()
                 blobStream.on('error', (err) => { throw (err) })
                 blobStream.on('finish', async () => {
                     let data = await formatInsertDocument(QInstance, req, blob, true)
                     reply.blabla([data, 'listing', section])
                 })
-                blobStream.end(req.file.buffer)
+                blobStream.end(buffer)
+
             }
             
         }
