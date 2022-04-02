@@ -147,4 +147,6 @@ dist
 /logs/pm2/combined.log
 /logs/pm2/err.log
 /logs/pm2/out.log
-/tools
+
+/tools/*
+!/tools/.gitkeep
