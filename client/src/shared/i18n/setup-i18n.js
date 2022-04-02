@@ -1,6 +1,7 @@
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import HttpApi from 'i18next-http-backend'
+import locI18next from "loc-i18next"
 import { i18nextPlugin, showTranslations } from 'translation-check'
 import {
   __ar_translations,
@@ -10,7 +11,6 @@ import {
 import { getCookies } from './helpers/get-cookies'
 import { jsI18n } from './helpers/vendors/jsi18n'
 import { langSelect } from './lang-select'
-
 
 export const setupI18n = async () => {
   i18next
@@ -35,8 +35,10 @@ export const setupI18n = async () => {
           sourceLng: 'en-US',
           targetLngs: ['fr', 'ar'],
           preserveEmptyStrings: false
-        }) 
+        })
       }
+      const localize = locI18next.init(i18next)
+      localize("#btn1")
     })
 
   return new Promise(function (resolve, reject) {

@@ -27,6 +27,7 @@
     "leaflet": "1.7.1",
     "leaflet.fullscreen": "^2.0.0",
     "leaflet.markercluster": "^1.5.0",
+    "loc-i18next": "^0.1.4",
     "loglevel": "^1.7.1",
     "mobile-detect": "^1.4.5",
     "notyf": "^3.10.0",
