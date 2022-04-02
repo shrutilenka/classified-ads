@@ -121,8 +121,8 @@ async function instantiateApp() {
         backend: {
             loadPath: __dirname + '/data/locales/{{lng}}/translation.json'
         },
-        fallbackLng: 'en',
-        preload: ['en', 'ar', 'fr'],
+        fallbackLng: 'en-US',
+        preload: ['en-US', 'ar', 'fr'],
         cookiename: 'locale',
         detection: {
             order: ['cookie'],
