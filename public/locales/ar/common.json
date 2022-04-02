@@ -1,147 +1,27 @@
 {
-    "page_content":{
-       "donations":"<blockquote class='blockquote border p-2'>A donation is a gift for charity, humanitarian aid, or to benefit a cause. A donation may take various forms, including money, alms, services, or goods such as clothing, toys, food, or vehicles. A donation may satisfy medical needs such as blood or organs for transplant.</blockquote><footer class='blockquote-footer'><cite title='Wikipedia'>[Wikipedia]</cite></footer><p>However in Listings, blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. .<p>",
-       "skills":"<blockquote class='blockquote border p-2'>A skill is the learned ability to perform an action with determined results with good execution often within a given amount of time, energy, or both. Skills can often be divided into domain-general and domain-specific skills. For example, in the domain of work, some general skills would include time management, teamwork and leadership, self-motivation and others, whereas domain-specific skills would be used only for a certain job.</blockquote><footer class='blockquote-footer'><cite title='Wikipedia'>[Wikipedia]</cite></footer>",
-       "blogs":"In this section, blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. ",
-       "careful":"Before enjoying Listings, You must accept user policy. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. vblablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. .",
-       "Login":"Because we value privacy, Listings blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. ",
-       "Validation":"Before you can see your post, an Administrator needs to validate its content, later it becomes visible. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. .",
-       "about":"Listings is here to let anyone post on the internet, but <em>seriously</em> and for <em>free</em>. Like newspapers and magazines, Listings has these three main sections: <b>Donnations, Artworks and Blog posts.</b>"
-    },
-    "greetings":{
-       "title":"Hello!"
-    },
-    "listings|listings":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listings|donations":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listings|skills":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listings|blogs":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "index|listings":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "index|tags":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "index|division":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "index|keyword":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "tags|tags":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listing|id":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "message|not found":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listings|gwoogl":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listings|geolocation":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listing|donations":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listing|skills":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listing|blogs":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "message|server error":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "listing|contact":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    },
-    "message|contact":{
-       "title":"",
-       "intro":"",
-       "message":"",
-       "success":"",
-       "error":""
-    }
- }
+   "(today)": "مستجدات",
+   "(categories)": "أقسام",
+   "(donations)": "تبرعات",
+   "(skills)": "مهارات",
+   "(so-c)": "بطاقة رقمية 🔗",
+   "(blogs)": "مقالات",
+   "(weather)": "مناخ 🔗",
+   "(about)": "حول الموقع",
+   "(howto)": "كيفية",
+   "(tags)": "العلامات",
+   "(contact)": "اتصل",
+   "(policy)": "شروط الاستخدام",
+   "(login)": "تسجيل الدخول 🔒",
+   "|date|": " - , في مكان ما",
+   "(search)": "بحث",
+   "(exactsearch)": "بحث دقيق",
+   "(exact?)": "بالضبط؟",
+   "(sincedate)": "منذ",
+   "(fuzzysearch)": "بحث تقريبي",
+   "(description)": "وصف",
+   "(title)": "عنوان",
+   "(title|description)": "عنوان أو محتوى",
+   "(divisions)": "ولاية",
+   "(today-listings)": "قوائم اليوم",
+   "(tour-hello)": "تجربة تاور"
+}

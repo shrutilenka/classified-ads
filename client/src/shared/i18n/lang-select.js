@@ -1,6 +1,5 @@
 // eslint-disable-next-line max-len
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Localization @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-import { jsI18n } from './helpers/vendors/jsi18n'
 
 /**
  * Server hit on /i18n/:locale
@@ -9,7 +8,6 @@ import { jsI18n } from './helpers/vendors/jsi18n'
 
 export const langSelect = (lgu) => {
   // document.body.setAttribute('lang', lgu.value);
-  jsI18n.processPage()
   fetch(`/i18n/${lgu.value}`)
   setTimeout(() => {
     location.reload()
