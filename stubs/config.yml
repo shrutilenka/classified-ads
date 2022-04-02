@@ -8,3 +8,9 @@
 
 
 # histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) 
+
+# "scripts": {
+#   "tools": "cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip"
+# },
+
+# console.log(await sharp(req.file.buffer).resize({ width: 150 }).toBuffer())

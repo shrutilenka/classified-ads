@@ -6,5 +6,10 @@
   ],
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
-  }
+  },
+  "i18n-ally.localesPaths": [
+    "data/locales",
+    "public/locales",
+    "client/src/shared/i18n"
+  ]
 }
