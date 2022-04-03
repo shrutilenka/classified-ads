@@ -16,9 +16,9 @@ export const loadIllustrations = (keyword) => {
   if (lightbox.current) {
     lightbox.current.destroy()
   }
-  if (corpus.length && keyword.value) {
+  if (corpus.length && keyword) {
     const scoreIt = (tags) =>
-      tags.indexOf(keyword.value) > -1 && 1 / tags.length
+      tags.indexOf(keyword) > -1 && 1 / tags.length
     const scores = corpus.map(scoreIt)
     const bestImgIdx = getAllIndexes(scores, Math.max(...scores))
     const simpleLightboxInput = bestImgIdx

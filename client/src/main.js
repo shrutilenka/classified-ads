@@ -12,7 +12,6 @@
   - new Notyf: https://github.com/caroso1222/notyf
   - holmes: https://github.com/Haroenv/holmes
   - new autoComplete:  https://github.com/Pixabay/JavaScript-autoComplete
-  - jsI18n: https://github.com/danabr/jsI18n
   - new Avatar: https://github.com/MatthewCallis/avatar
   - new FontPicker: https://github.com/samuelmeuli/font-picker
   - Stretchy: https://github.com/LeaVerou/stretchy

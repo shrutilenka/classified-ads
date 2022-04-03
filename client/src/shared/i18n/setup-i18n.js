@@ -8,7 +8,12 @@ import { langSelect } from './lang-select'
 
 
 export const setupI18n = async () => {
-  window.langSelect = langSelect
+  const selectElement = document.querySelector('#langSelect')
+  selectElement.addEventListener('change', (event) => {
+    const lang = event.target.value
+    langSelect(lang)
+  })
+
   const cookizz = getCookies()
   return new Promise(function (resolve, reject) {
     try {

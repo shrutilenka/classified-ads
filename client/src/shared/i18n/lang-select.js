@@ -8,7 +8,7 @@
 
 export const langSelect = (lgu) => {
   // document.body.setAttribute('lang', lgu.value);
-  fetch(`/i18n/${lgu.value}`)
+  fetch(`/i18n/${lgu}`)
   setTimeout(() => {
     location.reload()
   }, 3000)

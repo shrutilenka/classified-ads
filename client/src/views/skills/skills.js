@@ -2,4 +2,9 @@ import { setupColorPicker } from './color-picker/setup-color-picker'
 import { loadIllustrations } from './load-illustrations/load-illustrations'
 
 setupColorPicker()
-window.loadIllustrations = loadIllustrations
+const selectElement = document.querySelector('#autoComplete-illu')
+
+selectElement.addEventListener('selection', (event) => {
+  const value = event.detail.selection.value
+  loadIllustrations(value)
+})
