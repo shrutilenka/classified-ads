@@ -14,3 +14,27 @@
 # },
 
 # console.log(await sharp(req.file.buffer).resize({ width: 150 }).toBuffer())
+
+# ~/fluentd/bin$ ./fluentd -c ~/fluentd/fluent.conf
+# <source>
+#   @type tail
+#   path "/path/all.log"
+#   pos_file "/path/all.log.pos"
+#   format json
+#   time_key time
+#   <parse>
+#     time_key time
+#     @type json
+#     unmatched_lines 
+#   </parse>
+# </source>
+# <match **>
+#   @type mongo
+#   database "logging"
+#   collection "classified-ads"
+#   buffer_chunk_limit 8m
+#   time_key time
+#   <inject>
+#     time_key time
+#   </inject>
+# </match>
