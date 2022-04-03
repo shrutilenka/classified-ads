@@ -11,5 +11,8 @@
     "data/locales",
     "public/locales",
     "client/src/shared/i18n"
-  ]
+  ],
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }
