@@ -201,9 +201,9 @@ async function routes(fastify, options) {
         reply.view('/templates/pages/blog', {
             title: 'Categories',
             sections: [
-                { id: 'Donations', html: req.t('page_content.donations') },
-                { id: 'Skills', html: req.t('page_content.skills') },
-                { id: 'Blogs', html: req.t('page_content.blogs') }
+                { id: 'Donations', html: req.t('doc.donations') },
+                { id: 'Skills', html: req.t('doc.skills') },
+                { id: 'Blogs', html: req.t('doc.blogs') }
             ]
         })
     })
@@ -212,8 +212,8 @@ async function routes(fastify, options) {
         reply.view('/templates/pages/blog', {
             title: 'What is Classified-ads-48',
             sections: [
-                { id: 'What is', html: req.t('page_content.about') },
-                { id: 'Careful', html: req.t('page_content.careful') }
+                { id: 'What is', html: req.t('doc.about') },
+                { id: 'Careful', html: req.t('doc.careful') }
             ]
         })
     })
@@ -222,9 +222,9 @@ async function routes(fastify, options) {
         reply.view('/templates/pages/blog', {
             title: 'How to post on Listings',
             sections: [
-                { id: 'Careful', html: req.t('page_content.careful') },
-                { id: 'Login', html: req.t('page_content.login') },
-                { id: 'Validation', html: req.t('page_content.validation') }
+                { id: 'Careful', html: req.t('doc.careful') },
+                { id: 'Login', html: req.t('doc.login') },
+                { id: 'Validation', html: req.t('doc.validation') }
             ]
         })
     })

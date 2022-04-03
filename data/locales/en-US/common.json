@@ -19,21 +19,21 @@
       },
       "donations": {
          "title": "",
-         "intro": "",
+         "intro": "Share or look for used items nextdoor",
          "message": "",
          "success": "Yep we got some donations :)",
          "error": ""
       },
       "skills": {
          "title": "",
-         "intro": "",
+         "intro": "Share skills",
          "message": "",
          "success": "Yep we got some skills :)",
          "error": ""
       },
       "blogs": {
          "title": "",
-         "intro": "",
+         "intro": "Creative passions, hobbies and passtimes!",
          "message": "",
          "success": "Yep we got some blogs :)",
          "error": ""
