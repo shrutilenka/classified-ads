@@ -37,8 +37,6 @@ async function routes(fastify, options) {
             20, '', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
-            title: 'Classified-ads-48',
-            context: 'index',
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage)
@@ -84,7 +82,7 @@ async function routes(fastify, options) {
             tag, 'origin', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
-            title: tag,
+            subtitle: tag,
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage)
@@ -99,7 +97,7 @@ async function routes(fastify, options) {
             tag, 'parent', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
-            title: tag,
+            subtitle: tag,
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage)
@@ -114,7 +112,7 @@ async function routes(fastify, options) {
             tag, 'granpa', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
-            title: tag,
+            subtitle: tag,
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage)
@@ -129,7 +127,7 @@ async function routes(fastify, options) {
             division, req.pagination)
         const { page, perPage } = req.pagination
         const data = {
-            title: division,
+            subtitle: division,
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage)
@@ -144,7 +142,7 @@ async function routes(fastify, options) {
             keyword, req.pagination)
         const { page, perPage } = req.pagination
         const data = {
-            title: keyword,
+            subtitle: keyword,
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage)

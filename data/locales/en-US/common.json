@@ -1,5 +1,4 @@
 {
-   "foo": "bar",
    "doc": {
       "donations": "<blockquote class='blockquote border p-2'>A donation is a gift for charity, humanitarian aid, or to benefit a cause. A donation may take various forms, including money, alms, services, or goods such as clothing, toys, food, or vehicles. A donation may satisfy medical needs such as blood or organs for transplant.</blockquote><footer class='blockquote-footer'><cite title='Wikipedia'>[Wikipedia]</cite></footer><p>However in Listings, blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. .<p>",
       "skills": "<blockquote class='blockquote border p-2'>A skill is the learned ability to perform an action with determined results with good execution often within a given amount of time, energy, or both. Skills can often be divided into domain-general and domain-specific skills. For example, in the domain of work, some general skills would include time management, teamwork and leadership, self-motivation and others, whereas domain-specific skills would be used only for a certain job.</blockquote><footer class='blockquote-footer'><cite title='Wikipedia'>[Wikipedia]</cite></footer>",
@@ -11,72 +10,66 @@
    },
    "listings": {
       "listings": {
-         "title": "",
+         "title": "Classified-ads - All sections",
          "intro": "Classified advertising brought to the web",
-         "message": "",
          "success": "We got listings from all sections :)",
          "error": ""
       },
       "donations": {
-         "title": "",
+         "title": "Classified-ads - Donations: {{section}}",
          "intro": "Share or look for used items nextdoor",
-         "message": "",
          "success": "Yep we got some donations :)",
          "error": ""
       },
       "skills": {
-         "title": "",
+         "title": "Classified-ads - Skills: {{section}}",
          "intro": "Share skills",
-         "message": "",
          "success": "Yep we got some skills :)",
          "error": ""
       },
       "blogs": {
-         "title": "",
+         "title": "Classified-ads - Blogs: {{section}}",
          "intro": "Creative passions, hobbies and passtimes!",
-         "message": "",
          "success": "Yep we got some blogs :)",
          "error": ""
       },
       "gwoogl": {
-         "title": "",
-         "intro": "",
-         "message": "",
+         "title": "Classified-ads - Search results",
+         "intro": "Classified advertising brought to the web",
          "success": "Yep, we got results for your search :)",
          "error": ""
       },
       "geolocation": {
-         "title": "",
-         "intro": "",
-         "message": "",
+         "title": "Classified-ads - Geolocated results",
+         "intro": "Classified advertising brought to the web",
          "success": "",
          "error": ""
       }
    },
    "index": {
       "listings": {
-         "title": "",
+         "title": "Classified-ads - Today's listings",
          "intro": "",
          "message": "",
          "success": "",
          "error": ""
       },
       "tags": {
-         "title": "",
+         "title": "Classified-ads - Tag: {{subtitle}}",
          "intro": "",
          "message": "",
          "success": "We got listings from all sections which are related to the tag :)",
          "error": ""
       },
       "division": {
-         "title": "",
+         "title": "Classified-ads - Division: {{subtitle}}",
          "intro": "",
          "message": "",
          "success": "We got listings from all sections which are located in this division :)",
          "error": ""
       },
       "keyword": {
-         "title": "",
+         "title": "Classified-ads - Keyword: {{subtitle}}",
          "intro": "",
          "message": "",
          "success": "We got listings from all sections for this keyword :)",

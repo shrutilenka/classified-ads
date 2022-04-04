@@ -119,7 +119,7 @@ async function instantiateApp() {
     // Seeming heavy and not so important bootstrap stuff 
     i18next.use(Backend).use(i18nextMiddleware.LanguageDetector).init({
         backend: {
-            loadPath: __dirname + '/data/locales/{{lng}}/translation.json'
+            loadPath: __dirname + '/data/locales/{{lng}}/common.json'
         },
         fallbackLng: 'en-US',
         preload: ['en-US', 'ar', 'fr'],
