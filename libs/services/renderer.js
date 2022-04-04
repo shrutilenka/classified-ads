@@ -22,7 +22,7 @@ module.exports = function (data, route, kind, req) {
     // console.log(JSON.stringify(data) + '\n' + route + '\n' + kind)
     const { section, subtitle } = data
     const UXData = { section: section, subtitle: subtitle, returnObjects: true }
-    console.log(req.t(`${route}.${kind}`, UXData))
+    // console.log(req.t(`${route}.${kind}`, UXData))
 
     return Object.assign(
         req.t(`${route}.${kind}`, UXData),
