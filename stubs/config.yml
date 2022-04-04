@@ -1,40 +1,40 @@
 # prometheus.yml => - targets: ["localhost:3000"]
 ./prometheus  --web.listen-address="localhost:9093"
-
 # http_request_summary_seconds{route='/'}
 # http_request_summary_seconds{method='POST'}
 # rate(http_request_duration_seconds_sum[5m]) / rate(http_request_duration_seconds_count[5m])  => average request for the last 5 minutes
 # sum(rate(nodejs_heap_space_size_used_bytes[5m])) by (space) / sum(rate(nodejs_heap_space_size_available_bytes[5m])) by (space)
-
-
 # histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) 
 
-# "scripts": {
-#   "tools": "cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip"
-# },
 
-# console.log(await sharp(req.file.buffer).resize({ width: 150 }).toBuffer())
-
+# fluent-gem install fluent-plugin-mongo
 # ~/fluentd/bin$ ./fluentd -c ~/fluentd/fluent.conf
 # <source>
 #   @type tail
 #   path "/path/all.log"
 #   pos_file "/path/all.log.pos"
-#   format json
-#   time_key time
-#   <parse>
-#     time_key time
-#     @type json
-#     unmatched_lines 
-#   </parse>
+#   tag req.ingest.fluentd
+#   format json # one JSON per line
+#   time_key time # optional; default = time
 # </source>
-# <match **>
+
+# <match req.ingest.fluentd>
 #   @type mongo
-#   database "logging"
-#   collection "classified-ads"
-#   buffer_chunk_limit 8m
-#   time_key time
-#   <inject>
-#     time_key time
-#   </inject>
+#   database logging #(required)
+#   collection classified-ads #(optional; default="untagged")
+#   flush_interval 10s
 # </match>
+
+# where is: grep -r -- 'logrotate.conf' /etc/cron*
+# service: /etc/logrotate.d
+# run in debug mode: /usr/sbin/logrotate -d /etc/logrotate.d/*
+
+# /path/classified-ads/logs/all.log {
+# 	hourly
+# 	rotate 12
+# 	compress
+# 	delaycompress
+# 	missingok
+# 	notifempty
+## 	create 644 root root
+# }

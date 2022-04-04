@@ -150,3 +150,5 @@ dist
 
 /tools/*
 !/tools/.gitkeep
+logs/all.log.*
+logs/all.log.pos

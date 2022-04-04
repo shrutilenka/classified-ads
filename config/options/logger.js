@@ -13,6 +13,7 @@ module.exports = () => {
                     hostname: request.hostname,
                     remoteAddress: request.ip,
                     remotePort: request.socket.remotePort,
+                    ingest: 'fluentd'
                 }
             },
         },

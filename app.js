@@ -27,18 +27,18 @@ const i18next = require('i18next')
 const Backend = require('i18next-fs-backend')
 const i18nextMiddleware = require('i18next-http-middleware')
 const metricsPlugin = require('fastify-metrics')
-const swStats = require('swagger-stats')
+// const swStats = require('swagger-stats')
 const miner = require('./libs/decorators/miner').miner
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 const swagger_ = require('./config/options/swagger')
 const logger_ = require('./config/options/logger')()
 const helmet_ = require('./config/options/helmet')()
 
-const apiSpec = require('./swagger.json')
-async function setSwaggerStats(fastify, opts) {
-    await fastify.register(require('fastify-express'))
-    fastify.register(swStats.getFastifyPlugin, { });
-}
+// const apiSpec = require('./swagger.json')
+// async function setSwaggerStats(fastify, opts) {
+//     await fastify.register(require('fastify-express'))
+//     fastify.register(swStats.getFastifyPlugin, { });
+// }
 
 async function instantiateApp() {
     const fastify = fastify_({
