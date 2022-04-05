@@ -84,7 +84,7 @@ async function routes(fastify, options, next) {
             reply.blabla([data, 'listing', 'id'], req)
             return reply
         }
-        reply.blabla([data, 'message', 'not found'], req)
+        reply.blabla([{}, 'message', 'not-found'], req)
         return reply
     })
 
@@ -201,7 +201,7 @@ async function routes(fastify, options, next) {
             ? await QInstance.getDocumentById(req.params.id, false, req.params.username)
             : undefined
         if (!elem) {
-            reply.blabla([{}, 'listing', 'not found'], req)
+            reply.blabla([{}, 'message', 'not found'], req)
             return reply
         }
         const from = req.params.username

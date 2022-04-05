@@ -18,60 +18,56 @@
       "donations": {
          "title": "Classified-ads - {{section}}",
          "intro": "Share or look for used items nextdoor",
-         "success": "Yep we got some donations :)",
+         "success": "We got some donations :)",
          "error": ""
       },
       "skills": {
          "title": "Classified-ads - {{section}}",
          "intro": "Share skills",
-         "success": "Yep we got some skills :)",
+         "success": "We got some skills :)",
          "error": ""
       },
       "blogs": {
          "title": "Classified-ads - {{section}}",
          "intro": "Creative passions, hobbies and passtimes!",
-         "success": "Yep we got some blogs :)",
+         "success": "We got some blogs :)",
          "error": ""
       },
       "gwoogl": {
          "title": "Classified-ads - Search results",
          "intro": "Classified advertising brought to the web",
-         "success": "Yep, we got results for your search :)",
+         "success": "We got some listings for your search :)",
          "error": ""
       },
       "geolocation": {
          "title": "Classified-ads - Geolocated results",
          "intro": "Classified advertising brought to the web",
-         "success": "",
+         "success": "We got some listings nearby :)",
          "error": ""
       }
    },
    "index": {
       "listings": {
          "title": "Classified-ads - Today's listings",
-         "intro": "",
-         "message": "",
+         "intro": "Classified advertising brought to the web",
          "success": "",
          "error": ""
       },
       "tags": {
          "title": "Classified-ads - Tag: {{subtitle}}",
-         "intro": "",
-         "message": "",
+         "intro": "Classified advertising brought to the web",
          "success": "We got listings from all sections which are related to the tag :)",
          "error": ""
       },
       "division": {
          "title": "Classified-ads - Division: {{subtitle}}",
          "intro": "",
-         "message": "",
          "success": "We got listings from all sections which are located in this division :)",
          "error": ""
       },
       "keyword": {
          "title": "Classified-ads - Keyword: {{subtitle}}",
          "intro": "",
-         "message": "",
          "success": "We got listings from all sections for this keyword :)",
          "error": ""
       }
@@ -80,69 +76,51 @@
       "tags": {
          "title": "",
          "intro": "",
-         "message": "",
          "success": "",
          "error": ""
       }
    },
    "listing": {
       "id": {
-         "title": "",
-         "intro": "",
-         "message": "",
-         "success": "",
+         "title": "Classified-ads - {{section}}",
+         "success": "We got the listing :)",
          "error": ""
       },
       "donations": {
-         "title": "",
-         "intro": "",
-         "message": "",
-         "success": "",
-         "error": ""
+         "title": "Classified-ads - {{section}}",
+         "success": "Listing will be visible after moderation. You can also deactivate the listing for a while :)",
+         "error": "Image will be loaded shortly!"
       },
       "skills": {
-         "title": "",
-         "intro": "",
-         "message": "",
-         "success": "",
-         "error": ""
+         "title": "Classified-ads - {{section}}",
+         "success": "Listing will be visible after moderation. You can also deactivate the listing for a while :)",
+         "error": "Image will be loaded shortly!"
       },
       "blogs": {
-         "title": "",
-         "intro": "",
-         "message": "",
-         "success": "",
-         "error": ""
+         "title": "Classified-ads - {{section}}",
+         "success": "Listing will be visible after moderation. You can also deactivate the listing for a while :)",
+         "error": "Image will be loaded shortly!"
       },
       "contact": {
-         "title": "",
-         "intro": "",
-         "message": "",
-         "success": "",
+         "title": "Classified-ads - Contact",
+         "success": "Email successfully sent to publisher",
          "error": ""
       }
    },
    "message": {
-      "not found": {
-         "title": "",
-         "intro": "",
+      "not-found": {
+         "title": "Classified-ads - Error",
          "message": "No listing found, it can be deactivated or not approved yet :(",
          "success": "",
          "error": "Listing not found"
       },
       "server error": {
-         "title": "",
-         "intro": "",
-         "message": "",
-         "success": "",
-         "error": ""
+         "title": "Classified-ads - Error",
+         "message": "Oops, an internal error accured :( Please try again",
       },
       "contact": {
          "title": "",
-         "intro": "",
-         "message": "",
-         "success": "",
-         "error": ""
+         "message": ""
       }
    }
 }
