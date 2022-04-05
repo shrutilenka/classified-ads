@@ -38,3 +38,6 @@
 # 	notifempty
 ## 	create 644 root root
 # }
+
+# npm i -g @bull-monitor/cli
+# bull-monitor -p 3099 -q orders

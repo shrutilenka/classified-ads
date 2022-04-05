@@ -27,7 +27,7 @@
     "@toreda/adt": "^0.4.0",
     "bcryptjs": "^2.4.3",
     "bloom-filters": "^2.0.0",
-    "bull": "^4.8.0",
+    "bull": "^4.8.1",
     "config": "^3.3.7",
     "csv": "^6.0.5",
     "dotenv": "^14.2.0",
