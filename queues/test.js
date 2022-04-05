@@ -1,6 +1,6 @@
-const { ordersQueue, createNewOrder } = require('./orders-queue')
+const { mailsQueue, createNewMail } = require('./queue')
 
-createNewOrder({ name: 'order1', price: 10 })
-createNewOrder({ name: 'order2', price: 5 })
-createNewOrder({ name: 'order3', price: 20 })
-createNewOrder({ name: 'order4', price: 100 })
+await createNewMail({ to: 'user1', event: 'account activation' })
+await createNewMail({ to: 'user1', event: 'listing deactivation' })
+await createNewMail({ to: 'user1', event: 'listing activation' })
+await createNewMail({ to: 'user1', event: 'new comment' })
