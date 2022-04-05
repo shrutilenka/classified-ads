@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 // Renderer just maps messages (multilanguale) to routes in different contexts
 // It customizes i18n translations for an perfect UX  
 
@@ -14,9 +13,9 @@
  * get('listings/tags') => 'tags.tags'
  */
 module.exports = function (data, route, kind, req) {
-    // console.log(JSON.stringify(data) + '\n' + route + '\n' + kind)
     const { section, subtitle } = data
     const UXData = { section: section, subtitle: subtitle, returnObjects: true }
+    // console.log(req.t(`${route}.${kind}`, UXData))
     return Object.assign(
         req.t(`${route}.${kind}`, UXData),
         data,

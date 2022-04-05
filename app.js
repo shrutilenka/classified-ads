@@ -128,7 +128,8 @@ async function instantiateApp() {
             order: ['cookie'],
             lookupCookie: 'locale',
             caches: ['cookie']
-        }
+        },
+        // debug: true,
     })
 
     fastify.register(i18nextMiddleware.plugin, {
