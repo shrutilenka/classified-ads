@@ -1,6 +1,6 @@
 // import { LIS } from '../../helpers/lis'
 import introJs from "intro.js";
-import { getCookies } from './helpers/get-cookies';
+import { getCookies } from '../../helpers/get-cookies';
 export const setupTour = async () => {
   return new Promise(function (resolve, reject) {
     try {

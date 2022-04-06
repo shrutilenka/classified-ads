@@ -1,6 +1,6 @@
 // import { LIS } from '../../helpers/lis'
 import { Notyf } from 'notyf'
-import { getCookies } from './helpers/get-cookies'
+import { getCookies } from '../../helpers/get-cookies'
 export const setupTips = async () => {
   return new Promise(function (resolve, reject) {
     try {

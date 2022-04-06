@@ -213,8 +213,7 @@ PipeLine.prototype = {
         return this
     },
     // Expects this.data to be body having body.tags
-    // only if one single tag, and in English !!!
-    // TODO: could be much cleaner
+    // only if for the first tag !!!
     deriveTagsParents: function () {
         const english = googleTagsEnLite.indexOf(this.data.tags[0]) > -1
         const french = english ? false : googleTagsFrLite.indexOf(this.data.tags[0]) > -1

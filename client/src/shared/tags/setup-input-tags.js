@@ -1,8 +1,9 @@
+import { getCookies } from '../../helpers/get-cookies'
 import { newTagify } from './helpers/new-tagify'
 
 const inputElm = document.querySelector('#donations') || document.querySelector('#skills')
-let enTags, arTags, frTags
 let tagifyObj
+let tags = {}
 const choices = document.getElementsByClassName('tagsLang')
 // TODO: Context specific. Deal with languages.
 export const setupInputTags = async () => {
@@ -24,31 +25,39 @@ export const setupInputTags = async () => {
 
     const promises = dataURLs.map(url => fetch(url).then(y => y.json()))
     Promise.all(promises).then(arr => {
-      arTags = getTags(arr[0].tags)
-      enTags = getTags(arr[1].tags)
-      frTags = getTags(arr[2].tags)
+      tags['ar'] = getTags(arr[0].tags)
+      tags['en-US'] = getTags(arr[1].tags)
+      tags['fr'] = getTags(arr[2].tags)
+      tagifyPage()
       return resolve('### function "setupInputTags" run successfully')
     }).catch(err => {
       return reject(new Error('### function "setupInputTags" failed'))
     })
-
-    const enChoice = choices[0]
-    const arChoice = choices[1]
-    const frChoice = choices[2]
-    enChoice.onclick = function () {
-      if (enTags && inputElm) {
-        tagifyObj = newTagify(tagifyObj, inputElm, enTags)
+    // Tagify the current page based on section and current language
+    function tagifyPage() {
+    // Default load tags based on user language
+      const cookizz = getCookies()
+      const lang = cookizz.locale
+      if(tags[lang]) {
+        tagifyObj = newTagify(tagifyObj, inputElm, tags[lang])
+        tagifyObj.lang = lang
       }
-    }
-    arChoice.onclick = function () {
-      if (arTags && inputElm) {
-        tagifyObj = newTagify(tagifyObj, inputElm, arTags)
-      }
-    }
-    frChoice.onclick = function () {
-      if (frTags && inputElm) {
-        tagifyObj = newTagify(tagifyObj, inputElm, frTags)
-      }
+      [].forEach.call(choices, function (choice) {
+        const lang = choice.value
+        choice.onclick = function () {
+          console.log('new language for tags')
+          if (tags[lang] && inputElm) {
+            if(tagifyObj && tagifyObj.lang !== lang) {
+              // tagifyObj.destroy()
+              tagifyObj = newTagify(tagifyObj, inputElm, tags[lang])
+            }else if(!tagifyObj) {
+              tagifyObj = newTagify(tagifyObj, inputElm, tags[lang])
+            }
+            tagifyObj.lang = lang
+          }
+        }
+      })
+      
     }
   })
 }
