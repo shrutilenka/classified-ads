@@ -41,3 +41,5 @@
 
 # npm i -g @bull-monitor/cli
 # bull-monitor -p 3099 -q orders
+
+# http://www.mapshaper.org/
