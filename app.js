@@ -219,7 +219,7 @@ async function instantiateApp() {
 
     fastify.register(serve, { root: path.join(__dirname, 'public') })
 
-    const { ops: bootstrap } = require('./bootstrap.js')
+    const { ops: bootstrap } = require('./bootstrap/bootstrap.js')
 
     //  Run only on one node
     // no on heroku 
