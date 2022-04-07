@@ -2,40 +2,41 @@
 <html>
 
 <head>
-    <%- include('../partials/shared/head'); %>
+  <%- include('../partials/shared/head'); %>
 </head>
 
 <body>
-    <%- include('../partials/shared/navbar'); %>
-<!-- <div id="upper_left" class="svg mt-4"></div>
+  <%- include('../partials/shared/navbar'); %>
+  <!-- <div id="upper_left" class="svg mt-4"></div>
 <div id="upper_right" class="svg mt-4"></div> -->
-<!-- <div id="lower_left"></div> -->
-<!--<div id="lower_right" class="svg"></div> -->
+  <!-- <div id="lower_left"></div> -->
+  <!--<div id="lower_right" class="svg"></div> -->
 
-<div class="container">
+  <div class="container">
     <div class="head">
-        <div class="headerobjectswrapper my-3" style="position:relative;">
-            <div class="sexybox d-none d-lg-inline servervar" style="min-width:18%;position:absolute;left:62%;top:50%;transform:translateY(-50%)"><span style="font-style: italic; font-size: smaller;"><%= intro %></div>
-            <div><h1 class="display-1 text-uppercase my-2 servervar"><%= title %></h1></div>
+      <div class="headerobjectswrapper my-3" style="position:relative;">
+        <div class="sexybox d-none d-lg-inline servervar" style="min-width:18%;position:absolute;left:62%;top:50%;transform:translateY(-50%)"><span style="font-style: italic; font-size: smaller;"><%= intro %></div>
+        <div>
+          <h1 class="display-1 text-uppercase my-2 servervar"><%= title %></h1>
         </div>
-        <div class="subhead">
-            <!-- TODO: reference to context: reference of a country -->
-            <span data-trans="|date|">Algeria, somewhere - </span><%= new Intl.DateTimeFormat('ar-DZ', {
+      </div>
+      <div class="subhead">
+        <!-- TODO: reference to context: reference of a country -->
+        <span data-trans="|date|">Algeria, somewhere - </span><%= new Intl.DateTimeFormat('ar-DZ', {
                 year: 'numeric',
                 month: 'long',
                 day: '2-digit'
             }).format(new Date()) %>
-        </div>
+      </div>
     </div>
     <div id="sync-top-tags"></div>
     <%- include('../partials/sections/geo_search_map'); %>
     <%- include('../partials/forms/gwoogl'); %>
     <div class="search d-flex py-4">
-        <div class="mx-auto mx-lg-0">
-            <label for="qsearch">Highlight listings</label>
-            <input type="qsearch" name="qsearch" placeholder="Today listings"
-                   data-trans="placeholder=(today-listings);html=(today-listings)" required>
-        </div>
+      <div class="mx-auto mx-lg-0">
+        <label for="qsearch">Highlight listings</label>
+        <input type="qsearch" name="qsearch" placeholder="Today listings" data-trans="placeholder=(today-listings);html=(today-listings)" required>
+      </div>
     </div>
     <hr>
     <h2 class="pb-2">Listings</h2>
@@ -46,8 +47,9 @@
 
     <%- include('../partials/conf/prepare_js'); %>
     <%- include('../partials/shared/footer'); %>
-</div>
+  </div>
 
 </body>
 <%- include('../partials/conf/afterbody'); %>
+
 </html>

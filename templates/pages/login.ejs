@@ -7,35 +7,36 @@
 
 <body>
   <div class="container">
-  <%- include('../partials/shared/navbar'); %>
-  <div class="col-sm-6 col-sm-offset-3">
+    <%- include('../partials/shared/navbar'); %>
+    <div class="col-sm-6 col-sm-offset-3">
 
-    <h1><span class="fa fa-sign-in"></span> Login</h1>
+      <h1><span class="fa fa-sign-in"></span> Login</h1>
 
-    <!-- LOGIN FORM -->
-    <form action="/login" method="post" name="doLogin">
+      <!-- LOGIN FORM -->
+      <form action="/login" method="post" name="doLogin">
         <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="username">
+          <label>Email</label>
+          <input type="text" class="form-control" name="username">
         </div>
         <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
+          <label>Password</label>
+          <input type="password" class="form-control" name="password">
         </div>
 
         <button type="submit" class="btn btn-warning btn-lg">Login</button>
-    </form>
+      </form>
 
-    <hr>
+      <hr>
 
-    <p>Need an account? <a href="/signup">Signup</a></p>
-    <p>Or go <a href="/">home</a>.</p>
+      <p>Need an account? <a href="/signup">Signup</a></p>
+      <p>Or go <a href="/">home</a>.</p>
 
+    </div>
+    <%- include('../partials/shared/footer'); %>
   </div>
-  <%- include('../partials/shared/footer'); %>
-  </div>
-  
+
   <%- include('../partials/conf/prepare_js'); %>
 </body>
 <%- include('../partials/conf/afterbody'); %>
+
 </html>

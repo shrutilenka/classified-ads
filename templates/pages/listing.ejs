@@ -4,12 +4,12 @@
 <head>
   <%- include('../partials/shared/head'); %>
   <% if(typeof(title) != 'undefined' && title === 'Reactivate') { %>
-    <style>
-      body {
-        background-image: linear-gradient(transparent 50%, rgb(226 169 169 / 50%) 50%);
-        background-size: 1px 4px;
-      }
-    </style>
+  <style>
+    body {
+      background-image: linear-gradient(transparent 50%, rgb(226 169 169 / 50%) 50%);
+      background-size: 1px 4px;
+    }
+  </style>
   <% } %>
 </head>
 
@@ -25,38 +25,38 @@
     <h1 class="servervar">
       <%= title %>
     </h1>
-  <% if(typeof data.lang === 'undefined' || data.lang !== 'ar'){ %>
+    <% if(typeof data.lang === 'undefined' || data.lang !== 'ar'){ %>
     <div class="listing">
-  <% } else { %>
-    <div class="listing" dir="rtl">
-  <% }%>
-  <%- include('../partials/sections/breadcrumb'); %>
-      
-      <p>Posted by:
-      </p>
-      <img id='avatar' width="80" height="80" alt="User">
-      <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
+      <% } else { %>
+      <div class="listing" dir="rtl">
+        <% }%>
+        <%- include('../partials/sections/breadcrumb'); %>
+
+        <p>Posted by:
+        </p>
+        <img id='avatar' width="80" height="80" alt="User">
+        <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
         <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
-      <% } %>
-      <% if (data.undraw) { %>
+        <% } %>
+        <% if (data.undraw) { %>
         <div id="undraw-output">
           <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= data.undraw.split('#')[0]+'.svg' %>" alt="<%= data.undraw.split('#')[0] %>" style="width: 40rem;">
         </div>
-      <% } %>
-      
-      <div id="font-picker"></div>
+        <% } %>
 
-      <% if (data.title && data.desc) { %>
+        <div id="font-picker"></div>
+
+        <% if (data.title && data.desc) { %>
         <h2><%= data.title.charAt(0).toUpperCase() + data.title.slice(1) %></h2>
         <p class="apply-font"><%- data.desc %></p>
         <% if (data.section == 'donations') { %>
-          <div id="listing-map" ></div>
+        <div id="listing-map"></div>
         <% } %>
         <br>
         <hr>
         <div class="d-flex">
           <div class="mx-auto mx-lg-0">
-            <img id="imgg" src="<%- data.img %>" width="200rem"> 
+            <img id="imgg" src="<%- data.img %>" width="200rem">
           </div>
         </div>
         <!-- The Modal -->
@@ -66,14 +66,14 @@
           <div id="caption"></div>
         </div>
         <div class="row" id="sync-comments"></div>
-      <% } %>
+        <% } %>
 
+      </div>
+      <%- include('../partials/conf/prepare_js'); %>
+      <%- include('../partials/shared/footer'); %>
     </div>
-    <%- include('../partials/conf/prepare_js'); %>
-    <%- include('../partials/shared/footer'); %>
-  </div>
 
-  
+
 </body>
 <%- include('../partials/conf/afterbody'); %>
 <script src="/unversioned_js/ejs.min.js"></script>
@@ -85,4 +85,5 @@
 
   }
 </script>
+
 </html>

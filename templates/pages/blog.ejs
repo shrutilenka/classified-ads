@@ -16,13 +16,13 @@
           </h1>
         </div>
         <div class="col-sm-6 hidden">
-          <h2>Docs</h2>
+          <h2>docs</h2>
         </div>
         <div class="col-sm-6 d-flex align-items-center justify-content-stretch">
           <nav class="navbar navbar-expand navbar-light bg-light mb-0 w-100">
             <ul class="navbar-nav w-100 justify-content-around">
               <% for(var i=0; i < sections.length; i++) { %>
-                <li class="nav-item"><a class="nav-link" href="#<%= sections[i].id %>"><%= sections[i].id %></a></li>
+              <li class="nav-item"><a class="nav-link" href="#<%= sections[i].id %>"><%= sections[i].id %></a></li>
               <% } %>
             </ul>
           </nav>
@@ -30,13 +30,12 @@
       </header>
       <br>
       <p>
-        In "Classified-ads", we organise posts in three sections, where you can search and also post after logging. Sections are Donations, skills and blogs.
-      </p>
+        in-classified-ads-we-organise-posts-in-three-sections-where-you-can-search-and-also-post-after-logging-sections-are-donations-skills-and-blogs </p>
     </section>
 
     <% for(var i=0; i < sections.length; i++) { %>
-      <h3 id="<%= sections[i].id %>"><%= sections[i].id %></h3>
-      <p><%- sections[i].html %></p>
+    <h3 id="<%= sections[i].id %>"><%= sections[i].id %></h3>
+    <p><%- sections[i].html %></p>
     <% } %>
     <%- include('../partials/shared/footer'); %>
   </div>
