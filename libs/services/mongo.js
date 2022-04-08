@@ -226,7 +226,6 @@ module.exports = function (db) {
    * @return {Promise}
    */
     this.getUserById = async function (username) {
-
         const collection = db.collection('users')
         const query = {}
         query.username = username
@@ -256,6 +255,39 @@ module.exports = function (db) {
         })
     }
 
+    /**
+   * Insert a user into DB
+   * @param {*} elem a JSON representation of a user
+   * @return {Promise}
+   */
+    this.insertTmpUser = async function (tempUser) {
+        // createdAt: ttl index
+        tempUser['createdAt'] = new Date()
+        const collection = db.collection('tempusers')
+        return new Promise(function (resolve, reject) {
+            try {
+                collection.insertOne(tempUser, function(err, res) {
+                    if (err) reject(err)
+                    resolve(res.acknowledged)
+                })
+            } catch (err) {
+                reject(err)
+            }
+        })
+    }
+
+    /**
+   * Get temp user by token
+   * @param {*} token
+   * @return {Promise}
+   */
+    this.getTmpUserByToken = async function (token) {
+        const collection = db.collection('tempusers')
+        const query = {}
+        query.token = token
+        return await collection.findOne(query)
+    }
+        
     /**
    * Approximate search based on indexed text fields: title, desc, tags
    * It also feeds topK miner

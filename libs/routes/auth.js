@@ -100,8 +100,10 @@ async function routes(fastify, options) {
                         'Please verify your account by clicking the link: \nhttp://' +
                         request.headers.host + '/confirmation/' + tempUser.token + '.\n'
                 }
-                nodemailer.sendMail(mailOptions, (err, info) => {
+                nodemailer.sendMail(mailOptions, async (err, info) => {
                     if (err) throw { statusCode: 500, message: 'Something went wrong! Please try again' }
+                    // TODO: insert
+                    await QInstance.insertTmpUser(tempUser)
                     reply.redirect('/')
                     return
                 })
@@ -111,6 +113,14 @@ async function routes(fastify, options) {
         }
     })
 
+    fastify.get('/confirmation/:token', async function (request, reply) {
+        const token = request.params.token
+        const tmpUser = await QInstance.getTmpUserByToken(token) 
+        if (!tmpUser) {
+            throw { statusCode: 401, message: 'UNAUTHORISED' }
+        }
+        // update user.isVerified
+    })
     /* GET login page. */
     fastify.get('/login', async function (req, reply) {
         reply.view(`/templates/pages/login`, { UXConstraints: constraints[process.env.NODE_ENV].GET.login })

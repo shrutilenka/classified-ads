@@ -66,8 +66,12 @@ for (let i = 0; i < 200; i++) {
     const randomLang = langs[Math.floor(Math.random() * langs.length)]
     const item = langsFaker[randomLang].jsf.generate(schema)
     item.tagsLang = item.lang = randomLang
-    item.title = langsFaker[randomLang].words(5 + Math.floor(Math.random() * 10))
-    item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30))
+    item.title = langsFaker[randomLang].words(
+        5 + Math.floor(Math.random() * 10),
+    )
+    item.desc = langsFaker[randomLang].words(
+        10 + Math.floor(Math.random() * 30),
+    )
     item.tags = [
         langsFaker[randomLang].words(1),
         langsFaker[randomLang].words(1),
@@ -179,16 +183,30 @@ ops.createIndexes = async function createIndexes(db) {
         { weights: { title: 3, desc: 1 } },
     )
     // doesn't support indexing one key based on value
-    // await listingCollection.createIndex({ lang: 'fr' }, { collation: { locale: "fr" }})
-    // await listingCollection.createIndex({ lang: 'en' }, { collation: { locale: "en" }})
-    // await listingCollection.createIndex({ lang: 'ar' }, { collation: { locale: "ar" }})
+    // await listingCollection.createIndex(
+    //     { lang: 'fr' },
+    //     { collation: { locale: 'fr' } },
+    // )
+    // await listingCollection.createIndex(
+    //     { lang: 'en' },
+    //     { collation: { locale: 'en' } },
+    // )
+    // await listingCollection.createIndex(
+    //     { lang: 'ar' },
+    //     { collation: { locale: 'ar' } },
+    // )
     await listingCollection.createIndex({ tags: 1 })
     await listingCollection.createIndex({ div: 1 })
     await listingCollection.createIndex({ geolocation: '2dsphere' })
     const commentCollection = db.collection('comment')
     await commentCollection.createIndex({ to: 1, from: 1, sent: 1 })
     const usersCollection = db.collection('users')
+    const tmpUsersCollection = db.collection('tempusers')
     await usersCollection.createIndex({ username: 1 }, { unique: true })
+    await tmpUsersCollection.createIndex(
+        { createdAt: 1 },
+        { expireAfterSeconds: 60*10, unique: true },
+    )
 }
 const scripts = require('../libs/services/mongoScripts')
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
