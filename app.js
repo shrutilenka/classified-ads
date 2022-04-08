@@ -37,7 +37,7 @@ const helmet_ = require('./config/options/helmet')()
 // const apiSpec = require('./swagger.json')
 // async function setSwaggerStats(fastify, opts) {
 //     await fastify.register(require('fastify-express'))
-//     fastify.register(swStats.getFastifyPlugin, { });
+//     fastify.register(swStats.getFastifyPlugin, { })
 // }
 
 async function instantiateApp() {
@@ -64,7 +64,7 @@ async function instantiateApp() {
         // fastify.register(setSwaggerStats)
         // setTimeout(() => {
         //     console.log(swStats.getCoreStats())
-        // }, 10000);
+        // }, 10000)
     }
     const authRouter = require('./libs/routes/auth.js')
     const indexRouter = require('./libs/routes/index.js')
@@ -82,9 +82,9 @@ async function instantiateApp() {
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
     fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
-
+    fastify.register(require('fastify-nodemailer'), config.get('SMTP'))
     await fastify.register(require('fastify-jwt'), { secret: process.env.JWT_SECRET })
-    await fastify.register(require('fastify-auth')) // just 'fastify-auth' IRL
+    await fastify.register(require('fastify-auth'))
     // TODO: fastify.after(routes)
     fastify.register(require('fastify-cookie'))
     const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
@@ -284,7 +284,7 @@ async function instantiateApp() {
         // })
         // fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
         // Metrics exporter at least for one node to have a view on performance
-        fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true });
+        fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true })
     }
 }
 

@@ -10,12 +10,8 @@ module.exports = {
     DATABASE : 'mongodb://localhost:27017/',
     APIHost: 'http://localhost:3000',
     COOKIE_NAME: 'classified-ads-login',
-    OUTLOOK: {
-    // Office 365 server
-        MAIL_SERVER: 'smtp.office365.com',
-        // secure SMTP
-        SMTP_PORT: '587',
-        TLS: { ciphers: 'SSLv3' }
+    SMTP: {
+        
     },
     PING_LIMITER: {
         max: 100,

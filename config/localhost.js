@@ -1,3 +1,6 @@
+const adminPass = process.env.ADMIN_PASS
+const adminEmail = process.env.ADMIN_EMAIL
+
 module.exports = {
     features: {
         a: true,
@@ -10,12 +13,15 @@ module.exports = {
     DATABASE : 'mongodb://localhost:27017/listings_db',
     APIHost: 'http://localhost:3000',
     COOKIE_NAME: 'classified-ads-login',
-    OUTLOOK: {
-    // Office 365 server
-        MAIL_SERVER: 'smtp.office365.com',
-        // secure SMTP
-        SMTP_PORT: '587',
-        TLS: { ciphers: 'SSLv3' }
+    SMTP: {
+        pool: true,
+        host: 'smtp.office365.com',
+        port: 587,
+        secure: false, // use TLS
+        auth: {
+            user: adminEmail,
+            pass: adminPass
+        }
     },
     PING_LIMITER: {
         max: 100,

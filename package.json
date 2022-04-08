@@ -45,6 +45,7 @@
     "fastify-metrics": "^8.0.0",
     "fastify-mongodb": "^4.1.1",
     "fastify-multer": "^2.0.2",
+    "fastify-nodemailer": "^5.0.0",
     "fastify-rate-limit": "^5.8.0",
     "fastify-schedule": "^1.0.0",
     "fastify-static": "^4.5.0",
