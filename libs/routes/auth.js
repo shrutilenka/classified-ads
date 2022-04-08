@@ -41,18 +41,21 @@ async function routes(fastify, options) {
         async function (request, reply) {
             const username = request.body.username
             const password = request.body.password
+            console.log('logging user' + username + ' with password' + password)
             try {
                 // const user = await UserCredentials.findOne({username})
                 const user = await QInstance.getUserById(username)
                 if (!user) {
+                    console.log('no user')
                     throw { statusCode: 401, message: 'INCORRECT_CREDENTIALS' }
                 }
                 try {
                     const isMatch = await bcrypt.compare(
                         password,
-                        user.password,
+                        user.passhash,
                     )
                     if (!isMatch) {
+                        console.log('no match')
                         throw {
                             statusCode: 401,
                             message: 'INCORRECT_CREDENTIALS',
@@ -99,7 +102,8 @@ async function routes(fastify, options) {
             const password = request.body.password
 
             // Always 'regular' by default (except user@mail.com for tests)
-            const role = username === 'bacloud14@gmail.com' ? 'admin' : 'regular'
+            const role =
+                username === 'bacloud14@gmail.com' ? 'admin' : 'regular'
             const isVerified = role === 'admin' ? true : false
             try {
                 const user = await QInstance.getUserById(username)
@@ -174,10 +178,13 @@ async function routes(fastify, options) {
     /* Confirmation of email identity. */
     fastify.get('/confirmation/:token', async function (request, reply) {
         const token = request.params.token
+        console.log('verifying token '+token)
+
         const tmpUser = await QInstance.getTmpUserByToken(token)
         if (!tmpUser) {
             throw { statusCode: 401, message: 'UNAUTHORISED' }
         }
+        console.log('got user '+tmpUser.username)
         const user = await QInstance.getUserById(tmpUser.username)
         if (!user) {
             throw { statusCode: 401, message: 'INCORRECT_TOKEN' }
@@ -187,6 +194,8 @@ async function routes(fastify, options) {
         }
         user.isVerified = true
         await QInstance.updateUser(user)
+        reply.redirect('/')
+        return
     })
 
     /* GET login page. */
