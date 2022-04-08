@@ -1,10 +1,16 @@
-// if not, specify jsdoc like 
+// if not, specify jsdoc like
 // /**
 // * @return {Promise<string>}
 // */
 
 const { ObjectId } = require('fastify-mongodb')
-const { Donation, Skill, Blog, Comment, User } = require('../constraints/db_models')
+const {
+    Donation,
+    Skill,
+    Blog,
+    Comment,
+    User,
+} = require('../constraints/db_models')
 const { refreshTopK, topk } = require('../services/miner')
 
 /**
@@ -25,34 +31,34 @@ function getObjectId(days) {
 // Closure for db instance only
 module.exports = function (db) {
     /**
-   * Insert a document into DB
-   * @param {*} elem a JSON representation of a Listing
-   * @return {Promise}
-   */
+     * Insert a document into DB
+     * @param {*} elem a JSON representation of a Listing
+     * @return {Promise}
+     */
     this.insertListing = async function (elem) {
         let listing
         const collection = db.collection('listing')
         // https://stackoverflow.com/a/59841285/1951298
         elem.geolocation = {
             type: 'Point',
-            coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)]
+            coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)],
         }
         return new Promise(function (resolve, reject) {
             try {
                 switch (elem.section) {
                 case 'donations':
                     listing = new Donation(elem)
-                    break;
+                    break
                 case 'skills':
                     listing = new Skill(elem)
-                    break;
+                    break
                 case 'blogs':
                     listing = new Blog(elem)
-                    break;
+                    break
                 default:
-                    break;
+                    break
                 }
-                collection.insertOne(listing, function(err, res) {
+                collection.insertOne(listing, function (err, res) {
                     if (err) reject(err)
                     resolve(res.acknowledged)
                 })
@@ -62,17 +68,17 @@ module.exports = function (db) {
         })
     }
     /**
-   * Insert a document -message into DB
-   * @param {*} elem a JSON representation of a Listing
-   * @return {Promise}
-  */
+     * Insert a document -message into DB
+     * @param {*} elem a JSON representation of a Listing
+     * @return {Promise}
+     */
     this.insertComment = async function (elem) {
         let comment
         const collection = db.collection('comment')
         return new Promise(function (resolve, reject) {
             try {
                 comment = new Comment(elem)
-                collection.insertOne(comment, function(err, res) {
+                collection.insertOne(comment, function (err, res) {
                     if (err) reject(err)
                     resolve(res.acknowledged)
                 })
@@ -82,28 +88,33 @@ module.exports = function (db) {
         })
     }
     /**
-   * Get comments from DB
-   * @param {string} peer1 email of sender or reciever
-   * @param {string} peer2 email of sender or reciever
-   * @param {string} thread id of the thread where a message was sent/recieved
-   * @return {Promise}
-   */
+     * Get comments from DB
+     * @param {string} peer1 email of sender or reciever
+     * @param {string} peer2 email of sender or reciever
+     * @param {string} thread id of the thread where a message was sent/recieved
+     * @return {Promise}
+     */
     this.getComments = async function (peer1, peer2, thread) {
         const forward = { $and: [{ from: peer1 }, { to: peer2 }] }
         const backward = { $and: [{ from: peer2 }, { to: peer1 }] }
         const whenAuthor = { $or: [{ from: peer1 }, { to: peer1 }] }
-        const bidirection = peer1 !== peer2 ? { $or: [forward, backward] } : whenAuthor
+        const bidirection =
+            peer1 !== peer2 ? { $or: [forward, backward] } : whenAuthor
         const query = { $and: [bidirection, { thread: thread }] }
-        return await db.collection('comment').find(query).sort({ sent: -1 }).toArray()
+        return await db
+            .collection('comment')
+            .find(query)
+            .sort({ sent: -1 })
+            .toArray()
     }
 
     /**
-    * Get the comment from DB
-    * @param {string} peer1 email of sender or reciever
-    * @param {string} peer2 email of sender or reciever
-    * @param {string} thread id of the thread where a message was sent/recieved
-    * @return {Promise}
-    */
+     * Get the comment from DB
+     * @param {string} peer1 email of sender or reciever
+     * @param {string} peer2 email of sender or reciever
+     * @param {string} thread id of the thread where a message was sent/recieved
+     * @return {Promise}
+     */
     this.getCommentById = async function (id) {
         const collection = db.collection('listing')
         const query = JSON.parse(JSON.stringify(baseQuery))
@@ -118,25 +129,25 @@ module.exports = function (db) {
                 return reject(err)
             }
             query._id = new ObjectId(id)
-            collection.findOne(query, { projection: projection })
+            collection
+                .findOne(query, { projection: projection })
                 .then((doc) => {
                     resolve([doc.from, doc.to])
                 })
         })
     }
 
-
     const baseQuery = { d: false, a: true }
     const baseProjection = { pass: 0.0, geolocation: 0.0, d: 0.0, a: 0.0 }
     const baseSort = [['_id', 'desc']]
-    const baseCollation = { }
+    const baseCollation = {}
     /**
-   * Get a document from DB
-   * If Admin then get unnaproved document
-   * @param {String} id Id of a Listing
-   * @param {Boolean} isAdmin if the caller is admin
-   * @return {Promise}
-   */
+     * Get a document from DB
+     * If Admin then get unnaproved document
+     * @param {String} id Id of a Listing
+     * @param {Boolean} isAdmin if the caller is admin
+     * @return {Promise}
+     */
     this.getDocumentById = async function (id, isAdmin, viewer) {
         const collection = db.collection('listing')
         // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
@@ -149,7 +160,8 @@ module.exports = function (db) {
                 return reject(err)
             }
             query._id = new ObjectId(id)
-            collection.findOne(query, { projection: projection })
+            collection
+                .findOne(query, { projection: projection })
                 .then((doc) => {
                     if (!doc) {
                         resolve()
@@ -169,12 +181,12 @@ module.exports = function (db) {
     }
 
     /**
-   * Get documents created since number of days
-   * @param {*} days number of days since document was created
-   * @param {*} section which section
-   * @param {*} pagination number of pages and listings in each page
-   * @return {Promise}
-   */
+     * Get documents created since number of days
+     * @param {*} days number of days since document was created
+     * @param {*} section which section
+     * @param {*} pagination number of pages and listings in each page
+     * @return {Promise}
+     */
     this.getDocumentsSince = async function (days, section, pagination) {
         const substring = 100
         const collection = db.collection('listing')
@@ -183,37 +195,41 @@ module.exports = function (db) {
         query._id = { $gt: ObjectId }
         if (section) query.section = section
         return new Promise(function (resolve, reject) {
-            collection.find(query)
+            collection
+                .find(query)
                 .project(baseProjection)
                 .sort(baseSort)
-                .skip((pagination.perPage * pagination.page) - pagination.perPage)
+                .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
                     if (err) {
                         return reject(err)
                     }
                     const count = await collection.countDocuments(query)
-                    docs.forEach(doc => doc.desc = doc.desc.substring(0, substring))
+                    docs.forEach(
+                        (doc) => (doc.desc = doc.desc.substring(0, substring)),
+                    )
                     return resolve({ documents: docs, count: count })
                 })
         })
     }
 
     /**
-   * Get documents created by a specific user
-   * @param {*} user user email
-   * @return {Promise}
-   */
+     * Get documents created by a specific user
+     * @param {*} user user email
+     * @return {Promise}
+     */
     this.getDocumentsByUser = async function (user) {
         const collection = db.collection('listing')
         const query = {}
-        const projection = { pass: 0.0, geolocation: 0.0, /*d: 0.0, a: 0.0*/ }
+        const projection = { pass: 0.0, geolocation: 0.0 /*d: 0.0, a: 0.0*/ }
         query.usr = user
-        const tmp = await collection.find(query)
+        const tmp = await collection
+            .find(query)
             .project(projection)
             .sort(baseSort)
             .toArray()
-        tmp.forEach(l => {
+        tmp.forEach((l) => {
             l.a = l.a ? '' : 'notapproved'
             l.d = l.d ? 'deactivated' : ''
         })
@@ -221,10 +237,10 @@ module.exports = function (db) {
     }
 
     /**
-   * Get user by username
-   * @param {*} user user email
-   * @return {Promise}
-   */
+     * Get user by username
+     * @param {*} user user email
+     * @return {Promise}
+     */
     this.getUserById = async function (username) {
         const collection = db.collection('users')
         const query = {}
@@ -233,10 +249,10 @@ module.exports = function (db) {
     }
 
     /**
-   * Insert a user into DB
-   * @param {*} elem a JSON representation of a user
-   * @return {Promise}
-   */
+     * Insert a user into DB
+     * @param {*} elem a JSON representation of a user
+     * @return {Promise}
+     */
     this.insertUser = async function (elem) {
         let user
         const collection = db.collection('users')
@@ -245,7 +261,7 @@ module.exports = function (db) {
                 user = new User(elem)
                 // delete user.password
                 // TODO: remove pass again, but objectmodel restricts that :(
-                collection.insertOne(user, function(err, res) {
+                collection.insertOne(user, function (err, res) {
                     if (err) reject(err)
                     resolve(res.acknowledged)
                 })
@@ -255,18 +271,29 @@ module.exports = function (db) {
         })
     }
 
+    this.updateUser = async function (elem) {
+        const result = await db
+            .collection('users')
+            .updateOne(
+                { _id: ObjectId(elem._id) },
+                { $set: elem },
+                { upsert: false },
+            )
+        return result
+    }
+
     /**
-   * Insert a user into DB
-   * @param {*} elem a JSON representation of a user
-   * @return {Promise}
-   */
+     * Insert a temporary user into DB (ttl)
+     * @param {*} elem a JSON representation of a user
+     * @return {Promise}
+     */
     this.insertTmpUser = async function (tempUser) {
         // createdAt: ttl index
         tempUser['createdAt'] = new Date()
-        const collection = db.collection('tempusers')
+        const collection = db.collection('userstemp')
         return new Promise(function (resolve, reject) {
             try {
-                collection.insertOne(tempUser, function(err, res) {
+                collection.insertOne(tempUser, function (err, res) {
                     if (err) reject(err)
                     resolve(res.acknowledged)
                 })
@@ -277,27 +304,34 @@ module.exports = function (db) {
     }
 
     /**
-   * Get temp user by token
-   * @param {*} token
-   * @return {Promise}
-   */
+     * Get temp user by token
+     * @param {*} token
+     * @return {Promise}
+     */
     this.getTmpUserByToken = async function (token) {
-        const collection = db.collection('tempusers')
+        const collection = db.collection('userstemp')
         const query = {}
         query.token = token
         return await collection.findOne(query)
     }
-        
+
     /**
-   * Approximate search based on indexed text fields: title, desc, tags
-   * It also feeds topK miner
-   * @param {*} phrase sentense to search
-   * @param {*} exact whether search the exact sentense or separate terms
-   * @param {*} division which division
-   * @param {*} section which section
-   * @return {Promise}
-   */
-    this.gwoogl = async function (phrase, exact, division, section, lang, pagination) {
+     * Approximate search based on indexed text fields: title, desc, tags
+     * It also feeds topK miner
+     * @param {*} phrase sentense to search
+     * @param {*} exact whether search the exact sentense or separate terms
+     * @param {*} division which division
+     * @param {*} section which section
+     * @return {Promise}
+     */
+    this.gwoogl = async function (
+        phrase,
+        exact,
+        division,
+        section,
+        lang,
+        pagination,
+    ) {
         const daysBefore = 100
         const collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
@@ -310,18 +344,19 @@ module.exports = function (db) {
         if (section) query.section = section
         if (division) query.div = division
         return new Promise(function (resolve, reject) {
-            collection.find(query, { score: { $meta: 'textScore' } })
+            collection
+                .find(query, { score: { $meta: 'textScore' } })
                 .collation(collation)
                 .project(baseProjection)
                 .sort({ score: { $meta: 'textScore' } })
-                .skip((pagination.perPage * pagination.page) - pagination.perPage)
+                .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
                     if (err) {
                         return reject(err)
                     }
                     const count = await collection.countDocuments(query)
-                    if(count > 3) {
+                    if (count > 3) {
                         refreshTopK(phrase)
                     }
                     return resolve({ documents: docs, count: count })
@@ -330,11 +365,11 @@ module.exports = function (db) {
     }
 
     /**
-   * Search tag based on indexed tags field
-   * @param {*} tag which tag
-   * @param {*} pagination number of pages and listings in each page
-   * @return {Promise}
-   */
+     * Search tag based on indexed tags field
+     * @param {*} tag which tag
+     * @param {*} pagination number of pages and listings in each page
+     * @return {Promise}
+     */
     this.getDocumentsByTag = async function (tag, level, pagination) {
         const daysBefore = 100
         const collection = db.collection('listing')
@@ -355,10 +390,11 @@ module.exports = function (db) {
             break
         }
         return new Promise(function (resolve, reject) {
-            collection.find(query)
+            collection
+                .find(query)
                 .project(baseProjection)
                 .sort(baseSort)
-                .skip((pagination.perPage * pagination.page) - pagination.perPage)
+                .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
                     if (err) {
@@ -371,11 +407,11 @@ module.exports = function (db) {
     }
 
     /**
-   * Search tag based on division field
-   * @param {*} division which division
-   * @param {*} pagination number of pages and listings in each page
-   * @return {Promise}
-   */
+     * Search tag based on division field
+     * @param {*} division which division
+     * @param {*} pagination number of pages and listings in each page
+     * @return {Promise}
+     */
     this.getDocumentsByDivision = async function (division, pagination) {
         const daysBefore = 100
         const collection = db.collection('listing')
@@ -384,10 +420,11 @@ module.exports = function (db) {
         query._id = { $gt: ObjectId }
         query.div = division
         return new Promise(function (resolve, reject) {
-            collection.find(query)
+            collection
+                .find(query)
                 .project(baseProjection)
                 .sort(baseSort)
-                .skip((pagination.perPage * pagination.page) - pagination.perPage)
+                .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
                     if (err) {
@@ -400,13 +437,18 @@ module.exports = function (db) {
     }
 
     /**
-   * Search based on indexed Geospatial field: lat, lng
-   * @param {*} latitude
-   * @param {*} longitude
-   * @param {*} section
-   * @return {Promise}
-   */
-    this.getDocumentsByGeolocation = async function (latitude, longitude, section, pagination) {
+     * Search based on indexed Geospatial field: lat, lng
+     * @param {*} latitude
+     * @param {*} longitude
+     * @param {*} section
+     * @return {Promise}
+     */
+    this.getDocumentsByGeolocation = async function (
+        latitude,
+        longitude,
+        section,
+        pagination,
+    ) {
         const daysBefore = 100
         const collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
@@ -415,14 +457,18 @@ module.exports = function (db) {
         if (section) query.section = section
         query.geolocation = {
             $geoWithin: {
-                $centerSphere: [[parseFloat(longitude), parseFloat(latitude)], 10 / 3963.2] // 10 miles = 16.09344 kilometers
-            }
+                $centerSphere: [
+                    [parseFloat(longitude), parseFloat(latitude)],
+                    10 / 3963.2,
+                ], // 10 miles = 16.09344 kilometers
+            },
         }
         return new Promise(function (resolve, reject) {
-            collection.find(query)
+            collection
+                .find(query)
                 .project(baseProjection)
                 .sort(baseSort)
-                .skip((pagination.perPage * pagination.page) - pagination.perPage)
+                .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
                     if (err) {
@@ -441,13 +487,20 @@ module.exports = function (db) {
         const newValues = { $set: { d: true } }
         const options = { upsert: false }
         return new Promise(function (resolve, reject) {
-            collection.findOneAndUpdate(query, newValues, options, function (err, res) {
-                if (err) reject(err)
-                if (res.lastErrorObject.n === 0) {
-                    reject(new Error('document to be deactivated not found'))
-                }
-                resolve(res._id)
-            })
+            collection.findOneAndUpdate(
+                query,
+                newValues,
+                options,
+                function (err, res) {
+                    if (err) reject(err)
+                    if (res.lastErrorObject.n === 0) {
+                        reject(
+                            new Error('document to be deactivated not found'),
+                        )
+                    }
+                    resolve(res._id)
+                },
+            )
         })
     }
 
@@ -459,13 +512,18 @@ module.exports = function (db) {
         const newValues = { $set: { a: true } }
         const options = { upsert: false }
         return new Promise(function (resolve, reject) {
-            collection.findOneAndUpdate(query, newValues, options, function (err, res) {
-                if (err) reject(err)
-                if (res.lastErrorObject.n === 0) {
-                    reject(new Error('document to be approved not found'))
-                }
-                resolve(res._id)
-            })
+            collection.findOneAndUpdate(
+                query,
+                newValues,
+                options,
+                function (err, res) {
+                    if (err) reject(err)
+                    if (res.lastErrorObject.n === 0) {
+                        reject(new Error('document to be approved not found'))
+                    }
+                    resolve(res._id)
+                },
+            )
         })
     }
 
@@ -477,20 +535,30 @@ module.exports = function (db) {
         const newValues = { $set: { d: false } }
         const options = { upsert: false }
         return new Promise(function (resolve, reject) {
-            collection.findOneAndUpdate(query, newValues, options, function (err, res) {
-                if (err) reject(err)
-                if (res.lastErrorObject.n === 0) {
-                    reject(new Error('document to be reactivated not found'))
-                }
-                resolve(res._id)
-            })
+            collection.findOneAndUpdate(
+                query,
+                newValues,
+                options,
+                function (err, res) {
+                    if (err) reject(err)
+                    if (res.lastErrorObject.n === 0) {
+                        reject(
+                            new Error('document to be reactivated not found'),
+                        )
+                    }
+                    resolve(res._id)
+                },
+            )
         })
     }
 
     this.autocomplete = async function (keyword) {
         const collection = db.collection('words')
         const keywRgx = new RegExp('^' + keyword, 'i')
-        return await collection.find({ _id: keywRgx }).project({ _id: 1 }).toArray()
+        return await collection
+            .find({ _id: keywRgx })
+            .project({ _id: 1 })
+            .toArray()
     }
 
     this.getDocumentsByKeyword = async function (keyword, pagination) {
@@ -505,19 +573,24 @@ module.exports = function (db) {
                     if (objIds.length == 0) {
                         return resolve({ documents: [], count: 0 })
                     }
-                    db.collection('listing').find({ _id: { $in: objIds } })
+                    db.collection('listing')
+                        .find({ _id: { $in: objIds } })
                         .project(baseProjection)
                         .sort(baseSort)
-                        .skip((pagination.perPage * pagination.page) - pagination.perPage)
+                        .skip(
+                            pagination.perPage * pagination.page -
+                                pagination.perPage,
+                        )
                         .limit(pagination.perPage)
-                        .toArray(
-                            async function (err, docs) {
-                                if (err) {
-                                    reject(err)
-                                }
-                                const count = await collection.countDocuments({ _id: { $in: objIds } })
-                                return resolve({ documents: docs, count: count })
+                        .toArray(async function (err, docs) {
+                            if (err) {
+                                reject(err)
+                            }
+                            const count = await collection.countDocuments({
+                                _id: { $in: objIds },
                             })
+                            return resolve({ documents: docs, count: count })
+                        })
                 } else {
                     resolve({ documents: [], count: 0 })
                 }
@@ -530,26 +603,29 @@ module.exports = function (db) {
     // { _id: { tags: 'rerum', section: 'skills' }, count: 8 }
     const reformat = (aa) => {
         let res = {}
-        let sections = [...new Set(aa.map(a => a._id.section))]
+        let sections = [...new Set(aa.map((a) => a._id.section))]
         let section
         while ((section = sections.pop()) !== undefined) {
-            res[section] = aa.filter(z => z._id.section === section)
-                .map(l => { return { count: l.count, tag: l._id.tags } })
+            res[section] = aa
+                .filter((z) => z._id.section === section)
+                .map((l) => {
+                    return { count: l.count, tag: l._id.tags }
+                })
         }
         return res
     }
 
     class EphemeralData {
         constructor(ttl) {
-            this.ttl = ttl;
-            this.lastSeen = Infinity;
+            this.ttl = ttl
+            this.lastSeen = Infinity
             this.data = undefined
         }
         reset() {
             this.lastSeen = Date.now()
         }
         isSame() {
-            return (this.data && (Date.now() - this.lastSeen) < this.ttl)
+            return this.data && Date.now() - this.lastSeen < this.ttl
         }
     }
 
@@ -562,24 +638,24 @@ module.exports = function (db) {
         topTags.reset()
         const collection = db.collection('listing')
         const pipeline = [
-            { $unwind: "$tags" },
+            { $unwind: '$tags' },
             // by section
             {
                 $group: {
-                    "_id": { tags: "$tags", section: "$section" },
-                    "count": { "$sum": 1 }
-                }
+                    _id: { tags: '$tags', section: '$section' },
+                    count: { $sum: 1 },
+                },
             },
             // { $group: { "_id": "$tags", "count": { "$sum": 1 } } },
             { $sort: { count: -1 } },
-            { $limit: 20 }
+            { $limit: 20 },
         ]
         topTags.data = await collection.aggregate(pipeline).toArray()
         return reformat(topTags.data)
     }
 
-    // TODO: three repetitive methods but fine, 
-    // maybe they evolve differently in future 
+    // TODO: three repetitive methods but fine,
+    // maybe they evolve differently in future
     // { _id: 'Tindouf', count: 8 }
     // { _id: 'Tebessa', count: 7 }
     // { _id: 'Ouargla', count: 6 }
@@ -593,12 +669,14 @@ module.exports = function (db) {
         const collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
-            { $group: { _id: "$div", count: { $sum: 1 } } },
+            { $group: { _id: '$div', count: { $sum: 1 } } },
             { $sort: { count: -1 } },
-            { $limit: 10 }
+            { $limit: 10 },
         ]
         const tmp = await collection.aggregate(pipeline).toArray()
-        topByDiv.data = tmp.map(a => { return { tag: a._id, count: a.count } })
+        topByDiv.data = tmp.map((a) => {
+            return { tag: a._id, count: a.count }
+        })
         return topByDiv.data
     }
 
@@ -612,12 +690,14 @@ module.exports = function (db) {
         const collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
-            { $group: { _id: "$parent", count: { $sum: 1 } } },
+            { $group: { _id: '$parent', count: { $sum: 1 } } },
             { $sort: { count: -1 } },
-            { $limit: 10 }
+            { $limit: 10 },
         ]
         const tmp = await collection.aggregate(pipeline).toArray()
-        topByParentTag.data = tmp.map(a => { return { tag: a._id, count: a.count } })
+        topByParentTag.data = tmp.map((a) => {
+            return { tag: a._id, count: a.count }
+        })
         return topByParentTag.data
     }
 
@@ -631,22 +711,24 @@ module.exports = function (db) {
         const collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
-            { $group: { _id: "$granpa", count: { $sum: 1 } } },
+            { $group: { _id: '$granpa', count: { $sum: 1 } } },
             { $sort: { count: -1 } },
-            { $limit: 10 }
+            { $limit: 10 },
         ]
         const tmp = await collection.aggregate(pipeline).toArray()
-        topByGranpaTag.data = tmp.map(a => { return { tag: a._id, count: a.count } })
+        topByGranpaTag.data = tmp.map((a) => {
+            return { tag: a._id, count: a.count }
+        })
         return topByGranpaTag.data
     }
 
     /**
-    * Get documents for approval or general review
-    * When admin doing approval, we only need not yet approved listings
-    * When he/she is not, he/she is still doing moderation on all items
-    * @param {*} elem a JSON representation of a Listing
-    * @return {Promise}
-    */
+     * Get documents for approval or general review
+     * When admin doing approval, we only need not yet approved listings
+     * When he/she is not, he/she is still doing moderation on all items
+     * @param {*} elem a JSON representation of a Listing
+     * @return {Promise}
+     */
     this.getDocumentsForModeration = async function (approving) {
         const collection = db.collection('listing')
         const query = approving ? { a: false } : {}
@@ -657,12 +739,13 @@ module.exports = function (db) {
             lat: 0.0,
             lng: 0.0,
             ara: 0.0,
-            div: 0.0
+            div: 0.0,
         }
         // TODO: find a solution to limit number of docs not to block UI
         const limit = approving ? 0 : 200
         return new Promise(function (resolve, reject) {
-            collection.find(query)
+            collection
+                .find(query)
                 .project(projection)
                 .sort(baseSort)
                 .limit(limit)
@@ -677,33 +760,33 @@ module.exports = function (db) {
     }
 
     /**
-    * Update a document in DB
-    * @param {*} elem a JSON representation of a Listing
-    * @return {Promise}
-    */
+     * Update a document in DB
+     * @param {*} elem a JSON representation of a Listing
+     * @return {Promise}
+     */
     this.updateDocument = async function (elem) {
-        const result = await db.collection('listing').updateOne(
-            { _id: ObjectId(elem._id) },
-            { $set: elem },
-            { upsert: false }
-        )
+        const result = await db
+            .collection('listing')
+            .updateOne(
+                { _id: ObjectId(elem._id) },
+                { $set: elem },
+                { upsert: false },
+            )
         return result
     }
 
     /**
-    * Remove a document in DB
-    * @param {*} id An ID of a Listing
-    * @return {Promise}
-    */
+     * Remove a document in DB
+     * @param {*} id An ID of a Listing
+     * @return {Promise}
+     */
     this.removeDocument = async function (id) {
-        const result = await db.collection('listing').deleteOne(
-            { _id: ObjectId(id) },
-        )
+        const result = await db
+            .collection('listing')
+            .deleteOne({ _id: ObjectId(id) })
         return result
     }
-
 }
-
 
 // // function traceMethodCalls(obj) {
 // //   let handler = {

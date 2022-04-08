@@ -119,6 +119,7 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
                             collectionNames.indexOf('words') >= 0 &&
                             collectionNames.indexOf('listing') >= 0 &&
                             collectionNames.indexOf('users') >= 0 &&
+                            collectionNames.indexOf('userstemp') >= 0 &&
                             collectionNames.indexOf('comment') >= 0
                         if (!check) {
                             reject(
@@ -160,7 +161,7 @@ ops.fastifyInjects = async function fastifyInjects(app) {
         method: 'POST',
         url: '/signup',
         payload: {
-            username: 'user2@mail.com',
+            username: 'sracer2016@yahoo.com',
             password: 'blablabla111SSS.',
         },
     })
@@ -169,7 +170,7 @@ ops.fastifyInjects = async function fastifyInjects(app) {
         method: 'POST',
         url: '/signup',
         payload: {
-            username: 'user@mail.com',
+            username: 'bacloud14@gmail.com',
             password: 'blablabla111SSS.',
         },
     })
@@ -201,7 +202,7 @@ ops.createIndexes = async function createIndexes(db) {
     const commentCollection = db.collection('comment')
     await commentCollection.createIndex({ to: 1, from: 1, sent: 1 })
     const usersCollection = db.collection('users')
-    const tmpUsersCollection = db.collection('tempusers')
+    const tmpUsersCollection = db.collection('userstemp')
     await usersCollection.createIndex({ username: 1 }, { unique: true })
     await tmpUsersCollection.createIndex(
         { createdAt: 1 },
