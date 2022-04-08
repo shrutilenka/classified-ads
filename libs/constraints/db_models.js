@@ -51,10 +51,11 @@ const Comment = new ObjectModel({
 
 const User = new ObjectModel({
     username: String,
-    pass: String,
     password: String,
+    passhash: String,
+    isVerified: Boolean,
     role: ['admin', 'regular']
-}).assert(u => u.username !== u.pass, "username and password must differ")
-    .assert(u => u.pass.length >= 8, "password is too weak")       
+}).assert(u => u.username !== u.password, "username and password must differ")
+    .assert(u => u.password.length >= 8, "password is too weak")       
 
 module.exports = { Donation, Skill, Blog, Comment, User }

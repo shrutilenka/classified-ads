@@ -27,8 +27,9 @@ async function routes(fastify, options) {
         }
     })
 
-
+    let { nodemailer } = fastify
     const bcrypt = require('bcryptjs')
+    var crypto = require('crypto')
     const jwt = require('jsonwebtoken')
     const JWT_SECRET = process.env.JWT_SECRET
     const COOKIE_NAME = config.get('COOKIE_NAME')
@@ -46,6 +47,8 @@ async function routes(fastify, options) {
                 const isMatch = await bcrypt.compare(password, user.password)
                 if (!isMatch) {
                     throw { statusCode: 401, message: 'INCORRECT_CREDENTIALS' }
+                } else if(!user.isVerified){
+                    throw { statusCode: 401, message: 'USER_UNVERIFIED' }
                 } else {
                     const token = await jwt.sign({ username: username, role: user.role }, JWT_SECRET)
                     reply.setCookie(COOKIE_NAME, token)
@@ -71,22 +74,37 @@ async function routes(fastify, options) {
     fastify.post('/signup', { schema: loginSchema2 }, async function (request, reply) {
         const username = request.body.username
         const password = request.body.password
+        const isVerified = false
         // Always 'regular' by default (except user@mail.com for tests)
         const role = (username === 'user@mail.com') ? 'admin' : 'regular'
         try {
             const user = await QInstance.getUserById(username)
             if (user) {
-                throw { statusCode: 400, message: 'USER_TAKEN' }
+                throw { statusCode: 400, message: 'EMAIL_TAKEN' }
             } else {
-                let hash_pass
+                let passhash
                 try {
-                    hash_pass = await bcrypt.hash(password, 10)
+                    passhash = await bcrypt.hash(password, 10)
                 } catch (err) {
                     throw { statusCode: 500, message: 'Something went wrong! Please try again' }
                 }
-                const new_user = await QInstance.insertUser({ username, pass: password, password: hash_pass, role: role })
-                reply.redirect('/')
-                return
+                // Actual user but unverified
+                const new_user = await QInstance.insertUser({ username, password, passhash, isVerified, role })
+                // Temporary user to be able to verify property of identity (email)
+                var tempUser = { _userId: username, token: crypto.randomBytes(16).toString('hex') }
+                var mailOptions = {
+                    from: 'no-reply@yourwebapplication.com',
+                    to: username,
+                    subject: 'Account Verification Token',
+                    text: 'Hello,\n\n' +
+                        'Please verify your account by clicking the link: \nhttp://' +
+                        request.headers.host + '/confirmation/' + tempUser.token + '.\n'
+                }
+                nodemailer.sendMail(mailOptions, (err, info) => {
+                    if (err) throw { statusCode: 500, message: 'Something went wrong! Please try again' }
+                    reply.redirect('/')
+                    return
+                })
             }
         } catch (err) {
             throw { statusCode: 500, message: 'Something went wrong! Please try again' }

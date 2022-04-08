@@ -244,7 +244,7 @@ module.exports = function (db) {
         return new Promise(function (resolve, reject) {
             try {
                 user = new User(elem)
-                // delete user.pass
+                // delete user.password
                 // TODO: remove pass again, but objectmodel restricts that :(
                 collection.insertOne(user, function(err, res) {
                     if (err) reject(err)
