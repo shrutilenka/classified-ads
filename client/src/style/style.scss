@@ -194,17 +194,6 @@ pre {
   margin-bottom: 3rem;
 }
 
-.sexybox {
-  position: relative;
-  width: 12%;
-  left: 10px;
-  border: 3px double #2f2f2f;
-  padding: 10px 15px 10px 15px;
-  line-height: 20px;
-  display: inline-block;
-  margin: 0 10% 20px -50%;
-}
-
 .card {
   border-style: dashed;
   border-width: thin;
@@ -450,52 +439,65 @@ pre {
 }
 
 @import url("https://fonts.googleapis.com/css?family=Ruda:900");
-
-form {
+// Forms, detail & summaries should be emphasized to users eyes
+details form {
   padding: 0.5em 0.5em 0;
   margin-top: 1rem;
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.185);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  opacity: 0.6;
+  background-image: url(/images/symphony.png);
+  background-position: bottom;
+  animation: 15s linear 0s infinite bp;
 }
-
-// details {
-//   border: 0.1rem solid #c4c4c4a2;
-//   padding: 0.5em 0.5em 0;
-//   margin-top: 1rem;
-
-//   background-image: url(//www.toptal.com/designers/subtlepatterns/patterns/symphony.png);
-//   background-position: bottom;
-//   animation: 15s linear 0s infinite bp;
-//   display: flex;
-// }
-
-// @keyframes bp {
-//   from {
-//     background-position: 198px 0;
-//   }
-
-//   to {
-//     background-position: 0 198px;
-//   }
-// }
+@keyframes bp {
+  from {
+    background-position: 198px 0;
+  }
+  to {
+    background-position: 0 198px;
+  }
+}
+details {
+  margin: 2rem auto ;
+  background: #777;
+  box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+  border-radius: 5px;
+  overflow: hidden;
+}
 
 summary {
-  font-weight: bold;
-  margin: -0.5em -0.5em 0;
-  padding: 0.5em;
+  padding: 1rem;
+  display: block;
+  background: hsla(0, 0%, 20%, 0.5);
+  padding-left: 2.2rem;
+  position: relative;
+  cursor: pointer;
 }
 
-details[open] {
-  padding: 0.5em;
+summary:before {
+  content: '';
+  border-width: .4rem;
+  border-style: solid;
+  border-color: transparent transparent transparent #fff;
+  position: absolute;
+  top: 1.3rem;
+  left: 1rem;
+  transform: rotate(0);
+  transform-origin: .2rem 50%;
+  transition: .25s transform ease;
 }
 
-details[open] summary {
-  border-bottom: 1px solid #aaa;
-  margin-bottom: 0.5em;
+/* THE MAGIC 🧙‍♀️ */
+details[open] > summary:before {
+  transform: rotate(90deg);
 }
+
+
+details summary::-webkit-details-marker {
+  display:none;
+}
+
 
 $details_colors: (#cb997e50, #ddbea950, #ffe8d650, #b7b7a450, #a5a58d50);
 
@@ -503,19 +505,15 @@ $forms_colors: (#8e9aaf50, #cbc0d350, #efd3d750, #feeafa50, #dee2ff50);
 
 $bootstrap_mapping: (Indigo, Purple, Pink, Teal, Cyan);
 
-@for $i from 1 through 5 {
-  details:nth-of-type(#{$i}) {
-    background-color: nth($details_colors, $i) !important;
-    margin-top: 1rem;
-  }
-  // form:nth-of-type(#{$i}) {
-  //   background-color: nth($forms_colors, $i) !important;
-  //   margin-top: 1rem;
-  // }
-}
+// @for $i from 1 through 5 {
+//   details:nth-of-type(#{$i}) {
+//     background-color: nth($details_colors, $i) !important;
+//     margin-top: 1rem;
+//   }
+// }
 
-/* Chat containers */
-.chat {
+/* comment containers */
+.comment {
   border: 2px solid #dedede;
   background-color: #f1f1f1a4;
   border-radius: 5px;
@@ -527,28 +525,28 @@ $bootstrap_mapping: (Indigo, Purple, Pink, Teal, Cyan);
   cursor: pointer;
 }
 
-/* Darker chat container */
-.chat-darker {
+/* Darker comment container */
+.comment-darker {
   border-color: rgb(126, 125, 125);
   background-color: rgba(126, 125, 125, 0.692);
 }
 
-/* Darker chat container */
-.chat-reply {
+/* Darker comment container */
+.comment-reply {
   border-color: rgb(126, 125, 125);
   background-color: rgba(51, 122, 45, 0.692);
   width: 90%;
 }
 
 /* Clear floats */
-.chat::after {
+.comment::after {
   content: "";
   clear: both;
   display: table;
 }
 
 /* Style images */
-.chat img {
+.comment img {
   float: left;
   max-width: 60px;
   width: 100%;
@@ -557,18 +555,18 @@ $bootstrap_mapping: (Indigo, Purple, Pink, Teal, Cyan);
 }
 
 /* Style the right image */
-.chat img.right {
+.comment img.right {
   float: right;
   margin-left: 20px;
   margin-right: 0;
 }
 
 /* Style time text */
-.chat-time-right {
+.comment-time-right {
   float: right;
 }
 
 /* Style time text */
-.chat-time-left {
+.comment-time-left {
   float: left;
 }

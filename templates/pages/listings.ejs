@@ -14,19 +14,11 @@
 
   <div class="container">
     <div class="head">
-      <div class="headerobjectswrapper my-3" style="position:relative;">
-        <div class="sexybox d-none d-lg-inline servervar" style="min-width:18%;position:absolute;left:62%;top:50%;transform:translateY(-50%)"><span style="font-style: italic; font-size: smaller;"><%= intro %></div>
-        <div>
+      <div class="my-3" style="position:relative;">
           <h1 class="display-1 text-uppercase my-2 servervar"><%= title %></h1>
-        </div>
       </div>
-      <div class="subhead">
-        <!-- TODO: reference to context: reference of a country -->
-        <span data-trans="|date|">Algeria, somewhere - </span><%= new Intl.DateTimeFormat('ar-DZ', {
-                year: 'numeric',
-                month: 'long',
-                day: '2-digit'
-            }).format(new Date()) %>
+      <div class="subhead servervar">
+        <span style="font-style: italic; font-size: smaller;"><%= intro %>
       </div>
     </div>
     <div id="sync-top-tags"></div>
