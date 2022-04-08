@@ -735,7 +735,7 @@ module.exports = function (db) {
         const projection = {
             pass: 0.0,
             geolocation: 0.0,
-            // ...(!approving && {d: 0.0, a: 0.0,}),
+            ...(!approving && {d: 0.0, a: 0.0,}),
             lat: 0.0,
             lng: 0.0,
             ara: 0.0,

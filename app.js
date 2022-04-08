@@ -209,7 +209,7 @@ async function instantiateApp() {
 
     fastify.register(authRouter)
     fastify.register(indexRouter)
-    fastify.register(adminRouter)
+    fastify.register(adminRouter, { prefix: 'admin' })
     fastify.register(listingsRouter, { prefix: 'listings' })
     fastify.register(dataRouter, { prefix: 'data' })
     if (NODE_ENV < 1) {

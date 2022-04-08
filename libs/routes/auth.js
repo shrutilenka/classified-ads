@@ -42,7 +42,6 @@ async function routes(fastify, options) {
             const username = request.body.username
             const password = request.body.password
             console.log('logging user' + username + ' with password' + password)
-            // const user = await UserCredentials.findOne({username})
             const user = await QInstance.getUserById(username)
             if (!user) {
                 console.log('no user')
