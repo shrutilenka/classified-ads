@@ -42,49 +42,44 @@ async function routes(fastify, options) {
             const username = request.body.username
             const password = request.body.password
             console.log('logging user' + username + ' with password' + password)
+            // const user = await UserCredentials.findOne({username})
+            const user = await QInstance.getUserById(username)
+            if (!user) {
+                console.log('no user')
+                throw { statusCode: 401, message: 'INCORRECT_CREDENTIALS' }
+            }
             try {
-                // const user = await UserCredentials.findOne({username})
-                const user = await QInstance.getUserById(username)
-                if (!user) {
-                    console.log('no user')
-                    throw { statusCode: 401, message: 'INCORRECT_CREDENTIALS' }
-                }
-                try {
-                    const isMatch = await bcrypt.compare(
-                        password,
-                        user.passhash,
-                    )
-                    if (!isMatch) {
-                        console.log('no match')
-                        throw {
-                            statusCode: 401,
-                            message: 'INCORRECT_CREDENTIALS',
-                        }
-                    } else if (!user.isVerified) {
-                        throw { statusCode: 401, message: 'USER_UNVERIFIED' }
-                    } else {
-                        const token = await jwt.sign(
-                            { username: username, role: user.role },
-                            JWT_SECRET,
-                        )
-                        reply.setCookie(COOKIE_NAME, token)
-                        // this.user = username
-                        if (request.headers.referer) {
-                            reply.redirect(request.headers.referer)
-                            return
-                        } else {
-                            reply.redirect('/')
-                            return
-                        }
-                    }
-                } catch (err) {
-                    console.log(err)
+                const isMatch = await bcrypt.compare(
+                    password,
+                    user.passhash,
+                )
+                if (!isMatch) {
+                    console.log('no match')
                     throw {
-                        statusCode: 500,
-                        message: 'Something went wrong! Please try again',
+                        statusCode: 401,
+                        message: 'INCORRECT_CREDENTIALS',
+                    }
+                } else if (!user.isVerified) {
+                    throw { statusCode: 401, message: 'USER_UNVERIFIED' }
+                } else {
+                    const token = await jwt.sign(
+                        { username: username, role: user.role },
+                        JWT_SECRET,
+                    )
+                    reply.setCookie(COOKIE_NAME, token)
+                    // this.user = username
+                    if (request.headers.referer) {
+                        reply.redirect(request.headers.referer)
+                        return
+                    } else {
+                        reply.redirect('/')
+                        return
                     }
                 }
             } catch (err) {
+                console.log(err)
+                // redirect when statusCode: 401
+                // throw error for other errors
                 throw {
                     statusCode: 500,
                     message: 'Something went wrong! Please try again',
@@ -110,14 +105,11 @@ async function routes(fastify, options) {
                 if (user) {
                     throw { statusCode: 400, message: 'EMAIL_TAKEN' }
                 } else {
-                    let passhash
-                    try {
-                        passhash = await bcrypt.hash(password, 10)
-                    } catch (err) {
-                        throw {
-                            statusCode: 500,
-                            message: 'Something went wrong! Please try again',
-                        }
+                    let passhash = await bcrypt.hash(password, 10)
+                    // Temporary user to be able to verify property of identity (email)
+                    var tempUser = {
+                        username: username,
+                        token: crypto.randomBytes(16).toString('hex'),
                     }
                     // Actual user but unverified
                     const new_user = await QInstance.insertUser({
@@ -132,25 +124,22 @@ async function routes(fastify, options) {
                     if (role === 'admin') {
                         return
                     }
-                    // Temporary user to be able to verify property of identity (email)
-                    var tempUser = {
-                        username: username,
-                        token: crypto.randomBytes(16).toString('hex'),
-                    }
+
                     var mailOptions = {
                         from: adminEmail,
                         to: username,
                         subject: 'Account Verification Token',
                         text:
                             'Hello,\n\n' +
-                            'Please verify your account by clicking the link: \nhttp://' +
-                            request.headers.host +
+                            'Please verify your account by clicking the link: \n' +
+                            config.get('API_HOST') +
                             '/confirmation/' +
                             tempUser.token +
                             '.\n',
                     }
                     nodemailer.sendMail(mailOptions, async (err, info) => {
                         if (err) {
+                            // find a way to throw/catch this error
                             console.log(err)
                             // throw {
                             //     statusCode: 500,
