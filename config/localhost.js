@@ -14,14 +14,8 @@ module.exports = {
     APIHost: 'http://localhost:3000',
     COOKIE_NAME: 'classified-ads-login',
     SMTP: {
-        pool: true,
-        host: 'smtp.office365.com',
-        port: 587,
-        secure: false, // use TLS
-        auth: {
-            user: adminEmail,
-            pass: adminPass
-        }
+        host: '0.0.0.0',
+        port: 1025
     },
     PING_LIMITER: {
         max: 100,

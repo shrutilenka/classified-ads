@@ -166,15 +166,15 @@ ops.fastifyInjects = async function fastifyInjects(app) {
         },
     })
     logRequest(response, app)
-    // response = await app.inject({
-    //     method: 'POST',
-    //     url: '/signup',
-    //     payload: {
-    //         username: 'sracer2016@yahoo.com',
-    //         password: 'blablabla111SSS.',
-    //     },
-    // })
-    // logRequest(response, app)
+    response = await app.inject({
+        method: 'POST',
+        url: '/signup',
+        payload: {
+            username: 'sracer2016@yahoo.com',
+            password: 'blablabla111SSS.',
+        },
+    })
+    logRequest(response, app)
 }
 
 ops.createIndexes = async function createIndexes(db) {

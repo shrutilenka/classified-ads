@@ -91,7 +91,7 @@ async function routes(fastify, options) {
     fastify.post(
         '/signup',
         { schema: loginSchema2 },
-        async function (request, reply) {
+        async function (request, reply, next) {
             const username = request.body.username
             const password = request.body.password
 
@@ -121,6 +121,7 @@ async function routes(fastify, options) {
                     console.log(username)
                     console.log(new_user)
                     if (role === 'admin') {
+                        reply.redirect('/')
                         return
                     }
 
@@ -131,22 +132,13 @@ async function routes(fastify, options) {
                         text:
                             'Hello,\n\n' +
                             'Please verify your account by clicking the link: \n' +
-                            config.get('API_HOST') +
+                            config.get('APIHost') +
                             '/confirmation/' +
                             tempUser.token +
-                            '.\n',
+                            '\n',
                     }
-                    nodemailer.sendMail(mailOptions, async (err, info) => {
-                        if (err) {
-                            // find a way to throw/catch this error
-                            console.log(err)
-                            // throw {
-                            //     statusCode: 500,
-                            //     message:
-                            //         'Something went wrong! Please try again',
-                            // }
-                            return
-                        }
+                    nodemailer.sendMail(mailOptions, async(err, info) => {
+                        if (err) throw err
                         // TODO: insert
                         await QInstance.insertTmpUser(tempUser)
                         reply.redirect('/')

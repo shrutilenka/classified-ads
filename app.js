@@ -92,15 +92,7 @@ async function instantiateApp() {
     const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
     fastify.decorate('verifyJWT', verifyJWT)
     fastify.decorate('softVerifyJWT', softVerifyJWT)
-
-    fastify.route({
-        method: 'GET',
-        url: '/home',
-        handler: (request, reply) => {
-            reply.send(`Logged In as ${request.params.username}`)
-        },
-    })
-
+         
     // Run the server as soon as possible!
     const start = async () => {
         try {
