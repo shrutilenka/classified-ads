@@ -6,9 +6,8 @@
   "scripts": {
     "build": "sudo apt-get install -y build-essential && npm install && cd client && npm install && npm run dev:client && cd ..",
     "start": "node app.js",
-    "dev:start": "nodemon app.js",
-    "lint": "prettier --ignore-path .gitignore --check . && eslint  --ignore-path .gitignore .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:start": "~/go/bin/MailHog & node app.js",
+    "stop": "pkill --signal SIGINT classified-ads && kill -9 `pidof ~/go/bin/MailHog`",
     "tools": "cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip"
   },
   "keywords": [

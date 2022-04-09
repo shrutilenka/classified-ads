@@ -1,5 +1,7 @@
+
 // Require dependencies (fastify plugins and others)
 require('dotenv').config()
+process.title = 'classified-ads'
 const config = require('config')
 // incremental is better at least here in app.js
 const NODE_ENV = {
