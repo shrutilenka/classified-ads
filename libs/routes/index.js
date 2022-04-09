@@ -158,7 +158,7 @@ async function routes(fastify, options) {
         if (elems) {
             return elems
         }
-        reply.blabla([{}, 'message', 'not-found'], req)
+        reply.blabla([{}, 'message', 'NOT_FOUND'], req)
         return reply
     })
 

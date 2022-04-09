@@ -12,29 +12,20 @@ const adminEmail = process.env.ADMIN_EMAIL
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
-    const logger = fastify.log
+    const { log, nodemailer } = fastify
     const queries = require('../services/mongo')
-    const QInstance = new queries(db, logger)
-    const renderer = require('../services/renderer')
+    const QInstance = new queries(db, log)
     const { constraints } = require('../constraints/constraints')
-    // TODO: replace `reply.view` with reply.blabla([data, route, kind])
-    fastify.decorateReply('blabla', function (context) {
-        if (NODE_ENV == -1) {
-            this.send(context[0])
-        } else {
-            const userFriendlyMsg = renderer(...context)
-            const route = context[1]
-            this.view(`/templates/pages/${route}`, userFriendlyMsg)
-        }
-    })
+    const blabla = require('../decorators/blabla')
 
-    let { nodemailer } = fastify
     const bcrypt = require('bcryptjs')
     var crypto = require('crypto')
     const jwt = require('jsonwebtoken')
     const JWT_SECRET = process.env.JWT_SECRET
     const COOKIE_NAME = config.get('COOKIE_NAME')
     const loginSchema = constraints[process.env.NODE_ENV].POST.login.schema
+
+    fastify.decorateReply('blabla', blabla)
     fastify.post(
         '/login',
         { schema: loginSchema },
@@ -44,8 +35,8 @@ async function routes(fastify, options) {
             console.log('logging user' + username + ' with password' + password)
             const user = await QInstance.getUserById(username)
             if (!user) {
-                console.log('no user')
-                throw { statusCode: 401, message: 'INCORRECT_CREDENTIALS' }
+                reply.blabla([{}, 'login', 'INCORRECT_CREDENTIALS'], request)
+                return
             }
             try {
                 const isMatch = await bcrypt.compare(
@@ -53,13 +44,11 @@ async function routes(fastify, options) {
                     user.passhash,
                 )
                 if (!isMatch) {
-                    console.log('no match')
-                    throw {
-                        statusCode: 401,
-                        message: 'INCORRECT_CREDENTIALS',
-                    }
+                    reply.blabla([{}, 'login', 'INCORRECT_CREDENTIALS'], request)
+                    return
                 } else if (!user.isVerified) {
-                    throw { statusCode: 401, message: 'USER_UNVERIFIED' }
+                    reply.blabla([{}, 'login', 'USER_UNVERIFIED'], request)
+                    return
                 } else {
                     const token = await jwt.sign(
                         { username: username, role: user.role },
@@ -77,12 +66,8 @@ async function routes(fastify, options) {
                 }
             } catch (err) {
                 console.log(err)
-                // redirect when statusCode: 401
-                // throw error for other errors
-                throw {
-                    statusCode: 500,
-                    message: 'Something went wrong! Please try again',
-                }
+                reply.blabla([{}, 'login', 'SERVER_ERROR'], request)
+                return
             }
         },
     )
@@ -102,7 +87,9 @@ async function routes(fastify, options) {
             try {
                 const user = await QInstance.getUserById(username)
                 if (user) {
-                    throw { statusCode: 400, message: 'EMAIL_TAKEN' }
+                    reply.blabla([{}, 'signup', 'EMAIL_TAKEN'], request)
+                    return
+                    // throw { statusCode: 400, message: 'EMAIL_TAKEN' }
                 } else {
                     let passhash = await bcrypt.hash(password, 10)
                     // Temporary user to be able to verify property of identity (email)
@@ -147,10 +134,8 @@ async function routes(fastify, options) {
                 }
             } catch (err) {
                 console.log(err)
-                throw {
-                    statusCode: 500,
-                    message: 'Something went wrong! Please try again',
-                }
+                reply.blabla([{}, 'signup', 'SERVER_ERROR'], request)
+                return
             }
         },
     )

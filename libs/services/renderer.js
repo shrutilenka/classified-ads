@@ -8,8 +8,8 @@
  * @param {*} req request object to derive localized messages from
  * Examples
  * {post, get}('listings/^\/(donations|skills|blogs)/') => 'listings.donations'
- * post('listings/gwoogl') => 'listings.gwoogl' or 'listings.not found' or 'listings.server error'
- * {post, get}('listings/id/:id/') => 'listing.id' or 'listing.not found' or 'listing.server error'
+ * post('listings/gwoogl') => 'listings.gwoogl' or 'listings.not found' or 'listings.SERVER_ERROR'
+ * {post, get}('listings/id/:id/') => 'listing.id' or 'listing.not found' or 'listing.SERVER_ERROR'
  * get('listings/tags') => 'tags.tags'
  */
 module.exports = function (data, route, kind, req) {

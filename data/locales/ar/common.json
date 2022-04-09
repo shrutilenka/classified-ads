@@ -108,19 +108,43 @@
       }
    },
    "message":{
-      "not-found":{
+      "NOT_FOUND":{
          "title":"Classified-ads - Error",
          "message":"No listing found, it can be deactivated or not approved yet :(",
          "success":"",
          "error":"Listing not found"
       },
-      "server error":{
+      "SERVER_ERROR":{
          "title":"Classified-ads - Error",
          "message":"Oops, an internal error accured :( Please try again"
       },
       "contact":{
          "title":"",
          "message":""
+      }
+   },
+   "signup": {
+      "EMAIL_TAKEN":{
+         "title":"Classified-ads - signup error",
+         "error":"Email has been taken"
+      },
+      "SERVER_ERROR":{
+         "title":"Classified-ads - signup error",
+         "error":"Oops, an internal error accured :( Please try again"
+      }
+   },
+   "login": {
+      "INCORRECT_CREDENTIALS":{
+         "title":"Classified-ads - login error",
+         "error":"Please verify email and password and try again"
+      },
+      "USER_UNVERIFIED":{
+         "title":"Classified-ads - login error",
+         "error":"Please check your email inbox to activate your account"
+      },
+      "SERVER_ERROR":{
+         "title":"Classified-ads - login error",
+         "error":"Oops, an internal error accured :( Please try again"
       }
    }
 }

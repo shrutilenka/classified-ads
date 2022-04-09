@@ -29,7 +29,6 @@ async function routes(fastify, options, next) {
         auth = softAuth = (fastify, opts, done) => { done(new Error('An error happened')) }
     }
 
-    // TODO: replace `reply.view` with reply.blabla([data, route, kind])
     fastify.decorateReply('blabla', blabla)
 
     fastify.get('/', { preHandler: softAuth }, async function (req, reply) {
@@ -84,7 +83,7 @@ async function routes(fastify, options, next) {
             reply.blabla([data, 'listing', 'id'], req)
             return reply
         }
-        reply.blabla([{}, 'message', 'not-found'], req)
+        reply.blabla([{}, 'message', 'NOT_FOUND'], req)
         return reply
     })
 
