@@ -17,3 +17,14 @@ export function markRequiredInputs() {
     }
   }
 }
+
+export function updatePostPostInputs() {
+  if (!window.__formData__)
+    return
+  for (let [inputName, value] of Object.entries(window.__formData__)) {
+    const input = document.querySelector(`input[name="${inputName}"]`)
+    if(input) {
+      input.value = value
+    }
+  }
+}

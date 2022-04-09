@@ -15,12 +15,19 @@ const COOKIE_NAME = config.get('COOKIE_NAME')
 function blabla(context) {
     // get priore user info somehow
     const user = {}
+    
     // safe add cookies when not present, for app-light.js (testing case)
     this.request.raw['cookies'] = this.request.raw['cookies'] ? this.request.raw['cookies'] : {}
     user['nickname'] = this.request.params.username ? this.request.params.username : this.request.cookies[COOKIE_NAME] ? '🏠' : ''
     if (NODE_ENV == -1) {
         this.send(context[0])
     } else {
+        let formData = {}
+        if(this.request.method === 'POST') {
+            formData = JSON.parse(JSON.stringify(this.request.body))
+            // TODO: remove passwords
+            Object.assign(context[0], { formData })
+        }
         Object.assign(context[0], { user })
         const userFriendlyMsg = renderer(...context, this.request)
         const route = context[1]

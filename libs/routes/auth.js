@@ -30,8 +30,7 @@ async function routes(fastify, options) {
         '/login',
         { schema: loginSchema },
         async function (request, reply) {
-            const username = request.body.username
-            const password = request.body.password
+            const { username, password } = request.body
             console.log('logging user' + username + ' with password' + password)
             const user = await QInstance.getUserById(username)
             if (!user) {
@@ -76,10 +75,9 @@ async function routes(fastify, options) {
     fastify.post(
         '/signup',
         { schema: loginSchema2 },
-        async function (request, reply, next) {
-            const username = request.body.username
-            const password = request.body.password
-
+        async function (request, reply) {
+            
+            const { username, password } = request.body
             // Always 'regular' by default (except user@mail.com for tests)
             const role =
                 username === 'bacloud14@gmail.com' ? 'admin' : 'regular'

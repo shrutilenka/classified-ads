@@ -49,11 +49,16 @@
 <% } %>
 <% if(typeof addressPoints != 'undefined'){ %>
 <script>
-  var __addressPoints__ = <%- JSON.stringify(addressPoints) %>;
+  var __addressPoints__ = <%- JSON.stringify(addressPoints) %>
 </script>
 <% } %>
 <% if(typeof UXConstraints != 'undefined'){ %>
 <script>
-  var __UXConstraints__ = <%- JSON.stringify(UXConstraints) %>;
+  var __UXConstraints__ = <%- JSON.stringify(UXConstraints) %>
+</script>
+<% } %>
+<% if(typeof formData != 'undefined'){ %>
+<script>
+  var __formData__ = <%- JSON.stringify(formData) %>
 </script>
 <% } %>
