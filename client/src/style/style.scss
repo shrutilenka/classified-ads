@@ -60,21 +60,21 @@ nav#sidebar_nav {
   width: fit-content;
 }
 
-.CA-listing {
+.ca-listing {
   // TODO: put this guy on right of the card
 }
-.CA-listings .CA-listing {
+.ca-listings .ca-listing {
   cursor: pointer;
   right: 0;
   top: 0;
   position: absolute;
 }
-.CA-listings .CA-listing:hover:after,
-.CA-listings .CA-listing.favourites:after {
+.ca-listings .ca-listing:hover:after,
+.ca-listings .ca-listing.favourites:after {
   content: ' \2605';
   color: rgb(255, 203, 0);
 }
-.CA-listings .CA-listing.favourites:hover:after {
+.ca-listings .ca-listing.favourites:hover:after {
   content: ' \2606';
 }
 

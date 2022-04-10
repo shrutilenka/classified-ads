@@ -3,7 +3,7 @@ import { LIS } from '../../helpers/lis'
 
 export const setupFavourites = async () => {
   return new Promise(function (resolve, reject) {
-    if (!document.querySelector('.CA-listings')) {
+    if (!document.querySelector('.ca-listings')) {
       return resolve('### function "setupFavourites" ignored well')
     }
     try {
@@ -13,11 +13,11 @@ export const setupFavourites = async () => {
       favorites.forEach(function (favorite) {
         const elem = LIS.id(favorite)
         if (elem) {
-          elem.className = 'CA-listing favourites'
+          elem.className = 'ca-listing favourites'
         }
       })
       // register click event listener
-      document.querySelector('.CA-listings').addEventListener('click', function (e) {
+      document.querySelector('.ca-listings').addEventListener('click', function (e) {
         var id = e.target.id,
           item = e.target,
           index = favorites.indexOf(id)
@@ -26,11 +26,11 @@ export const setupFavourites = async () => {
         // item is not favorite
         if (index == -1) {
           favorites.push(id)
-          item.className = 'CA-listing favourites'
+          item.className = 'ca-listing favourites'
           // item is already favorite
         } else {
           favorites.splice(index, 1)
-          item.className = 'CA-listing'
+          item.className = 'ca-listing'
         }
         // store array in local storage
         localStorage.setItem('favorites', JSON.stringify(favorites))
