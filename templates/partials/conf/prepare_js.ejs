@@ -7,9 +7,7 @@
 <% } %>
 <% if(typeof error != 'undefined'){ %>
 <script>
-  var getTest = "<%= error  %>"
-  if (getTest)
-    __errors__.push(getTest)
+  __errors__ = <%- JSON.stringify(error) %>
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data._id != 'undefined'){ %>

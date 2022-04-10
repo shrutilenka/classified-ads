@@ -124,6 +124,9 @@
       }
    },
    "signup": {
+      "signup":{
+         "title":"Classified-ads - signup"
+      },
       "EMAIL_TAKEN":{
          "title":"Classified-ads - signup error",
          "error":"Email has been taken"
@@ -131,9 +134,16 @@
       "SERVER_ERROR":{
          "title":"Classified-ads - signup error",
          "error":"Oops, an internal error accured :( Please try again"
+      },
+      "VALIDATION_ERROR":{
+         "title":"Classified-ads - signup error",
+         "error":"Please verify the provided information"
       }
    },
    "login": {
+      "login":{
+         "title":"Classified-ads - login"
+      },
       "INCORRECT_CREDENTIALS":{
          "title":"Classified-ads - login error",
          "error":"Please verify email and password and try again"
@@ -145,6 +155,10 @@
       "SERVER_ERROR":{
          "title":"Classified-ads - login error",
          "error":"Oops, an internal error accured :( Please try again"
+      },
+      "VALIDATION_ERROR":{
+         "title":"Classified-ads - signup error",
+         "error":"Please verify the provided information"
       }
    }
 }

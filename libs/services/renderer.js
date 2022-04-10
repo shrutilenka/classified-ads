@@ -14,10 +14,18 @@
  */
 module.exports = function (data, route, kind, req) {
     const { section, subtitle } = data
-    const UXData = { section: section, subtitle: subtitle, returnObjects: true }
+    const sharedData = { section: section, subtitle: subtitle, returnObjects: true }
+    const userFriendlyMsg = req.t(`${route}.${kind}`, sharedData)
+    let errors
+    if (req.validationError) {
+        errors = req.validationError.validation.map(err => err.message)
+        errors.push(userFriendlyMsg.error)
+        userFriendlyMsg.error = errors
+        // console.log(JSON.parse(JSON.stringify(req.validationError)))
+    }
     // console.log(req.t(`${route}.${kind}`, UXData))
     return Object.assign(
-        req.t(`${route}.${kind}`, UXData),
+        userFriendlyMsg,
         data,
     )
 }

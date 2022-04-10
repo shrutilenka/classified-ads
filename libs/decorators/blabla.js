@@ -15,7 +15,6 @@ const COOKIE_NAME = config.get('COOKIE_NAME')
 function blabla(context) {
     // get priore user info somehow
     const user = {}
-    
     // safe add cookies when not present, for app-light.js (testing case)
     this.request.raw['cookies'] = this.request.raw['cookies'] ? this.request.raw['cookies'] : {}
     user['nickname'] = this.request.params.username ? this.request.params.username : this.request.cookies[COOKIE_NAME] ? '🏠' : ''

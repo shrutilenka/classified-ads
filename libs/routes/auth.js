@@ -28,8 +28,11 @@ async function routes(fastify, options) {
     fastify.decorateReply('blabla', blabla)
     fastify.post(
         '/login',
-        { schema: loginSchema },
+        { schema: loginSchema, attachValidation: true },
         async function (request, reply) {
+            if (request.validationError) {
+                reply.blabla([{}, 'login', 'VALIDATION_ERROR'], request)
+            }
             const { username, password } = request.body
             console.log('logging user' + username + ' with password' + password)
             const user = await QInstance.getUserById(username)
@@ -74,9 +77,11 @@ async function routes(fastify, options) {
     const loginSchema2 = constraints[process.env.NODE_ENV].POST.login.schema
     fastify.post(
         '/signup',
-        { schema: loginSchema2 },
+        { schema: loginSchema2, attachValidation: true },
         async function (request, reply) {
-            
+            if (request.validationError) {
+                reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
+            }
             const { username, password } = request.body
             // Always 'regular' by default (except user@mail.com for tests)
             const role =
@@ -163,16 +168,12 @@ async function routes(fastify, options) {
 
     /* GET login page. */
     fastify.get('/login', async function (req, reply) {
-        reply.view(`/templates/pages/login`, {
-            UXConstraints: constraints[process.env.NODE_ENV].GET.login,
-        })
+        reply.blabla([{}, 'login', 'login'], req)
     })
 
     /* GET subscribe page. */
     fastify.get('/signup', async function (req, reply) {
-        reply.view(`/templates/pages/signup`, {
-            UXConstraints: constraints[process.env.NODE_ENV].GET.signup,
-        })
+        reply.blabla([{}, 'signup', 'signup'], req)
     })
 }
 
