@@ -218,11 +218,10 @@ PipeLine.prototype = {
         const english = googleTagsEnLite.indexOf(this.data.tags[0]) > -1
         const french = english ? false : googleTagsFrLite.indexOf(this.data.tags[0]) > -1
         const arabic = english ? false : french ? false : googleTagsArLite.indexOf(this.data.tags[0]) > -1
-
-        if (this.data.tags.length !== 1 || (!english && !french && !arabic))
-            return this
         try {
-            var parent, granpa;
+            if (!english && !french && !arabic)
+                throw new Error('Tags should be choosen from list')
+            var parent, granpa
             if (english) {
                 [parent, granpa] = getAscendants(this.data.tags[0], 'en')
             }
@@ -259,20 +258,22 @@ function validationPipeLine(req) {
     const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng })
     const bodyPipeline = new PipeLine(body)
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
-    const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().validateBetween(singletonSchema).postValidate()
-    // TODO: deriveTagsParents with section donations at least
-    // add other languages
+    const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().validateBetween(singletonSchema).postValidate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline.isTagsValid().deriveTagsParents().evaluate().isTrue
 
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
     const valid = singletonSchema.called ? true : validate(body)
-    let error = {}
-    if (!valid) error['validation'] = validate.errors
-    // stack other errors. Object.assign is safe.
-    Object.assign(error, geoPipeline.error)
-    Object.assign(error, bodyPipeline.error)
-    return { error, tagsValid, geoValid, undrawValid }
+    let errors = []
+    if (!valid) {
+        errors = validate.errors.map(err => `Validation error: ${err.dataPath.substring(1)} ${err.message}`)
+    }
+    if (geoPipeline.error)
+        errors.push(geoPipeline.error)
+    if (bodyPipeline.error)
+        errors.push(bodyPipeline.error)
+
+    return { errors, tagsValid, geoValid, undrawValid }
 }
 
 module.exports = { validationPipeLine, stringTransformer }

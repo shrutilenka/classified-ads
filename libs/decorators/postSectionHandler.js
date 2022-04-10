@@ -51,13 +51,13 @@ module.exports = (fastify) => {
     return async (req, reply) => {
         const { body } = req
         const section = body.section
-        const { error, tagsValid, geoValid, undrawValid } = validationPipeLine(req)
-        const valid = (isEmpty(error)) && tagsValid && geoValid && undrawValid
+        const { errors, tagsValid, geoValid, undrawValid } = validationPipeLine(req)
+        const valid = !errors.length && tagsValid && geoValid && undrawValid
         if (!valid) {
             reply.send({
                 message: 'Invalid request',
                 data: body,
-                error: error
+                errors: errors
             })
         } else {
             const html = body.desc
