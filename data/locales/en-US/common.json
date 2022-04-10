@@ -44,6 +44,12 @@
          "intro":"Classified advertising brought to the web",
          "success":"We got some listings nearby :)",
          "error":""
+      },
+      "POST_ERR": {
+         "title":"Classified-ads - Error",
+         "intro":"Classified advertising brought to the web",
+         "success":"",
+         "error":""
       }
    },
    "index":{

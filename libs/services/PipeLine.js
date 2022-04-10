@@ -268,10 +268,15 @@ function validationPipeLine(req) {
     if (!valid) {
         errors = validate.errors.map(err => `Validation error: ${err.dataPath.substring(1)} ${err.message}`)
     }
-    if (geoPipeline.error)
-        errors.push(geoPipeline.error)
-    if (bodyPipeline.error)
-        errors.push(bodyPipeline.error)
+    if (geoPipeline.error) {
+        let friendlyErrors = Object.entries(geoPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
+        errors = errors.concat(friendlyErrors)
+    }
+    
+    if (bodyPipeline.error) {
+        let friendlyErrors = Object.entries(bodyPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
+        errors = errors.concat(friendlyErrors)
+    }
 
     return { errors, tagsValid, geoValid, undrawValid }
 }

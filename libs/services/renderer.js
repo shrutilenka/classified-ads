@@ -23,6 +23,9 @@ module.exports = function (data, route, kind, req) {
         userFriendlyMsg.error = errors
         // console.log(JSON.parse(JSON.stringify(req.validationError)))
     }
+    if (data.errors) {
+        userFriendlyMsg.error = data.errors
+    }
     // console.log(req.t(`${route}.${kind}`, UXData))
     return Object.assign(
         userFriendlyMsg,
