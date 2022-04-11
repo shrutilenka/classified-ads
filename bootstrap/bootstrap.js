@@ -261,7 +261,7 @@ ops.fastifyInjects = async function fastifyInjects(app) {
 
 /*********************************************************************************************** */
 // REGISTER REGULAR JOBS
-const scripts = require('../libs/services/mongoScripts')
+const scripts = require('../libs/services/mongo-scripts')
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
     const QInstance = new scripts(db)
     const task = new AsyncTask(

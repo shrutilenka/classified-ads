@@ -1,5 +1,5 @@
-const routine = `
-function (text) {
+const routine =
+    `function (text) {
     const stopwords = ['the', 'this', 'and', 'or', 'id']
     text = text.replace(new RegExp('\\b(' + stopwords.join('|') + ')\\b', 'g'), '')
     text = text.replace(/[;,.]/g, ' ')
@@ -11,20 +11,20 @@ function (text) {
 // coll: 'tmp'
 const agg = [
     {
-        "$match":{
-            "a":true,
-            "d":false
+        "$match": {
+            "a": true,
+            "d": false
         }
     }, {
-        "$project":{
-            "title":1,
-            "desc":1
+        "$project": {
+            "title": 1,
+            "desc": 1
         }
     }, {
-        "$replaceWith":{
-            "_id":"$_id",
-            "text":{
-                "$concat":[
+        "$replaceWith": {
+            "_id": "$_id",
+            "text": {
+                "$concat": [
                     "$title",
                     " ",
                     "$desc"
@@ -32,64 +32,64 @@ const agg = [
             }
         }
     }, {
-        "$addFields":{
-            "cleaned":{
-                "$function":{
-                    "body":"routine",
-                    "args":[
+        "$addFields": {
+            "cleaned": {
+                "$function": {
+                    "body": routine,
+                    "args": [
                         "$text"
                     ],
-                    "lang":"js"
+                    "lang": "js"
                 }
             }
         }
     }, {
-        "$replaceWith":{
-            "_id":"$_id",
-            "text":{
-                "$trim":{
-                    "input":"$cleaned"
+        "$replaceWith": {
+            "_id": "$_id",
+            "text": {
+                "$trim": {
+                    "input": "$cleaned"
                 }
             }
         }
     }, {
-        "$project":{
-            "words":{
-                "$split":[
+        "$project": {
+            "words": {
+                "$split": [
                     "$text",
                     " "
                 ]
             },
-            "qt":{
-                "$const":1
+            "qt": {
+                "$const": 1
             }
         }
     }, {
-        "$unwind":{
-            "path":"$words",
-            "includeArrayIndex":"id",
-            "preserveNullAndEmptyArrays":true
+        "$unwind": {
+            "path": "$words",
+            "includeArrayIndex": "id",
+            "preserveNullAndEmptyArrays": true
         }
     }, {
-        "$group":{
-            "_id":"$words",
-            "docs":{
-                "$addToSet":"$_id"
+        "$group": {
+            "_id": "$words",
+            "docs": {
+                "$addToSet": "$_id"
             },
-            "weight":{
-                "$sum":"$qt"
+            "weight": {
+                "$sum": "$qt"
             }
         }
     }, {
-        "$sort":{
-            "weight":-1
+        "$sort": {
+            "weight": -1
         }
     }, {
-        "$limit":100
+        "$limit": 100
     }, {
-        "$out":{
-            "db":"listings_db",
-            "coll":"words"
+        "$out": {
+            "db": "listings_db",
+            "coll": "words"
         }
     }
 ]

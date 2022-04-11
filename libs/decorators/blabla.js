@@ -1,9 +1,8 @@
 require('dotenv').config()
 const config = require('config')
 
-const renderer = require('../services/renderer')
+const UXBlabla = require('../services/UX-blabla')
 const { constraints } = require('../constraints/constraints')
-// incremental is better at least here in app.js
 const NODE_ENV = {
     'monkey chaos': -1,
     'localhost': 0,
@@ -12,6 +11,13 @@ const NODE_ENV = {
 }[process.env.NODE_ENV]
 const COOKIE_NAME = config.get('COOKIE_NAME')
 
+/**
+ * `blabla` is a reply decorator
+ * (ie: It is a customization of `request.view`)
+ * @param {*} context is like [data, route, kind]
+ * Note: `this` is a Fastify object in the context of calling this
+ * function inside a request handler so this.request is simply the request object
+ */
 function blabla(context) {
     // get priore user info somehow
     const user = {}
@@ -28,7 +34,8 @@ function blabla(context) {
             Object.assign(context[0], { formData })
         }
         Object.assign(context[0], { user })
-        const userFriendlyMsg = renderer(...context, this.request)
+        // UXBlabla uses i18next for more user friendly messages
+        const userFriendlyMsg = UXBlabla(...context, this.request)
         const route = context[1]
         const routeC = constraints[process.env.NODE_ENV].GET[route]
         const UXConstraints = routeC ? { UXConstraints: routeC } : {}
