@@ -237,9 +237,8 @@ async function instantiateApp() {
     /*********************************************************************************************** */
     // !!BOOTSTRAP ENVIRONMENT AND DATA!!
     const { ops: bootstrap } = require('./bootstrap/bootstrap.js')
-    //  Run only on one node
-    // no on heroku 
-    if (fastify.conf('HEROKU') || process.env.worker_id == '1') {
+    // Run only on one node
+    if (process.env.worker_id == '1') {
         fastify.log.info('Checking environment data once')
         fastify.register(fastifySchedulePlugin)
         bootstrap.checkEnvironmentData(fastify.conf('DATABASE') || process.env.MONGODB_URI)

@@ -6,9 +6,6 @@ const routine =
     return text.toLowerCase()
 }`
 // If the pipeline includes the $out operator, aggregate() returns an empty cursor.
-// TODO: conf
-// db: 'listings_db',
-// coll: 'tmp'
 const agg = [
     {
         "$match": {

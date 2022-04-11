@@ -1,6 +1,3 @@
-const adminPass = process.env.ADMIN_PASS
-const adminEmail = process.env.ADMIN_EMAIL
-
 module.exports = {
     features: {
         a: true,
