@@ -480,27 +480,40 @@ module.exports = function (db) {
         })
     }
 
-    this.deactivateDocument = async function (password) {
+    /**
+     *
+     * @param {*} id id of unique document
+     * @param {*} key boolean field to be toggeled
+     * @returns
+     */
+    this.toggleValue = async function (id, key) {
         const collection = db.collection('listing')
-        const query = JSON.parse(JSON.stringify(baseQuery))
-        query.pass = password
-        const newValues = { $set: { d: true } }
-        const options = { upsert: false }
+        const query = {}
         return new Promise(function (resolve, reject) {
-            collection.findOneAndUpdate(
-                query,
-                newValues,
-                options,
-                function (err, res) {
-                    if (err) reject(err)
-                    if (res.lastErrorObject.n === 0) {
-                        reject(
-                            new Error('document to be deactivated not found'),
-                        )
-                    }
-                    resolve(res._id)
-                },
-            )
+            try {
+                new ObjectId(id)
+            } catch (err) {
+                return reject(err)
+            }
+            query._id = new ObjectId(id)
+            collection.find(query, { limit: 1 }).then((doc) => {
+                if (!doc) {
+                    resolve()
+                    return
+                }
+                const newValues = { $set: {} }
+                newValues.$set[key] = !doc[key]
+                const options = { returnOriginal: false }
+                collection.findOneAndUpdate(
+                    query,
+                    newValues,
+                    options,
+                    function (err, res) {
+                        if (err) return reject(err)
+                        resolve(res.value)
+                    },
+                )
+            })
         })
     }
 
@@ -735,7 +748,7 @@ module.exports = function (db) {
         const projection = {
             pass: 0.0,
             geolocation: 0.0,
-            ...(!approving && {d: 0.0, a: 0.0,}),
+            ...(!approving && { d: 0.0, a: 0.0 }),
             lat: 0.0,
             lng: 0.0,
             ara: 0.0,
