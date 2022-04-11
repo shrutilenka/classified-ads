@@ -1,11 +1,6 @@
 require('dotenv').config()
 const fs = require('fs')
-// const sanitizeHtml = require('sanitize-html')
-const geoEncoder = require('../../data/geo/geoJSONEncoder')
 const Multer = require('fastify-multer')
-// const { html, reb, rew } = require('../constraints/regex.js')
-
-
 
 const ops = {}
 
@@ -44,30 +39,6 @@ ops.getLanguage = async (text) => {
 }
 
 /**
- * Limit HTML tags of a listings description
- * @param {String} str
- * @return {String}
- */
-ops.sanitize = function sanitize(str) {
-
-}
-
-/**
- * Clean sensitive data like: CB number, Phone num, ... Mask sensitive with XXX
- * Based on Richard's Ramblings Regex patterns.
- * Author: Anthony Goldman
- * Source: github.com/jaideepchilukuri/aideepch/blob/
- * 2bd3d43adbbf951d07420d9dac944a2f5eec76a8/
- * tools/maintainance/EJS/emptyconfigs/19.11.0/src/survey/surveyutils.js
- * @param {String} blob blob String text blob to be cleaned up.
- * @param {Number} maxlen
- * @return {String}
- */
-ops.cleanSensitive = function cleanSensitive(blob, maxlen) {
-
-}
-
-/**
  * Hash https://werxltd.com/wp/2010/05/13/
  * javascript-implementation-of-javas-string-hashcode-method/
  * @param {String} s
@@ -88,20 +59,6 @@ ops.readJSON = function readJSON(path) {
     const rawdata = fs.readFileSync(path)
     const data = JSON.parse(rawdata)
     return data
-}
-
-// transform geojson coordinates into an array of L.LatLng
-const coordinates = geoEncoder.getBorders()
-
-/**
- * Check if point is inside a Polygon
- * @param {{lat, lng}} point a geopoint to be checked agains vs
- * @param {*} vs Coordinates which is a polygone,
- * that represents country borders defined in ../data/
- * @return {Boolean}
- */
-ops.isPointInsidePolygon = function isPointInsidePolygon(point, vs = coordinates) {
-
 }
 
 /**

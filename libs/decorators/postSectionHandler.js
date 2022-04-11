@@ -10,7 +10,7 @@ const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
 const {
     validationPipeLine,
     stringTransformer,
-} = require('../services/PipeLine.js')
+} = require('../services/pipeLine.js')
 const queries = require('../services/mongo')
 // Require dependencies (fastify plugins and others)
 require('dotenv').config()
