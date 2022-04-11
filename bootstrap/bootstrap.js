@@ -13,8 +13,14 @@ const { schema } = require('../config/options/bootstrap')
 const { SimpleIntervalJob, AsyncTask } = require('toad-scheduler')
 const geoJSONEncoder = require('../data/geo/geoJSONEncoder')
 
-const states = geoJSONEncoder.getStateNames('en')
-
+/*********************************************************************************************** */
+// FAKE DEVELOPMENT ENVIRONMENTS DATA
+// ONLY FOR CURRENT CONFIGURATION OF CLASSIFIED-ADS (THREE SECTION, THREE LANGUAGES ...)
+const states = {
+    en: geoJSONEncoder.getStateNames('en'),
+    fr: geoJSONEncoder.getStateNames('fr'),
+    ar: geoJSONEncoder.getStateNames('ar'),
+}
 const readDictionary = (lang) =>
     fs
         .readFileSync(path.resolve(__dirname, `../data/raw/${lang}.txt`))
@@ -78,8 +84,7 @@ for (let i = 0; i < 200; i++) {
         langsFaker[randomLang].words(1),
     ]
     item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
-    item.div = states[Math.floor(Math.random() * states.length)]
-
+    item.div = states[randomLang][Math.floor(Math.random() * states[randomLang].length)]
     item.section = sections[Math.floor(Math.random() * sections.length)]
     item.lat = getRandomInRange(minLat, maxLat, 3)
     item.lng = getRandomInRange(minLng, maxLng, 3)
@@ -91,8 +96,10 @@ for (let i = 0; i < 200; i++) {
     items.push(item)
 }
 
+/*********************************************************************************************** */
+// OPERATION TO SAFELY BOOTSRAT ENVIRONMENTS
+// PRESENCE OF DATABASES, COLLECTIONS, SETTING INDEXES
 const ops = {}
-
 ops.checkEnvironmentData = async function checkEnvironmentData(url) {
     // console.log({ level: 'info', message: 'Checking environment data' })
     return new Promise(function (resolve, reject) {
@@ -136,47 +143,6 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
     })
 }
 
-ops.seedDevelopmenetData = async function seedDevelopmenetData(db) {
-    const options = { ordered: true }
-    const collection = db.collection('listing')
-    return new Promise(function (resolve, reject) {
-        collection.insertMany(items, options, async function (err, reply) {
-            // fastify.log.info('Inserted seed data into the collection')
-            if (err) {
-                return reject(err)
-            }
-            // const mails = await ops.seedMailHogData(db)
-            // await ops.seedCommunity(mails.emails)
-            return resolve(reply)
-        })
-    })
-}
-
-const logRequest = (response, app) => {
-    app.log.info('status code: ', response.statusCode)
-    app.log.info('body: ', response.body)
-}
-ops.fastifyInjects = async function fastifyInjects(app) {
-    let response = await app.inject({
-        method: 'POST',
-        url: '/signup',
-        payload: {
-            username: 'bacloud14@gmail.com',
-            password: 'blablabla111SSS.',
-        },
-    })
-    logRequest(response, app)
-    response = await app.inject({
-        method: 'POST',
-        url: '/signup',
-        payload: {
-            username: 'sracer2016@yahoo.com',
-            password: 'blablabla111SSS.',
-        },
-    })
-    logRequest(response, app)
-}
-
 ops.createIndexes = async function createIndexes(db) {
     const listingCollection = db.collection('listing')
     await listingCollection.createIndex(
@@ -209,31 +175,23 @@ ops.createIndexes = async function createIndexes(db) {
         { expireAfterSeconds: 60*10, unique: true },
     )
 }
-const scripts = require('../libs/services/mongoScripts')
-ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
-    const QInstance = new scripts(db)
-    const task = new AsyncTask(
-        'simple task',
-        () => {
-            return QInstance.refreshKeywords()
-                .then((result) => {
-                    // result is an empty cursor
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        },
-        (err) => {
-            console.log(err)
-        },
-    )
-    const job = new SimpleIntervalJob(
-        {
-            seconds: seconds,
-        },
-        task,
-    )
-    scheduler.addSimpleIntervalJob(job)
+
+/*********************************************************************************************** */
+// SEED DEVELOPMENT FAKE DATA
+ops.seedDevelopmenetData = async function seedDevelopmenetData(db) {
+    const options = { ordered: true }
+    const collection = db.collection('listing')
+    return new Promise(function (resolve, reject) {
+        collection.insertMany(items, options, async function (err, reply) {
+            // fastify.log.info('Inserted seed data into the collection')
+            if (err) {
+                return reject(err)
+            }
+            // const mails = await ops.seedMailHogData(db)
+            // await ops.seedCommunity(mails.emails)
+            return resolve(reply)
+        })
+    })
 }
 
 const { refreshTopK, topk } = require('../libs/services/miner')
@@ -275,5 +233,61 @@ ops.famousSearches = function famousSearches() {
     //     )
     // }
 }
+// INJECT ENDPOINTS TO TEST EVERYTHING IS FINE AND REGISTER NEW USERS
+const logRequest = (response, app) => {
+    app.log.info('status code: ', response.statusCode)
+    app.log.info('body: ', response.body)
+}
+ops.fastifyInjects = async function fastifyInjects(app) {
+    let response = await app.inject({
+        method: 'POST',
+        url: '/signup',
+        payload: {
+            username: 'bacloud14@gmail.com',
+            password: 'blablabla111SSS.',
+        },
+    })
+    logRequest(response, app)
+    response = await app.inject({
+        method: 'POST',
+        url: '/signup',
+        payload: {
+            username: 'sracer2016@yahoo.com',
+            password: 'blablabla111SSS.',
+        },
+    })
+    logRequest(response, app)
+}
+
+/*********************************************************************************************** */
+// REGISTER REGULAR JOBS
+const scripts = require('../libs/services/mongoScripts')
+ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
+    const QInstance = new scripts(db)
+    const task = new AsyncTask(
+        'simple task',
+        () => {
+            return QInstance.refreshKeywords()
+                .then((result) => {
+                    // result is an empty cursor
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        (err) => {
+            console.log(err)
+        },
+    )
+    const job = new SimpleIntervalJob(
+        {
+            seconds: seconds,
+        },
+        task,
+    )
+    scheduler.addSimpleIntervalJob(job)
+}
+
+
 
 module.exports.ops = ops
