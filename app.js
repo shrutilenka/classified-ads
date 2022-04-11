@@ -1,9 +1,9 @@
 
-// Require dependencies (fastify plugins and others)
+// Require app configurations
 require('dotenv').config()
 process.title = 'classified-ads'
 const config = require('config')
-// incremental is better at least here in app.js
+// Incremental is better
 const NODE_ENV = {
     'monkey chaos': -1,
     'localhost': 0,
@@ -12,36 +12,52 @@ const NODE_ENV = {
 }[process.env.NODE_ENV]
 
 const dns = require('dns')
+const path = require('path')
+// Require dependencies
+// Fastify plugins
+
 const { fastifySchedulePlugin } = require('fastify-schedule')
 const fastify_ = require('fastify')
 const helmet = require('fastify-helmet')
 const compressPlugin = require('fastify-compress')
 const errorPlugin = require('fastify-error-page')
-const ejs = require('ejs')
-const viewsPlugin = require('point-of-view')
-const path = require('path')
 const serve = require('fastify-static')
 const mongodb = require('fastify-mongodb')
 const formbody = require('fastify-formbody')
 const rateLimit = require('fastify-rate-limit')
+const metricsPlugin = require('fastify-metrics')
+const fastifySwagger = require('fastify-swagger')
 
+// Rendering systems and internationalization
+const ejs = require('ejs')
+const viewsPlugin = require('point-of-view')
 const i18next = require('i18next')
 const Backend = require('i18next-fs-backend')
 const i18nextMiddleware = require('i18next-http-middleware')
-const metricsPlugin = require('fastify-metrics')
-// const swStats = require('swagger-stats')
+
+// Require plugins configurations
 const miner = require('./libs/decorators/miner').miner
-// downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 const swagger_ = require('./config/options/swagger')
 const logger_ = require('./config/options/logger')()
 const helmet_ = require('./config/options/helmet')()
 
+const nodemailer = require('fastify-nodemailer')
+const fastifyJWT = require('fastify-jwt')
+const fastifyAuth = require('fastify-auth')
+const fastifyCookies = require('fastify-cookie')
+const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
+// In case we add ElasticSearch we can benefit 'swagger-stats'
+// downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 // const apiSpec = require('./swagger.json')
 // async function setSwaggerStats(fastify, opts) {
 //     await fastify.register(require('fastify-express'))
 //     fastify.register(swStats.getFastifyPlugin, { })
 // }
 
+/**
+ * Initialize the fastify app. It could be called many time
+ * for NodeJS cluster case
+ */
 async function instantiateApp() {
     const fastify = fastify_({
         logger: logger_,
@@ -52,22 +68,25 @@ async function instantiateApp() {
     fastify.decorate('conf', (tag) => config.get(tag))
     fastify.register(formbody)
 
-    // For easy debugging in Localhost when needed, reply.send stack.
+    // For easy debugging (in Localhost) set ERROR_STACK= true
     // Otherwise not useful and not secure,
-    // send plain JSON error with only error.message
-    if (fastify.conf('ERROR_STACK')) {
+    if (config.get('ERROR_STACK')) {
         fastify.register(errorPlugin)
     }
 
-    //  Run only on one node
-    if (NODE_ENV < 1 /*&& process.env.worker_id == '1'*/) {
-        fastify.register(require('fastify-swagger'), swagger_.options)
+    //  !!Run only on one node!!
+    if (NODE_ENV === 0 /*&& process.env.worker_id == '1'*/) {
+        fastify.register(fastifySwagger, swagger_.options)
         console.log(`Please check localhost:${process.env.PORT || fastify.conf('NODE_PORT')}/documentation it's a nice start`)
         // fastify.register(setSwaggerStats)
         // setTimeout(() => {
         //     console.log(swStats.getCoreStats())
         // }, 10000)
     }
+
+    // These routes must be required inside
+    // instantiateApp (= called as many as nodes in cluster)
+    // because I feel like it's safer 
     const authRouter = require('./libs/routes/auth.js')
     const indexRouter = require('./libs/routes/index.js')
     const adminRouter = require('./libs/routes/admin.js')
@@ -76,23 +95,22 @@ async function instantiateApp() {
     const debugRouter = require('./libs/routes/debug.js')
     const gameRouter = require('./libs/routes/game.js')
 
-    // const ffPlugin = require('fastify-feature-flags')
-    // const ConfigProvider = require('fastify-feature-flags/dist/providers/config')
-    // fastify.register(ffPlugin, { providers: [new ConfigProvider.ConfigProvider({ prefix: 'features' })] })
 
     fastify.register(helmet, helmet_)
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
     fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
-    fastify.register(require('fastify-nodemailer'), config.get('SMTP'))
-    await fastify.register(require('fastify-jwt'), { secret: process.env.JWT_SECRET })
-    await fastify.register(require('fastify-auth'))
+    fastify.register(nodemailer, config.get('SMTP'))
+    await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
+    await fastify.register(fastifyAuth)
     // TODO: fastify.after(routes)
-    fastify.register(require('fastify-cookie'))
-    const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
+    fastify.register(fastifyCookies)
+    
+    // Set authentication as soon as possible
+    // after necessary plugins have been loaded
     fastify.decorate('verifyJWT', verifyJWT)
     fastify.decorate('softVerifyJWT', softVerifyJWT)
-         
+
     // Run the server as soon as possible!
     const start = async () => {
         try {
@@ -100,7 +118,7 @@ async function instantiateApp() {
             const port = process.env.PORT || fastify.conf('NODE_PORT')
             await fastify.listen(port, '0.0.0.0')
             //  Run only on one node
-            if (NODE_ENV == 0/*process.env.worker_id == '1'*/) {
+            if (NODE_ENV === 0/*process.env.worker_id == '1'*/) {
                 fastify.swagger()
             }
         } catch (err) {
@@ -110,7 +128,9 @@ async function instantiateApp() {
     }
     start()
 
-    // Seeming heavy and not so important bootstrap stuff 
+    /*********************************************************************************************** */
+    // Seeming heavy so use/register these after starting the app
+    // !!TRANSLATIONS !!
     i18next.use(Backend).use(i18nextMiddleware.LanguageDetector).init({
         backend: {
             loadPath: __dirname + '/data/locales/{{lng}}/common.json'
@@ -123,24 +143,22 @@ async function instantiateApp() {
             lookupCookie: 'locale',
             caches: ['cookie']
         },
-        // debug: true,
+        // debug: true, // set debug: true for logging errors in internationalization
     })
-
     fastify.register(i18nextMiddleware.plugin, {
         i18next,
         ignoreRoutes: ['/data/', '/admin/']
     })
-
     fastify.get('/__ping_trans', async (req, reply) => {
         return { translationWorks: req.t('greetings.title') }
     })
-
+    // Ping this from client side to change default language
     fastify.get('/i18n/:locale', (req, reply) => {
         reply.cookie('locale', req.params.locale, { path: '/' })
         if (req.headers.referer) reply.redirect(req.headers.referer)
         else reply.redirect('/')
     })
-
+    /*********************************************************************************************** */
     // TODO: find a way to strip very long ejs logging errors
     fastify.register(viewsPlugin, {
         engine: {
@@ -150,8 +168,8 @@ async function instantiateApp() {
             },
         }
     })
-
-    // Update our property
+    /*********************************************************************************************** */
+    // !!PREHANDERS AND HOOKS !!
     fastify.addHook('preHandler', (req, reply, done) => {
         const perPage = 9
         const page = req.query.p || 1
@@ -163,8 +181,10 @@ async function instantiateApp() {
     // TODO: must be very save, and minimal
     fastify.addHook('preHandler', miner)
 
+    /*********************************************************************************************** */
+    // !!SPAM ASSASSIN !!
     fastify.register(rateLimit, config.get('PING_LIMITER'))
-
+    // against 404 endoint ddos
     // fastify.setNotFoundHandler({
     //     preHandler: fastify.rateLimit()
     // }, function (request, reply) {
@@ -201,6 +221,8 @@ async function instantiateApp() {
             })
     })
 
+    /*********************************************************************************************** */    
+    // !!REGISTER ROUTES !!
     fastify.register(authRouter)
     fastify.register(indexRouter)
     fastify.register(adminRouter, { prefix: 'admin' })
@@ -210,11 +232,11 @@ async function instantiateApp() {
         fastify.register(debugRouter, { prefix: 'debug' })
     }
     fastify.register(gameRouter, { prefix: 'game' })
-
     fastify.register(serve, { root: path.join(__dirname, 'public') })
 
+    /*********************************************************************************************** */
+    // !!BOOTSTRAP ENVIRONMENT AND DATA!!
     const { ops: bootstrap } = require('./bootstrap/bootstrap.js')
-
     //  Run only on one node
     // no on heroku 
     if (fastify.conf('HEROKU') || process.env.worker_id == '1') {
@@ -263,25 +285,28 @@ async function instantiateApp() {
         //     // global.mongodb.disconnect()
         // })
     }
+
+    /*********************************************************************************************** */
+    // !!APP AND USER METRICS!!
     // Don't track for monkey chaos env (API testing)
-    // TODO: secure all /admin routes ? 
     const secretPath = process.env.SECRET_PATH
     const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
     if (NODE_ENV > -1 && process.env.worker_id == '1') {
         // TODO: modify https://github.com/bacloud22/visitor-counter/ to 
         // accept fastify.mongo instance instead
         // const myMongoDatabase = fastify.mongo.client.db('dbname')
-        // const visitors = require('./libs/decorators/visitors-handler')
-        // fastify.addHook('preHandler', async (req, reply) => {
-        //     let stats = await visitors.getStats()
-        //     stats.record(req, reply)
-        // })
-        // fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
+        const visitors = require('./libs/decorators/visitors-handler')
+        fastify.addHook('preHandler', async (req, reply) => {
+            let stats = await visitors.getStats()
+            stats.record(req, reply)
+        })
+        fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
         // Metrics exporter at least for one node to have a view on performance
         fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true })
     }
 }
-
+/*********************************************************************************************** */
+// !!CLUSTER SETUP!!
 const os = require('os')
 const cluster = require('cluster')
 const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
