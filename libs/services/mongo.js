@@ -59,11 +59,11 @@ module.exports = function (db) {
                     break
                 }
                 collection.insertOne(listing, function (err, res) {
-                    if (err) reject(err)
-                    resolve(res.acknowledged)
+                    if (err) return reject(err)
+                    return resolve(res.acknowledged)
                 })
             } catch (err) {
-                reject(err)
+                return reject(err)
             }
         })
     }
@@ -79,11 +79,11 @@ module.exports = function (db) {
             try {
                 comment = new Comment(elem)
                 collection.insertOne(comment, function (err, res) {
-                    if (err) reject(err)
-                    resolve(res.acknowledged)
+                    if (err) return reject(err)
+                    return resolve(res.acknowledged)
                 })
             } catch (err) {
-                reject(err)
+                return reject(err)
             }
         })
     }
@@ -132,7 +132,7 @@ module.exports = function (db) {
             collection
                 .findOne(query, { projection: projection })
                 .then((doc) => {
-                    resolve([doc.from, doc.to])
+                    return resolve([doc.from, doc.to])
                 })
         })
     }
@@ -163,18 +163,15 @@ module.exports = function (db) {
             collection
                 .findOne(query, { projection: projection })
                 .then((doc) => {
-                    if (!doc) {
-                        resolve()
-                        return
-                    }
+                    if (!doc) return resolve()
                     // console.log(`viewer ${viewer}`)
                     // console.log(`admin ${isAdmin}`)
                     // console.log(doc)
                     const isAuthor = doc.usr === viewer
                     if (isAdmin || isAuthor || doc['a']) {
-                        resolve(doc)
+                        return resolve(doc)
                     } else {
-                        resolve()
+                        return resolve()
                     }
                 })
         })
@@ -202,9 +199,7 @@ module.exports = function (db) {
                 .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
-                    if (err) {
-                        return reject(err)
-                    }
+                    if (err) return reject(err)
                     const count = await collection.countDocuments(query)
                     docs.forEach(
                         (doc) => (doc.desc = doc.desc.substring(0, substring)),
@@ -262,11 +257,11 @@ module.exports = function (db) {
                 // delete user.password
                 // TODO: remove pass again, but objectmodel restricts that :(
                 collection.insertOne(user, function (err, res) {
-                    if (err) reject(err)
-                    resolve(res.acknowledged)
+                    if (err) return reject(err)
+                    return resolve(res.acknowledged)
                 })
             } catch (err) {
-                reject(err)
+                return reject(err)
             }
         })
     }
@@ -294,11 +289,11 @@ module.exports = function (db) {
         return new Promise(function (resolve, reject) {
             try {
                 collection.insertOne(tempUser, function (err, res) {
-                    if (err) reject(err)
-                    resolve(res.acknowledged)
+                    if (err) return reject(err)
+                    return resolve(res.acknowledged)
                 })
             } catch (err) {
-                reject(err)
+                return reject(err)
             }
         })
     }
@@ -352,9 +347,7 @@ module.exports = function (db) {
                 .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
-                    if (err) {
-                        return reject(err)
-                    }
+                    if (err) return reject(err)
                     const count = await collection.countDocuments(query)
                     if (count > 3) {
                         refreshTopK(phrase)
@@ -397,9 +390,7 @@ module.exports = function (db) {
                 .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
-                    if (err) {
-                        return reject(err)
-                    }
+                    if (err) return reject(err)
                     const count = await collection.countDocuments(query)
                     return resolve({ documents: docs, count: count })
                 })
@@ -427,9 +418,7 @@ module.exports = function (db) {
                 .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
-                    if (err) {
-                        return reject(err)
-                    }
+                    if (err) return reject(err)
                     const count = await collection.countDocuments(query)
                     return resolve({ documents: docs, count: count })
                 })
@@ -471,9 +460,7 @@ module.exports = function (db) {
                 .skip(pagination.perPage * pagination.page - pagination.perPage)
                 .limit(pagination.perPage)
                 .toArray(async function (err, docs) {
-                    if (err) {
-                        return reject(err)
-                    }
+                    if (err) return reject(err)
                     const count = await collection.countDocuments(query)
                     return resolve({ documents: docs, count: count })
                 })
@@ -497,10 +484,7 @@ module.exports = function (db) {
             }
             query._id = new ObjectId(id)
             collection.find(query, { limit: 1 }).then((doc) => {
-                if (!doc) {
-                    resolve()
-                    return
-                }
+                if (!doc) return reject(new Error('document not found'))
                 const newValues = { $set: {} }
                 newValues.$set[key] = !doc[key]
                 const options = { returnOriginal: false }
@@ -510,7 +494,7 @@ module.exports = function (db) {
                     options,
                     function (err, res) {
                         if (err) return reject(err)
-                        resolve(res.value)
+                        return resolve(res.value)
                     },
                 )
             })
@@ -532,9 +516,9 @@ module.exports = function (db) {
                 function (err, res) {
                     if (err) reject(err)
                     if (res.lastErrorObject.n === 0) {
-                        reject(new Error('document to be approved not found'))
+                        return reject(new Error('document to be approved not found'))
                     }
-                    resolve(res._id)
+                    return resolve(res._id)
                 },
             )
         })
@@ -555,11 +539,11 @@ module.exports = function (db) {
                 function (err, res) {
                     if (err) reject(err)
                     if (res.lastErrorObject.n === 0) {
-                        reject(
+                        return reject(
                             new Error('document to be reactivated not found'),
                         )
                     }
-                    resolve(res._id)
+                    return resolve(res._id)
                 },
             )
         })
@@ -579,7 +563,7 @@ module.exports = function (db) {
         return new Promise(function (resolve, reject) {
             collection.findOne({ _id: keyword }, function (err, result) {
                 if (err) {
-                    reject(err)
+                    return reject(err)
                 }
                 if (result) {
                     const objIds = result.docs
@@ -596,16 +580,14 @@ module.exports = function (db) {
                         )
                         .limit(pagination.perPage)
                         .toArray(async function (err, docs) {
-                            if (err) {
-                                reject(err)
-                            }
+                            if (err) return reject(err)
                             const count = await collection.countDocuments({
                                 _id: { $in: objIds },
                             })
                             return resolve({ documents: docs, count: count })
                         })
                 } else {
-                    resolve({ documents: [], count: 0 })
+                    return resolve({ documents: [], count: 0 })
                 }
             })
         })
@@ -763,9 +745,7 @@ module.exports = function (db) {
                 .sort(baseSort)
                 .limit(limit)
                 .toArray(async function (err, docs) {
-                    if (err) {
-                        return reject(err)
-                    }
+                    if (err) return reject(err)
                     const count = await collection.countDocuments(query)
                     return resolve({ documents: docs, count: count })
                 })
