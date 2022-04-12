@@ -64,10 +64,10 @@ function getRandomInRange(from, to, fixed) {
 for (let i = 0; i < 200; i++) {
     let email
     if (i < 10) {
-        email = 'user2@mail.com'
+        email = 'bacloud14@gmail.com'
     }
     if (i < 20 && i > 10) {
-        email = 'user@mail.com'
+        email = 'sracer2016@yahoo.com'
     }
     const randomLang = langs[Math.floor(Math.random() * langs.length)]
     const item = langsFaker[randomLang].jsf.generate(schema)

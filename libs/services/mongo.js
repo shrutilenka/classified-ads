@@ -483,10 +483,10 @@ module.exports = function (db) {
                 return reject(err)
             }
             query._id = new ObjectId(id)
-            collection.find(query, { limit: 1 }).then((doc) => {
-                if (!doc) return reject(new Error('document not found'))
+            collection.find(query, { limit: 1 }).toArray((err, docs) => {
+                if (!docs) return reject(new Error('document not found'))
                 const newValues = { $set: {} }
-                newValues.$set[key] = !doc[key]
+                newValues.$set[key] = !docs[0][key]
                 const options = { returnOriginal: false }
                 collection.findOneAndUpdate(
                     query,

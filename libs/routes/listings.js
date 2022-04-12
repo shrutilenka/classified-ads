@@ -241,6 +241,11 @@ async function routes(fastify, options, next) {
             success: 'Yep, we got some :)'
         })
     })
+
+    fastify.get('/user/toggle/:id', { preHandler: auth }, async function (req, reply) {
+        const res = await QInstance.toggleValue(req.params.id, 'd')
+        reply.redirect('/listings/user')
+    })
 }
 
 module.exports = routes

@@ -61,13 +61,14 @@ nav#sidebar_nav {
 }
 
 .ca-listing {
-  // TODO: put this guy on right of the card
+  background-color: cadetblue;
 }
 .ca-listings .ca-listing {
   cursor: pointer;
   right: 0;
   top: 0;
   position: absolute;
+  background-color: cadetblue;
 }
 .ca-listings .ca-listing:hover:after,
 .ca-listings .ca-listing.favourites:after {
@@ -206,7 +207,7 @@ pre {
 }
 
 .card.deactivated {
-  background-image: repeating-conic-gradient(rgba(0, 0, 0, 0.06) 0% 25%, rgba(255, 255, 255, 0.1) 0% 50%);
+  background-image: repeating-conic-gradient(rgba(0, 0, 0, 0.03) 0% 25%, rgba(255, 255, 255, 0.03) 0% 50%);
   background-position: 0 0, 14px 14px;
   background-size: 28px 28px;
   background-color: rgba(255, 255, 255, 0.1);
