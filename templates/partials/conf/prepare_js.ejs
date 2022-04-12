@@ -10,6 +10,11 @@
   __errors__ = <%- JSON.stringify(error) %>
 </script>
 <% } %>
+<% if(typeof toFocus != 'undefined'){ %>
+<script>
+  var __toFocus__ = "<%= toFocus  %>"
+</script>
+<% } %>
 <% if(typeof data != 'undefined' && typeof data._id != 'undefined'){ %>
 <script>
   var __id__ = "<%= data._id  %>"

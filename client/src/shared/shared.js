@@ -7,6 +7,7 @@ import { setupUndrawKeywords } from './auto-complete/setup-undraw-keywords';
 import { setupInteractiveCards } from './cards/setup-interactive-cards';
 import { setupPell } from './editor/setup-pell';
 import { setupFavourites } from './favourites/setup-favourites';
+import { setupScrollBlink } from './focus/scroll&blink';
 // import { setupFontPicker } from './fonts/setup-font-picker'
 import { dateFromObjectId } from './formatters/date-from-objectId';
 import { setupI18n } from './i18n/setup-i18n';
@@ -52,6 +53,7 @@ export const setupShared = () => {
     [setupAdsRotator, false],
     [setupTips, true],
     [setupTour, false],
+    [setupScrollBlink, true],
     [renderShared, true],
   ]
   if (md.mobile()) {

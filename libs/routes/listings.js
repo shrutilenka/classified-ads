@@ -244,7 +244,16 @@ async function routes(fastify, options, next) {
 
     fastify.get('/user/toggle/:id', { preHandler: auth }, async function (req, reply) {
         const res = await QInstance.toggleValue(req.params.id, 'd')
-        reply.redirect('/listings/user')
+        const listings = await QInstance.getDocumentsByUser(req.params.username)
+        const user = { nickname: req.params.username }
+        reply.view('/templates/pages/listings', {
+            user: user,
+            title: 'Your listings',
+            intro: 'Classified advertising brought to the web',
+            listings: listings,
+            success: 'Yep, we got some :)',
+            toFocus: req.params.id
+        })
     })
 }
 
