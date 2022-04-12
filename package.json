@@ -8,7 +8,7 @@
     "start": "node app.js",
     "dev:start": "~/go/bin/MailHog & node app.js",
     "stop": "pkill --signal SIGINT classified-ads && kill -9 `pidof ~/go/bin/MailHog`",
-    "tools": "cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip"
+    "tools": "sudo apt-get -y install golang-go && go get github.com/mailhog/MailHog && cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip"
   },
   "keywords": [
     "Node.js",
