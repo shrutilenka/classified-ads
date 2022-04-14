@@ -94,7 +94,7 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
    -
 -  Preapare database
 MongoDB must be up with the following dbs and collections  
-`DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, users, visitors-default-current, visitors-default}`
+`DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, users, userstemp, visitors-default-current, visitors-default}`
 -  Fulfill Google Cloud credentials (for storage) (optional for localhost env)
 `./creds/############.json` 
 -  Change environment files accordingly
