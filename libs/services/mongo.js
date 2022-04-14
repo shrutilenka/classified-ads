@@ -5,6 +5,12 @@
 
 const { ObjectId } = require('fastify-mongodb')
 const {
+    MongoDBNamespace,
+    Collection,
+    Filter,
+    CollationOptions,
+} = require('mongodb')
+const {
     Donation,
     Skill,
     Blog,
@@ -29,8 +35,19 @@ function getObjectId(days) {
     return new ObjectId(hexSeconds + '0000000000000000')
 }
 
-// Closure for db instance only
+/**
+ *
+ * @param { MongoDBNamespace } db
+ */
 module.exports = function (db) {
+    /** @type { Collection } */
+    let collection
+    /** @type { Filter } */
+    const baseQuery = { d: false, a: true }
+    const baseProjection = { pass: 0.0, geolocation: 0.0, d: 0.0, a: 0.0 }
+    const baseSort = [['_id', 'desc']]
+    /** @type { CollationOptions } */
+    const baseCollation = {}
     /**
      * Insert a document into DB
      * @param {*} elem a JSON representation of a Listing
@@ -38,7 +55,7 @@ module.exports = function (db) {
      */
     this.insertListing = async function (elem) {
         let listing
-        const collection = db.collection('listing')
+        collection = db.collection('listings')
         // https://stackoverflow.com/a/59841285/1951298
         elem.geolocation = {
             type: 'Point',
@@ -68,6 +85,7 @@ module.exports = function (db) {
             }
         })
     }
+
     /**
      * Insert a document -message into DB
      * @param {*} elem a JSON representation of a Listing
@@ -75,7 +93,7 @@ module.exports = function (db) {
      */
     this.insertComment = async function (elem) {
         let comment
-        const collection = db.collection('comment')
+        collection = db.collection('comment')
         return new Promise(function (resolve, reject) {
             try {
                 comment = new Comment(elem)
@@ -88,6 +106,7 @@ module.exports = function (db) {
             }
         })
     }
+
     /**
      * Get comments from DB
      * @param {string} peer1 email of sender or reciever
@@ -117,7 +136,7 @@ module.exports = function (db) {
      * @return {Promise}
      */
     this.getCommentById = async function (id) {
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const query = JSON.parse(JSON.stringify(baseQuery))
         const projection = {
             from: 1.0,
@@ -138,10 +157,6 @@ module.exports = function (db) {
         })
     }
 
-    const baseQuery = { d: false, a: true }
-    const baseProjection = { pass: 0.0, geolocation: 0.0, d: 0.0, a: 0.0 }
-    const baseSort = [['_id', 'desc']]
-    const baseCollation = {}
     /**
      * Get a document from DB
      * If Admin then get unnaproved document
@@ -150,7 +165,7 @@ module.exports = function (db) {
      * @return {Promise}
      */
     this.getListingById = async function (id, isAdmin, viewer) {
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
         const query = {}
         const projection = { pass: 0.0, geolocation: 0.0 }
@@ -187,7 +202,7 @@ module.exports = function (db) {
      */
     this.getListingsSince = async function (days, section, pagination) {
         const substring = 100
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const ObjectId = getObjectId(days)
         const query = JSON.parse(JSON.stringify(baseQuery))
         query._id = { $gt: ObjectId }
@@ -216,7 +231,7 @@ module.exports = function (db) {
      * @return {Promise}
      */
     this.getListingsByUser = async function (user) {
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const query = {}
         const projection = { pass: 0.0, geolocation: 0.0 /*d: 0.0, a: 0.0*/ }
         query.usr = user
@@ -238,7 +253,7 @@ module.exports = function (db) {
      * @return {Promise}
      */
     this.getUserById = async function (username) {
-        const collection = db.collection('users')
+        collection = db.collection('users')
         const query = {}
         query.username = username
         return await collection.findOne(query)
@@ -251,7 +266,7 @@ module.exports = function (db) {
      */
     this.insertUser = async function (elem) {
         let user
-        const collection = db.collection('users')
+        collection = db.collection('users')
         return new Promise(function (resolve, reject) {
             try {
                 user = new User(elem)
@@ -286,7 +301,7 @@ module.exports = function (db) {
     this.insertTmpUser = async function (tempUser) {
         // createdAt: ttl index
         tempUser['createdAt'] = new Date()
-        const collection = db.collection('userstemp')
+        collection = db.collection('userstemp')
         return new Promise(function (resolve, reject) {
             try {
                 collection.insertOne(tempUser, function (err, res) {
@@ -305,7 +320,7 @@ module.exports = function (db) {
      * @return {Promise}
      */
     this.getTmpUserByToken = async function (token) {
-        const collection = db.collection('userstemp')
+        collection = db.collection('userstemp')
         const query = {}
         query.token = token
         return await collection.findOne(query)
@@ -329,7 +344,7 @@ module.exports = function (db) {
         pagination,
     ) {
         const daysBefore = 100
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
         phrase = exact ? `"${phrase}"` : phrase
         const query = JSON.parse(JSON.stringify(baseQuery))
@@ -366,7 +381,7 @@ module.exports = function (db) {
      */
     this.getListingsByTag = async function (tag, level, pagination) {
         const daysBefore = 100
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
         const query = JSON.parse(JSON.stringify(baseQuery))
         query._id = { $gt: ObjectId }
@@ -406,7 +421,7 @@ module.exports = function (db) {
      */
     this.getListingsByDivision = async function (division, pagination) {
         const daysBefore = 100
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
         const query = JSON.parse(JSON.stringify(baseQuery))
         query._id = { $gt: ObjectId }
@@ -440,7 +455,7 @@ module.exports = function (db) {
         pagination,
     ) {
         const daysBefore = 100
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
         const query = JSON.parse(JSON.stringify(baseQuery))
         query._id = { $gt: ObjectId }
@@ -475,7 +490,7 @@ module.exports = function (db) {
      * @returns
      */
     this.toggleValue = async function (id, key, collName) {
-        const collection = db.collection(collName)
+        collection = db.collection(collName)
         const query = {}
         return new Promise(function (resolve, reject) {
             try {
@@ -503,7 +518,7 @@ module.exports = function (db) {
     }
 
     this.autocomplete = async function (keyword) {
-        const collection = db.collection('words')
+        collection = db.collection('words')
         const keywRgx = new RegExp('^' + keyword, 'i')
         return await collection
             .find({ _id: keywRgx })
@@ -512,7 +527,7 @@ module.exports = function (db) {
     }
 
     this.getListingsByKeyword = async function (keyword, pagination) {
-        const collection = db.collection('words')
+        collection = db.collection('words')
         return new Promise(function (resolve, reject) {
             collection.findOne({ _id: keyword }, function (err, result) {
                 if (err) {
@@ -570,7 +585,7 @@ module.exports = function (db) {
             return reformat(topTags.data)
         }
         topTags.reset()
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const pipeline = [
             { $unwind: '$tags' },
             // by section
@@ -600,7 +615,7 @@ module.exports = function (db) {
             return topByDiv.data
         }
         topByDiv.reset()
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
             { $group: { _id: '$div', count: { $sum: 1 } } },
@@ -621,7 +636,7 @@ module.exports = function (db) {
             return topByParentTag.data
         }
         topByParentTag.reset()
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
             { $group: { _id: '$parent', count: { $sum: 1 } } },
@@ -642,7 +657,7 @@ module.exports = function (db) {
             return topByGranpaTag.data
         }
         topByGranpaTag.reset()
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const pipeline = [
             // { $match: { section: section } },
             { $group: { _id: '$granpa', count: { $sum: 1 } } },
@@ -664,7 +679,7 @@ module.exports = function (db) {
      * @return {Promise}
      */
     this.getListingsForModeration = async function (approving) {
-        const collection = db.collection('listing')
+        collection = db.collection('listing')
         const query = approving ? { a: false } : {}
         const projection = {
             pass: 0.0,
