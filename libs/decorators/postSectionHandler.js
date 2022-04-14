@@ -27,11 +27,9 @@ const NODE_ENV = {
 
 const formatInsertDocument = async (QInstance, req, blob, upload) => {
     const { body } = req
-
-    // The public URL can be used to directly access the file via HTTP.
     const publicUrl = upload
         ? format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`)
-        : 'blaaaaa'
+        : `/cdn/${req.file.filename}`
     const entry = Object.assign(body, {
         d: false,
         a: false,

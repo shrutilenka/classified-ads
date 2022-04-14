@@ -233,7 +233,7 @@ async function instantiateApp() {
     }
     fastify.register(gameRouter, { prefix: 'game' })
     fastify.register(serve, { root: path.join(__dirname, 'public') })
-
+    fastify.register(serve, { root: path.join(__dirname, 'uploads'), prefix: '/cdn/', decorateReply: false })
     /*********************************************************************************************** */
     // !!BOOTSTRAP ENVIRONMENT AND DATA!!
     const { ops: bootstrap } = require('./bootstrap/bootstrap.js')
