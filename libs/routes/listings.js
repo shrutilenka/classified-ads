@@ -32,7 +32,7 @@ async function routes(fastify, options, next) {
     fastify.decorateReply('blabla', blabla)
 
     fastify.get('/', { preHandler: softAuth }, async function (req, reply) {
-        const listings = await QInstance.getDocumentsSince(
+        const listings = await QInstance.getListingsSince(
             20, '', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
@@ -47,7 +47,7 @@ async function routes(fastify, options, next) {
 
     const getSectionHandler = async (req, reply) => {
         const section = req.url.split('/')[2].split('?')[0]
-        const listings = await QInstance.getDocumentsSince(
+        const listings = await QInstance.getListingsSince(
             100, section, req.pagination)
         const { page, perPage } = req.pagination
         const data = {
@@ -72,7 +72,7 @@ async function routes(fastify, options, next) {
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
-            ? await QInstance.getDocumentById(req.params.id, false, req.params.username)
+            ? await QInstance.getListingById(req.params.id, false, req.params.username)
             : undefined
         let data = {}
         if (elem) {
@@ -92,7 +92,7 @@ async function routes(fastify, options, next) {
     fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
-            ? await QInstance.getDocumentById(req.params.id, false, req.params.username)
+            ? await QInstance.getListingById(req.params.id, false, req.params.username)
             : undefined
         if (elem) {
             const peer2 = elem.usr;
@@ -144,7 +144,7 @@ async function routes(fastify, options, next) {
         '/geolocation', { schema: geolocationSchema, preHandler: softAuth, preValidation: require('../decorators/preValidation') },
         async (req, reply) => {
             const { body } = req
-            let listings = await QInstance.getDocumentsByGeolocation(
+            let listings = await QInstance.getListingsByGeolocation(
                 body.lat, body.lng, body.section, req.pagination)
             const { page, perPage } = req.pagination
             const data = {
@@ -173,7 +173,7 @@ async function routes(fastify, options, next) {
     fastify.get(`/admin/check/${adminPass}/:id`, { preHandler: adminAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
-            ? await QInstance.getDocumentById(req.params.id, true, req.params.username)
+            ? await QInstance.getListingById(req.params.id, true, req.params.username)
             : undefined
         if (elem) {
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
@@ -197,7 +197,7 @@ async function routes(fastify, options, next) {
     fastify.post('/id/:id/comment', { schema: commentSchema, preHandler: auth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const elem = (hex.test(req.params.id))
-            ? await QInstance.getDocumentById(req.params.id, false, req.params.username)
+            ? await QInstance.getListingById(req.params.id, false, req.params.username)
             : undefined
         if (!elem) {
             reply.blabla([{}, 'message', 'not found'], req)
@@ -231,7 +231,7 @@ async function routes(fastify, options, next) {
     })
 
     fastify.get('/user', { preHandler: auth }, async function (req, reply) {
-        const listings = await QInstance.getDocumentsByUser(req.params.username)
+        const listings = await QInstance.getListingsByUser(req.params.username)
         const user = { nickname: req.params.username }
         reply.view('/templates/pages/listings', {
             user: user,
@@ -243,8 +243,8 @@ async function routes(fastify, options, next) {
     })
 
     fastify.get('/user/toggle/:id', { preHandler: auth }, async function (req, reply) {
-        const res = await QInstance.toggleValue(req.params.id, 'd')
-        const listings = await QInstance.getDocumentsByUser(req.params.username)
+        const res = await QInstance.toggleValue(req.params.id, 'd', 'listings')
+        const listings = await QInstance.getListingsByUser(req.params.username)
         const user = { nickname: req.params.username }
         reply.view('/templates/pages/listings', {
             user: user,

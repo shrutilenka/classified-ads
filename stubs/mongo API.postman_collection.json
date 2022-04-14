@@ -39,7 +39,7 @@
 			"response": []
 		},
 		{
-			"name": "mongo_getDocumentsByTag",
+			"name": "mongo_getListingsByTag",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -54,7 +54,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3000/debug/getDocumentsByTag",
+					"raw": "http://127.0.0.1:3000/debug/getListingsByTag",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -65,7 +65,7 @@
 					"port": "3000",
 					"path": [
 						"debug",
-						"getDocumentsByTag"
+						"getListingsByTag"
 					]
 				}
 			},

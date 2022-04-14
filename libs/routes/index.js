@@ -33,7 +33,7 @@ async function routes(fastify, options) {
 
     /* GET home page. */
     fastify.get('/', async function (req, reply) {
-        const listings = await QInstance.getDocumentsSince(
+        const listings = await QInstance.getListingsSince(
             20, '', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
@@ -78,7 +78,7 @@ async function routes(fastify, options) {
     // maybe they evolve differently in future 
     fastify.get('/tag/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const listings = await QInstance.getDocumentsByTag(
+        const listings = await QInstance.getListingsByTag(
             tag, 'origin', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
@@ -93,7 +93,7 @@ async function routes(fastify, options) {
 
     fastify.get('/tag/parent/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const listings = await QInstance.getDocumentsByTag(
+        const listings = await QInstance.getListingsByTag(
             tag, 'parent', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
@@ -108,7 +108,7 @@ async function routes(fastify, options) {
 
     fastify.get('/tag/granpa/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const listings = await QInstance.getDocumentsByTag(
+        const listings = await QInstance.getListingsByTag(
             tag, 'granpa', req.pagination)
         const { page, perPage } = req.pagination
         const data = {
@@ -123,7 +123,7 @@ async function routes(fastify, options) {
 
     fastify.get('/division/:division', async function (req, reply) {
         const division = req.params.division
-        const listings = await QInstance.getDocumentsByDivision(
+        const listings = await QInstance.getListingsByDivision(
             division, req.pagination)
         const { page, perPage } = req.pagination
         const data = {
@@ -138,7 +138,7 @@ async function routes(fastify, options) {
 
     fastify.get('/keyword/:keyword', async function (req, reply) {
         const keyword = req.params.keyword
-        const listings = await QInstance.getDocumentsByKeyword(
+        const listings = await QInstance.getListingsByKeyword(
             keyword, req.pagination)
         const { page, perPage } = req.pagination
         const data = {

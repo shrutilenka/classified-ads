@@ -61,6 +61,20 @@ ops.readJSON = function readJSON(path) {
     return data
 }
 
+class EphemeralData {
+    constructor(ttl) {
+        this.ttl = ttl
+        this.lastSeen = Infinity
+        this.data = undefined
+    }
+    reset() {
+        this.lastSeen = Date.now()
+    }
+    isSame() {
+        return this.data && Date.now() - this.lastSeen < this.ttl
+    }
+}
+
 /**
  * Generate initials from an email string
  * Like "sracer2024@yahoo.com" => "S2"
@@ -80,4 +94,4 @@ ops.initials = function initials(email) {
 
 
 
-module.exports = { ops }
+module.exports = { ops, EphemeralData }

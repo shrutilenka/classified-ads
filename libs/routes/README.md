@@ -4,7 +4,7 @@ Here we put routes definitions like:
 
 ```js
     fastify.get('/', async function (req, reply) {
-        const listings = await QInstance.getDocumentsSince(
+        const listings = await QInstance.getListingsSince(
             20, '', req.pagination)
         const { page, perPage } = req.pagination
         const data = {

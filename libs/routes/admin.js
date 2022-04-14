@@ -10,7 +10,7 @@ async function routes(fastify, options) {
     let realtimeJSON
     // TODO: secure, but doubleSecure (admin)
     fastify.get('/', { preHandler: adminAuth }, async function (req, reply) {
-        const listings = await QInstance.getDocumentsForModeration(true)
+        const listings = await QInstance.getListingsForModeration(true)
         realtimeJSON = listings.documents
         // realtimeJSON.forEach((a, idx) => a.id = idx+1)
         reply.send(realtimeJSON)
@@ -39,7 +39,7 @@ async function routes(fastify, options) {
         else {
             const match = getMatch(req)
             realtimeJSON[match] = Object.assign({}, realtimeJSON[match], req.body)
-            await QInstance.updateDocument(realtimeJSON[match])
+            await QInstance.updateDocument(realtimeJSON[match], 'listings')
             reply.send(realtimeJSON)
         }
     })
@@ -49,14 +49,14 @@ async function routes(fastify, options) {
     fastify.put('/:id', { preHandler: adminAuth }, async function (req, reply) {
         const match = getMatch(req)
         realtimeJSON[match] = req.body
-        await QInstance.updateDocument(realtimeJSON[match])
+        await QInstance.updateDocument(realtimeJSON[match], 'listings')
         reply.send(realtimeJSON)
     })
 
     // DELETE
     fastify.delete('/:id', { preHandler: adminAuth }, async function (req, reply) {
         const match = getMatch(req)
-        await QInstance.removeDocument(realtimeJSON[match]._id.toString())
+        await QInstance.removeDocument(realtimeJSON[match]._id.toString(), 'listings')
         if (match !== -1) realtimeJSON.splice(match, 1)
         reply.send(realtimeJSON)
     })

@@ -12,6 +12,7 @@ const {
     User,
 } = require('../constraints/db_models')
 const { refreshTopK, topk } = require('../services/miner')
+const EphemeralData = require('./helpers').EphemeralData
 
 /**
  * This function returns an ObjectId embedded with a given datetime
@@ -148,7 +149,7 @@ module.exports = function (db) {
      * @param {Boolean} isAdmin if the caller is admin
      * @return {Promise}
      */
-    this.getDocumentById = async function (id, isAdmin, viewer) {
+    this.getListingById = async function (id, isAdmin, viewer) {
         const collection = db.collection('listing')
         // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
         const query = {}
@@ -184,7 +185,7 @@ module.exports = function (db) {
      * @param {*} pagination number of pages and listings in each page
      * @return {Promise}
      */
-    this.getDocumentsSince = async function (days, section, pagination) {
+    this.getListingsSince = async function (days, section, pagination) {
         const substring = 100
         const collection = db.collection('listing')
         const ObjectId = getObjectId(days)
@@ -214,7 +215,7 @@ module.exports = function (db) {
      * @param {*} user user email
      * @return {Promise}
      */
-    this.getDocumentsByUser = async function (user) {
+    this.getListingsByUser = async function (user) {
         const collection = db.collection('listing')
         const query = {}
         const projection = { pass: 0.0, geolocation: 0.0 /*d: 0.0, a: 0.0*/ }
@@ -363,7 +364,7 @@ module.exports = function (db) {
      * @param {*} pagination number of pages and listings in each page
      * @return {Promise}
      */
-    this.getDocumentsByTag = async function (tag, level, pagination) {
+    this.getListingsByTag = async function (tag, level, pagination) {
         const daysBefore = 100
         const collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
@@ -403,7 +404,7 @@ module.exports = function (db) {
      * @param {*} pagination number of pages and listings in each page
      * @return {Promise}
      */
-    this.getDocumentsByDivision = async function (division, pagination) {
+    this.getListingsByDivision = async function (division, pagination) {
         const daysBefore = 100
         const collection = db.collection('listing')
         const ObjectId = getObjectId(daysBefore)
@@ -432,7 +433,7 @@ module.exports = function (db) {
      * @param {*} section
      * @return {Promise}
      */
-    this.getDocumentsByGeolocation = async function (
+    this.getListingsByGeolocation = async function (
         latitude,
         longitude,
         section,
@@ -473,8 +474,8 @@ module.exports = function (db) {
      * @param {*} key boolean field to be toggeled
      * @returns
      */
-    this.toggleValue = async function (id, key) {
-        const collection = db.collection('listing')
+    this.toggleValue = async function (id, key, collName) {
+        const collection = db.collection(collName)
         const query = {}
         return new Promise(function (resolve, reject) {
             try {
@@ -501,54 +502,6 @@ module.exports = function (db) {
         })
     }
 
-    this.approveDocument = async function (id) {
-        const collection = db.collection('listing')
-        const query = JSON.parse(JSON.stringify(baseQuery))
-        query._id = new ObjectId(id)
-        query.a = false
-        const newValues = { $set: { a: true } }
-        const options = { upsert: false }
-        return new Promise(function (resolve, reject) {
-            collection.findOneAndUpdate(
-                query,
-                newValues,
-                options,
-                function (err, res) {
-                    if (err) reject(err)
-                    if (res.lastErrorObject.n === 0) {
-                        return reject(new Error('document to be approved not found'))
-                    }
-                    return resolve(res._id)
-                },
-            )
-        })
-    }
-
-    this.reactivateDocument = async function (password) {
-        const collection = db.collection('listing')
-        const query = JSON.parse(JSON.stringify(baseQuery))
-        query.pass = password
-        query.d = true
-        const newValues = { $set: { d: false } }
-        const options = { upsert: false }
-        return new Promise(function (resolve, reject) {
-            collection.findOneAndUpdate(
-                query,
-                newValues,
-                options,
-                function (err, res) {
-                    if (err) reject(err)
-                    if (res.lastErrorObject.n === 0) {
-                        return reject(
-                            new Error('document to be reactivated not found'),
-                        )
-                    }
-                    return resolve(res._id)
-                },
-            )
-        })
-    }
-
     this.autocomplete = async function (keyword) {
         const collection = db.collection('words')
         const keywRgx = new RegExp('^' + keyword, 'i')
@@ -558,7 +511,7 @@ module.exports = function (db) {
             .toArray()
     }
 
-    this.getDocumentsByKeyword = async function (keyword, pagination) {
+    this.getListingsByKeyword = async function (keyword, pagination) {
         const collection = db.collection('words')
         return new Promise(function (resolve, reject) {
             collection.findOne({ _id: keyword }, function (err, result) {
@@ -608,20 +561,6 @@ module.exports = function (db) {
                 })
         }
         return res
-    }
-
-    class EphemeralData {
-        constructor(ttl) {
-            this.ttl = ttl
-            this.lastSeen = Infinity
-            this.data = undefined
-        }
-        reset() {
-            this.lastSeen = Date.now()
-        }
-        isSame() {
-            return this.data && Date.now() - this.lastSeen < this.ttl
-        }
     }
 
     // 5 minutes
@@ -724,7 +663,7 @@ module.exports = function (db) {
      * @param {*} elem a JSON representation of a Listing
      * @return {Promise}
      */
-    this.getDocumentsForModeration = async function (approving) {
+    this.getListingsForModeration = async function (approving) {
         const collection = db.collection('listing')
         const query = approving ? { a: false } : {}
         const projection = {
@@ -757,9 +696,9 @@ module.exports = function (db) {
      * @param {*} elem a JSON representation of a Listing
      * @return {Promise}
      */
-    this.updateDocument = async function (elem) {
+    this.updateDocument = async function (elem, collName) {
         const result = await db
-            .collection('listing')
+            .collection(collName)
             .updateOne(
                 { _id: ObjectId(elem._id) },
                 { $set: elem },
@@ -773,9 +712,9 @@ module.exports = function (db) {
      * @param {*} id An ID of a Listing
      * @return {Promise}
      */
-    this.removeDocument = async function (id) {
+    this.removeDocument = async function (id, collName) {
         const result = await db
-            .collection('listing')
+            .collection(collName)
             .deleteOne({ _id: ObjectId(id) })
         return result
     }
