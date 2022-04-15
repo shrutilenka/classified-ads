@@ -138,7 +138,9 @@ function PipeLine(data) {
 const and = (x, y) => x && y
 const or = (x, y) => x || y
 const assign = (fn, obj, solution) => obj.value = fn(obj.value, solution)
-
+function ChainBool(solution, op) {
+    this.value = op === 'or' ? assign(or, this, solution) : assign(and, this, solution)
+}
 PipeLine.prototype = {
     value: true,
     error: {},
@@ -160,15 +162,7 @@ PipeLine.prototype = {
             return inside
         }
         const solution = predicate(this.data, vs)
-        this.value = op === 'or' ? assign(or, this, solution)
-            : assign(and, this, solution)
-        return this
-    },
-    // Example: Expects this.data to be String
-    isLongerThan: function (len, op) {
-        const solution = this.data.length > len
-        this.value = op === 'or' ? assign(or, this, solution)
-            : assign(and, this, solution)
+        ChainBool.call(this, solution, op)
         return this
     },
     // Example: Expects this.data to be body.tags
@@ -181,8 +175,7 @@ PipeLine.prototype = {
             this.error['isTagsValid'] = error.message
             solution = false
         }
-        this.value = op === 'or' ? assign(or, this, solution)
-            : assign(and, this, solution)
+        ChainBool.call(this, solution, op)
         return this
     },
     // Expects this.data to be body
@@ -197,8 +190,7 @@ PipeLine.prototype = {
             return this.error === null
         }
         const solution = predicate(schema)
-        this.value = op === 'or' ? assign(or, this, solution)
-            : assign(and, this, solution)
+        ChainBool.call(this, solution, op)
         return this
     },
     // Expects this.data to be body having body.undraw
@@ -260,9 +252,10 @@ function validationPipeLine(req) {
     ///////////////////////////////////THIS IS CONSTRUCTION OF THE PIPELINE (MAIN LIKE)//////////////////////////////////////////////////////////////////////
     const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng })
     const bodyPipeline = new PipeLine(body)
+    const bodyPipeline2 = new PipeLine(body)
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
     const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().validateBetween(singletonSchema).postValidate().isTrue
-    const tagsValid = !body.tags ? true : bodyPipeline.isTagsValid().deriveTagsParents().evaluate().isTrue
+    const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents().evaluate().isTrue
 
     ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////
     // Final validation according to schema / if not yet validated
