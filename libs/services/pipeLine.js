@@ -3,9 +3,9 @@ const { constraints } = require('../constraints/constraints')
 const { html, reb, rew } = require('../constraints/regex')
 const sanitizeHtml = require('sanitize-html')
 const nlp = require('wink-nlp-utils');
-
 const coordinates = geoEncoder.getBorders()
 
+///////////////////////////////////THESE ARE HELPERS, FUNCTIONS THAT I CALL INSIDE THE PIPELINE//////////////////////////////////////////////////////////////
 function sanitize(str) {
     const search1 = 'h1'
     const replacer1 = new RegExp(search1, 'g')
@@ -130,9 +130,11 @@ leveled.ar['level2'] = groupOneLevel(googleTagsAr, 1, 2)
 // var parent = getKey('Dresses', googleTagsEnLevel2)
 // var granpa = getKey(parent, googleTagsEnLevel1)
 
+///////////////////////////////////THIS IS THE ACTUAL PIPELINE//////////////////////////////////////////////////////////////////////////////////////////////
 function PipeLine(data) {
     this.data = data
 }
+///////////////////////////////////SIMPLE BOOLEAN HELPER////////////////////////////////////////////////////////////////////////////////////////////////////
 const and = (x, y) => x && y
 const or = (x, y) => x || y
 const assign = (fn, obj, solution) => obj.value = fn(obj.value, solution)
@@ -255,12 +257,14 @@ function validationPipeLine(req) {
         schema
     } = constraints[process.env.NODE_ENV][method][section]
     const singletonSchema = schema()
+    ///////////////////////////////////THIS IS CONSTRUCTION OF THE PIPELINE (MAIN LIKE)//////////////////////////////////////////////////////////////////////
     const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng })
     const bodyPipeline = new PipeLine(body)
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
     const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().validateBetween(singletonSchema).postValidate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline.isTagsValid().deriveTagsParents().evaluate().isTrue
 
+    ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
     const valid = singletonSchema.called ? true : validate(body)
