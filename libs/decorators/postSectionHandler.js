@@ -82,13 +82,17 @@ module.exports = (fastify) => {
                 .toBuffer()
 
             if (NODE_ENV < 1) {
-                let data = await formatInsertDocument(
+                formatInsertDocument(
                     QInstance,
                     req,
                     null,
                     false,
-                )
-                reply.blabla([data, 'listing', section])
+                ).then((data) =>  reply.blabla([data, 'listing', section]))
+                    .catch((err) => {
+                    //TODO: admin alert
+                        reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                    })
+               
             } else {
                 // Upload that damn picture
                 // Create a new blob in the bucket and upload the file data.
@@ -102,13 +106,16 @@ module.exports = (fastify) => {
                     throw err
                 })
                 blobStream.on('finish', async () => {
-                    let data = await formatInsertDocument(
+                    await formatInsertDocument(
                         QInstance,
                         req,
                         blob,
                         true,
-                    )
-                    reply.blabla([data, 'listing', section])
+                    ).then((data) =>  reply.blabla([data, 'listing', section]))
+                        .catch((err) => {
+                            //TODO: admin alert
+                            reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                        })
                 })
                 blobStream.end(buffer)
             }
