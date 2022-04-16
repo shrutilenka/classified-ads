@@ -73,17 +73,15 @@
       <%- include('../partials/shared/footer'); %>
     </div>
 
+  <%- include('../partials/conf/beforebodyclose'); %>
+  <script src="/unversioned_js/ejs.min.js"></script>
+  <script>
+    {
+      const scriptElement = document.createElement("script")
+      scriptElement.src = "/javascripts/listing.js"
+      document.body.appendChild(scriptElement)
 
+    }
+  </script>
 </body>
-<%- include('../partials/conf/afterbody'); %>
-<script src="/unversioned_js/ejs.min.js"></script>
-<script>
-  {
-    const scriptElement = document.createElement("script")
-    scriptElement.src = "/javascripts/listing.js"
-    document.body.appendChild(scriptElement)
-
-  }
-</script>
-
 </html>

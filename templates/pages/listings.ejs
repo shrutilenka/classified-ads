@@ -22,7 +22,7 @@
     <div class="search d-flex py-4">
       <div class="mx-auto mx-lg-0">
         <label for="qsearch">Highlight listings</label>
-        <input type="qsearch" name="qsearch" placeholder="Today listings" data-trans="placeholder=(today-listings);html=(today-listings)" required>
+        <input type="text" name="qsearch" maxlength="8" size="10" placeholder="Today listings" data-trans="placeholder=(today-listings);html=(today-listings)" required>
       </div>
     </div>
     <hr>
@@ -35,8 +35,6 @@
     <%- include('../partials/conf/prepare_js'); %>
     <%- include('../partials/shared/footer'); %>
   </div>
-
+  <%- include('../partials/conf/beforebodyclose'); %>
 </body>
-<%- include('../partials/conf/afterbody'); %>
-
 </html>

@@ -29,7 +29,7 @@
         <div class="search d-flex py-4">
           <div class="mx-auto mx-lg-0">
             <label class="text-centermb-1 sm:mb-0" for="qsearch">Highlight listings</label>
-            <input type="qsearch" name="qsearch" placeholder="Today listings" required>
+            <input type="text" name="qsearch" maxlength="8" size="10" placeholder="Today listings" required>
           </div>
         </div>
         <br>
@@ -39,8 +39,6 @@
       </div>
     </div>
   </div>
+  <%- include('../partials/conf/beforebodyclose'); %>
 </body>
-
-<%- include('../partials/conf/afterbody'); %>
-
 </html>

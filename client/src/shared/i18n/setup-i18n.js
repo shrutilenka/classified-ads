@@ -35,6 +35,7 @@ export const setupI18n = async () => {
             i18next.changeLanguage(cookizz.locale).then((t) => {
               const localize = locI18next.init(i18next, { selectorAttr:'data-trans' })
               refreshTrans(localize)
+              document.documentElement.setAttribute('lang', cookizz.locale)
               document.body.setAttribute('lang', cookizz.locale)
               if (cookizz.locale === 'ar') {
                 document.body.setAttribute('dir', 'rtl')
