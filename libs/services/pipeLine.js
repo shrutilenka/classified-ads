@@ -146,9 +146,9 @@ PipeLine.prototype = {
     error: {},
     // Expects this.data to be a point
     isPointInsidePolygon: function (vs, op) {
-        const predicate = (point, vs) => {
-            const x = point.lat
-            const y = point.lng
+        const predicate = (vs) => {
+            const x = this.data.lat
+            const y = this.data.lng
             let inside = false
             for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
                 const xi = vs[i][1]
@@ -161,25 +161,27 @@ PipeLine.prototype = {
             }
             return inside
         }
-        const solution = predicate(this.data, vs)
+        const solution = predicate(vs)
         ChainBool.call(this, solution, op)
         return this
     },
     // Example: Expects this.data to be body.tags
     isTagsValid: function (op) {
-        let solution = true
-        try {
-            let tags = JSON.parse(this.data.tags)
-            this.data.tags = tags.map(a => a.value)
-        } catch (error) {
-            this.error['isTagsValid'] = error.message
-            solution = false
+        const predicate = () => {
+            try {
+                let tags = JSON.parse(this.data.tags)
+                this.data.tags = tags.map(a => a.value)
+                return true
+            } catch (error) {
+                this.error['isTagsValid'] = error.message
+                return false
+            }
         }
-        ChainBool.call(this, solution, op)
+        ChainBool.call(this, predicate(), op)
         return this
     },
     // Expects this.data to be body
-    validateBetween: function (schema, op) {
+    isValideBetween: function (schema, op) {
         const predicate = (schema) => {
             if (schema.called) {
                 return true
@@ -199,7 +201,7 @@ PipeLine.prototype = {
         return this
     },
     // Expects this.data to be body having body.undraw.color
-    postValidate: function () {
+    undrawPostValidate: function () {
         this.data.undraw = this.data.undraw + '#' + this.data.color
         delete this.data.color
         delete this.data.illu_q
@@ -254,7 +256,7 @@ function validationPipeLine(req) {
     const bodyPipeline = new PipeLine(body)
     const bodyPipeline2 = new PipeLine(body)
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
-    const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().validateBetween(singletonSchema).postValidate().isTrue
+    const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().isValideBetween(singletonSchema).undrawPostValidate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents().evaluate().isTrue
 
     ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////
