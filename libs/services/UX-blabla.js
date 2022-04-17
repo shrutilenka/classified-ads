@@ -10,16 +10,20 @@ module.exports = function (data, route, kind, req) {
     const { section, subtitle } = data
     const sharedData = { section: section, subtitle: subtitle, returnObjects: true }
     const userFriendlyMsg = req.t(`${route}.${kind}`, sharedData)
-    let errors
+    let errors = []
     if (req.validationError) {
         errors = req.validationError.validation.map(err => err.message)
         errors.push(userFriendlyMsg.error)
-        userFriendlyMsg.error = errors
-        // console.log(JSON.parse(JSON.stringify(req.validationError)))
     }
+    // When there are `errors` (generated in `pipline.js` for example)
     if (data.errors) {
-        userFriendlyMsg.error = data.errors
+        errors = [...errors, ...data.errors]
     }
+    // When there is an `error` (generated in `common.json` namespace)
+    if (userFriendlyMsg.error) {
+        errors.push(userFriendlyMsg.error)
+    }
+    userFriendlyMsg.error = errors
     // console.log(req.t(`${route}.${kind}`, UXData))
     return Object.assign(
         userFriendlyMsg,

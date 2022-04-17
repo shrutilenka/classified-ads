@@ -81,6 +81,7 @@ async function routes(fastify, options) {
         async function (request, reply) {
             if (request.validationError) {
                 reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
+                return
             }
             const { username, password } = request.body
             // Always 'regular' by default (except user@mail.com for tests)
@@ -108,13 +109,10 @@ async function routes(fastify, options) {
                         isVerified,
                         role,
                     })
-                    console.log(username)
-                    console.log(new_user)
                     if (role === 'admin') {
                         reply.redirect('/')
                         return
                     }
-
                     var mailOptions = {
                         from: adminEmail,
                         to: username,
@@ -128,8 +126,12 @@ async function routes(fastify, options) {
                             '\n',
                     }
                     nodemailer.sendMail(mailOptions, async(err, info) => {
-                        if (err) throw err
-                        // TODO: insert
+                        if (err) {
+                            console.log(err)
+                            reply.blabla([{}, 'signup', 'SERVER_ERROR'], request)
+                            return
+                        }
+                        // TODO: insert a temporary user (ephemeral on DB)
                         await QInstance.insertTmpUser(tempUser)
                         reply.redirect('/')
                         return
