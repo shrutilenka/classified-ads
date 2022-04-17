@@ -1,10 +1,6 @@
 const adminPass = process.env.ADMIN_PASS
 const adminEmail = process.env.ADMIN_EMAIL
 module.exports = {
-    features: {
-        a: true,
-        b: false,
-    },
     NODE_PORT: 8080,
     HEROKU: true,
     ERROR_STACK: false,

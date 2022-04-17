@@ -1,8 +1,4 @@
 module.exports = {
-    features: {
-        a: true,
-        b: false,
-    },
     NODE_PORT: 8080,
     HEROKU: false,
     ERROR_STACK: false,
