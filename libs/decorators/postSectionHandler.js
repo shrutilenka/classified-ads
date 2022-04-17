@@ -45,8 +45,8 @@ const opt = { 'show-body-only': 'yes' }
 
 module.exports = (fastify) => {
     const { db } = fastify.mongo
-    const logger = fastify.log
-    const QInstance = new queries(db, logger)
+    const { redis } = fastify
+    const QInstance = new queries(db, redis)
     return async (req, reply) => {
         const { body } = req
         const section = body.section

@@ -12,9 +12,9 @@ const adminEmail = process.env.ADMIN_EMAIL
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
-    const { log, nodemailer } = fastify
+    const { nodemailer, redis } = fastify
     const queries = require('../services/mongo')
-    const QInstance = new queries(db, log)
+    const QInstance = new queries(db, redis)
     const { constraints } = require('../constraints/constraints')
     const blabla = require('../decorators/blabla')
 

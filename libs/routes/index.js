@@ -15,8 +15,8 @@ async function routes(fastify, options) {
     const blabla = require('../decorators/blabla')
     const queries = require('../services/mongo')
     const { db } = fastify.mongo
-    const logger = fastify.log
-    const QInstance = new queries(db, logger)
+    const { redis } = fastify
+    const QInstance = new queries(db, redis)
     let auth, adminAuth, softAuth
     if (fastify.auth) {
         auth = fastify.auth([fastify.verifyJWT('regular'),])

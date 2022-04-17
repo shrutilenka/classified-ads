@@ -2,8 +2,8 @@ const queries = require('../services/mongo')
 
 async function routes(fastify, options, next) {
     const { db } = fastify.mongo
-    const logger = fastify.log
-    const QInstance = new queries(db, logger)
+    const { redis } = fastify
+    const QInstance = new queries(db, redis)
     const queriesMethods = Object.getOwnPropertyNames(QInstance)
     queriesMethods.forEach((url) => {
         fastify.post(`/${url}`, async (request, reply) => {

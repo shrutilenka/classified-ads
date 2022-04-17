@@ -2,9 +2,9 @@
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
-    const logger = fastify.log
+    const { redis } = fastify
     const queries = require('../services/mongo')
-    const QInstance = new queries(db, logger)
+    const QInstance = new queries(db, redis)
     const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
     // CLONE BASE DATA LIST
     let realtimeJSON

@@ -23,6 +23,7 @@ const compressPlugin = require('fastify-compress')
 const errorPlugin = require('fastify-error-page')
 const serve = require('fastify-static')
 const mongodb = require('fastify-mongodb')
+const redis = require('fastify-redis')
 const formbody = require('fastify-formbody')
 const rateLimit = require('fastify-rate-limit')
 // TODO: looks heavy on memory
@@ -102,6 +103,7 @@ async function instantiateApp() {
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
     fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
+    fastify.register(redis, { host: '127.0.0.1' })
     fastify.register(nodemailer, config.get('SMTP'))
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)
