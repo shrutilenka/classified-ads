@@ -47,3 +47,8 @@
 # sudo apt-get -y install golang-go
 # go get github.com/mailhog/MailHog
 # cd ~/go/bin
+
+
+# INSPECTING MEMEORY
+# npm install -g clinic autocannon 
+# npm run beautiful:inspect

@@ -152,3 +152,4 @@ dist
 !/tools/.gitkeep
 logs/all.log.*
 logs/all.log.pos
+.clinic

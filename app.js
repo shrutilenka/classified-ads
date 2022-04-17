@@ -25,7 +25,8 @@ const serve = require('fastify-static')
 const mongodb = require('fastify-mongodb')
 const formbody = require('fastify-formbody')
 const rateLimit = require('fastify-rate-limit')
-const metricsPlugin = require('fastify-metrics')
+// TODO: looks heavy on memory
+// const metricsPlugin = require('fastify-metrics')
 const fastifySwagger = require('fastify-swagger')
 
 // Rendering systems and internationalization
@@ -36,7 +37,8 @@ const Backend = require('i18next-fs-backend')
 const i18nextMiddleware = require('i18next-http-middleware')
 
 // Require plugins configurations
-const miner = require('./libs/decorators/miner').miner
+// TODO: this has of async operations
+// const miner = require('./libs/decorators/miner').miner
 const swagger_ = require('./config/options/swagger')
 const logger_ = require('./config/options/logger')()
 const helmet_ = require('./config/options/helmet')()
@@ -178,8 +180,8 @@ async function instantiateApp() {
     })
 
     // Mine topK events
-    // TODO: must be very save, and minimal
-    fastify.addHook('preHandler', miner)
+    // TODO: must be very safe, and fast
+    // fastify.addHook('preHandler', miner)
 
     /*********************************************************************************************** */
     // !!SPAM ASSASSIN !!
@@ -294,29 +296,37 @@ async function instantiateApp() {
         // TODO: modify https://github.com/bacloud22/visitor-counter/ to 
         // accept fastify.mongo instance instead
         // const myMongoDatabase = fastify.mongo.client.db('dbname')
+        // TODO: this has of async operations
+        /*
         const visitors = require('./libs/decorators/visitors-handler')
         fastify.addHook('preHandler', async (req, reply) => {
             let stats = await visitors.getStats()
             stats.record(req, reply)
         })
         fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
+        */
         // Metrics exporter at least for one node to have a view on performance
-        fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true })
+        // fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true })
     }
 }
 /*********************************************************************************************** */
 // !!CLUSTER SETUP!!
-const os = require('os')
-const cluster = require('cluster')
-const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
-
-if (cluster.isMaster) {
-    for (let i = 0; i < CPUS; i++) {
-        cluster.fork({ worker_id: String(i) })
-    }
-    cluster.on('exit', (worker) => {
-        console.log(`worker ${worker.process.pid} died`)
-    })
-} else {
+if(process.env.NO_CLUSTER) {
+    process.env.worker_id = '1'
     instantiateApp()
+} else {
+    const os = require('os')
+    const cluster = require('cluster')
+    const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
+    
+    if (cluster.isMaster) {
+        for (let i = 0; i < CPUS; i++) {
+            cluster.fork({ worker_id: String(i) })
+        }
+        cluster.on('exit', (worker) => {
+            console.log(`worker ${worker.process.pid} died`)
+        })
+    } else {
+        instantiateApp()
+    }    
 }
