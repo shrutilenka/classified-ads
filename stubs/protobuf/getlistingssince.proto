@@ -1,0 +1,23 @@
+syntax = "proto3";
+package MongoQueries;
+option optimize_for = LITE_RUNTIME;
+
+message Listing{
+    required string _id = 1;
+    required string title = 2;
+    repeated string tags = 3;
+    required string desc = 4;
+    required string lat = 5;
+    required string lng = 6;
+    required string section = 7;
+    required string usr = 8;
+    required string lang = 9;
+    required string tagsLang = 10;
+    required string img = 11;
+    required string div = 12;
+}
+
+message GetListingsSince{
+    repeated Listing documents = 1;
+    int32 count = 2;
+}
