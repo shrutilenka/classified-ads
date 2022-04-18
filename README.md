@@ -92,8 +92,9 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
    - BORDERS_FILE_URL=
    - STATES_FILE_URL=
    -
--  Preapare database
-MongoDB must be up with the following dbs and collections  
+-  Preapare database  
+   - Redis database must be up  
+   - MongoDB must be up with the following dbs and collections  
 `DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, users, userstemp, visitors-default-current, visitors-default}`
 -  Fulfill Google Cloud credentials (for storage) (optional for localhost env)
 `./creds/############.json` 

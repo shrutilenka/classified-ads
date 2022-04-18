@@ -194,6 +194,7 @@ module.exports = function (mongoDB, redisDB) {
         })
     }
 
+    const encoder = require('./mongo-protobuff')
     /**
      * Get documents created since number of days
      * @param {*} days number of days since document was created
@@ -204,7 +205,6 @@ module.exports = function (mongoDB, redisDB) {
     this.getListingsSince = async function (days, section, pagination) {
         const unique = `gls-${days}-${section}-${pagination.perPage}-${pagination.page}`
         const cached = await redisDB.exists(unique)
-        console.log(cached)
         const substring = 100
         collection = mongoDB.collection('listing')
         const ObjectId = getObjectId(days)
@@ -212,6 +212,15 @@ module.exports = function (mongoDB, redisDB) {
         query._id = { $gt: ObjectId }
         if (section) query.section = section
         return new Promise(function (resolve, reject) {
+            if (cached) {
+                redisDB.get(unique, (err, cachedQResult) => {
+                    if (err) {
+                        return reject(err)
+                    } else {
+                        return resolve(JSON.parse(cachedQResult))
+                    }
+                })
+            }
             collection
                 .find(query)
                 .project(baseProjection)
@@ -224,7 +233,10 @@ module.exports = function (mongoDB, redisDB) {
                     docs.forEach(
                         (doc) => (doc.desc = doc.desc.substring(0, substring)),
                     )
-                    return resolve({ documents: docs, count: count })
+                    let newQResult = { documents: docs, count: count }
+                    encoder.getListingsSince(newQResult)
+                    redisDB.set(unique, JSON.stringify(newQResult))
+                    return resolve(newQResult)
                 })
         })
     }
@@ -542,7 +554,8 @@ module.exports = function (mongoDB, redisDB) {
                     if (objIds.length == 0) {
                         return resolve({ documents: [], count: 0 })
                     }
-                    mongoDB.collection('listing')
+                    mongoDB
+                        .collection('listing')
                         .find({ _id: { $in: objIds } })
                         .project(baseProjection)
                         .sort(baseSort)
