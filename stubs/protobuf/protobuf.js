@@ -36,5 +36,13 @@ getListingsSinceObj.count = i
 const buffer = GetListingsSince.encode(getListingsSinceObj).finish()
 
 console.log(buffer)
-console.log(buffer.toString());
+// console.log(buffer.toString());
+
+try {
+    var decodedMessage = GetListingsSince.decode(buffer);
+    console.log(decodedMessage.toJSON())
+} catch (e) {
+    console.log(e)
+}
+
 // console.log(JSON.parse(buffer.toString()));

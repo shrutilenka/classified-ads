@@ -203,6 +203,7 @@ module.exports = function (mongoDB, redisDB) {
      * @return {Promise}
      */
     this.getListingsSince = async function (days, section, pagination) {
+        const getListingsSince = new encoder.getListingsSince()
         const unique = `gls-${days}-${section}-${pagination.perPage}-${pagination.page}`
         const cached = await redisDB.exists(unique)
         const substring = 100
@@ -213,11 +214,12 @@ module.exports = function (mongoDB, redisDB) {
         if (section) query.section = section
         return new Promise(function (resolve, reject) {
             if (cached) {
-                redisDB.get(unique, (err, cachedQResult) => {
+                redisDB.getBuffer(unique, (err, buffer) => {
+                    let cachedQResult = getListingsSince.decodeBuffer(buffer)
                     if (err) {
                         return reject(err)
                     } else {
-                        return resolve(JSON.parse(cachedQResult))
+                        return resolve(cachedQResult)
                     }
                 })
             }
@@ -231,11 +233,14 @@ module.exports = function (mongoDB, redisDB) {
                     if (err) return reject(err)
                     const count = await collection.countDocuments(query)
                     docs.forEach(
-                        (doc) => (doc.desc = doc.desc.substring(0, substring)),
+                        (doc) => {
+                            doc.desc = doc.desc.substring(0, substring)
+                            doc.title = doc.desc.substring(0, Math.round(substring / 2))
+                        },
                     )
                     let newQResult = { documents: docs, count: count }
-                    encoder.getListingsSince(newQResult)
-                    redisDB.set(unique, JSON.stringify(newQResult))
+                    const buffer = getListingsSince.getBuffer(newQResult)
+                    redisDB.setBuffer(unique, buffer)
                     return resolve(newQResult)
                 })
         })
