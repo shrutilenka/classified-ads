@@ -45,7 +45,7 @@ module.exports = function (mongoDB, redisDB) {
     let collection
     /** @type { Filter } */
     const baseQuery = { d: false, a: true }
-    const baseProjection = { pass: 0.0, geolocation: 0.0, d: 0.0, a: 0.0 }
+    const baseProjection = { geolocation: 0.0, d: 0.0, a: 0.0 }
     const baseSort = [['_id', 'desc']]
     /** @type { CollationOptions } */
     const baseCollation = {}
@@ -166,11 +166,24 @@ module.exports = function (mongoDB, redisDB) {
      * @return {Promise}
      */
     this.getListingById = async function (id, isAdmin, viewer) {
+        const getListingById = new encoder.getListingById()
+        const unique = `glid-${id}-${isAdmin}-${viewer}`
+        const cached = await redisDB.exists(unique)
         collection = mongoDB.collection('listing')
         // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
         const query = {}
-        const projection = { pass: 0.0, geolocation: 0.0 }
+        const projection = { geolocation: 0.0 }
         return new Promise(function (resolve, reject) {
+            if (cached) {
+                redisDB.getBuffer(unique, (err, buffer) => {
+                    let cachedQResult = getListingById.decodeBuffer(buffer)
+                    if (err) {
+                        return reject(err)
+                    } else {
+                        return resolve(cachedQResult)
+                    }
+                })
+            }
             try {
                 new ObjectId(id)
             } catch (err) {
@@ -186,6 +199,8 @@ module.exports = function (mongoDB, redisDB) {
                     // console.log(doc)
                     const isAuthor = doc.usr === viewer
                     if (isAdmin || isAuthor || doc['a']) {
+                        const buffer = getListingById.getBuffer(doc)
+                        redisDB.setBuffer(unique, buffer)
                         return resolve(doc)
                     } else {
                         return resolve()
@@ -254,7 +269,7 @@ module.exports = function (mongoDB, redisDB) {
     this.getListingsByUser = async function (user) {
         collection = mongoDB.collection('listing')
         const query = {}
-        const projection = { pass: 0.0, geolocation: 0.0 /*d: 0.0, a: 0.0*/ }
+        const projection = { geolocation: 0.0 /*d: 0.0, a: 0.0*/ }
         query.usr = user
         const tmp = await collection
             .find(query)
@@ -704,7 +719,6 @@ module.exports = function (mongoDB, redisDB) {
         collection = mongoDB.collection('listing')
         const query = approving ? { a: false } : {}
         const projection = {
-            pass: 0.0,
             geolocation: 0.0,
             ...(!approving && { d: 0.0, a: 0.0 }),
             lat: 0.0,
