@@ -29,6 +29,7 @@ function getListingsSince() {
 
 function getListingById() {
     this.getBuffer = (QResult) => {
+        QResult._id = String(QResult._id)
         var err = Listing.verify(QResult)
         if (err) throw Error(err)
         const listingObj = Listing.create(QResult)

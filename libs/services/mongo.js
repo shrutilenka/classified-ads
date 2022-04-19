@@ -167,7 +167,8 @@ module.exports = function (mongoDB, redisDB) {
      */
     this.getListingById = async function (id, isAdmin, viewer) {
         const getListingById = new encoder.getListingById()
-        const unique = `glid-${id}-${isAdmin}-${viewer}`
+        const unique = `glid-${id}-${isAdmin}`
+        const canView = (doc) => isAdmin || doc.usr === viewer || doc['a']
         const cached = await redisDB.exists(unique)
         collection = mongoDB.collection('listing')
         // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
@@ -177,10 +178,11 @@ module.exports = function (mongoDB, redisDB) {
             if (cached) {
                 redisDB.getBuffer(unique, (err, buffer) => {
                     let cachedQResult = getListingById.decodeBuffer(buffer)
-                    if (err) {
-                        return reject(err)
-                    } else {
-                        return resolve(cachedQResult)
+                    if (err) return reject(err)
+                    else {
+                        if (canView(cachedQResult))
+                            return resolve(cachedQResult)
+                        else return resolve()
                     }
                 })
             }
@@ -197,10 +199,13 @@ module.exports = function (mongoDB, redisDB) {
                     // console.log(`viewer ${viewer}`)
                     // console.log(`admin ${isAdmin}`)
                     // console.log(doc)
-                    const isAuthor = doc.usr === viewer
-                    if (isAdmin || isAuthor || doc['a']) {
-                        const buffer = getListingById.getBuffer(doc)
-                        redisDB.setBuffer(unique, buffer)
+                    if (canView(doc)) {
+                        try {
+                            const buffer = getListingById.getBuffer(doc)
+                            redisDB.setBuffer(unique, buffer)
+                        } catch (error) {
+                            console.log(error)
+                        }
                         return resolve(doc)
                     } else {
                         return resolve()
@@ -247,15 +252,20 @@ module.exports = function (mongoDB, redisDB) {
                 .toArray(async function (err, docs) {
                     if (err) return reject(err)
                     const count = await collection.countDocuments(query)
-                    docs.forEach(
-                        (doc) => {
-                            doc.desc = doc.desc.substring(0, substring)
-                            doc.title = doc.desc.substring(0, Math.round(substring / 2))
-                        },
-                    )
+                    docs.forEach((doc) => {
+                        doc.desc = doc.desc.substring(0, substring)
+                        doc.title = doc.desc.substring(
+                            0,
+                            Math.round(substring / 2),
+                        )
+                    })
                     let newQResult = { documents: docs, count: count }
-                    const buffer = getListingsSince.getBuffer(newQResult)
-                    redisDB.setBuffer(unique, buffer)
+                    try {
+                        const buffer = getListingsSince.getBuffer(newQResult)
+                        redisDB.setBuffer(unique, buffer)
+                    } catch (error) {
+                        console.log(error)
+                    }
                     return resolve(newQResult)
                 })
         })
