@@ -174,6 +174,14 @@ ops.createIndexes = async function createIndexes(db) {
         { createdAt: 1 },
         { expireAfterSeconds: 60*10, unique: true },
     )
+    // TODO: change a standalone mongodb to a replica set
+    // // open a Change Stream on the "listings" collection
+    // let changeStream = listingCollection.watch()
+    // // set up a listener when change events are emitted
+    // changeStream.on("change", next => {
+    //     // process any change event
+    //     console.log("received a change to the collection: \t", next)
+    // })
 }
 
 /*********************************************************************************************** */

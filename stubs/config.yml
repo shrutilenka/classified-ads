@@ -52,3 +52,10 @@
 # INSPECTING MEMEORY
 # npm install -g clinic autocannon 
 # npm run beautiful:inspect
+
+# old ls -la /var/lib/mongodb (mongodb:mongodb)
+# sudo mkdir /var/lib/db0/
+# sudo chgrp mongodb /var/lib/db0/
+#  to give read, write, and execute to everyone. (last solution)
+# sudo chmod ugo+rwx /var/lib/db0/
+# mongod --port 27017 --dbpath /var/lib/db0 --replSet rs0 --bind_ip localhost

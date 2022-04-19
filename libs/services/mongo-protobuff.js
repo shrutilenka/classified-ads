@@ -9,7 +9,6 @@ const Listing = root.lookupType('MongoQueries.Listing')
 
 function getListingsSince() {
     this.getBuffer = (QResult) => {
-        QResult.documents.forEach((doc) => (doc._id = String(doc._id)))
         var err = GetListingsSince.verify(QResult)
         if (err) throw Error(err)
         const getListingsSinceObj = GetListingsSince.create(QResult)
@@ -29,7 +28,6 @@ function getListingsSince() {
 
 function getListingById() {
     this.getBuffer = (QResult) => {
-        QResult._id = String(QResult._id)
         var err = Listing.verify(QResult)
         if (err) throw Error(err)
         const listingObj = Listing.create(QResult)

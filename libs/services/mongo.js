@@ -201,8 +201,10 @@ module.exports = function (mongoDB, redisDB) {
                     // console.log(doc)
                     if (canView(doc)) {
                         try {
+                            doc._id = doc._id.toHexString()
                             const buffer = getListingById.getBuffer(doc)
                             redisDB.setBuffer(unique, buffer)
+                            redisDB.lpush('glid-ids', doc._id)
                         } catch (error) {
                             console.log(error)
                         }
@@ -224,13 +226,13 @@ module.exports = function (mongoDB, redisDB) {
      */
     this.getListingsSince = async function (days, section, pagination) {
         const getListingsSince = new encoder.getListingsSince()
-        const unique = `gls-${days}-${section}-${pagination.perPage}-${pagination.page}`
+        const unique = `gls-${days}-${section || 'index'}-${pagination.perPage}-${pagination.page}`
         const cached = await redisDB.exists(unique)
         const substring = 100
         collection = mongoDB.collection('listing')
-        const ObjectId = getObjectId(days)
+        const objectId = getObjectId(days)
         const query = JSON.parse(JSON.stringify(baseQuery))
-        query._id = { $gt: ObjectId }
+        query._id = { $gt: objectId }
         if (section) query.section = section
         return new Promise(function (resolve, reject) {
             if (cached) {
@@ -258,11 +260,13 @@ module.exports = function (mongoDB, redisDB) {
                             0,
                             Math.round(substring / 2),
                         )
+                        doc._id = doc._id.toHexString()
                     })
                     let newQResult = { documents: docs, count: count }
                     try {
                         const buffer = getListingsSince.getBuffer(newQResult)
                         redisDB.setBuffer(unique, buffer)
+                        docs.forEach((doc) => redisDB.lpush('gls-ids', doc._id))
                     } catch (error) {
                         console.log(error)
                     }
