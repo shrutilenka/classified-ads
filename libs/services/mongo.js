@@ -160,9 +160,7 @@ module.exports = function (mongoDB, redisDB) {
 
     // up-ids cached [doc._id] (just updated documents)
     // glid-@@@@@@@@@@@@ cached document
-    // glid-ids cached [document._id]
     // gls-#### cached pages
-    // gls-ids cached [document._id]
 
     // Cache mecanism
     // update doc then add it to up-ids[doc._id] with up = 3
@@ -170,21 +168,27 @@ module.exports = function (mongoDB, redisDB) {
     // if cached check:
     //  is doc up (up-ids[doc._id] ===1) do nothing proceed happily
     //  is doc up (up-ids[doc._id] ===3 or up-ids[doc._id]===2),
-    //      then remove cache and remove glid-ids and proceed
-    // get new doc from DB, down up-ids 
+    //      then remove cache 
+    // get new doc from DB, down up-ids
     //      (up-ids[doc._id] ===3 ==> [doc._id] = 1) or (up-ids[doc._id] ===2 ==> [doc._id] = 0)
     //       and add it to glid-@@@@@@@@@@@@
     // 2- getListingsSince
     // if cached check:
     //  is doc up (up-ids[doc._id] ===2) do nothing proceed happily
     //  is doc up (up-ids[doc._id] ===3 or up-ids[doc._id]===1),
-    //      then remove cache and remove gls-ids and proceed
-    // get new doc from DB, down up-ids 
+    //      then remove cache 
+    // get new doc from DB, down up-ids
     //      (up-ids[doc._id] ===3 ==> [doc._id] = 2) or (up-ids[doc._id] ===1 ==> [doc._id] = 0)
     //       and add it to gls-####
 
-
-    
+    // glid:${id}
+    // redis> HSET glid id 3
+    // (integer) 1
+    // redis> HSET myhash id 2
+    // (integer) 1
+    // redis> HKEYS myhash
+    // 1) "id1"
+    // 2) "id2"
 
     /**
      * Get a document from DB
@@ -195,7 +199,7 @@ module.exports = function (mongoDB, redisDB) {
      */
     this.getListingById = async function (id, isAdmin, viewer) {
         const getListingById = new encoder.getListingById()
-        const unique = `glid-${id}-${isAdmin}`
+        const unique = `glid:${id}`
         const canView = (doc) => isAdmin || doc.usr === viewer || doc['a']
         const cached = await redisDB.exists(unique)
         collection = mongoDB.collection('listing')
@@ -204,16 +208,18 @@ module.exports = function (mongoDB, redisDB) {
         const projection = { geolocation: 0.0 }
         return new Promise(function (resolve, reject) {
             if (cached) {
-                // if !flagged as modified (not in glid-ids)
-                redisDB.getBuffer(unique, (err, buffer) => {
-                    let cachedQResult = getListingById.decodeBuffer(buffer)
-                    if (err) return reject(err)
-                    else {
-                        if (canView(cachedQResult))
-                            return resolve(cachedQResult)
-                        else return resolve()
-                    }
-                })
+                let upLevel = redisDB.hget(`up-ids`, id)
+                if (upLevel === 1)
+                    redisDB.getBuffer(unique, (err, buffer) => {
+                        let cachedQResult = getListingById.decodeBuffer(buffer)
+                        if (err) return reject(err)
+                        else {
+                            if (canView(cachedQResult))
+                                return resolve(cachedQResult)
+                            else return resolve()
+                        }
+                    })
+                if (upLevel === 2 || upLevel === 3) redisDB.del(unique)
             }
             try {
                 new ObjectId(id)
@@ -233,8 +239,9 @@ module.exports = function (mongoDB, redisDB) {
                             doc._id = doc._id.toHexString()
                             const buffer = getListingById.getBuffer(doc)
                             redisDB.setBuffer(unique, buffer)
-                            // flag when modified
-                            // redisDB.lpush('glid-ids', doc._id)
+                            let upLevel = redisDB.hget(`up-ids`, id)
+                            if (upLevel === 2) redisDB.hdel(`up-ids`, id)
+                            if (upLevel === 3) redisDB.hset(`up-ids`, id, 1)
                         } catch (error) {
                             console.log(error)
                         }
@@ -256,7 +263,9 @@ module.exports = function (mongoDB, redisDB) {
      */
     this.getListingsSince = async function (days, section, pagination) {
         const getListingsSince = new encoder.getListingsSince()
-        const unique = `${section || 'index'}-${days}-${pagination.perPage}-${pagination.page}`
+        const unique = `${section || 'index'}-${days}-${pagination.perPage}-${
+            pagination.page
+        }`
         const cached = await redisDB.exists(unique)
         const substring = 100
         collection = mongoDB.collection('listing')
@@ -267,14 +276,28 @@ module.exports = function (mongoDB, redisDB) {
         return new Promise(function (resolve, reject) {
             if (cached) {
                 // get gls-ids:${unique} and intersect with glid-ids
-                redisDB.getBuffer(`gls:${unique}`, (err, buffer) => {
-                    let cachedQResult = getListingsSince.decodeBuffer(buffer)
-                    if (err) {
-                        return reject(err)
-                    } else {
-                        return resolve(cachedQResult)
-                    }
-                })
+                const upIds = redisDB.hkeys(`up-ids`)
+                const glsIds = redisDB.get(`gls-ids:${unique}`)
+                let refreshed = false
+                for (let i = 0; i < glsIds.length; i++) {
+                    const id = glsIds[i];
+                    if(upIds.indexOf(id) < 0) continue
+                    const level = redisDB.get(`up-ids:${id}`)
+                    if(level === 2) continue
+                    if (level === 3) redisDB.hset(`up-ids`, id, 2)
+                    if (level === 1) redisDB.hdel(`up-ids`, id)
+                    redisDB.del(`gls-ids:${unique}`)
+                    refreshed = true
+                }
+                if(!refreshed)
+                    redisDB.getBuffer(`gls:${unique}`, (err, buffer) => {
+                        let cachedQResult = getListingsSince.decodeBuffer(buffer)
+                        if (err) {
+                            return reject(err)
+                        } else {
+                            return resolve(cachedQResult)
+                        }
+                    })
             }
             collection
                 .find(query)
@@ -297,7 +320,10 @@ module.exports = function (mongoDB, redisDB) {
                     try {
                         const buffer = getListingsSince.getBuffer(newQResult)
                         redisDB.setBuffer(`gls:${unique}`, buffer)
-                        redisDB.sadd(`gls-ids:${unique}`, docs.map(doc => doc._id))
+                        redisDB.sadd(
+                            `gls-ids:${unique}`,
+                            docs.map((doc) => doc._id),
+                        )
                         // docs.forEach((doc) => redisDB.lpush('gls-ids', doc._id))
                     } catch (error) {
                         console.log(error)
