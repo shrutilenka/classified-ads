@@ -158,6 +158,7 @@ module.exports = function (mongoDB, redisDB) {
         })
     }
 
+    // up-ids cached [doc._id] (just updated documents)
     // glid-@@@@@@@@@@@@ cached document
     // glid-ids cached [document._id]
     // gls-#### cached pages
@@ -166,17 +167,21 @@ module.exports = function (mongoDB, redisDB) {
     // Cache mecanism
     // update doc then add it to up-ids[doc._id] with up = 3
     // 1- getListingById
-    // if cached check is doc up (up-ids[doc._id] ===3 or up-ids[doc._id]===2),
-    // then remove cache and remove glid-ids and proceed
+    // if cached check:
+    //  is doc up (up-ids[doc._id] ===1) do nothing proceed happily
+    //  is doc up (up-ids[doc._id] ===3 or up-ids[doc._id]===2),
+    //      then remove cache and remove glid-ids and proceed
     // get new doc from DB, down up-ids 
-    //          (up-ids[doc._id] ===3 ==> [doc._id] = 1) or (up-ids[doc._id] ===2 ==> [doc._id] = 0)
-    //           and add it to glid-ids & glid-@@@@@@@@@@@@
-    // // 2- getListingsSince
-    // if cached check is doc up (up-ids[doc._id] ===3 or up-ids[doc._id]===1),
-    // then remove cache and remove gls-ids and proceed
+    //      (up-ids[doc._id] ===3 ==> [doc._id] = 1) or (up-ids[doc._id] ===2 ==> [doc._id] = 0)
+    //       and add it to glid-@@@@@@@@@@@@
+    // 2- getListingsSince
+    // if cached check:
+    //  is doc up (up-ids[doc._id] ===2) do nothing proceed happily
+    //  is doc up (up-ids[doc._id] ===3 or up-ids[doc._id]===1),
+    //      then remove cache and remove gls-ids and proceed
     // get new doc from DB, down up-ids 
-    //          (up-ids[doc._id] ===3 ==> [doc._id] = 2) or (up-ids[doc._id] ===1 ==> [doc._id] = 0)
-    //           and add it to gls-ids & gls-####
+    //      (up-ids[doc._id] ===3 ==> [doc._id] = 2) or (up-ids[doc._id] ===1 ==> [doc._id] = 0)
+    //       and add it to gls-####
 
 
     
@@ -209,10 +214,6 @@ module.exports = function (mongoDB, redisDB) {
                         else return resolve()
                     }
                 })
-                // else
-                // remove it from cache (cached = 0)
-                // remove if from glid-ids
-                // continue
             }
             try {
                 new ObjectId(id)
