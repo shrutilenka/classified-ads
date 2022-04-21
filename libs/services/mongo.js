@@ -274,7 +274,7 @@ module.exports = function (mongoDB, redisDB) {
         const unique = `${section || 'index'}-${days}-${pagination.perPage}-${
             pagination.page
         }`
-        const cached = await redisDB.exists(unique)
+        const cached = await redisDB.exists(`gls:${unique}`)
         const substring = 100
         collection = mongoDB.collection('listing')
         const objectId = getObjectId(days)
@@ -282,72 +282,60 @@ module.exports = function (mongoDB, redisDB) {
         query._id = { $gt: objectId }
         if (section) query.section = section
         const upIds = await redisDB.hkeys(`up-ids`)
-        console.log('up-ids '+JSON.stringify(upIds))
         const glsIds = await redisDB.smembers(`gls-ids:${unique}`)
-        console.log('gls-ids '+JSON.stringify(glsIds))
-        return new Promise(function (resolve, reject) {
-            if (cached) {
-                // get gls-ids:${unique} and intersect with glid-ids
-
-                let refreshed = false
-                for (let i = 0; i < glsIds.length; i++) {
-                    const id = glsIds[i];
-                    if(upIds.indexOf(id) < 0) continue
-                    console.log('wow')
-                    redisDB.get(`up-ids:${id}`).then(upLevel => {
-                        upLevel = upLevel || '2'
-                        if(upLevel === '2') {
-                            // continue
-                        } else {
-                            if (upLevel === '3') redisDB.hset(`up-ids`, id, '2')
-                            if (upLevel === '1') redisDB.hdel(`up-ids`, id)
-                            redisDB.del(`gls-ids:${unique}`)
-                            refreshed = true
-                        }
-                    })
+        if (cached) {
+            // get gls-ids:${unique} and intersect with glid-ids
+            let refreshed = false
+            for (let i = 0; i < glsIds.length; i++) {
+                const id = glsIds[i]
+                if(upIds.indexOf(id) < 0) continue
+                console.log('wow')
+                const upLevel = await redisDB.hget(`up-ids`, id) || '2'
+                console.log(`upLevel ${upLevel}`)
+                console.log(`type ${typeof upLevel}`)
+                if(upLevel === '2') continue
+                else {
+                    if (upLevel === '3') await redisDB.hset(`up-ids`, id, '2')
+                    if (upLevel === '1') await redisDB.hdel(`up-ids`, id)
+                    await redisDB.del(`gls-ids:${unique}`)
+                    refreshed = true
                 }
-                if(!refreshed)
-                    redisDB.getBuffer(`gls:${unique}`, (err, buffer) => {
-                        let cachedQResult = getListingsSince.decodeBuffer(buffer)
-                        if (err) {
-                            return reject(err)
-                        } else {
-                            return resolve(cachedQResult)
-                        }
-                    })
             }
-            collection
-                .find(query)
-                .project(baseProjection)
-                .sort(baseSort)
-                .skip(pagination.perPage * pagination.page - pagination.perPage)
-                .limit(pagination.perPage)
-                .toArray(async function (err, docs) {
-                    if (err) return reject(err)
-                    const count = await collection.countDocuments(query)
-                    docs.forEach((doc) => {
-                        doc.desc = doc.desc.substring(0, substring)
-                        doc.title = doc.desc.substring(
-                            0,
-                            Math.round(substring / 2),
-                        )
-                        doc._id = doc._id.toHexString()
-                    })
-                    let newQResult = { documents: docs, count: count }
-                    try {
-                        const buffer = getListingsSince.getBuffer(newQResult)
-                        redisDB.setBuffer(`gls:${unique}`, buffer)
-                        redisDB.sadd(
-                            `gls-ids:${unique}`,
-                            docs.map((doc) => doc._id),
-                        )
-                        // docs.forEach((doc) => redisDB.lpush('gls-ids', doc._id))
-                    } catch (error) {
-                        console.log(error)
-                    }
-                    return resolve(newQResult)
-                })
+            if(!refreshed) {
+                const buffer = await redisDB.getBuffer(`gls:${unique}`)
+                let cachedQResult = getListingsSince.decodeBuffer(buffer)
+                return cachedQResult
+            }
+        }
+        const docs = await collection
+            .find(query)
+            .project(baseProjection)
+            .sort(baseSort)
+            .skip(pagination.perPage * pagination.page - pagination.perPage)
+            .limit(pagination.perPage)
+            .toArray()
+        const count = await collection.countDocuments(query)
+        docs.forEach((doc) => {
+            doc.desc = doc.desc.substring(0, substring)
+            doc.title = doc.desc.substring(
+                0,
+                Math.round(substring / 2),
+            )
+            doc._id = doc._id.toHexString()
         })
+        let newQResult = { documents: docs, count: count }
+        try {
+            const buffer = getListingsSince.getBuffer(newQResult)
+            await redisDB.setBuffer(`gls:${unique}`, buffer)
+            await redisDB.sadd(
+                `gls-ids:${unique}`,
+                docs.map((doc) => doc._id),
+            )
+            // docs.forEach((doc) => redisDB.lpush('gls-ids', doc._id))
+        } catch (error) {
+            console.log(error)
+        }
+        return newQResult
     }
 
     /**
