@@ -206,59 +206,40 @@ module.exports = function (mongoDB, redisDB) {
         // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
         const query = {}
         const projection = { geolocation: 0.0 }
-        return new Promise(function (resolve, reject) {
-            if (cached) {
-                redisDB.hget(`up-ids`, id).then(upLevel => {
-                    upLevel = upLevel || '1'
-                    if (upLevel === '1')
-                        redisDB.getBuffer(unique, (err, buffer) => {
-                            let cachedQResult = getListingById.decodeBuffer(buffer)
-                            if (err) return reject(err)
-                            else {
-                                if (canView(cachedQResult))
-                                    return resolve(cachedQResult)
-                                else return resolve()
-                            }
-                        })
-                    if (upLevel === '2' || upLevel === '3') redisDB.del(unique)
-                }) 
-
-                
-                
+        if (cached) {
+            const upLevel = await redisDB.hget(`up-ids`, id) || '1'
+            if (upLevel === '1') {
+                const buffer = await redisDB.getBuffer(unique)
+                let cachedQResult = getListingById.decodeBuffer(buffer)
+                if (canView(cachedQResult))
+                    return cachedQResult
+                else return
             }
+            if (upLevel === '2' || upLevel === '3') await redisDB.del(unique)              
+        }
+        query._id = new ObjectId(id)
+        const doc = await collection
+            .findOne(query, { projection: projection })
+        if (!doc) return
+        // console.log(`viewer ${viewer}`)
+        // console.log(`admin ${isAdmin}`)
+        // console.log(doc)
+        if (canView(doc)) {
             try {
-                new ObjectId(id)
-            } catch (err) {
-                return reject(err)
+                doc._id = doc._id.toHexString()
+                const buffer = getListingById.getBuffer(doc)
+                await redisDB.setBuffer(unique, buffer)
+                const upLevel = await redisDB.hget(`up-ids`, id) || '1'
+                console.log(`current document level ${upLevel}`)
+                if (upLevel === '2') await redisDB.hdel(`up-ids`, id)
+                if (upLevel === '3') await redisDB.hset(`up-ids`, id, '1')
+            } catch (error) {
+                console.log(error)
             }
-            query._id = new ObjectId(id)
-            collection
-                .findOne(query, { projection: projection })
-                .then((doc) => {
-                    if (!doc) return resolve()
-                    // console.log(`viewer ${viewer}`)
-                    // console.log(`admin ${isAdmin}`)
-                    // console.log(doc)
-                    if (canView(doc)) {
-                        try {
-                            doc._id = doc._id.toHexString()
-                            const buffer = getListingById.getBuffer(doc)
-                            redisDB.setBuffer(unique, buffer)
-                            redisDB.hget(`up-ids`, id).then(upLevel => {
-                                upLevel = upLevel || '1'
-                                console.log(`current document level ${upLevel}`)
-                                if (upLevel === '2') redisDB.hdel(`up-ids`, id)
-                                if (upLevel === '3') redisDB.hset(`up-ids`, id, '1')
-                            })
-                        } catch (error) {
-                            console.log(error)
-                        }
-                        return resolve(doc)
-                    } else {
-                        return resolve()
-                    }
-                })
-        })
+            return doc
+        } else {
+            return
+        }
     }
 
     const encoder = require('./mongo-protobuff')
