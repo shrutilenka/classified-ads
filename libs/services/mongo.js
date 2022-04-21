@@ -208,18 +208,23 @@ module.exports = function (mongoDB, redisDB) {
         const projection = { geolocation: 0.0 }
         return new Promise(function (resolve, reject) {
             if (cached) {
-                let upLevel = redisDB.hget(`up-ids`, id)
-                if (upLevel === 1)
-                    redisDB.getBuffer(unique, (err, buffer) => {
-                        let cachedQResult = getListingById.decodeBuffer(buffer)
-                        if (err) return reject(err)
-                        else {
-                            if (canView(cachedQResult))
-                                return resolve(cachedQResult)
-                            else return resolve()
-                        }
-                    })
-                if (upLevel === 2 || upLevel === 3) redisDB.del(unique)
+                redisDB.hget(`up-ids`, id).then(upLevel => {
+                    upLevel = upLevel || '1'
+                    if (upLevel === '1')
+                        redisDB.getBuffer(unique, (err, buffer) => {
+                            let cachedQResult = getListingById.decodeBuffer(buffer)
+                            if (err) return reject(err)
+                            else {
+                                if (canView(cachedQResult))
+                                    return resolve(cachedQResult)
+                                else return resolve()
+                            }
+                        })
+                    if (upLevel === '2' || upLevel === '3') redisDB.del(unique)
+                }) 
+
+                
+                
             }
             try {
                 new ObjectId(id)
@@ -239,9 +244,12 @@ module.exports = function (mongoDB, redisDB) {
                             doc._id = doc._id.toHexString()
                             const buffer = getListingById.getBuffer(doc)
                             redisDB.setBuffer(unique, buffer)
-                            let upLevel = redisDB.hget(`up-ids`, id)
-                            if (upLevel === 2) redisDB.hdel(`up-ids`, id)
-                            if (upLevel === 3) redisDB.hset(`up-ids`, id, 1)
+                            redisDB.hget(`up-ids`, id).then(upLevel => {
+                                upLevel = upLevel || '1'
+                                console.log(`current document level ${upLevel}`)
+                                if (upLevel === '2') redisDB.hdel(`up-ids`, id)
+                                if (upLevel === '3') redisDB.hset(`up-ids`, id, '1')
+                            })
                         } catch (error) {
                             console.log(error)
                         }
@@ -273,21 +281,30 @@ module.exports = function (mongoDB, redisDB) {
         const query = JSON.parse(JSON.stringify(baseQuery))
         query._id = { $gt: objectId }
         if (section) query.section = section
+        const upIds = await redisDB.hkeys(`up-ids`)
+        console.log('up-ids '+JSON.stringify(upIds))
+        const glsIds = await redisDB.smembers(`gls-ids:${unique}`)
+        console.log('gls-ids '+JSON.stringify(glsIds))
         return new Promise(function (resolve, reject) {
             if (cached) {
                 // get gls-ids:${unique} and intersect with glid-ids
-                const upIds = redisDB.hkeys(`up-ids`)
-                const glsIds = redisDB.get(`gls-ids:${unique}`)
+
                 let refreshed = false
                 for (let i = 0; i < glsIds.length; i++) {
                     const id = glsIds[i];
                     if(upIds.indexOf(id) < 0) continue
-                    const level = redisDB.get(`up-ids:${id}`)
-                    if(level === 2) continue
-                    if (level === 3) redisDB.hset(`up-ids`, id, 2)
-                    if (level === 1) redisDB.hdel(`up-ids`, id)
-                    redisDB.del(`gls-ids:${unique}`)
-                    refreshed = true
+                    console.log('wow')
+                    redisDB.get(`up-ids:${id}`).then(upLevel => {
+                        upLevel = upLevel || '2'
+                        if(upLevel === '2') {
+                            // continue
+                        } else {
+                            if (upLevel === '3') redisDB.hset(`up-ids`, id, '2')
+                            if (upLevel === '1') redisDB.hdel(`up-ids`, id)
+                            redisDB.del(`gls-ids:${unique}`)
+                            refreshed = true
+                        }
+                    })
                 }
                 if(!refreshed)
                     redisDB.getBuffer(`gls:${unique}`, (err, buffer) => {

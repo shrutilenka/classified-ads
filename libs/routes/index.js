@@ -15,7 +15,8 @@ async function routes(fastify, options) {
     const blabla = require('../decorators/blabla')
     const queries = require('../services/mongo')
     const { db } = fastify.mongo
-    const { redis } = fastify
+    /** @type { import('ioredis').Redis } redis */
+    const redis = fastify.redis
     const QInstance = new queries(db, redis)
     let auth, adminAuth, softAuth
     if (fastify.auth) {
@@ -30,6 +31,11 @@ async function routes(fastify, options) {
     
     // TODO: replace `reply.view` with reply.blabla([data, route, kind])
     fastify.decorateReply('blabla', blabla)
+
+    fastify.get('/update/:id/', async function (req, reply) {
+        await redis.hset(`up-ids`, req.params.id, 3)
+        return reply
+    })
 
     /* GET home page. */
     fastify.get('/', async function (req, reply) {
