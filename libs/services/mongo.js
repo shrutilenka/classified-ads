@@ -168,7 +168,7 @@ module.exports = function (mongoDB, redisDB) {
     // if cached check:
     //  is doc up (up-ids[doc._id] ===1) do nothing proceed happily
     //  is doc up (up-ids[doc._id] ===3 or up-ids[doc._id]===2),
-    //      then remove cache 
+    //      then remove cache
     // get new doc from DB, down up-ids
     //      (up-ids[doc._id] ===3 ==> [doc._id] = 1) or (up-ids[doc._id] ===2 ==> [doc._id] = 0)
     //       and add it to glid-@@@@@@@@@@@@
@@ -176,7 +176,7 @@ module.exports = function (mongoDB, redisDB) {
     // if cached check:
     //  is doc up (up-ids[doc._id] ===2) do nothing proceed happily
     //  is doc up (up-ids[doc._id] ===3 or up-ids[doc._id]===1),
-    //      then remove cache 
+    //      then remove cache
     // get new doc from DB, down up-ids
     //      (up-ids[doc._id] ===3 ==> [doc._id] = 2) or (up-ids[doc._id] ===1 ==> [doc._id] = 0)
     //       and add it to gls-####
@@ -189,6 +189,20 @@ module.exports = function (mongoDB, redisDB) {
     // redis> HKEYS myhash
     // 1) "id1"
     // 2) "id2"
+
+    function purgeRedis() {
+        console.log('Redis purge is running')
+        redisDB.keys('*').then((keys) => {
+            const pipeline = redisDB.pipeline()
+            keys.forEach(function (key) {
+                pipeline.del(key)
+            })
+            return pipeline.exec()
+        })
+        // timeout by 3 hours
+        setTimeout(purgeRedis, 3 * 1000 * 60 * 60)
+    }
+    if (process.env.worker_id == '1') purgeRedis()
 
     /**
      * Get a document from DB
@@ -207,30 +221,30 @@ module.exports = function (mongoDB, redisDB) {
         const query = {}
         const projection = { geolocation: 0.0 }
         if (cached) {
-            const upLevel = await redisDB.hget(`up-ids`, id) || '1'
+            const upLevel = (await redisDB.hget(`up-ids`, id)) || '1'
             if (upLevel === '1') {
                 const buffer = await redisDB.getBuffer(unique)
                 let cachedQResult = getListingById.decodeBuffer(buffer)
-                if (canView(cachedQResult))
-                    return cachedQResult
+                if (canView(cachedQResult)) return cachedQResult
                 else return
             }
-            if (upLevel === '2' || upLevel === '3') await redisDB.del(unique)              
+            if (upLevel === '2' || upLevel === '3') await redisDB.del(unique)
         }
         query._id = new ObjectId(id)
-        const doc = await collection
-            .findOne(query, { projection: projection })
-        if (!doc) return
-        // console.log(`viewer ${viewer}`)
-        // console.log(`admin ${isAdmin}`)
-        // console.log(doc)
+        const doc = await collection.findOne(query, { projection: projection })
+        // document has been removed from DB or doesn't exist at all
+        if (!doc) {
+            await redisDB.hdel(`up-ids`, id)
+            if (cached) await redisDB.del(unique)
+            return
+        }
         if (canView(doc)) {
             try {
                 doc._id = doc._id.toHexString()
                 const buffer = getListingById.getBuffer(doc)
-                await redisDB.setBuffer(unique, buffer)
-                const upLevel = await redisDB.hget(`up-ids`, id) || '1'
-                console.log(`current document level ${upLevel}`)
+                redisDB.setBuffer(unique, buffer)
+                const upLevel = (await redisDB.hget(`up-ids`, id)) || '1'
+                // console.log(`current document level ${upLevel}`)
                 if (upLevel === '2') await redisDB.hdel(`up-ids`, id)
                 if (upLevel === '3') await redisDB.hset(`up-ids`, id, '1')
             } catch (error) {
@@ -256,7 +270,6 @@ module.exports = function (mongoDB, redisDB) {
             pagination.page
         }`
         const cached = await redisDB.exists(`gls:${unique}`)
-        const substring = 100
         collection = mongoDB.collection('listing')
         const objectId = getObjectId(days)
         const query = JSON.parse(JSON.stringify(baseQuery))
@@ -269,12 +282,9 @@ module.exports = function (mongoDB, redisDB) {
             let refreshed = false
             for (let i = 0; i < glsIds.length; i++) {
                 const id = glsIds[i]
-                if(upIds.indexOf(id) < 0) continue
-                console.log('wow')
-                const upLevel = await redisDB.hget(`up-ids`, id) || '2'
-                console.log(`upLevel ${upLevel}`)
-                console.log(`type ${typeof upLevel}`)
-                if(upLevel === '2') continue
+                if (upIds.indexOf(id) < 0) continue
+                const upLevel = (await redisDB.hget(`up-ids`, id)) || '2'
+                if (upLevel === '2') continue
                 else {
                     if (upLevel === '3') await redisDB.hset(`up-ids`, id, '2')
                     if (upLevel === '1') await redisDB.hdel(`up-ids`, id)
@@ -282,7 +292,7 @@ module.exports = function (mongoDB, redisDB) {
                     refreshed = true
                 }
             }
-            if(!refreshed) {
+            if (!refreshed) {
                 const buffer = await redisDB.getBuffer(`gls:${unique}`)
                 let cachedQResult = getListingsSince.decodeBuffer(buffer)
                 return cachedQResult
@@ -295,19 +305,23 @@ module.exports = function (mongoDB, redisDB) {
             .skip(pagination.perPage * pagination.page - pagination.perPage)
             .limit(pagination.perPage)
             .toArray()
+        // Normally this doesn't happen (consistent UI / no bad doers)
+        if (docs.length === 0) {
+            await redisDB.del(`gls:${unique}`)
+            await redisDB.del(`gls-ids:${unique}`)
+            return { documents: [], count: 0 }
+        }
         const count = await collection.countDocuments(query)
+        const substring = 100
         docs.forEach((doc) => {
             doc.desc = doc.desc.substring(0, substring)
-            doc.title = doc.desc.substring(
-                0,
-                Math.round(substring / 2),
-            )
+            doc.title = doc.desc.substring(0, Math.round(substring / 2))
             doc._id = doc._id.toHexString()
         })
         let newQResult = { documents: docs, count: count }
         try {
             const buffer = getListingsSince.getBuffer(newQResult)
-            await redisDB.setBuffer(`gls:${unique}`, buffer)
+            redisDB.setBuffer(`gls:${unique}`, buffer)
             await redisDB.sadd(
                 `gls-ids:${unique}`,
                 docs.map((doc) => doc._id),
