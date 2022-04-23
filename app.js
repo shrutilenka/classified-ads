@@ -241,6 +241,8 @@ async function instantiateApp() {
     /*********************************************************************************************** */
     // !!BOOTSTRAP ENVIRONMENT AND DATA!!
     const { ops: bootstrap } = require('./bootstrap/bootstrap.js')
+    const RedisAPI = require('./libs/services/redis')
+
     // Run only on one node
     if (process.env.worker_id == '1') {
         fastify.log.info('Checking environment data once')
@@ -259,6 +261,9 @@ async function instantiateApp() {
     // Use connect method to connect to the Server
     const prepareData = async () => {
         const { db } = fastify.mongo
+        const redis = fastify.redis
+        const redisAPI = new RedisAPI(redis)
+        redisAPI.purgeKeys()
         const colListings = db.collection('listing')
         const colUsers = db.collection('users')
         // Create indexes

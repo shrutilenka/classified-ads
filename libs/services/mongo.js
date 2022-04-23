@@ -190,20 +190,6 @@ module.exports = function (mongoDB, redisDB) {
     // 1) "id1"
     // 2) "id2"
 
-    function purgeRedis() {
-        console.log('Redis purge is running')
-        redisDB.keys('*').then((keys) => {
-            const pipeline = redisDB.pipeline()
-            keys.forEach(function (key) {
-                pipeline.del(key)
-            })
-            return pipeline.exec()
-        })
-        // timeout by 3 hours
-        setTimeout(purgeRedis, 3 * 1000 * 60 * 60)
-    }
-    if (process.env.worker_id == '1') purgeRedis()
-
     /**
      * Get a document from DB
      * If Admin then get unnaproved document
