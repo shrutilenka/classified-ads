@@ -595,29 +595,19 @@ module.exports = function (mongoDB, redisDB) {
     this.toggleValue = async function (id, key, collName) {
         collection = mongoDB.collection(collName)
         const query = {}
-        return new Promise(function (resolve, reject) {
-            try {
-                new ObjectId(id)
-            } catch (err) {
-                return reject(err)
-            }
-            query._id = new ObjectId(id)
-            collection.find(query, { limit: 1 }).toArray((err, docs) => {
-                if (!docs) return reject(new Error('document not found'))
-                const newValues = { $set: {} }
-                newValues.$set[key] = !docs[0][key]
-                const options = { returnOriginal: false }
-                collection.findOneAndUpdate(
-                    query,
-                    newValues,
-                    options,
-                    function (err, res) {
-                        if (err) return reject(err)
-                        return resolve(res.value)
-                    },
-                )
-            })
-        })
+        query._id = new ObjectId(id)
+        const docs = await collection.find(query, { limit: 1 })
+        if (!docs) return
+        const newValues = { $set: {} }
+        newValues.$set[key] = !docs[0][key]
+        const options = { returnOriginal: false }
+        const res = await collection.findOneAndUpdate(
+            query,
+            newValues,
+            options
+        )
+        await redisDB.hset(`up-ids`, id, '3')
+        return res.value
     }
 
     this.autocomplete = async function (keyword) {
@@ -822,6 +812,7 @@ module.exports = function (mongoDB, redisDB) {
                 { $set: elem },
                 { upsert: false },
             )
+        await redisDB.hset(`up-ids`, elem._id.toHexString(), '1')
         return result
     }
 
