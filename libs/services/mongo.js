@@ -62,29 +62,22 @@ module.exports = function (mongoDB, redisDB) {
             type: 'Point',
             coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)],
         }
-        return new Promise(function (resolve, reject) {
-            try {
-                switch (elem.section) {
-                case 'donations':
-                    listing = new Donation(elem)
-                    break
-                case 'skills':
-                    listing = new Skill(elem)
-                    break
-                case 'blogs':
-                    listing = new Blog(elem)
-                    break
-                default:
-                    break
-                }
-                collection.insertOne(listing, function (err, res) {
-                    if (err) return reject(err)
-                    return resolve(res.acknowledged)
-                })
-            } catch (err) {
-                return reject(err)
-            }
-        })
+        switch (elem.section) {
+        case 'donations':
+            listing = new Donation(elem)
+            break
+        case 'skills':
+            listing = new Skill(elem)
+            break
+        case 'blogs':
+            listing = new Blog(elem)
+            break
+        default:
+            break
+        }
+        const res  = await collection.insertOne(listing)
+        return res.acknowledged
+
     }
 
     /**
@@ -95,17 +88,9 @@ module.exports = function (mongoDB, redisDB) {
     this.insertComment = async function (elem) {
         let comment
         collection = mongoDB.collection('comment')
-        return new Promise(function (resolve, reject) {
-            try {
-                comment = new Comment(elem)
-                collection.insertOne(comment, function (err, res) {
-                    if (err) return reject(err)
-                    return resolve(res.acknowledged)
-                })
-            } catch (err) {
-                return reject(err)
-            }
-        })
+        comment = new Comment(elem)
+        const res = await collection.insertOne(comment)
+        return res.acknowledged
     }
 
     /**
@@ -143,19 +128,10 @@ module.exports = function (mongoDB, redisDB) {
             from: 1.0,
             to: 1.0,
         }
-        return new Promise(function (resolve, reject) {
-            try {
-                new ObjectId(id)
-            } catch (err) {
-                return reject(err)
-            }
-            query._id = new ObjectId(id)
-            collection
-                .findOne(query, { projection: projection })
-                .then((doc) => {
-                    return resolve([doc.from, doc.to])
-                })
-        })
+        query._id = new ObjectId(id)
+        const doc = await collection
+            .findOne(query, { projection: projection })
+        return [doc.from, doc.to]
     }
 
     // up-ids cached [doc._id] (just updated documents)
@@ -370,19 +346,12 @@ module.exports = function (mongoDB, redisDB) {
     this.insertUser = async function (elem) {
         let user
         collection = mongoDB.collection('users')
-        return new Promise(function (resolve, reject) {
-            try {
-                user = new User(elem)
-                // delete user.password
-                // TODO: remove pass again, but objectmodel restricts that :(
-                collection.insertOne(user, function (err, res) {
-                    if (err) return reject(err)
-                    return resolve(res.acknowledged)
-                })
-            } catch (err) {
-                return reject(err)
-            }
-        })
+        user = new User(elem)
+        // delete user.password
+        // TODO: remove pass again, but objectmodel restricts that :(
+        const res = await collection.insertOne(user)
+        return res.acknowledged
+
     }
 
     this.updateUser = async function (elem) {
@@ -405,16 +374,8 @@ module.exports = function (mongoDB, redisDB) {
         // createdAt: ttl index
         tempUser['createdAt'] = new Date()
         collection = mongoDB.collection('userstemp')
-        return new Promise(function (resolve, reject) {
-            try {
-                collection.insertOne(tempUser, function (err, res) {
-                    if (err) return reject(err)
-                    return resolve(res.acknowledged)
-                })
-            } catch (err) {
-                return reject(err)
-            }
-        })
+        const res = await collection.insertOne(tempUser)
+        return res.acknowledged
     }
 
     /**
