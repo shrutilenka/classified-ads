@@ -259,11 +259,19 @@ module.exports = function (mongoDB, redisDB) {
         collection = mongoDB.collection('listing')
         const objectId = getObjectId(days)
         const query = JSON.parse(JSON.stringify(baseQuery))
+        let sort = baseSort
         query._id = { $gt: objectId }
-        if (section) query.section = section
+        if (section) {
+            query.section = section
+        } else {
+            sort = [['section']]
+            pagination.perPage = 18
+        }
         const upIds = await redisDB.hkeys(`up-ids`)
         const glsIds = await redisDB.smembers(`gls-ids:${unique}`)
-        if (cached) {
+        // TODO: because cache mechanism is only one to many
+        // only deal with pages with section 'index' (most important)
+        if (cached && section === '') {
             // get gls-ids:${unique} and intersect with glid-ids
             let refreshed = false
             for (let i = 0; i < glsIds.length; i++) {
@@ -287,9 +295,9 @@ module.exports = function (mongoDB, redisDB) {
         const docs = await collection
             .find(query)
             .project(baseProjection)
-            .sort(baseSort)
             .skip(pagination.perPage * pagination.page - pagination.perPage)
             .limit(pagination.perPage)
+            .sort(sort)
             .toArray()
         // Normally this doesn't happen (consistent UI / no bad doers)
         if (docs.length === 0) {
@@ -305,6 +313,7 @@ module.exports = function (mongoDB, redisDB) {
             doc._id = doc._id.toHexString()
         })
         let newQResult = { documents: docs, count: count }
+        if (section !== '') return newQResult
         try {
             const buffer = getListingsSince.getBuffer(newQResult)
             redisDB.setBuffer(`gls:${unique}`, buffer)

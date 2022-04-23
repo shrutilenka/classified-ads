@@ -175,7 +175,7 @@ async function instantiateApp() {
     /*********************************************************************************************** */
     // !!PREHANDERS AND HOOKS !!
     fastify.addHook('preHandler', (req, reply, done) => {
-        const perPage = 9
+        const perPage = 12
         const page = req.query.p || 1
         req.pagination = { perPage: perPage, page: page }
         done()
