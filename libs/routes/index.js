@@ -41,6 +41,10 @@ async function routes(fastify, options) {
     fastify.get('/', async function (req, reply) {
         const [err, listings] = await to(QInstance.getListingsSince(
             20, '', req.pagination))
+        if (err) {
+            req.log.error(`index#getListingsSince: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         const { page, perPage } = req.pagination
         const data = {
             listings: listings.documents,
@@ -60,8 +64,12 @@ async function routes(fastify, options) {
     // maybe they evolve differently in future 
     fastify.get('/tag/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const listings = await QInstance.getListingsByTag(
-            tag, 'origin', req.pagination)
+        const [err, listings] = await (QInstance.getListingsByTag(
+            tag, 'origin', req.pagination))
+        if (err) {
+            req.log.error(`index/tag#getListingsByTag: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         const { page, perPage } = req.pagination
         const data = {
             subtitle: tag,
@@ -75,8 +83,12 @@ async function routes(fastify, options) {
 
     fastify.get('/tag/parent/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const listings = await QInstance.getListingsByTag(
-            tag, 'parent', req.pagination)
+        const [err, listings] = await to(QInstance.getListingsByTag(
+            tag, 'parent', req.pagination))
+        if (err) {
+            req.log.error(`index/tag/parent#getListingsByTag: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         const { page, perPage } = req.pagination
         const data = {
             subtitle: tag,
@@ -90,8 +102,12 @@ async function routes(fastify, options) {
 
     fastify.get('/tag/granpa/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const listings = await QInstance.getListingsByTag(
-            tag, 'granpa', req.pagination)
+        const [err, listings] = await to(QInstance.getListingsByTag(
+            tag, 'granpa', req.pagination))
+        if (err) {
+            req.log.error(`index/tag/granpa#getListingsByTag: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         const { page, perPage } = req.pagination
         const data = {
             subtitle: tag,
@@ -105,8 +121,12 @@ async function routes(fastify, options) {
 
     fastify.get('/division/:division', async function (req, reply) {
         const division = req.params.division
-        const listings = await QInstance.getListingsByDivision(
-            division, req.pagination)
+        const [err, listings] = await to(QInstance.getListingsByDivision(
+            division, req.pagination))
+        if (err) {
+            req.log.error(`index/division#getListingsByDivision: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         const { page, perPage } = req.pagination
         const data = {
             subtitle: division,
@@ -122,6 +142,10 @@ async function routes(fastify, options) {
         const keyword = req.params.keyword
         const [err, listings] = await to(QInstance.getListingsByKeyword(
             keyword, req.pagination))
+        if (err) {
+            req.log.error(`index/keyword#getListingsByKeyword: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         const { page, perPage } = req.pagination
         const data = {
             subtitle: keyword,
@@ -137,22 +161,30 @@ async function routes(fastify, options) {
     fastify.get('/autocomplete/:keyword', async function (req, reply) {
         const keyword = req.params.keyword
         const [err, elems] = await to(QInstance.autocomplete(keyword))
-        if (elems) {
-            return elems
+        if (err) {
+            req.log.error(`index/autocomplete#autocomplete: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
-        reply.blabla([{}, 'message', 'NOT_FOUND'], req)
-        return reply
+        return elems
     })
 
     /* GET Top listings by tag. */
     fastify.get('/top/tags', async function (req, reply) {
         const [err, topTags] = await to(QInstance.topTags())
+        if (err) {
+            req.log.error(`index/top#topTags: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         return topTags
     })
     
     fastify.get('/top/div', async function (req, reply) {
         // const section = req.params.section
         const [err, topTags] = await to(QInstance.topBydivision())
+        if (err) {
+            req.log.error(`index/top/div#topBydivision: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         return topTags
     })
 
@@ -160,12 +192,20 @@ async function routes(fastify, options) {
     fastify.get('/top/parent/tags', async function (req, reply) {
         // const section = req.params.section
         const [err, topTags] = await to(QInstance.topByParentTag())
+        if (err) {
+            req.log.error(`index/top/parent#topByParentTag: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         return topTags
     })
 
     fastify.get('/top/granpa/tags', async function (req, reply) {
         // const section = req.params.section
         const [err, topTags] = await to(QInstance.topByGranpaTag)
+        if (err) {
+            req.log.error(`index/top/granpa#topByGranpaTag: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
         return topTags
     })
 

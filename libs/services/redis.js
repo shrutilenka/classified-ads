@@ -6,8 +6,8 @@ function purgeKeys(redisDB) {
     console.log('Redis purge is running')
     var stream = redisDB.scanStream({ match: '*' })
     stream.on('data', function (resultKeys) {
-        stream.pause()
         if (resultKeys.length) {
+            stream.pause()
             redisDB.unlink(resultKeys).then(() => {
                 stream.resume()
             })
