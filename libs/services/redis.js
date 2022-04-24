@@ -1,9 +1,16 @@
+/**
+ * 
+ * @param {import("ioredis").Redis} redisDB 
+ */
 function purgeKeys(redisDB) {
     console.log('Redis purge is running')
     var stream = redisDB.scanStream({ match: '*' })
     stream.on('data', function (resultKeys) {
+        stream.pause()
         if (resultKeys.length) {
-            redisDB.unlink(resultKeys)
+            redisDB.unlink(resultKeys).then(() => {
+                stream.resume()
+            })
         }
     })
     stream.on('end', function () {
@@ -11,6 +18,10 @@ function purgeKeys(redisDB) {
     })
 }
 
+/**
+ * 
+ * @param {import("ioredis").Redis} redisDB 
+ */
 module.exports = function (redisDB) {
     this.purgeKeys = function () {
     // Run once on startup
