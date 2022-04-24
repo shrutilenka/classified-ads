@@ -29,6 +29,7 @@
     "@smodin/fast-text-language-detection": "^0.2.3",
     "@toreda/adt": "^0.4.0",
     "@types/ioredis": "^4.28.10",
+    "async-mutex": "^0.3.2",
     "bcryptjs": "^2.4.3",
     "bloom-filters": "^2.0.0",
     "bull": "^4.8.1",

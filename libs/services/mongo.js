@@ -19,6 +19,7 @@ const {
 } = require('../constraints/db_models')
 const { refreshTopK, topk } = require('../services/miner')
 const EphemeralData = require('./helpers').EphemeralData
+var { Mutex, MutexInterface } = require('async-mutex')
 
 /**
  * This function returns an ObjectId embedded with a given datetime
@@ -41,6 +42,8 @@ function getObjectId(days) {
  * @param { import('ioredis').Redis } redisDB
  */
 module.exports = function (mongoDB, redisDB) {
+    /** @type { Map<string, Mutex> } */
+    let locks = new Map()
     /** @type { Collection } */
     let collection
     /** @type { Filter } */
@@ -174,6 +177,8 @@ module.exports = function (mongoDB, redisDB) {
      * @return {Promise}
      */
     this.getListingById = async function (id, isAdmin, viewer) {
+        if (!locks.has(id)) locks.set(id, new Mutex())
+        const release = await locks.get(id).acquire()
         const getListingById = new encoder.getListingById()
         const unique = `glid:${id}`
         const canView = (doc) => isAdmin || doc.usr === viewer || doc['a']
@@ -187,8 +192,14 @@ module.exports = function (mongoDB, redisDB) {
             if (upLevel === '1') {
                 const buffer = await redisDB.getBuffer(unique)
                 let cachedQResult = getListingById.decodeBuffer(buffer)
-                if (canView(cachedQResult)) return cachedQResult
-                else return
+                if (canView(cachedQResult)) {
+                    release()
+                    return cachedQResult
+                }
+                else {
+                    release()
+                    return
+                }
             }
             if (upLevel === '2' || upLevel === '3') await redisDB.del(unique)
         }
@@ -198,6 +209,7 @@ module.exports = function (mongoDB, redisDB) {
         if (!doc) {
             await redisDB.hdel(`up-ids`, id)
             if (cached) await redisDB.del(unique)
+            release()
             return
         }
         if (canView(doc)) {
@@ -212,8 +224,10 @@ module.exports = function (mongoDB, redisDB) {
             } catch (error) {
                 console.log(error)
             }
+            release()
             return doc
         } else {
+            release()
             return
         }
     }
@@ -354,6 +368,7 @@ module.exports = function (mongoDB, redisDB) {
 
     }
 
+    
     this.updateUser = async function (elem) {
         const result = await mongoDB
             .collection('users')
@@ -554,11 +569,16 @@ module.exports = function (mongoDB, redisDB) {
      * @returns
      */
     this.toggleValue = async function (id, key, collName) {
+        if (!locks.has(id)) locks.set(id, new Mutex())
+        const release = await locks.get(id).acquire()
         collection = mongoDB.collection(collName)
         const query = {}
         query._id = new ObjectId(id)
         const docs = await collection.find(query, { limit: 1 })
-        if (!docs) return
+        if (!docs) {
+            release()
+            return
+        }
         const newValues = { $set: {} }
         newValues.$set[key] = !docs[0][key]
         const options = { returnOriginal: false }
@@ -568,6 +588,7 @@ module.exports = function (mongoDB, redisDB) {
             options
         )
         await redisDB.hset(`up-ids`, id, '3')
+        release()
         return res.value
     }
 
@@ -766,6 +787,9 @@ module.exports = function (mongoDB, redisDB) {
      * @return {Promise}
      */
     this.updateDocument = async function (elem, collName) {
+        const id = elem._id.toHexString()
+        if (!locks.has(id)) locks.set(id, new Mutex())
+        const release = await locks.get(id).acquire()
         const result = await mongoDB
             .collection(collName)
             .updateOne(
@@ -774,6 +798,7 @@ module.exports = function (mongoDB, redisDB) {
                 { upsert: false },
             )
         await redisDB.hset(`up-ids`, elem._id.toHexString(), '1')
+        release()
         return result
     }
 
