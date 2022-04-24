@@ -80,7 +80,6 @@ module.exports = function (mongoDB, redisDB) {
         }
         const res  = await collection.insertOne(listing)
         return res.acknowledged
-
     }
 
     /**
@@ -213,17 +212,13 @@ module.exports = function (mongoDB, redisDB) {
             return
         }
         if (canView(doc)) {
-            try {
-                doc._id = doc._id.toHexString()
-                const buffer = getListingById.getBuffer(doc)
-                redisDB.setBuffer(unique, buffer)
-                const upLevel = (await redisDB.hget(`up-ids`, id)) || '1'
-                // console.log(`current document level ${upLevel}`)
-                if (upLevel === '2') await redisDB.hdel(`up-ids`, id)
-                if (upLevel === '3') await redisDB.hset(`up-ids`, id, '1')
-            } catch (error) {
-                console.log(error)
-            }
+            doc._id = doc._id.toHexString()
+            const buffer = getListingById.getBuffer(doc)
+            redisDB.setBuffer(unique, buffer)
+            const upLevel = (await redisDB.hget(`up-ids`, id)) || '1'
+            // console.log(`current document level ${upLevel}`)
+            if (upLevel === '2') await redisDB.hdel(`up-ids`, id)
+            if (upLevel === '3') await redisDB.hset(`up-ids`, id, '1')
             release()
             return doc
         } else {

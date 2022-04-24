@@ -8,6 +8,7 @@ const NODE_ENV = {
     'development': 1,
     'production': 2
 }[process.env.NODE_ENV]
+const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options, next) {
@@ -32,8 +33,8 @@ async function routes(fastify, options, next) {
     fastify.decorateReply('blabla', blabla)
 
     fastify.get('/', { preHandler: softAuth }, async function (req, reply) {
-        const listings = await QInstance.getListingsSince(
-            20, '', req.pagination)
+        const [err, listings] = await to(QInstance.getListingsSince(
+            20, '', req.pagination))
         const { page, perPage } = req.pagination
         const data = {
             listings: listings.documents,
@@ -47,8 +48,8 @@ async function routes(fastify, options, next) {
 
     const getSectionHandler = async (req, reply) => {
         const section = req.url.split('/')[2].split('?')[0]
-        const listings = await QInstance.getListingsSince(
-            100, section, req.pagination)
+        const [err, listings] = await to(QInstance.getListingsSince(
+            100, section, req.pagination))
         const { page, perPage } = req.pagination
         const data = {
             section: section,
@@ -67,17 +68,15 @@ async function routes(fastify, options, next) {
     fastify.get('/skills', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/blogs', { preHandler: softAuth }, getSectionHandler)
 
-
     /* GET one listing; must not be deactivated. */
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
-        const elem = (hex.test(req.params.id))
-            ? await QInstance.getListingById(req.params.id, false, req.params.username)
-            : undefined
+        const [err, elem] = (hex.test(req.params.id))
+            ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
+            : ['NOT_FOUND', undefined]
         let data = {}
         if (elem) {
             const peer2 = elem.usr;
-
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
             data = { data: elem, section: elem.section, author: peer2 }
             reply.blabla([data, 'listing', 'id'], req)
@@ -91,9 +90,9 @@ async function routes(fastify, options, next) {
     const COOKIE_NAME = config.get('COOKIE_NAME')
     fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
-        const elem = (hex.test(req.params.id))
-            ? await QInstance.getListingById(req.params.id, false, req.params.username)
-            : undefined
+        const [err, elem] = (hex.test(req.params.id))
+            ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
+            : ['NOT_FOUND', undefined]
         if (elem) {
             const peer2 = elem.usr;
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
@@ -112,7 +111,8 @@ async function routes(fastify, options, next) {
             reply.send({ comments: comments, user: user, author: peer2 })
             return reply
         }
-        reply.code(500).send("A very bad event happened!");
+        req.log.error(`get/comments#getComments: either no listing ${req.params.id} or an error`)
+        reply.send({boom: ':('})
         return reply
     })
 
@@ -172,9 +172,9 @@ async function routes(fastify, options, next) {
     /* Admin Checks one listing; */
     fastify.get(`/admin/check/${adminPass}/:id`, { preHandler: adminAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
-        const elem = (hex.test(req.params.id))
-            ? await QInstance.getListingById(req.params.id, true, req.params.username)
-            : undefined
+        const [err, elem] = (hex.test(req.params.id))
+            ? await to(QInstance.getListingById(req.params.id, true, req.params.username))
+            : ['NOT_FOUND', undefined]
         if (elem) {
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
             return reply.view('/templates/listing', {
@@ -196,11 +196,12 @@ async function routes(fastify, options, next) {
     /* Contact poster one listing. */
     fastify.post('/id/:id/comment', { schema: commentSchema, preHandler: auth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
-        const elem = (hex.test(req.params.id))
-            ? await QInstance.getListingById(req.params.id, false, req.params.username)
-            : undefined
+        const [err, elem] = (hex.test(req.params.id))
+            ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
+            : ['NOT_FOUND', undefined]
         if (!elem) {
-            reply.blabla([{}, 'message', 'not found'], req)
+            reply.send({boom: ':('})
+            // reply.blabla([{}, 'message', 'not found'], req)
             return reply
         }
         const from = req.params.username
@@ -224,17 +225,17 @@ async function routes(fastify, options, next) {
             message: body.message
         }
         QInstance.insertComment(msg).then((acknowledged) => {
-            reply.send({wow: true})
+            reply.send({boom: ':)'})
             return reply
         }).catch((err) => {
-            
+            req.log.error(`post/comment#insertComment: ${err.message}`)
         })
         // reply.blabla([{ data: elem }, 'listing', 'contact'], req)
         // return reply
     })
 
     fastify.get('/user', { preHandler: auth }, async function (req, reply) {
-        const listings = await QInstance.getListingsByUser(req.params.username)
+        const [err, listings] = await to(QInstance.getListingsByUser(req.params.username))
         const user = { nickname: req.params.username }
         reply.view('/templates/pages/listings', {
             user: user,
@@ -246,8 +247,8 @@ async function routes(fastify, options, next) {
     })
 
     fastify.get('/user/toggle/:id', { preHandler: auth }, async function (req, reply) {
-        const res = await QInstance.toggleValue(req.params.id, 'd', 'listings')
-        const listings = await QInstance.getListingsByUser(req.params.username)
+        const [err, res] = await to(QInstance.toggleValue(req.params.id, 'd', 'listings'))
+        const [err2, listings] = await to(QInstance.getListingsByUser(req.params.username))
         const user = { nickname: req.params.username }
         reply.view('/templates/pages/listings', {
             user: user,

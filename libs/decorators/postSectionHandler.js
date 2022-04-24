@@ -1,3 +1,4 @@
+const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
 const helpers = require('../services/helpers').ops
 const { Storage } = require('@google-cloud/storage')
 // const Joi = require('joi')
@@ -36,7 +37,7 @@ const formatInsertDocument = async (QInstance, req, blob, upload) => {
         img: publicUrl,
         usr: req.params.username,
     })
-    let acknowledged = await QInstance.insertListing(entry)
+    const [err, acknowledged] = await to(QInstance.insertListing(entry))
     return { data: entry, messages: [] }
 }
 
@@ -89,7 +90,7 @@ module.exports = (fastify) => {
                     false,
                 ).then((data) =>  reply.blabla([data, 'listing', section]))
                     .catch((err) => {
-                    //TODO: admin alert
+                        req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
                         reply.blabla([{}, 'messages', 'server error... Please try again later.'])
                     })
                
@@ -113,7 +114,7 @@ module.exports = (fastify) => {
                         true,
                     ).then((data) =>  reply.blabla([data, 'listing', section]))
                         .catch((err) => {
-                            //TODO: admin alert
+                            req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
                             reply.blabla([{}, 'messages', 'server error... Please try again later.'])
                         })
                 })

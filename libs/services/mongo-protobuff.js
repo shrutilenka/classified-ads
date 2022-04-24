@@ -17,12 +17,9 @@ function getListingsSince() {
     }
 
     this.decodeBuffer = (buffer) => {
-        try {
-            var decodedMessage = GetListingsSince.decode(buffer)
-            return decodedMessage.toJSON()
-        } catch (e) {
-            console.log(e)
-        }
+        var decodedMessage = GetListingsSince.decode(buffer)
+        return decodedMessage.toJSON()
+
     }
 }
 
@@ -36,12 +33,8 @@ function getListingById() {
     }
 
     this.decodeBuffer = (buffer) => {
-        try {
-            var decodedMessage = Listing.decode(buffer)
-            return decodedMessage.toJSON()
-        } catch (e) {
-            console.log(e)
-        }
+        var decodedMessage = Listing.decode(buffer)
+        return decodedMessage.toJSON()
     }
 }
 

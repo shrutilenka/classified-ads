@@ -9,7 +9,7 @@ const NODE_ENV = {
     'development': 1,
     'production': 2
 }[process.env.NODE_ENV]
-
+const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const blabla = require('../decorators/blabla')
@@ -39,8 +39,8 @@ async function routes(fastify, options) {
 
     /* GET home page. */
     fastify.get('/', async function (req, reply) {
-        const listings = await QInstance.getListingsSince(
-            20, '', req.pagination)
+        const [err, listings] = await to(QInstance.getListingsSince(
+            20, '', req.pagination))
         const { page, perPage } = req.pagination
         const data = {
             listings: listings.documents,
@@ -49,30 +49,6 @@ async function routes(fastify, options) {
         }
         reply.blabla([data, 'index', 'listings'], req)
         return reply
-    })
-
-    // Example secured route
-    fastify.route({
-        method: 'GET',
-        url: '/private',
-        preHandler: auth,
-        handler: (req, reply) => {
-            req.log.info('Auth route')
-            reply.send({ hello: 'whatssssss' })
-        }
-    })
-    // Example secured route
-    fastify.route({
-        method: 'POST',
-        url: '/upload',
-        preHandler: auth,
-        preValidation: require('../decorators/preValidation'),
-        handler: (req, reply) => {
-            req.log.info('Upload route')
-            const { body } = req
-
-            reply.send({ hello: body.exact })
-        }
     })
 
     fastify.get('/tags', function (req, reply) {
@@ -144,8 +120,8 @@ async function routes(fastify, options) {
 
     fastify.get('/keyword/:keyword', async function (req, reply) {
         const keyword = req.params.keyword
-        const listings = await QInstance.getListingsByKeyword(
-            keyword, req.pagination)
+        const [err, listings] = await to(QInstance.getListingsByKeyword(
+            keyword, req.pagination))
         const { page, perPage } = req.pagination
         const data = {
             subtitle: keyword,
@@ -160,7 +136,7 @@ async function routes(fastify, options) {
     /* TODO: throttle this and limit requests to > 3 chars */
     fastify.get('/autocomplete/:keyword', async function (req, reply) {
         const keyword = req.params.keyword
-        const elems = await QInstance.autocomplete(keyword)
+        const [err, elems] = await to(QInstance.autocomplete(keyword))
         if (elems) {
             return elems
         }
@@ -170,26 +146,26 @@ async function routes(fastify, options) {
 
     /* GET Top listings by tag. */
     fastify.get('/top/tags', async function (req, reply) {
-        const topTags = await QInstance.topTags()
+        const [err, topTags] = await to(QInstance.topTags())
         return topTags
     })
     
     fastify.get('/top/div', async function (req, reply) {
         // const section = req.params.section
-        const topTags = await QInstance.topBydivision()
+        const [err, topTags] = await to(QInstance.topBydivision())
         return topTags
     })
 
     // TODO: not being called in UI yet, 
     fastify.get('/top/parent/tags', async function (req, reply) {
         // const section = req.params.section
-        const topTags = await QInstance.topByParentTag()
+        const [err, topTags] = await to(QInstance.topByParentTag())
         return topTags
     })
 
     fastify.get('/top/granpa/tags', async function (req, reply) {
         // const section = req.params.section
-        const topTags = await QInstance.topByParentTag()
+        const [err, topTags] = await to(QInstance.topByGranpaTag)
         return topTags
     })
 
