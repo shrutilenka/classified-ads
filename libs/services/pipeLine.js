@@ -4,7 +4,12 @@ const { html, reb, rew } = require('../constraints/regex')
 const sanitizeHtml = require('sanitize-html')
 const nlp = require('wink-nlp-utils');
 const coordinates = geoEncoder.getBorders()
-
+const localize = {
+    en: require('ajv-i18n/localize/en'),
+    'en-US': require('ajv-i18n/localize/en'),
+    ar: require('ajv-i18n/localize/ar'),
+    fr: require('ajv-i18n/localize/fr'),
+}
 ///////////////////////////////////THESE ARE HELPERS, FUNCTIONS THAT I CALL INSIDE THE PIPELINE//////////////////////////////////////////////////////////////
 function sanitize(str) {
     const search1 = 'h1'
@@ -265,7 +270,8 @@ function validationPipeLine(req) {
     const valid = singletonSchema.called ? true : validate(body)
     let errors = []
     if (!valid) {
-        errors = validate.errors.map(err => `Validation error: ${err.dataPath.substring(1)} ${err.message}`)
+        localize[req.params.locale](validate.errors)
+        // errors = validate.errors.map(err => `Validation error: ${err.dataPath.substring(1)} ${err.message}`)
     }
     if (geoPipeline.error) {
         let friendlyErrors = Object.entries(geoPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
