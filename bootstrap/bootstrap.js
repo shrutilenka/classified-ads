@@ -86,6 +86,7 @@ for (let i = 0; i < 200; i++) {
     item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
     item.div = states[randomLang][Math.floor(Math.random() * states[randomLang].length)]
     item.section = sections[Math.floor(Math.random() * sections.length)]
+    item.offer = Math.random() < 0.5
     item.lat = getRandomInRange(minLat, maxLat, 3)
     item.lng = getRandomInRange(minLng, maxLng, 3)
     item.geolocation = {

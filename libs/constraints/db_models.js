@@ -24,6 +24,7 @@ const Donation = Listing.extend({
     section: 'donations',
     lat: Number,
     lng: Number,
+    offer: Boolean,
     geolocation: {
         type: 'Point',
         coordinates: ArrayModel(Coordinate).extend()
@@ -32,9 +33,25 @@ const Donation = Listing.extend({
 }).assert(o => o.lat === o.geolocation.coordinates[1] && o.lng === o.geolocation.coordinates[0], "should have two coordinates | point mismatch")
 // .assert(o => o.lang === o.tagsLang, "language mismatch")
 
+const Event = Listing.extend({
+    section: 'events',
+    lat: Number,
+    lng: Number,
+    geolocation: {
+        type: 'Point',
+        coordinates: ArrayModel(Coordinate).extend()
+            .assert(a => a.length === 2, "should have two coordinates"),
+    },
+    from: Date,
+    to: Date,
+}).assert(o => o.lat === o.geolocation.coordinates[1] && o.lng === o.geolocation.coordinates[0], "should have two coordinates | point mismatch")
+    .assert(o => o.to.getTime() > Date.now(), "The end of event must be in future")
+    .assert(o => o.to.getTime() >= o.from.getTime(), "End of event must be greater than it's start")
+
 const Skill = Listing.extend({
     section: 'skills',
-    undraw: String
+    undraw: String,
+    offer: Boolean
 })
 
 const Blog = Listing
@@ -58,4 +75,4 @@ const User = new ObjectModel({
 }).assert(u => u.username !== u.password, "username and password must differ")
     .assert(u => u.password.length >= 8, "password is too weak")       
 
-module.exports = { Donation, Skill, Blog, Comment, User }
+module.exports = { Donation, Skill, Blog, Comment, User, Event }

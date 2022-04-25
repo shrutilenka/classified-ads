@@ -5,6 +5,16 @@ const { illustrations, fontFamilies } = require('./hallux.js')
 const config = require('config')
 const TAG_SIZE = config.get('TAG_SIZE')
 
+// TODO: one single format, w'll see how to deal with on client side
+const toDay = () => {
+    const today = new Date()
+    const dd = String(today.getDate()).padStart(2, '0')
+    const mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+    const yyyy = today.getFullYear()
+    return yyyy + '/' + mm + '/' + dd
+}
+// const d = new Date(yyyy, mm-1(!!!!), dd, 0, 0, 0, 0)
+
 const login = S.object()
     .prop('username', S.string().format(S.FORMATS.EMAIL))
     .prop('password', S.string().minLength(3).maxLength(40))
@@ -40,12 +50,11 @@ const donationsSchema = () => {
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
             .prop('tags', S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required())
+            .prop('offer', S.boolean().default(false))
             .prop('lat', S.number().maximum(90).minimum(-90))
             .prop('lng', S.number().maximum(180).minimum(-180))
             .prop('div', S.string().minLength(3).maxLength(40))
             .prop('section', S.string().enum(['donations']).required())
-            .prop('tagsLang', S.string().enum(['arabic', 'english', 'french']))
-        // avatar, S.string().required()
     }
 }
 
@@ -56,14 +65,29 @@ const skillsSchema = () => {
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
             .prop('tags', S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required())
+            .prop('offer', S.boolean().default(false))
             .prop('section', S.string().enum(['skills']).required())
             .prop('font', S.string().enum(fontFamilies))
             .prop('illu_q', S.string().minLength(2).maxLength(15).required())
             .prop('undraw', S.string().enum(illustrations))
             .prop('color', S.string().regex(/^[0-9a-f]{3,10}$/i))
-            // TODO: properly validate this
-            .prop('img_radio', S.string())
-        // avatar, S.string().required()
+            .prop('img_radio', S.string().required())
+    }
+}
+
+const eventsSchema = () => {
+    return {
+        called: false,
+        def: S.object()
+            .prop('title', S.string().minLength(10).maxLength(100).required())
+            .prop('desc', S.string().minLength(10).maxLength(5000).required())
+            .prop('tags', S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required())
+            .prop('lat', S.number().maximum(90).minimum(-90))
+            .prop('lng', S.number().maximum(180).minimum(-180))
+            .prop('div', S.string().minLength(3).maxLength(40))
+            .prop('section', S.string().enum(['events']).required())
+            .prop('from', S.raw({ type: 'string', format: 'date', formatMinimum: toDay() }))
+            .prop('to', S.raw({ type: 'string', format: 'date', formatMinimum: toDay() }))
     }
 }
 
@@ -74,7 +98,7 @@ const commentSchema = {
 }
 
 /*
-    These are rules to be maintained all over the app; On server side but
+    These are rules to be maintained all over the app On server side but
     also sometimes passed to client to be maintained on the browser.
     Keys as defined might represent:
     * The actual name of some context (HTTP method, route, EJS page, named forms (in partials)...)
@@ -298,4 +322,4 @@ const constraints = {
     },
 }
 
-module.exports = { constraints };
+module.exports = { constraints }
