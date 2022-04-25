@@ -153,9 +153,6 @@ async function instantiateApp() {
         i18next,
         ignoreRoutes: ['/data/', '/admin/']
     })
-    fastify.get('/__ping_trans', async (req, reply) => {
-        return { translationWorks: req.t('greetings.title') }
-    })
     // Ping this from client side to change default language
     fastify.get('/i18n/:locale', (req, reply) => {
         reply.cookie('locale', req.params.locale, { path: '/' })

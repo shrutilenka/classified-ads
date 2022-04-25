@@ -271,7 +271,7 @@ function validationPipeLine(req) {
     let errors = []
     if (!valid) {
         localize[req.params.locale](validate.errors)
-        // errors = validate.errors.map(err => `Validation error: ${err.dataPath.substring(1)} ${err.message}`)
+        errors = validate.errors.map(err => `${err.dataPath.substring(1)} - ${err.message}`)
     }
     if (geoPipeline.error) {
         let friendlyErrors = Object.entries(geoPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
