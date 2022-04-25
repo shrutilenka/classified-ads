@@ -17,6 +17,7 @@ message Listing{
     required string div = 12;
     optional bool a = 13;
     optional bool d = 14;
+    optional bool offer = 15;
 }
 
 message GetListingsSince{

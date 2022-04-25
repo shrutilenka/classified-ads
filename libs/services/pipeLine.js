@@ -270,7 +270,7 @@ function validationPipeLine(req) {
     const valid = singletonSchema.called ? true : validate(body)
     let errors = []
     if (!valid) {
-        localize[req.params.locale](validate.errors)
+        localize[(req.i18n && req.i18n.language) || req.cookies.locale || 'en'](validate.errors)
         errors = validate.errors.map(err => `${err.dataPath.substring(1)} - ${err.message}`)
     }
     if (geoPipeline.error) {

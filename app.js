@@ -156,6 +156,8 @@ async function instantiateApp() {
     // Ping this from client side to change default language
     fastify.get('/i18n/:locale', (req, reply) => {
         reply.cookie('locale', req.params.locale, { path: '/' })
+        console.log(`changing old language ${req.i18n.language}`)
+        req.i18n.changeLanguage(req.params.locale)
         if (req.headers.referer) reply.redirect(req.headers.referer)
         else reply.redirect('/')
     })
@@ -191,13 +193,12 @@ async function instantiateApp() {
     // }, function (request, reply) {
     //     reply.code(404).send({ hello: 'world' })
     // })
-
-    fastify.register(require('under-pressure'), {
-        maxEventLoopDelay: 1000,
-        maxHeapUsedBytes: 100000000,
-        maxRssBytes: 100000000,
-        maxEventLoopUtilization:0.98
-    })
+    // fastify.register(require('under-pressure'), {
+    //     maxEventLoopDelay: 3000,
+    //     maxHeapUsedBytes: 100000000,
+    //     maxRssBytes: 100000000,
+    //     maxEventLoopUtilization:0.98
+    // })    
       
     // TODO: Rate limiter && honeyPot except in process.env === 'monkey chaos'
     fastify.addHook('preHandler', (req, reply, done) => {
@@ -228,7 +229,21 @@ async function instantiateApp() {
                 }
             })
     })
-
+    
+    const localize = {
+        en: require('ajv-i18n/localize/en'),
+        'en-US': require('ajv-i18n/localize/en'),
+        ar: require('ajv-i18n/localize/ar'),
+        fr: require('ajv-i18n/localize/fr'),
+    }
+    fastify.setErrorHandler(function (error, request, reply) {
+        if (error.validation) {
+            localize[request.cookies.locale || 'en'](error.validation)
+            reply.status(422).send(error.validation)
+            return
+        }
+        reply.send(error)
+    })
     /*********************************************************************************************** */    
     // !!REGISTER ROUTES !!
     fastify.register(authRouter)
