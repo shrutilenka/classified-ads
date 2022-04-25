@@ -55,6 +55,7 @@ module.exports = (fastify) => {
             validationPipeLine(req)
         const valid = !errors.length && tagsValid && geoValid && undrawValid
         if (!valid) {
+            req.log.error(`post/listings#postSectionHandler: ${JSON.stringify(errors)}`)
             reply.blabla([{ errors, section }, 'listings', 'POST_ERR'], req)
             return reply
         } else {
@@ -76,11 +77,17 @@ module.exports = (fastify) => {
             }
             // TODO: must be safer
             // TODO: should get another buffer (thumbnail) and upload as well
-            const buffer = await sharp(req.file.buffer)
-                .resize(1800, 948)
-                .toFormat('jpeg')
-                .jpeg({ quality: 80 })
-                .toBuffer()
+            let buffer
+            try {
+                buffer = await sharp(req.file.buffer)
+                    .resize(1800, 948)
+                    .toFormat('jpeg')
+                    .jpeg({ quality: 80 })
+                    .toBuffer()
+            } catch (error) {
+                req.log.error(`post/listings#postSectionHandler#sharp: ${error.message}`)
+                buffer = req.file.buffer
+            }
 
             if (NODE_ENV < 1) {
                 formatInsertDocument(

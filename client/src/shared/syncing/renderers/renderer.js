@@ -1,8 +1,8 @@
 // Each ID in LIS.id('comments') must be uniq
-import { LIS } from '../../../helpers/lis';
-import { commentsTemplate } from './templates/comments-template';
-import { topDivsTemplate } from './templates/top-divs-template';
-import { topTagsTemplate } from './templates/top-tags-template';
+import { LIS } from '../../../helpers/lis'
+import { commentsTemplate } from './templates/comments-template'
+import { topDivsTemplate } from './templates/top-divs-template'
+import { topTagsTemplate } from './templates/top-tags-template'
 
 
 export function renderComments() {
@@ -13,9 +13,15 @@ export function renderComments() {
   fetch(`/listings/id/${window.__id__}/comments`)
     .then(response => response.json())
     .then(data => {
-      const html = window.ejs.render(commentsTemplate, data)
-      comments.innerHTML = html
-    });
+      if(data) {
+        try {
+          const html = window.ejs.render(commentsTemplate, data)
+          comments.innerHTML = html
+        } catch (error) {
+          console.log(error.message)
+        }
+      }
+    })
 }
 
 // renderTopTags
@@ -33,7 +39,7 @@ export function renderTopTags(section) {
     .then(data => {
       const html = window.ejs.render(topTagsTemplate, { tags: data[section] })
       topTags.innerHTML = html
-    });
+    })
 }
 
 // renderTopByDiv
@@ -51,5 +57,5 @@ export function renderTopByDiv() {
     .then(data => {
       const html = window.ejs.render(topDivsTemplate, { tags: data })
       topTags.innerHTML = html
-    });
+    })
 }
