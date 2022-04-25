@@ -195,6 +195,13 @@ async function instantiateApp() {
     //     reply.code(404).send({ hello: 'world' })
     // })
 
+    fastify.register(require('under-pressure'), {
+        maxEventLoopDelay: 1000,
+        maxHeapUsedBytes: 100000000,
+        maxRssBytes: 100000000,
+        maxEventLoopUtilization:0.98
+    })
+      
     // TODO: Rate limiter && honeyPot except in process.env === 'monkey chaos'
     fastify.addHook('preHandler', (req, reply, done) => {
         // TODO: req.socket ? does it work ?
