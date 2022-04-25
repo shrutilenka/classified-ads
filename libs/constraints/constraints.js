@@ -1,5 +1,5 @@
-// Constraints to ease code complexity. These constraints reflect 
-// which operations to run on some endpoint on some environment 
+// Constraints to ease code complexity. These constraints reflect
+// which operations to run on some endpoint on some environment
 const S = require('fluent-json-schema')
 const { illustrations, fontFamilies } = require('./hallux.js')
 const config = require('config')
@@ -57,12 +57,19 @@ const donationsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
-            .prop('tags', S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required())
+            .prop(
+                'tags',
+                S.array()
+                    .minItems(1)
+                    .maxItems(3)
+                    .items(S.string().minLength(3).maxLength(TAG_SIZE))
+                    .required(),
+            )
             .prop('offer', S.boolean().default(false))
             .prop('lat', S.number().maximum(90).minimum(-90))
             .prop('lng', S.number().maximum(180).minimum(-180))
             .prop('div', S.string().minLength(3).maxLength(40))
-            .prop('section', S.string().enum(['donations']).required())
+            .prop('section', S.string().enum(['donations']).required()),
     }
 }
 
@@ -72,14 +79,21 @@ const skillsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
-            .prop('tags', S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required())
+            .prop(
+                'tags',
+                S.array()
+                    .minItems(1)
+                    .maxItems(3)
+                    .items(S.string().minLength(3).maxLength(TAG_SIZE))
+                    .required(),
+            )
             .prop('offer', S.boolean().default(false))
             .prop('section', S.string().enum(['skills']).required())
             .prop('font', S.string().enum(fontFamilies))
             .prop('illu_q', S.string().minLength(2).maxLength(15).required())
             .prop('undraw', S.string().enum(illustrations))
             .prop('color', S.string().regex(/^[0-9a-f]{3,10}$/i))
-            .prop('img_radio', S.string().required())
+            .prop('img_radio', S.string().required()),
     }
 }
 
@@ -89,18 +103,41 @@ const eventsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
-            .prop('tags', S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required())
+            .prop(
+                'tags',
+                S.array()
+                    .minItems(1)
+                    .maxItems(3)
+                    .items(S.string().minLength(3).maxLength(TAG_SIZE))
+                    .required(),
+            )
             .prop('lat', S.number().maximum(90).minimum(-90))
             .prop('lng', S.number().maximum(180).minimum(-180))
             .prop('div', S.string().minLength(3).maxLength(40))
             .prop('section', S.string().enum(['events']).required())
-            .prop('from', S.raw({ type: 'string', format: 'date', formatMinimum: toDay() }))
-            .prop('to', S.raw({ type: 'string', format: 'date', formatMinimum: toDay() }))
+            .prop(
+                'from',
+                S.raw({
+                    type: 'string',
+                    format: 'date',
+                    formatMinimum: toDay(),
+                }),
+            )
+            .prop(
+                'to',
+                S.raw({
+                    type: 'string',
+                    format: 'date',
+                    formatMinimum: toDay(),
+                }),
+            ),
     }
 }
 
-const comment = S.object()
-    .prop('message', S.string().minLength(20).maxLength(200).required())
+const comment = S.object().prop(
+    'message',
+    S.string().minLength(20).maxLength(200).required(),
+)
 const commentSchema = {
     body: comment,
 }
@@ -118,227 +155,252 @@ const commentSchema = {
     Example 3: on localhost env, user POSTs data, the appropriate endpoint handles validation accordingly
 **/
 const constraints = {
-    'localhost': {
+    localhost: {
         // GET represents endpoints which are ejs pages...
         // Each page might contain partials (which are forms here)
-        'GET': {
-            'login': {
-                'doLogin': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
-            },
-            'signup': {
-                'doSignup': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
-            },
-            'listings': {
-                'queryGeolocation': {
-                    requiredUXInputs: []
-                },
-                'queryGwoogl': {
-                    requiredUXInputs: ['title_desc']
-                },
-                'addSkill': {
-                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
-                },
-                'addDonation': {
-                    requiredUXInputs: ['title', 'desc', 'tags']
+        GET: {
+            login: {
+                doLogin: {
+                    requiredUXInputs: ['username', 'password'],
+                    minInputs: { username: 6, password: 6 },
                 },
             },
-            'listing': {
-                'addComment': {
-                    requiredUXInputs: ['message']
+            signup: {
+                doSignup: {
+                    requiredUXInputs: ['username', 'password'],
+                    minInputs: { username: 6, password: 6 },
                 },
-            }
+            },
+            listings: {
+                queryGeolocation: {
+                    requiredUXInputs: [],
+                },
+                queryGwoogl: {
+                    requiredUXInputs: ['title_desc'],
+                    minInputs: { title_desc: 3 },
+                },
+                addSkill: {
+                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+                addDonation: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+            },
+            listing: {
+                addComment: {
+                    requiredUXInputs: ['message'],
+                },
+            },
         },
         // POST represents constraints to be maintained on server, when data is POSTed
-        'POST': {
-            'login': {
+        POST: {
+            login: {
                 schema: loginSchema,
             },
-            'signup': {
+            signup: {
                 schema: signupSchema,
             },
-            'queryGeolocation': {
+            queryGeolocation: {
                 schema: geolocationSchema,
             },
-            'queryGwoogl': {
+            queryGwoogl: {
                 schema: gwooglSchema,
             },
-            'skills': {
+            skills: {
                 secured: true,
                 upload: true,
                 geolocation: false,
                 illustrations: true,
                 schema: skillsSchema,
             },
-            'donations': {
+            donations: {
                 secured: true,
                 upload: true,
                 geolocation: true,
                 illustrations: false,
                 schema: donationsSchema,
             },
-            'comment': {
+            comment: {
                 schema: commentSchema,
-            }
-        }
+            },
+        },
     },
     // to change
     'monkey chaos': {
-        'GET': {
-
-        },
-        'POST': {
-            'login': {
-                schema: loginSchema
-            },
-            'signup': {
-                schema: signupSchema,
-            },
-            'queryGeolocation': {
-                schema: geolocationSchema
-            },
-            'queryGwoogl': {
-                schema: gwooglSchema
-            },
-            'skills': {
-                secured: true,
-                upload: true,
-                geolocation: false,
-                illustrations: true,
-                schema: skillsSchema
-            },
-            'donations': {
-                secured: true,
-                upload: true,
-                geolocation: true,
-                illustrations: false,
-                schema: donationsSchema
-            },
-            'comment': {
-                schema: commentSchema
-            }
-        }
-    },
-    // to change
-    'development': {
-        'GET': {
-            'login': {
-                'doLogin': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
-            },
-            'signup': {
-                'doSignup': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
-            },
-            'listings': {
-                'queryGeolocation': {
-                    requiredUXInputs: []
-                },
-                'queryGwoogl': {
-                    requiredUXInputs: ['title_desc']
-                },
-                'addSkill': {
-                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
-                },
-                'addDonation': {
-                    requiredUXInputs: ['title', 'desc', 'tags']
-                },
-            },
-            'listing': {
-                'addComment': {
-                    requiredUXInputs: ['message']
-                },
-            }
-        },
-        'POST': {
-            'login': {
+        GET: {},
+        POST: {
+            login: {
                 schema: loginSchema,
             },
-            'signup': {
+            signup: {
                 schema: signupSchema,
             },
-            'queryGeolocation': {
+            queryGeolocation: {
                 schema: geolocationSchema,
             },
-            'queryGwoogl': {
+            queryGwoogl: {
                 schema: gwooglSchema,
             },
-            'skills': {
+            skills: {
                 secured: true,
                 upload: true,
                 geolocation: false,
                 illustrations: true,
                 schema: skillsSchema,
             },
-            'donations': {
+            donations: {
                 secured: true,
                 upload: true,
                 geolocation: true,
                 illustrations: false,
                 schema: donationsSchema,
             },
-            'comment': {
+            comment: {
                 schema: commentSchema,
-            }
-        }
+            },
+        },
     },
     // to change
-    'production': {
-        'GET': {
-            'login': {
-                'doLogin': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
-            },
-            'signup': {
-                'doSignup': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
-            },
-            'listings': {
-                'queryGeolocation': {
-                    requiredUXInputs: []
-                },
-                'queryGwoogl': {
-                    requiredUXInputs: ['title_desc']
-                },
-                'addSkill': {
-                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q']
-                },
-                'addDonation': {
-                    requiredUXInputs: ['title', 'desc', 'tags']
+    development: {
+        GET: {
+            login: {
+                doLogin: {
+                    requiredUXInputs: ['username', 'password'],
+                    minInputs: { username: 6, password: 6 },
                 },
             },
-            'listing': {
-                'addComment': {
-                    requiredUXInputs: ['message']
+            signup: {
+                doSignup: {
+                    requiredUXInputs: ['username', 'password'],
+                    minInputs: { username: 6, password: 6 },
                 },
-            }
+            },
+            listings: {
+                queryGeolocation: {
+                    requiredUXInputs: [],
+                },
+                queryGwoogl: {
+                    requiredUXInputs: ['title_desc'],
+                    minInputs: { title_desc: 3 },
+                },
+                addSkill: {
+                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+                addDonation: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+            },
+            listing: {
+                addComment: {
+                    requiredUXInputs: ['message'],
+                },
+            },
         },
-        'POST': {
-            'login': {
+        POST: {
+            login: {
                 schema: loginSchema,
             },
-            'signup': {
+            signup: {
                 schema: signupSchema,
             },
-            'queryGeolocation': {
+            queryGeolocation: {
                 schema: geolocationSchema,
             },
-            'queryGwoogl': {
+            queryGwoogl: {
                 schema: gwooglSchema,
             },
-            'skills': {
+            skills: {
                 secured: true,
                 upload: true,
                 geolocation: false,
                 illustrations: true,
                 schema: skillsSchema,
             },
-            'donations': {
+            donations: {
                 secured: true,
                 upload: true,
                 geolocation: true,
                 illustrations: false,
                 schema: donationsSchema,
             },
-            'comment': {
+            comment: {
                 schema: commentSchema,
-            }
-        }
+            },
+        },
+    },
+    // to change
+    production: {
+        GET: {
+            login: {
+                doLogin: {
+                    requiredUXInputs: ['username', 'password'],
+                    minInputs: { username: 6, password: 6 },
+                },
+            },
+            signup: {
+                doSignup: {
+                    requiredUXInputs: ['username', 'password'],
+                    minInputs: { username: 6, password: 6 },
+                },
+            },
+            listings: {
+                queryGeolocation: {
+                    requiredUXInputs: [],
+                },
+                queryGwoogl: {
+                    requiredUXInputs: ['title_desc'],
+                    minInputs: { title_desc: 3 },
+                },
+                addSkill: {
+                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+                addDonation: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+            },
+            listing: {
+                addComment: {
+                    requiredUXInputs: ['message'],
+                },
+            },
+        },
+        POST: {
+            login: {
+                schema: loginSchema,
+            },
+            signup: {
+                schema: signupSchema,
+            },
+            queryGeolocation: {
+                schema: geolocationSchema,
+            },
+            queryGwoogl: {
+                schema: gwooglSchema,
+            },
+            skills: {
+                secured: true,
+                upload: true,
+                geolocation: false,
+                illustrations: true,
+                schema: skillsSchema,
+            },
+            donations: {
+                secured: true,
+                upload: true,
+                geolocation: true,
+                illustrations: false,
+                schema: donationsSchema,
+            },
+            comment: {
+                schema: commentSchema,
+            },
+        },
     },
 }
 
