@@ -17,10 +17,18 @@ const toDay = () => {
 
 const login = S.object()
     .prop('username', S.string().format(S.FORMATS.EMAIL))
-    .prop('password', S.string().minLength(3).maxLength(40))
+    .prop('password', S.string().minLength(6).maxLength(40))
     .required(['username', 'password'])
 const loginSchema = {
     body: login,
+}
+
+const signup = S.object()
+    .prop('username', S.string().format(S.FORMATS.EMAIL))
+    .prop('password', S.string().minLength(6).maxLength(40))
+    .required(['username', 'password'])
+const signupSchema = {
+    body: signup,
 }
 
 const gwoogl = S.object()
@@ -115,10 +123,10 @@ const constraints = {
         // Each page might contain partials (which are forms here)
         'GET': {
             'login': {
-                'doLogin': { requiredUXInputs: ['username', 'password'] },
+                'doLogin': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
             },
             'signup': {
-                'doSignup': { requiredUXInputs: ['username', 'password'] },
+                'doSignup': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
             },
             'listings': {
                 'queryGeolocation': {
@@ -144,6 +152,9 @@ const constraints = {
         'POST': {
             'login': {
                 schema: loginSchema,
+            },
+            'signup': {
+                schema: signupSchema,
             },
             'queryGeolocation': {
                 schema: geolocationSchema,
@@ -179,6 +190,9 @@ const constraints = {
             'login': {
                 schema: loginSchema
             },
+            'signup': {
+                schema: signupSchema,
+            },
             'queryGeolocation': {
                 schema: geolocationSchema
             },
@@ -208,10 +222,10 @@ const constraints = {
     'development': {
         'GET': {
             'login': {
-                requiredUXInputs: ['username', 'password']
+                'doLogin': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
             },
             'signup': {
-                requiredUXInputs: ['username', 'password']
+                'doSignup': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
             },
             'listings': {
                 'queryGeolocation': {
@@ -236,6 +250,9 @@ const constraints = {
         'POST': {
             'login': {
                 schema: loginSchema,
+            },
+            'signup': {
+                schema: signupSchema,
             },
             'queryGeolocation': {
                 schema: geolocationSchema,
@@ -266,10 +283,10 @@ const constraints = {
     'production': {
         'GET': {
             'login': {
-                requiredUXInputs: ['username', 'password']
+                'doLogin': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
             },
             'signup': {
-                requiredUXInputs: ['username', 'password']
+                'doSignup': { requiredUXInputs: ['username', 'password'], minInputs: { 'username': 6, 'password': 6, } },
             },
             'listings': {
                 'queryGeolocation': {
@@ -294,6 +311,9 @@ const constraints = {
         'POST': {
             'login': {
                 schema: loginSchema,
+            },
+            'signup': {
+                schema: signupSchema,
             },
             'queryGeolocation': {
                 schema: geolocationSchema,

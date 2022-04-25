@@ -74,10 +74,10 @@ async function routes(fastify, options) {
         },
     )
 
-    const loginSchema2 = constraints[process.env.NODE_ENV].POST.login.schema
+    const signupSchema = constraints[process.env.NODE_ENV].POST.signup.schema
     fastify.post(
         '/signup',
-        { schema: loginSchema2, attachValidation: true },
+        { schema: signupSchema, attachValidation: true },
         async function (request, reply) {
             if (request.validationError) {
                 reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)

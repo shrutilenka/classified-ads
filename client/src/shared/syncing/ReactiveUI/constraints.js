@@ -13,6 +13,9 @@ export function markRequiredInputs() {
         if (inputs[i].nodeName === "INPUT" && constraint.requiredUXInputs.indexOf(inputs[i].name) > -1) {
           inputs[i].setAttribute('required', 'required');
         }
+        if (inputs[i].nodeName === "INPUT" && constraint.minInputs[inputs[i].name]) {
+          inputs[i].setAttribute('minlength', constraint.minInputs[inputs[i].name]);
+        }
       }
     }
   }
