@@ -16,7 +16,6 @@ import { loadFile } from './load-file/load-file';
 import { setupMaps } from './maps/setup-maps';
 import { setupAutoComplete } from './search/setup-autocomplete';
 import { setupHolmes } from './search/setup-holmes';
-import { setupStickySidebar } from './sticky-sidebar/setup-sticky-sidebar';
 import { renderShared } from './syncing/render-json';
 import { setupInputTags } from './tags/setup-input-tags';
 import { runToasts } from './toasts/toasts';
@@ -48,7 +47,6 @@ export const setupShared = () => {
     [setupUndrawKeywords, true],
     [runToasts, true],
     [setupFavourites, true],
-    [setupStickySidebar, false],
     [setupInteractiveCards, false],
     [setupAdsRotator, false],
     [setupTips, true],

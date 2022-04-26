@@ -4,7 +4,6 @@ export const setupScrollBlink = async () => {
   const id = window.__toFocus__
   return new Promise(function (resolve, reject) {
     try {
-      debugger
       if(!id || !LIS.id(id+'-@@@@@')) {
         return resolve('### function "setupScrollBlink" ignored well')
       }

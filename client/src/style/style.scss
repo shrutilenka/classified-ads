@@ -31,12 +31,6 @@
   }
 }
 
-@media screen and (max-width: 1600px) {
-  .sidebar {
-    display: none;
-  }
-}
-
 #footer_ads {        /* sets Ad size */
   height: 600px;
   width: 300px;
@@ -44,20 +38,6 @@
 #footer_ads img {    /* set img elements to be responsive */
   height: 100%;
   width: 100%;
-}
-
-.sidebar{
-  will-change: min-height;
-}
-
-.sidebar__inner{
-  transform: translate(0, 0); /* For browsers don't support translate3d. */
-  transform: translate3d(0, 0, 0);
-  will-change: position, transform;
-}
-// for the sidebar
-nav#sidebar_nav {
-  width: fit-content;
 }
 
 .ca-listing {
