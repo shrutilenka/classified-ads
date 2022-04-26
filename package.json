@@ -75,6 +75,8 @@
     "protobufjs": "^6.11.2",
     "sanitize-html": "^2.7.0",
     "sharp": "^0.30.3",
+    "stream-chain": "^2.2.5",
+    "stream-json": "^1.7.4",
     "toad-scheduler": "^1.6.0",
     "under-pressure": "^5.8.0",
     "visitor-counter": "github:bacloud22/visitor-counter#3",
