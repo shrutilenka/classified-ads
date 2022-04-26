@@ -1,0 +1,64 @@
+<% if(typeof section != 'undefined' && section == 'events'){ %>
+<br>
+<hr>
+<details>
+  <summary class="text-dark">Add an Event</summary>
+  <div class="row">
+    <div class="col-md-12 mt-xl-3 col-xl-5">
+      <h2 class="text-dark hidden">Add an Event</h2>
+      <div id="editor" class="pell px-3 pt-3 bg-white border-bottom-0" data-target="#unique_target" data-max="500" style="color: #333!important;fill: #333!important;"></div>
+      <div id="characters-left" class="px-2" style="font-size: 12px; font-family: 'Lucida Console', Arial, Helvetica, sans-serif;"></div>
+      <div class="px-3 pb-3 bg-white border border-light border-top-0">
+        <div id="font-picker" class="w-100" style="box-shadow:none;z-index:99999"></div>
+      </div>
+      <details class="px-0">
+        <summary class="text-dark mx-0 mb-0" style="border-bottom:none">HTML output</summary>
+        <div class="text-dark py-2 px-4" style="min-height:25px;" id="html-output" style="white-space:pre-wrap;"></div>
+      </details>
+    </div>
+    <div class="mt-3 mb-0 m-md-3 mb-xl-auto col-md-6 col-xl-3 " id="listing-map"></div>
+    <form class="d-flex flex-wrap p-3 m-md-3 col-md col-xl mb-xl-auto align-items-between" style="min-height:400px;" action="/listings/events" enctype="multipart/form-data" method="POST" name="addEvent">
+      <div class="form-group w-100 py-2">
+        <!-- <label for="title">Choose a title</label> -->
+        <input name="title" class="add w-100 py-1" id="title" value="" placeholder="Title">
+      </div>
+      <div class="form-group w-100 py-2">
+        <div class="w-100 text-dark"><b>Tag language: </b></div>
+        <div class="d-flex justify-content-between justify-content-md-start">
+          <div class="d-flex flex-nowrap mx-2 align-items-center" style="margin-left:0px!important">
+            <input type="radio" class="tags-lang mx-1" id="english" name="tags-lang" value="en-US" />
+            <label class="text-dark" for="english">English</label>
+          </div>
+          <div class="d-flex flex-nowrap mx-2 align-items-center">
+            <input type="radio" class="tags-lang mx-1" id="arabic" name="tags-lang" value="ar" />
+            <label class="text-dark" for="arabic">Arabic</label>
+          </div>
+          <div class="d-flex flex-nowrap mx-2 align-items-center">
+            <input type="radio" class="tags-lang mx-1" id="french" name="tags-lang" value="fr" />
+            <label class="text-dark" for="french">French</label>
+          </div>
+        </div>
+        <div class="w-100 pt-2">
+          <a href="/tags" target="_blank" rel="noreferrer noopener">
+            Click here to choose tags
+          </a>
+          <input class="w-100 py-1" name='tags' id='events' placeholder="Tags">
+        </div>
+      </div>
+      <div>
+        <input name="font" id="font" value='Open Sans' type="hidden">
+        <!-- <label for="description">What description do you want to say?</label> -->
+        <input name="desc" class="add" id="description" value="" type="hidden">
+      </div>
+      <input type="hidden" type="number" id="lat" name="lat">
+      <input type="hidden" type="number" id="lng" name="lng">
+      <!-- Division better to handle this by JS -->
+      <input type="hidden" id="div" name="div" value='Algiers'>
+      <input type="hidden" name="section" value='events'>
+      <div class="w-100">
+        <button class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Add listing</button>
+      </div>
+    </form>
+  </div>
+</details>
+<% } %>
