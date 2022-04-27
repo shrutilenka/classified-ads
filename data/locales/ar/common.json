@@ -21,6 +21,12 @@
          "success":"We got some donations :)",
          "error":""
       },
+      "events":{
+         "title":"Classified-ads - {{section}}",
+         "intro":"Call for cultural or hobbies meetups",
+         "success":"We got some events :)",
+         "error":""
+      },
       "skills":{
          "title":"Classified-ads - {{section}}",
          "intro":"Share skills",
@@ -93,6 +99,11 @@
          "error":""
       },
       "donations":{
+         "title":"Classified-ads - {{section}}",
+         "success":"Listing will be visible after moderation. You can also deactivate the listing for a while :)",
+         "error":"Image will be loaded shortly!"
+      },
+      "events":{
          "title":"Classified-ads - {{section}}",
          "success":"Listing will be visible after moderation. You can also deactivate the listing for a while :)",
          "error":"Image will be loaded shortly!"

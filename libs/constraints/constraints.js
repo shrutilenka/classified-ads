@@ -187,6 +187,10 @@ const constraints = {
                     requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
                 },
+                addEvent: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
             },
             listing: {
                 addComment: {
@@ -222,6 +226,13 @@ const constraints = {
                 illustrations: false,
                 schema: donationsSchema,
             },
+            events: {
+                secured: true,
+                upload: true,
+                geolocation: true,
+                illustrations: false,
+                schema: donationsSchema,
+            },
             comment: {
                 schema: commentSchema,
             },
@@ -251,6 +262,13 @@ const constraints = {
                 schema: skillsSchema,
             },
             donations: {
+                secured: true,
+                upload: true,
+                geolocation: true,
+                illustrations: false,
+                schema: donationsSchema,
+            },
+            events: {
                 secured: true,
                 upload: true,
                 geolocation: true,
@@ -293,6 +311,10 @@ const constraints = {
                     requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
                 },
+                addEvent: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
             },
             listing: {
                 addComment: {
@@ -321,6 +343,13 @@ const constraints = {
                 schema: skillsSchema,
             },
             donations: {
+                secured: true,
+                upload: true,
+                geolocation: true,
+                illustrations: false,
+                schema: donationsSchema,
+            },
+            events: {
                 secured: true,
                 upload: true,
                 geolocation: true,
@@ -363,6 +392,10 @@ const constraints = {
                     requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
                 },
+                addEvent: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
             },
             listing: {
                 addComment: {
@@ -391,6 +424,13 @@ const constraints = {
                 schema: skillsSchema,
             },
             donations: {
+                secured: true,
+                upload: true,
+                geolocation: true,
+                illustrations: false,
+                schema: donationsSchema,
+            },
+            events: {
                 secured: true,
                 upload: true,
                 geolocation: true,

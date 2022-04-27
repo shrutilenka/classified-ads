@@ -66,6 +66,7 @@ async function routes(fastify, options, next) {
         return reply
     }
     fastify.get('/donations', { preHandler: softAuth }, getSectionHandler)
+    fastify.get('/events', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/skills', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/blogs', { preHandler: softAuth }, getSectionHandler)
 
