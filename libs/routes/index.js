@@ -64,7 +64,7 @@ async function routes(fastify, options) {
     // maybe they evolve differently in future 
     fastify.get('/tag/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const [err, listings] = await (QInstance.getListingsByTag(
+        const [err, listings] = await to(QInstance.getListingsByTag(
             tag, 'origin', req.pagination))
         if (err) {
             req.log.error(`index/tag#getListingsByTag: ${err.message}`)

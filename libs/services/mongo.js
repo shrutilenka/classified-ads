@@ -78,7 +78,7 @@ module.exports = function (mongoDB, redisDB) {
         default:
             break
         }
-        const res  = await collection.insertOne(listing)
+        const res = await collection.insertOne(listing)
         return res.acknowledged
     }
 
@@ -131,8 +131,7 @@ module.exports = function (mongoDB, redisDB) {
             to: 1.0,
         }
         query._id = new ObjectId(id)
-        const doc = await collection
-            .findOne(query, { projection: projection })
+        const doc = await collection.findOne(query, { projection: projection })
         return [doc.from, doc.to]
     }
 
@@ -194,8 +193,7 @@ module.exports = function (mongoDB, redisDB) {
                 if (canView(cachedQResult)) {
                     release()
                     return cachedQResult
-                }
-                else {
+                } else {
                     release()
                     return
                 }
@@ -360,10 +358,8 @@ module.exports = function (mongoDB, redisDB) {
         // TODO: remove pass again, but objectmodel restricts that :(
         const res = await collection.insertOne(user)
         return res.acknowledged
-
     }
 
-    
     this.updateUser = async function (elem) {
         const result = await mongoDB
             .collection('users')
@@ -472,19 +468,15 @@ module.exports = function (mongoDB, redisDB) {
         default:
             break
         }
-        return new Promise(function (resolve, reject) {
-            collection
-                .find(query)
-                .project(baseProjection)
-                .sort(baseSort)
-                .skip(pagination.perPage * pagination.page - pagination.perPage)
-                .limit(pagination.perPage)
-                .toArray(async function (err, docs) {
-                    if (err) return reject(err)
-                    const count = await collection.countDocuments(query)
-                    return resolve({ documents: docs, count: count })
-                })
-        })
+        const docs = await collection
+            .find(query)
+            .project(baseProjection)
+            .sort(baseSort)
+            .skip(pagination.perPage * pagination.page - pagination.perPage)
+            .limit(pagination.perPage)
+            .toArray()
+        const count = await collection.countDocuments(query)
+        return { documents: docs, count: count }
     }
 
     /**
@@ -500,19 +492,15 @@ module.exports = function (mongoDB, redisDB) {
         const query = JSON.parse(JSON.stringify(baseQuery))
         query._id = { $gt: ObjectId }
         query.div = division
-        return new Promise(function (resolve, reject) {
-            collection
-                .find(query)
-                .project(baseProjection)
-                .sort(baseSort)
-                .skip(pagination.perPage * pagination.page - pagination.perPage)
-                .limit(pagination.perPage)
-                .toArray(async function (err, docs) {
-                    if (err) return reject(err)
-                    const count = await collection.countDocuments(query)
-                    return resolve({ documents: docs, count: count })
-                })
-        })
+        const docs = await collection
+            .find(query)
+            .project(baseProjection)
+            .sort(baseSort)
+            .skip(pagination.perPage * pagination.page - pagination.perPage)
+            .limit(pagination.perPage)
+            .toArray()
+        const count = await collection.countDocuments(query)
+        return { documents: docs, count: count }
     }
 
     /**
@@ -542,19 +530,15 @@ module.exports = function (mongoDB, redisDB) {
                 ], // 10 miles = 16.09344 kilometers
             },
         }
-        return new Promise(function (resolve, reject) {
-            collection
-                .find(query)
-                .project(baseProjection)
-                .sort(baseSort)
-                .skip(pagination.perPage * pagination.page - pagination.perPage)
-                .limit(pagination.perPage)
-                .toArray(async function (err, docs) {
-                    if (err) return reject(err)
-                    const count = await collection.countDocuments(query)
-                    return resolve({ documents: docs, count: count })
-                })
-        })
+        const docs = await collection
+            .find(query)
+            .project(baseProjection)
+            .sort(baseSort)
+            .skip(pagination.perPage * pagination.page - pagination.perPage)
+            .limit(pagination.perPage)
+            .toArray()
+        const count = await collection.countDocuments(query)
+        return { documents: docs, count: count }
     }
 
     /**
@@ -577,11 +561,7 @@ module.exports = function (mongoDB, redisDB) {
         const newValues = { $set: {} }
         newValues.$set[key] = !docs[0][key]
         const options = { returnOriginal: false }
-        const res = await collection.findOneAndUpdate(
-            query,
-            newValues,
-            options
-        )
+        const res = await collection.findOneAndUpdate(query, newValues, options)
         await redisDB.hset(`up-ids`, id, '3')
         release()
         return res.value
@@ -598,38 +578,27 @@ module.exports = function (mongoDB, redisDB) {
 
     this.getListingsByKeyword = async function (keyword, pagination) {
         collection = mongoDB.collection('words')
-        return new Promise(function (resolve, reject) {
-            collection.findOne({ _id: keyword }, function (err, result) {
-                if (err) {
-                    return reject(err)
-                }
-                if (result) {
-                    const objIds = result.docs
-                    if (objIds.length == 0) {
-                        return resolve({ documents: [], count: 0 })
-                    }
-                    mongoDB
-                        .collection('listing')
-                        .find({ _id: { $in: objIds } })
-                        .project(baseProjection)
-                        .sort(baseSort)
-                        .skip(
-                            pagination.perPage * pagination.page -
-                                pagination.perPage,
-                        )
-                        .limit(pagination.perPage)
-                        .toArray(async function (err, docs) {
-                            if (err) return reject(err)
-                            const count = await collection.countDocuments({
-                                _id: { $in: objIds },
-                            })
-                            return resolve({ documents: docs, count: count })
-                        })
-                } else {
-                    return resolve({ documents: [], count: 0 })
-                }
+        const result = await collection.findOne({ _id: keyword })
+        if (result) {
+            const objIds = result.docs
+            if (objIds.length == 0) {
+                return { documents: [], count: 0 }
+            }
+            const docs = await mongoDB
+                .collection('listing')
+                .find({ _id: { $in: objIds } })
+                .project(baseProjection)
+                .sort(baseSort)
+                .skip(pagination.perPage * pagination.page - pagination.perPage)
+                .limit(pagination.perPage)
+                .toArray()
+            const count = await collection.countDocuments({
+                _id: { $in: objIds },
             })
-        })
+            return { documents: docs, count: count }
+        } else {
+            return { documents: [], count: 0 }
+        }
     }
 
     // { _id: { tags: 'qui', section: 'blogs' }, count: 11 }
@@ -762,18 +731,14 @@ module.exports = function (mongoDB, redisDB) {
         }
         // TODO: find a solution to limit number of docs not to block UI
         const limit = approving ? 0 : 200
-        return new Promise(function (resolve, reject) {
-            collection
-                .find(query)
-                .project(projection)
-                .sort(baseSort)
-                .limit(limit)
-                .toArray(async function (err, docs) {
-                    if (err) return reject(err)
-                    const count = await collection.countDocuments(query)
-                    return resolve({ documents: docs, count: count })
-                })
-        })
+        const docs = await collection
+            .find(query)
+            .project(projection)
+            .sort(baseSort)
+            .limit(limit)
+            .toArray()
+        const count = await collection.countDocuments(query)
+        return { documents: docs, count: count }
     }
 
     /**
