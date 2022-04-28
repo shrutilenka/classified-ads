@@ -122,13 +122,13 @@ const toKeep = [
 ]
 const toKeep_ = (s) => toKeep.some((mediatopic) => s.indexOf(mediatopic) >=0) 
 give.cptallTagsEn = require('../../data/taxonomy/cptall-en-US.json')
-    .conceptSet.filter((o) => toKeep_(o.uri) || toKeep_(o.broader.join('')))
+    .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['en-US'])
 give.cptallTagsFr = require('../../data/taxonomy/cptall-fr.json')
-    .conceptSet.filter((o) => toKeep_(o.uri) || toKeep_(o.broader.join('')))
+    .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['fr'])
 give.cptallTagsAr = require('../../data/taxonomy/cptall-ar.json')
-    .conceptSet.filter((o) => toKeep_(o.uri) || toKeep_(o.broader.join('')))
+    .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['ar'])
 
 

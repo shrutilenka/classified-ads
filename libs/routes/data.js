@@ -10,7 +10,10 @@ async function routes(fastify, options, next) {
         ['/get_donations_tags_fr', give.googleTagsFrLite],
         ['/get_skills_tags_en', give.ESCOTagsEn],
         ['/get_skills_tags_fr', give.ESCOTagsFr],
-        ['/get_skills_tags_ar', give.ESCOTagsAr]
+        ['/get_skills_tags_ar', give.ESCOTagsAr],
+        ['/get_events_tags_en', give.cptallTagsEn],
+        ['/get_events_tags_ar', give.cptallTagsAr],
+        ['/get_events_tags_fr', give.cptallTagsFr],
     ].forEach(([url, tags]) => {
         fastify.get(url, async (request, reply) => reply.send({ tags }))
     })
