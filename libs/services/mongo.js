@@ -550,15 +550,16 @@ module.exports = function (mongoDB, redisDB) {
     this.toggleValue = async function (id, key, collName) {
         if (!locks.has(id)) locks.set(id, new Mutex())
         const release = await locks.get(id).acquire()
-        collection = mongoDB.collection(collName)
+        collection = await mongoDB.collection(collName)
         const query = {}
         query._id = new ObjectId(id)
-        const docs = await collection.find(query, { limit: 1 })
+        const docs = await collection.find(query, { limit: 1 }).toArray()
         if (!docs) {
             release()
             return
         }
         const newValues = { $set: {} }
+
         newValues.$set[key] = !docs[0][key]
         const options = { returnOriginal: false }
         const res = await collection.findOneAndUpdate(query, newValues, options)

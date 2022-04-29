@@ -246,7 +246,7 @@ async function routes(fastify, options, next) {
     })
 
     fastify.get('/user/toggle/:id', { preHandler: auth }, async function (req, reply) {
-        const [err, res] = await to(QInstance.toggleValue(req.params.id, 'd', 'listings'))
+        const [err, res] = await to(QInstance.toggleValue(req.params.id, 'd', 'listing'))
         if (err) {
             req.log.error(`user/toggle#toggleValue: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
