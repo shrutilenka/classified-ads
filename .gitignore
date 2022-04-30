@@ -153,3 +153,7 @@ dist
 logs/all.log.*
 logs/all.log.pos
 .clinic
+stubs/wiki.multi.ar.vec
+stubs/wiki.multi.en.vec
+stubs/cache.model
+stubs/annoy_cache.model
