@@ -70,6 +70,7 @@
     "jsonwebtoken": "^8.5.1",
     "line-by-line": "^0.1.6",
     "lorem-ipsum": "^2.0.4",
+    "mail-time": "^1.2.6",
     "middie": "^6.0.0",
     "objectmodel": "^4.3.0",
     "pino": "^7.6.5",

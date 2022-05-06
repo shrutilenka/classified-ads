@@ -104,6 +104,7 @@ async function instantiateApp() {
     fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
     fastify.register(redis, { host: '127.0.0.1' })
     fastify.register(nodemailer, config.get('SMTP'))
+
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)
     // TODO: fastify.after(routes)
@@ -310,6 +311,10 @@ async function instantiateApp() {
         //     fastify.log.error(error)
         //     // global.mongodb.disconnect()
         // })
+
+        const Mailer = require('./libs/services/mailer')
+        const mailer = new Mailer(db)
+        fastify.decorate('mailer', () => mailer)
     }
 
     /*********************************************************************************************** */
@@ -333,6 +338,7 @@ async function instantiateApp() {
         // Metrics exporter at least for one node to have a view on performance
         // fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true })
     }
+
 }
 /*********************************************************************************************** */
 // !!CLUSTER SETUP!!
