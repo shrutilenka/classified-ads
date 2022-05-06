@@ -10,6 +10,11 @@ module.exports = {
         host: '0.0.0.0',
         port: 1025
     },
+    SMTP_TIMER: {
+        host: '0.0.0.0',
+        port: 1025,
+        from: 'no-reply@example.com',
+    },
     PING_LIMITER: {
         max: 100,
         timeWindow: '1 minute'

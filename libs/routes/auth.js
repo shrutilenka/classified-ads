@@ -7,12 +7,12 @@ const NODE_ENV = {
     development: 1,
     production: 2,
 }[process.env.NODE_ENV]
-const adminEmail = process.env.ADMIN_EMAIL
+
 
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
-    const { nodemailer, redis } = fastify
+    const { redis } = fastify
     const queries = require('../services/mongo')
     const QInstance = new queries(db, redis)
     const { constraints } = require('../constraints/constraints')
@@ -24,7 +24,8 @@ async function routes(fastify, options) {
     const JWT_SECRET = process.env.JWT_SECRET
     const COOKIE_NAME = config.get('COOKIE_NAME')
     const loginSchema = constraints[process.env.NODE_ENV].POST.login.schema
-
+    const Mailer = require('../services/mailer')
+    const mailer = Mailer.getInstance(null)
     fastify.decorateReply('blabla', blabla)
     fastify.post(
         '/login',
@@ -113,29 +114,15 @@ async function routes(fastify, options) {
                         reply.redirect('/')
                         return
                     }
-                    var mailOptions = {
-                        from: adminEmail,
-                        to: username,
-                        subject: 'Account Verification Token',
-                        text:
-                            'Hello,\n\n' +
-                            'Please verify your account by clicking the link: \n' +
-                            config.get('APIHost') +
-                            '/confirmation/' +
-                            tempUser.token +
-                            '\n',
-                    }
-                    nodemailer.sendMail(mailOptions, async(err, info) => {
-                        if (err) {
-                            console.log(err)
-                            reply.blabla([{}, 'signup', 'SERVER_ERROR'], request)
-                            return
-                        }
-                        // TODO: insert a temporary user (ephemeral on DB)
-                        await QInstance.insertTmpUser(tempUser)
-                        reply.redirect('/')
-                        return
-                    })
+                    mailer.sendMail(username,
+                        'Account Verification Token',
+                        'Hello,\n\nPlease verify your account by clicking the link: \n' +
+                        config.get('APIHost') + '/confirmation/' + tempUser.token + '\n',
+                        'Hello,\n\nPlease verify your account by clicking the link: \n' +
+                        config.get('APIHost') + '/confirmation/' + tempUser.token + '\n',)
+                    await QInstance.insertTmpUser(tempUser)
+                    reply.redirect('/')
+                    return
                 }
             } catch (err) {
                 console.log(err)

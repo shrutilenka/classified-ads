@@ -43,7 +43,6 @@ const swagger_ = require('./config/options/swagger')
 const logger_ = require('./config/options/logger')()
 const helmet_ = require('./config/options/helmet')()
 
-const nodemailer = require('fastify-nodemailer')
 const fastifyJWT = require('fastify-jwt')
 const fastifyAuth = require('fastify-auth')
 const fastifyCookies = require('fastify-cookie')
@@ -103,7 +102,6 @@ async function instantiateApp() {
     fastify.register(compressPlugin) // Compress all possible types > 1024o
     fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
     fastify.register(redis, { host: '127.0.0.1' })
-    fastify.register(nodemailer, config.get('SMTP'))
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)
@@ -114,6 +112,11 @@ async function instantiateApp() {
     // after necessary plugins have been loaded
     fastify.decorate('verifyJWT', verifyJWT)
     fastify.decorate('softVerifyJWT', softVerifyJWT)
+
+    const Mailer = require('./libs/services/mailer')
+    const { db } = fastify.mongo
+    const mailer = Mailer.getInstance(db)
+
 
     // Run the server as soon as possible!
     const start = async () => {
@@ -312,9 +315,14 @@ async function instantiateApp() {
         //     // global.mongodb.disconnect()
         // })
 
-        const Mailer = require('./libs/services/mailer')
-        const mailer = new Mailer(db)
-        fastify.decorate('mailer', () => mailer)
+
+        setTimeout(() => {
+            mailer.sendMail(process.env.ADMIN_EMAIL,
+                'app instance bootstrap',
+                'app instance bootstrapped correctly',
+                'app instance bootstrapped correctly')
+        }, 2000);
+
     }
 
     /*********************************************************************************************** */
