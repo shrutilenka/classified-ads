@@ -43,16 +43,16 @@ module.exports = function (languages) {
                 __dirname,
                 `../../data/models/annoy.${language}.vec`,
             )
-            console.log(cachePath)
             models[language].index.load(cachePath)
             models[language].id2word = require(`../../data/models/id2word.${language}.json`)
             models[language].word2id = flip(models[language].id2word)
         }
     })
 
-    this.translate = async function (word, from, count) {
-        const to = transTable[from]
-        const to_ = transTable[from]
+    this.translate = function (word, from, count) {
+        const to = transTable[from][0]
+        const to_ = transTable[from][1]
+        console.log(`translating from ${from} to ${to} and ${to_}`)
         if (word.length < 3) return undefined
         const wordid = models[from].word2id[word]
         const vector = models[from].index.getItem(wordid)
@@ -61,7 +61,15 @@ module.exports = function (languages) {
         const result = {}
         result[to] = neighbors.map(idx => models[to].id2word[idx])
         result[to_] = neighbors_.map(idx => models[to_].id2word[idx])
+        console.log(`found ressemblances ${result}`)
         return result
+    }
+
+    this.getWordLang = function (word) {
+        if(models.en.word2id[word]) return 'en'
+        if(models.ar.word2id[word]) return 'ar'
+        if(models.fr.word2id[word]) return 'fr'
+        return 'und'
     }
 }
 

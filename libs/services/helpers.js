@@ -28,14 +28,15 @@ ops.cloudMulter = Multer({
 
 ops.localMulter = Multer({ dest: 'uploads/' }).single('avatar')
 
+const Dictionary = require('./dictionary')
+const dictionary = new Dictionary(['en', 'ar', 'fr'])
 const LanguageDetection = require('@smodin/fast-text-language-detection')
 const lid = new LanguageDetection()
 ops.getLanguage = async (text) => {
     const language = await lid.predict(text, 3)
-    if(language[0].prob > 0.5)
-        return language[0].lang
-    else
-        return 'und'
+    if(language[0].prob > 0.5) return language[0].lang
+    else if(text.indexOf(' ') < 0) return dictionary.getWordLang(text)
+    else return 'und' 
 }
 
 /**

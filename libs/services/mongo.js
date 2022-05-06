@@ -396,8 +396,8 @@ module.exports = function (mongoDB, redisDB) {
         return await collection.findOne(query)
     }
 
-    const Translator = require('./libs/services/translator')
-    const translator = new Translator(['en', 'ar'])
+    const Dictionary = require('./dictionary')
+    const translator = new Dictionary(['en', 'ar', 'fr'])
 
     /**
      * Approximate search based on indexed text fields: title, desc, tags
@@ -444,7 +444,9 @@ module.exports = function (mongoDB, redisDB) {
                     if (count < 6 && phrase.indexOf(' ') < 0) {
                         let results
                         try {
+                            console.log(`}---------------------${lang}---------------------`)
                             results = translator.translate(phrase, lang, 3)
+                            console.log(results)
                             // TODO: stack it in documents somehow
                         } catch (error) {}
                     }

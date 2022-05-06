@@ -2,9 +2,9 @@
 
 const path = require('path')
 const fs = require('fs')
-const enFilePath = path.join(__dirname, '../wiki.multi.ar.vec')
-const enCachePath = path.join(__dirname, '../models/annoy.ar.vec')
-const enid2wordPath = path.join(__dirname, '../models/id2word.ar.json')
+const enFilePath = path.join(__dirname, '../wiki.multi.fr.vec')
+const enCachePath = path.join(__dirname, '../models/annoy.fr.vec')
+const enid2wordPath = path.join(__dirname, '../models/id2word.fr.json')
 
 var Annoy = require('annoy')
 
