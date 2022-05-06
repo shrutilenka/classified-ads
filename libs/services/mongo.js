@@ -421,38 +421,47 @@ module.exports = function (mongoDB, redisDB) {
         const ObjectId = getObjectId(daysBefore)
         phrase = exact ? `"${phrase}"` : phrase
         const query = JSON.parse(JSON.stringify(baseQuery))
-        const collation = lang === 'und' ? baseCollation : { locale: lang }
+        let collation = lang === 'und' ? baseCollation : { locale: lang }
         query.$text = { $search: phrase }
         query._id = { $gt: ObjectId }
         if (lang !== 'und') query.lang = lang
         if (section) query.section = section
         if (division) query.div = division
-        return new Promise(function (resolve, reject) {
-            collection
-                .find(query, { score: { $meta: 'textScore' } })
-                .collation(collation)
-                .project(baseProjection)
-                .sort({ score: { $meta: 'textScore' } })
-                .skip(pagination.perPage * pagination.page - pagination.perPage)
-                .limit(pagination.perPage)
-                .toArray(async function (err, docs) {
-                    if (err) return reject(err)
-                    const count = await collection.countDocuments(query)
-                    if (count > 3) {
-                        refreshTopK(phrase)
-                    }
-                    if (count < 6 && phrase.indexOf(' ') < 0) {
-                        let results
-                        try {
-                            console.log(`}---------------------${lang}---------------------`)
-                            results = translator.translate(phrase, lang, 3)
-                            console.log(results)
-                            // TODO: stack it in documents somehow
-                        } catch (error) {}
-                    }
-                    return resolve({ documents: docs, count: count })
-                })
-        })
+        const docs = await collection
+            .find(query, { score: { $meta: 'textScore' } })
+            .collation(collation)
+            .project(baseProjection)
+            .sort({ score: { $meta: 'textScore' } })
+            .skip(pagination.perPage * pagination.page - pagination.perPage)
+            .limit(pagination.perPage).toArray()
+        const count = await collection.countDocuments(query)
+        const result = { documents: docs, count: count, crossLangDocs: [] }
+        if (count > 3) {
+            refreshTopK(phrase)
+        }
+        if (count < 6 && phrase.indexOf(' ') < 0) {
+            let translations
+            try {
+                console.log(`}---------------------${lang}---------------------`)
+                translations = translator.translate(phrase, lang, 3)
+                for (const [lang, keywords] of Object.entries(translations)) {
+                    collation = { locale: lang }
+                    phrase = keywords.join(' ')
+                    query.$text = { $search: phrase }
+                    const crossLangDocs = await collection.find(query, { score: { $meta: 'textScore' } })
+                        .collation(collation)
+                        .project(baseProjection)
+                        .sort({ score: { $meta: 'textScore' } })
+                        .limit(3).toArray()
+                    console.log(crossLangDocs)
+                    result.crossLangDocs = result.crossLangDocs.concat(crossLangDocs)
+                }
+                // TODO: stack it in documents somehow
+            } catch (error) {
+                console.log(error.message)
+            }
+        }
+        return result
     }
 
     /**

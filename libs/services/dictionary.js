@@ -56,12 +56,21 @@ module.exports = function (languages) {
         if (word.length < 3) return undefined
         const wordid = models[from].word2id[word]
         const vector = models[from].index.getItem(wordid)
-        var neighbors = models[to].index.getNNsByVector(vector, count, -1, false)
-        var neighbors_ = models[to_].index.getNNsByVector(vector, count, -1, false)
+        let indices = []
+        let indices_ = []
+        let neighbors = models[to].index.getNNsByVector(vector, count, -1, true)
+        let neighbors_ = models[to_].index.getNNsByVector(vector, count, -1, true)
+        neighbors.distances.forEach((distance, idx) => {
+            if(distance > 0.9) indices.push(neighbors.neighbors[idx])
+        });
+        neighbors_.distances.forEach((distance, idx) => {
+            if(distance > 0.9) indices_.push(neighbors_.neighbors[idx])
+        });
+
         const result = {}
-        result[to] = neighbors.map(idx => models[to].id2word[idx])
-        result[to_] = neighbors_.map(idx => models[to_].id2word[idx])
-        console.log(`found ressemblances ${result}`)
+        result[to] = indices.map(idx => models[to].id2word[idx])
+        result[to_] = indices_.map(idx => models[to_].id2word[idx])
+        console.log(`found ressemblances ${JSON.stringify(result)}`)
         return result
     }
 
