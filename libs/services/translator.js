@@ -23,6 +23,11 @@ let models = {
     },
 }
 
+const transTable = {
+    'en': ['fr', 'ar'],
+    'fr': ['en', 'ar'],
+    'ar': ['fr', 'en'],
+}
 const VECTOR_LEN = 300
 /** @param { Array } languages*/
 module.exports = function (languages) {
@@ -36,20 +41,27 @@ module.exports = function (languages) {
             models[language].index = new Annoy(VECTOR_LEN, 'Angular')
             const cachePath = path.join(
                 __dirname,
-                `../models/annoy.${language}.vec`,
+                `../../data/models/annoy.${language}.vec`,
             )
+            console.log(cachePath)
             models[language].index.load(cachePath)
             models[language].id2word = require(`../../data/models/id2word.${language}.json`)
             models[language].word2id = flip(models[language].id2word)
         }
     })
 
-    this.translate = async function (word, from, to, count) {
+    this.translate = async function (word, from, count) {
+        const to = transTable[from]
+        const to_ = transTable[from]
         if (word.length < 3) return undefined
         const wordid = models[from].word2id[word]
         const vector = models[from].index.getItem(wordid)
         var neighbors = models[to].index.getNNsByVector(vector, count, -1, false)
-        return neighbors.map(idx => models[to].id2word[idx])
+        var neighbors_ = models[to_].index.getNNsByVector(vector, count, -1, false)
+        const result = {}
+        result[to] = neighbors.map(idx => models[to].id2word[idx])
+        result[to_] = neighbors_.map(idx => models[to_].id2word[idx])
+        return result
     }
 }
 

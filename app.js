@@ -1,4 +1,3 @@
-
 // Require app configurations
 require('dotenv').config()
 process.title = 'classified-ads'

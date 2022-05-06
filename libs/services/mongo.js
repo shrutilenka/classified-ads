@@ -396,6 +396,9 @@ module.exports = function (mongoDB, redisDB) {
         return await collection.findOne(query)
     }
 
+    const Translator = require('./libs/services/translator')
+    const translator = new Translator(['en', 'ar'])
+
     /**
      * Approximate search based on indexed text fields: title, desc, tags
      * It also feeds topK miner
@@ -437,6 +440,13 @@ module.exports = function (mongoDB, redisDB) {
                     const count = await collection.countDocuments(query)
                     if (count > 3) {
                         refreshTopK(phrase)
+                    }
+                    if (count < 6 && phrase.indexOf(' ') < 0) {
+                        let results
+                        try {
+                            results = translator.translate(phrase, lang, 3)
+                            // TODO: stack it in documents somehow
+                        } catch (error) {}
                     }
                     return resolve({ documents: docs, count: count })
                 })

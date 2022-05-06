@@ -2,9 +2,9 @@
 
 const path = require('path')
 const fs = require('fs')
-const enFilePath = path.join(__dirname, '../wiki.multi.en.vec')
-const enCachePath = path.join(__dirname, '../models/annoy.en.vec')
-const enid2wordPath = path.join(__dirname, '../models/id2word.en.json')
+const enFilePath = path.join(__dirname, '../wiki.multi.ar.vec')
+const enCachePath = path.join(__dirname, '../models/annoy.ar.vec')
+const enid2wordPath = path.join(__dirname, '../models/id2word.ar.json')
 
 var Annoy = require('annoy')
 
@@ -31,6 +31,7 @@ let id2word
 let i = 0
 
 const trim = (s) => s.replace(/^\s+|\s+$/g, '')
+// TODO: remove latin words in Arabic embedding !!!
 const isWordValid = (word) =>
     (word.indexOf('/') < 0 && word.length >= 3)
 const downcast = (num) => Number(Number(num).toFixed(6))
