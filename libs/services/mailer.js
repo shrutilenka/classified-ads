@@ -67,11 +67,9 @@ class MailerOps {
             // a multilanguage version exists and data is provieded
             console.log(to, todo, subject, text, html, data)
             if (req) {
-                console.log('there is a request object')
-                subject = req.t(`${todo}.subject`, data)
-                text = req.t(`${todo}.text`, data)
-                html = req.t(`${todo}.html`, data)
-                console.log(subject, text)
+                subject = req.t(`mail.${todo}.subject`, data)
+                text = req.t(`mail.${todo}.text`, data)
+                html = req.t(`mail.${todo}.html`, data)
             }
             mailQueue.sendMail({ to, subject, text, html })
         }

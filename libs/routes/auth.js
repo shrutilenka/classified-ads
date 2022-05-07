@@ -34,7 +34,6 @@ async function routes(fastify, options) {
                 reply.blabla([{}, 'login', 'VALIDATION_ERROR'], request)
             }
             const { username, password } = request.body
-            console.log('logging user' + username + ' with password' + password)
             const user = await QInstance.getUserById(username)
             if (!user) {
                 reply.blabla([{}, 'login', 'INCORRECT_CREDENTIALS'], request)
@@ -102,7 +101,7 @@ async function routes(fastify, options) {
                         token: crypto.randomBytes(16).toString('hex'),
                     }
                     // Actual user but unverified
-                    const new_user = await QInstance.insertUser({
+                    const acknowledged = await QInstance.insertUser({
                         username,
                         password,
                         passhash,
@@ -123,7 +122,7 @@ async function routes(fastify, options) {
                         },
                     })
                     await QInstance.insertTmpUser(tempUser)
-                    reply.redirect('/')
+                    reply.blabla([{}, 'message', 'verification'], request)
                     return
                 }
             } catch (err) {
@@ -137,13 +136,10 @@ async function routes(fastify, options) {
     /* Confirmation of email identity. */
     fastify.get('/confirmation/:token', async function (request, reply) {
         const token = request.params.token
-        console.log('verifying token ' + token)
-
         const tmpUser = await QInstance.getTmpUserByToken(token)
         if (!tmpUser) {
             throw { statusCode: 401, message: 'UNAUTHORISED' }
         }
-        console.log('got user ' + tmpUser.username)
         const user = await QInstance.getUserById(tmpUser.username)
         if (!user) {
             throw { statusCode: 401, message: 'INCORRECT_TOKEN' }

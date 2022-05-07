@@ -138,6 +138,10 @@
       "contact":{
          "title":"",
          "message":""
+      },
+      "verification":{
+         "title":"Classified-ads - signup",
+         "message":"You now need to verify your subscription. Just go to your email inbox and click on activation link"
       }
    },
    "signup": {
