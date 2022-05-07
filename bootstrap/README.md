@@ -1,6 +1,12 @@
-# Decorators
+# Bootstrap
 
-Are used in a request lifecycle, and are generally used before starting processing the request for different purposes. In Fastify they take different forms: **Handlers, Hooks, preHandlers, ...** And they do things like **Validation, Authentication**, process complex queries (like **multipart**), or a simple **Handler** that we want to use in `/routes` to decouple a little.
+`bootstrap.js` is used to initialize the app; ie, it provides:  
+- Environment consistency (the app refuses to start it anything is missing in environment)
+- Seed fake data for development environments
+- Sets or ensures necessary indexes on database
+- Sets background jobs 
+
+`scripts.js` is a self contained file, the app not dependant on. It is run by admin for patches (we will move to up and down database mecanism)
 
 ---
 

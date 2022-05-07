@@ -1,6 +1,8 @@
-# Decorators
+# Constraints
 
-Are used in a request lifecycle, and are generally used before starting processing the request for different purposes. In Fastify they take different forms: **Handlers, Hooks, preHandlers, ...** And they do things like **Validation, Authentication**, process complex queries (like **multipart**), or a simple **Handler** that we want to use in `/routes` to decouple a little.
+Are conditions to enforce the whole application to. Instead of writing complex `if-else` and `switch` blocks everywhere, we use `JSON` instead.
+
+It also contains data models to avoid logical errors. If a user posts a listing, MongoDB never complains since it is No-SQL, but the app itself might become inconsitant with our initial goals. Hence, the data models.
 
 ---
 
