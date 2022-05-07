@@ -8,7 +8,6 @@ const NODE_ENV = {
     production: 2,
 }[process.env.NODE_ENV]
 
-
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
@@ -42,12 +41,12 @@ async function routes(fastify, options) {
                 return
             }
             try {
-                const isMatch = await bcrypt.compare(
-                    password,
-                    user.passhash,
-                )
+                const isMatch = await bcrypt.compare(password, user.passhash)
                 if (!isMatch) {
-                    reply.blabla([{}, 'login', 'INCORRECT_CREDENTIALS'], request)
+                    reply.blabla(
+                        [{}, 'login', 'INCORRECT_CREDENTIALS'],
+                        request,
+                    )
                     return
                 } else if (!user.isVerified) {
                     reply.blabla([{}, 'login', 'USER_UNVERIFIED'], request)
@@ -114,12 +113,15 @@ async function routes(fastify, options) {
                         reply.redirect('/')
                         return
                     }
-                    mailer.sendMail(username,
-                        'Account Verification Token',
-                        'Hello,\n\nPlease verify your account by clicking the link: \n' +
-                        config.get('APIHost') + '/confirmation/' + tempUser.token + '\n',
-                        'Hello,\n\nPlease verify your account by clicking the link: \n' +
-                        config.get('APIHost') + '/confirmation/' + tempUser.token + '\n',)
+                    mailer.sendMail({
+                        to: username,
+                        todo: 'signup',
+                        req: request,
+                        data: {
+                            token: tempUser.token,
+                            host: config.get('APIHost'),
+                        },
+                    })
                     await QInstance.insertTmpUser(tempUser)
                     reply.redirect('/')
                     return
@@ -135,13 +137,13 @@ async function routes(fastify, options) {
     /* Confirmation of email identity. */
     fastify.get('/confirmation/:token', async function (request, reply) {
         const token = request.params.token
-        console.log('verifying token '+token)
+        console.log('verifying token ' + token)
 
         const tmpUser = await QInstance.getTmpUserByToken(token)
         if (!tmpUser) {
             throw { statusCode: 401, message: 'UNAUTHORISED' }
         }
-        console.log('got user '+tmpUser.username)
+        console.log('got user ' + tmpUser.username)
         const user = await QInstance.getUserById(tmpUser.username)
         if (!user) {
             throw { statusCode: 401, message: 'INCORRECT_TOKEN' }

@@ -317,10 +317,12 @@ async function instantiateApp() {
 
 
         setTimeout(() => {
-            mailer.sendMail(process.env.ADMIN_EMAIL,
-                'app instance bootstrap',
-                'app instance bootstrapped correctly',
-                'app instance bootstrapped correctly')
+            mailer.sendMail({
+                to: process.env.ADMIN_EMAIL,
+                subject:'app instance bootstrap',
+                text:'app instance bootstrapped correctly',
+                html:'app instance bootstrapped correctly'
+            })
         }, 2000);
 
     }

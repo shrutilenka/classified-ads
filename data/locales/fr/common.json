@@ -177,5 +177,13 @@
          "title":"Classified-ads - signup error",
          "error":"Please verify the provided information"
       }
+   },
+   "mail": {
+      "bootstrap":"app instance bootstrapped correctly",
+      "signup":{
+         "subject":"Account Verification Token",
+         "text": "Hello,\n\nPlease verify your account by clicking the link:\n{{host}}/confirmation/{{token}}",
+         "html": "Hello,\n\nPlease verify your account by clicking the link:\n{{host}}/confirmation/{{token}}"
+      }
    }
 }

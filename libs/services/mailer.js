@@ -47,14 +47,32 @@ class MailerOps {
             concatDelimiter: '<h1>{{{subject}}}</h1>', // Start each concatenated email with it's own subject
             template: MailTime.Template, // Use default template
         })
+
         /**
-         * Send an email
-         * @param {*} to 
-         * @param {*} subject 
-         * @param {*} text 
-         * @param {*} html 
+         * Send an email with user defined language !
+         * TODO: How to deal with multilanguage emails ??
+         * https://www.contactmonkey.com/blog/multilingual-emails
+         * User can send directly `sendMail(to, subject, text, html)` or
+         * `sendMail(to, todo, req, data)` and subject, text, html are derived
+         * @param {String} to an email to send email to
+         * @param {String} [todo] the action the doer is performing
+         * @param {String} [subject] optional email subject
+         * @param {String} [text] optional email text
+         * @param {String} [html] optional email html
+         * @param {import('fastify').FastifyRequest} [req] request object to derive i18next translations
+         * @param {JSON} [data] key-values to inject to i18next
          */
-        this.sendMail = function (to, subject, text, html) {
+        this.sendMail = function ({to, todo, subject, text, html, req, data}) {
+            // If req is provided we assume here that
+            // a multilanguage version exists and data is provieded
+            console.log(to, todo, subject, text, html, data)
+            if (req) {
+                console.log('there is a request object')
+                subject = req.t(`${todo}.subject`, data)
+                text = req.t(`${todo}.text`, data)
+                html = req.t(`${todo}.html`, data)
+                console.log(subject, text)
+            }
             mailQueue.sendMail({ to, subject, text, html })
         }
     }
