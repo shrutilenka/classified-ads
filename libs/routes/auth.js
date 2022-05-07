@@ -61,6 +61,7 @@ async function routes(fastify, options) {
                         reply.redirect(request.headers.referer)
                         return
                     } else {
+                        request.flash('success', 'Successfully logged in')
                         reply.redirect('/')
                         return
                     }

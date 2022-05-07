@@ -25,6 +25,8 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^6.1.1",
+    "@fastify/flash": "^4.0.1",
+    "@fastify/session": "^8.2.0",
     "@google-cloud/storage": "^5.18.3",
     "@smodin/fast-text-language-detection": "^0.2.3",
     "@toreda/adt": "^0.4.0",
@@ -38,6 +40,7 @@
     "bloom-filters": "^2.0.0",
     "bull": "^4.8.1",
     "config": "^3.3.7",
+    "crypto": "^1.0.1",
     "csv": "^6.0.5",
     "dotenv": "^14.2.0",
     "ejs": "^3.1.6",

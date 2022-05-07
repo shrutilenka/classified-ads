@@ -43,9 +43,12 @@ const swagger_ = require('./config/options/swagger')
 const logger_ = require('./config/options/logger')()
 const helmet_ = require('./config/options/helmet')()
 
+const crypto = require('crypto')
 const fastifyJWT = require('fastify-jwt')
 const fastifyAuth = require('fastify-auth')
 const fastifyCookies = require('fastify-cookie')
+const fastifySession = require('@fastify/session')
+const fastifyFlash = require('@fastify/flash')
 const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
 // In case we add ElasticSearch we can benefit 'swagger-stats'
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
@@ -107,6 +110,15 @@ async function instantiateApp() {
     await fastify.register(fastifyAuth)
     // TODO: fastify.after(routes)
     fastify.register(fastifyCookies)
+    fastify.register(fastifySession, {
+        cookieName: 'session',
+        secret: crypto.randomBytes(16).toString('hex'),
+        cookie: {
+            secure: false,
+            maxAge:  2592000000
+        }
+    })
+    fastify.register(fastifyFlash)
     
     // Set authentication as soon as possible
     // after necessary plugins have been loaded

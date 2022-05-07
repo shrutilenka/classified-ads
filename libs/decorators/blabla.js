@@ -38,7 +38,7 @@ function blabla(context) {
         }
         Object.assign(context[0], { user })
         // UXBlabla uses i18next for more user friendly messages
-        const userFriendlyMsg = UXBlabla(...context, this.request)
+        const userFriendlyMsg = UXBlabla(...context, this.request, this)
         const route = context[1]
         const routeC = constraints[process.env.NODE_ENV].GET[route]
         const UXConstraints = routeC ? { UXConstraints: routeC } : {}
