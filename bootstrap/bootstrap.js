@@ -84,7 +84,10 @@ for (let i = 0; i < 200; i++) {
         langsFaker[randomLang].words(1),
     ]
     item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
-    item.div = states[randomLang][Math.floor(Math.random() * states[randomLang].length)]
+    item.div =
+        states[randomLang][
+            Math.floor(Math.random() * states[randomLang].length)
+        ]
     item.section = sections[Math.floor(Math.random() * sections.length)]
     item.offer = Math.random() < 0.5
     item.lat = getRandomInRange(minLat, maxLat, 3)
@@ -173,7 +176,7 @@ ops.createIndexes = async function createIndexes(db) {
     await usersCollection.createIndex({ username: 1 }, { unique: true })
     await tmpUsersCollection.createIndex(
         { createdAt: 1 },
-        { expireAfterSeconds: 60*10, unique: true },
+        { expireAfterSeconds: 60 * 10, unique: true },
     )
     // TODO: change a standalone mongodb to a replica set
     // // open a Change Stream on the "listings" collection
@@ -296,7 +299,5 @@ ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
     )
     scheduler.addSimpleIntervalJob(job)
 }
-
-
 
 module.exports.ops = ops

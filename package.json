@@ -12,6 +12,9 @@
     "beautiful:inspect:2": "NO_CLUSTER=true clinic doctor --on-port 'autocannon localhost:3000' -- node app.js",
     "beautiful:inspect:3": "NO_CLUSTER=true clinic bubbleprof --on-port 'autocannon -c 5 -a 500 localhost:3000' -- node app.js",
     "stop": "pkill --signal SIGINT classified-ads && kill -9 `pidof ~/go/bin/MailHog`",
+    "tools:mlmodels:en": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec --output wiki.multi.en.vec",
+    "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
+    "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",
     "tools": "sudo apt-get -y install golang-go && go get github.com/mailhog/MailHog && cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip"
   },
   "keywords": [
@@ -33,7 +36,6 @@
     "@types/ioredis": "^4.28.10",
     "ajv-i18n": "^4.2.0",
     "annoy": "^3.0.3",
-    "annoy.js": "^2.1.2",
     "async-mutex": "^0.3.2",
     "bcryptjs": "^2.4.3",
     "big-json": "^3.1.0",

@@ -52,7 +52,6 @@ module.exports = function (languages) {
     this.translate = function (word, from, count) {
         const to = transTable[from][0]
         const to_ = transTable[from][1]
-        console.log(`translating from ${from} to ${to} and ${to_}`)
         if (word.length < 3) return undefined
         const wordid = models[from].word2id[word]
         const vector = models[from].index.getItem(wordid)
@@ -70,7 +69,6 @@ module.exports = function (languages) {
         const result = {}
         result[to] = indices.map(idx => models[to].id2word[idx])
         result[to_] = indices_.map(idx => models[to_].id2word[idx])
-        console.log(`found ressemblances ${JSON.stringify(result)}`)
         return result
     }
 

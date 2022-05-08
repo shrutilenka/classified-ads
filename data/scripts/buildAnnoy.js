@@ -1,10 +1,15 @@
+// To be run on demand. Language by language
+// ex: run node buildAnnoy.js en
+
 // READ EMBEDDINGS
 
 const path = require('path')
 const fs = require('fs')
-const enFilePath = path.join(__dirname, '../wiki.multi.fr.vec')
-const enCachePath = path.join(__dirname, '../models/annoy.fr.vec')
-const enid2wordPath = path.join(__dirname, '../models/id2word.fr.json')
+process.argv.shift()
+process.argv.shift()
+const enFilePath = path.join(__dirname, `../wiki.multi.${process.argv[0]}.vec`)
+const enCachePath = path.join(__dirname, `../models/annoy.${process.argv[0]}.vec`)
+const enid2wordPath = path.join(__dirname, `../models/id2word.${process.argv[0]}.json`)
 
 var Annoy = require('annoy')
 

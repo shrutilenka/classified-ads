@@ -154,7 +154,7 @@ async function instantiateApp() {
         backend: {
             loadPath: __dirname + '/data/locales/{{lng}}/common.json'
         },
-        fallbackLng: 'en-US',
+        fallbackLng: process.env.DEFAULT_LANG,
         preload: ['en-US', 'ar', 'fr'],
         cookiename: 'locale',
         detection: {
@@ -171,7 +171,6 @@ async function instantiateApp() {
     // Ping this from client side to change default language
     fastify.get('/i18n/:locale', (req, reply) => {
         reply.cookie('locale', req.params.locale, { path: '/' })
-        console.log(`changing old language ${req.i18n.language}`)
         req.i18n.changeLanguage(req.params.locale)
         if (req.headers.referer) reply.redirect(req.headers.referer)
         else reply.redirect('/')

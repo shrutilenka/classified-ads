@@ -8,27 +8,17 @@ class MailerOps {
         const transports = []
         // Mailhog SMTP
         transports.push(nodemailer.createTransport(config.get('SMTP_TIMER')))
-        // Google Apps SMTP
+        // Outlook Apps SMTP
         transports.push(
             nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                from: 'no-reply@mail.example.com',
-                auth: {
-                    user: 'no-reply@mail.example.com',
-                    pass: 'xxx',
-                },
-            }),
-        )
-
-        // Mailing service (SparkPost as example)
-        transports.push(
-            nodemailer.createTransport({
-                host: 'smtp.sparkpostmail.com',
+                host: 'smtp.office365.com',
+                from: 'no-reply@classified-ads.com',
                 port: 587,
-                from: 'no-reply@mail2.example.com',
+                tls: { ciphers: 'SSLv3' },
+                secure: false,
                 auth: {
-                    user: 'SMTP_Injection',
-                    pass: 'xxx',
+                    user: process.env.ADMIN_EMAIL,
+                    pass: process.env.ADMIN_PASS,
                 },
             }),
         )
@@ -65,7 +55,6 @@ class MailerOps {
         this.sendMail = function ({to, todo, subject, text, html, req, data}) {
             // If req is provided we assume here that
             // a multilanguage version exists and data is provieded
-            console.log(to, todo, subject, text, html, data)
             if (req) {
                 subject = req.t(`mail.${todo}.subject`, data)
                 text = req.t(`mail.${todo}.text`, data)

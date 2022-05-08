@@ -442,7 +442,6 @@ module.exports = function (mongoDB, redisDB) {
         if (count < 6 && phrase.indexOf(' ') < 0) {
             let translations
             try {
-                console.log(`}---------------------${lang}---------------------`)
                 translations = translator.translate(phrase, lang, 3)
                 for (const [lang, keywords] of Object.entries(translations)) {
                     collation = { locale: lang }
