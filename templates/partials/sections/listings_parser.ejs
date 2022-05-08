@@ -1,40 +1,40 @@
 <% if(typeof listings != 'undefined'){ %>
-<div class="row align-items-stretch ca-listings">
-  <% for (var i = 0; listings.length> 0 && i < listings.length ; i++) { %>
-  <div class="col-sm col-md-6 col-xl-4">
-    <div class="h-100 pb-3" id="<%= listings[i]._id %>-@@@@@">
-      <div class="card mb-3 h-100 <%= listings[i].section %> <%= listings[i].a %> <%= listings[i].d %>">
-        <% if(typeof listings[i].img != 'undefined'){ %>
-        <img src="<%- listings[i].img %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
-        <% } %>
-        <div class="card-body d-flex flex-wrap align-content-between">
-          <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title.charAt(0).toUpperCase() + listings[i].title.slice(1) %></a></h5>
-          <div class="ca-listing" id="<%= listings[i]._id %>">Favorite</div>
-          <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- listings[i].desc %></p>
-          <code class="w-100" style="font-size:0.75rem"><%= new Date(parseInt(listings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
-
-          <div class="w-100">
-            <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < listings[i].tags.length ; j++) { %>
-            <a href="/tag/<%- listings[i].tags[j] %>"><span class="badge bg-secondary"><%- listings[i].tags[j] %></span></a>
-            <% } %>
-            <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i></span></a>
-            <% if(typeof listings[i].d != 'undefined' && listings[i].d){ %>
-            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true"></i></span></a>
-            <% } %>
-            <% if(typeof listings[i].d != 'undefined' && !listings[i].d){ %>
+  <div class="row align-items-stretch ca-listings">
+    <% for (var i = 0; listings.length> 0 && i < listings.length ; i++) { %>
+    <div class="col-sm col-md-6 col-xl-4">
+      <div class="h-100 pb-3" id="<%= listings[i]._id %>-@@@@@">
+        <div class="card mb-3 h-100 <%= listings[i].section %> <%= listings[i].a %> <%= listings[i].d %>">
+          <% if(typeof listings[i].img != 'undefined'){ %>
+          <img src="<%- listings[i].img %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
+          <% } %>
+          <div class="card-body d-flex flex-wrap align-content-between">
+            <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title.charAt(0).toUpperCase() + listings[i].title.slice(1) %></a></h5>
+            <div class="ca-listing" id="<%= listings[i]._id %>">Favorite</div>
+            <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- listings[i].desc %></p>
+            <code class="w-100" style="font-size:0.75rem"><%= new Date(parseInt(listings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
+  
+            <div class="w-100">
+              <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < listings[i].tags.length ; j++) { %>
+              <a href="/tag/<%- listings[i].tags[j] %>"><span class="badge bg-secondary"><%- listings[i].tags[j] %></span></a>
+              <% } %>
+              <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i></span></a>
+              <% if(typeof listings[i].d != 'undefined' && listings[i].d){ %>
+              <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true"></i></span></a>
+              <% } %>
+              <% if(typeof listings[i].d != 'undefined' && !listings[i].d){ %>
               <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true"></i></span></a>
-            <% } %>
+              <% } %>
+            </div>
+  
           </div>
-
         </div>
       </div>
     </div>
+    <% } %>
   </div>
   <% } %>
-</div>
-<% } %>
-
-<% if(typeof crossLangListings != 'undefined' && crossLangListings.length> 0){ %>
+  
+  <% if(typeof crossLangListings != 'undefined' && crossLangListings.length> 0){ %>
   <h3>Cross language listings</h3>
   <div class="row align-items-stretch ca-listings">
     <% for (var i = 0; crossLangListings.length> 0 && i < crossLangListings.length ; i++) { %>
@@ -59,7 +59,7 @@
               <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true"></i></span></a>
               <% } %>
               <% if(typeof crossLangListings[i].d != 'undefined' && !crossLangListings[i].d){ %>
-                <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true"></i></span></a>
+              <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true"></i></span></a>
               <% } %>
             </div>
   

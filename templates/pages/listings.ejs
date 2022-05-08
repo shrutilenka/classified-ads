@@ -27,7 +27,11 @@
     </div>
     <hr>
     <h2 class="pb-2">Listings</h2>
-    <%- include('../partials/sections/listings_parser'); %>
+    <% if(typeof context != 'undefined' && (context == 'gwoogl' || context == 'geolocation' || context == 'alllistings')){ %>
+      <%- include('../partials/sections/big_listings_parser'); %>
+    <% } else { %>
+      <%- include('../partials/sections/listings_parser'); %>
+    <% } %>
     <%- include('../partials/shared/pagination'); %>
     <%- include('../partials/sections/add_donation'); %>
     <%- include('../partials/sections/add_skill'); %>
@@ -37,5 +41,13 @@
     <%- include('../partials/shared/footer'); %>
   </div>
   <%- include('../partials/conf/beforebodyclose'); %>
+  <script>
+    {
+      const scriptElement = document.createElement("script")
+      scriptElement.src = "/javascripts/biglistings.js"
+      document.body.appendChild(scriptElement)
+
+    }
+  </script>
 </body>
 </html>

@@ -42,6 +42,7 @@ module.exports = {
     main: './src/main.js',
     skills: './src/views/skills/skills.js',
     listing: './src/views/listings/listing.js',
+    biglistings: './src/views/biglistings/biglists.js',
     tags: './src/views/tags/tags.js',
     easteregg: './src/views/easteregg/easteregg.js'
   },

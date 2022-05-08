@@ -1,0 +1,7 @@
+<% if(typeof listings != 'undefined' && (context == 'gwoogl' || context == 'geolocation' || context == 'listings')){ %>
+<div class="mixitup_container">
+  <% for (var i = 0; listings.length> 0 && i < listings.length ; i++) { %>
+  <div class="mix <%= listings[i].section %>" data-order="1"><%- listings[i].desc %></div>
+  <% } %>
+</div>
+<% } %>

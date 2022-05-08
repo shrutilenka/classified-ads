@@ -37,7 +37,7 @@ async function routes(fastify, options, next) {
             20, '', req.pagination))
         const { page, perPage } = req.pagination
         const data = {
-            context: 'listings',
+            context: 'alllistings',
             listings: listings.documents,
             addressPoints: [],
             current: page,
