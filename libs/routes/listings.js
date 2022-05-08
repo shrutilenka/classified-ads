@@ -143,6 +143,7 @@ async function routes(fastify, options, next) {
                 section: body.section,
                 addressPoints: [],
                 listings: listings.documents,
+                crossLangListings: listings.crossLangDocs,
                 current: page,
                 pages: Math.ceil(listings.count / perPage),
             }

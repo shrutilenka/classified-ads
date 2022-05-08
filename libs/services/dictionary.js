@@ -50,9 +50,9 @@ module.exports = function (languages) {
     })
 
     this.translate = function (word, from, count) {
+        if (from ==='und' || word.length < 3) return {}
         const to = transTable[from][0]
         const to_ = transTable[from][1]
-        if (word.length < 3) return undefined
         const wordid = models[from].word2id[word]
         const vector = models[from].index.getItem(wordid)
         let indices = []

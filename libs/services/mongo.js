@@ -419,7 +419,7 @@ module.exports = function (mongoDB, redisDB) {
         const daysBefore = 100
         collection = mongoDB.collection('listing')
         const ObjectId = getObjectId(daysBefore)
-        phrase = exact ? `"${phrase}"` : phrase
+        phrase = exact ? `"${phrase.trim()}"` : phrase.trim()
         const query = JSON.parse(JSON.stringify(baseQuery))
         let collation = lang === 'und' ? baseCollation : { locale: lang }
         query.$text = { $search: phrase }
@@ -442,7 +442,9 @@ module.exports = function (mongoDB, redisDB) {
         if (count < 6 && phrase.indexOf(' ') < 0) {
             let translations
             try {
+                console.log(`---------${lang}--------`)
                 translations = translator.translate(phrase, lang, 3)
+                console.log(translations)
                 for (const [lang, keywords] of Object.entries(translations)) {
                     collation = { locale: lang }
                     phrase = keywords.join(' ')
@@ -453,6 +455,9 @@ module.exports = function (mongoDB, redisDB) {
                         .sort({ score: { $meta: 'textScore' } })
                         .limit(3).toArray()
                     console.log(crossLangDocs)
+                    crossLangDocs.forEach(doc => {
+                        doc['crosslang'] = lang 
+                    })
                     result.crossLangDocs = result.crossLangDocs.concat(crossLangDocs)
                 }
                 // TODO: stack it in documents somehow
