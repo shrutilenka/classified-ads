@@ -30,6 +30,11 @@
   var __lng__ = "<%= data.lng  %>"
 </script>
 <% } %>
+<% if(typeof context != 'undefined'){ %>
+  <script>
+    var __context__ = "<%= context  %>"
+  </script>
+  <% } %>
 <% if(typeof section != 'undefined'){ %>
 <script>
   var __section__ = "<%= section  %>"

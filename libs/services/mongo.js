@@ -406,16 +406,10 @@ module.exports = function (mongoDB, redisDB) {
      * @param {*} exact whether search the exact sentense or separate terms
      * @param {*} division which division
      * @param {*} section which section
+     * @param {*} lang which language
      * @return {Promise}
      */
-    this.gwoogl = async function (
-        phrase,
-        exact,
-        division,
-        section,
-        lang,
-        pagination,
-    ) {
+    this.gwoogl = async function (phrase, exact, division, section, lang) {
         const daysBefore = 100
         collection = mongoDB.collection('listing')
         const ObjectId = getObjectId(daysBefore)
@@ -432,8 +426,8 @@ module.exports = function (mongoDB, redisDB) {
             .collation(collation)
             .project(baseProjection)
             .sort({ score: { $meta: 'textScore' } })
-            .skip(pagination.perPage * pagination.page - pagination.perPage)
-            .limit(pagination.perPage).toArray()
+            .limit(21)
+            .toArray()
         const count = await collection.countDocuments(query)
         const result = { documents: docs, count: count, crossLangDocs: [] }
         if (count > 3) {
@@ -449,16 +443,19 @@ module.exports = function (mongoDB, redisDB) {
                     collation = { locale: lang }
                     phrase = keywords.join(' ')
                     query.$text = { $search: phrase }
-                    const crossLangDocs = await collection.find(query, { score: { $meta: 'textScore' } })
+                    const crossLangDocs = await collection
+                        .find(query, { score: { $meta: 'textScore' } })
                         .collation(collation)
                         .project(baseProjection)
                         .sort({ score: { $meta: 'textScore' } })
-                        .limit(3).toArray()
+                        .limit(3)
+                        .toArray()
                     console.log(crossLangDocs)
-                    crossLangDocs.forEach(doc => {
-                        doc['crosslang'] = lang 
+                    crossLangDocs.forEach((doc) => {
+                        doc['crosslang'] = lang
                     })
-                    result.crossLangDocs = result.crossLangDocs.concat(crossLangDocs)
+                    result.crossLangDocs =
+                        result.crossLangDocs.concat(crossLangDocs)
                 }
                 // TODO: stack it in documents somehow
             } catch (error) {
@@ -539,7 +536,6 @@ module.exports = function (mongoDB, redisDB) {
         latitude,
         longitude,
         section,
-        pagination,
     ) {
         const daysBefore = 100
         collection = mongoDB.collection('listing')
@@ -559,8 +555,7 @@ module.exports = function (mongoDB, redisDB) {
             .find(query)
             .project(baseProjection)
             .sort(baseSort)
-            .skip(pagination.perPage * pagination.page - pagination.perPage)
-            .limit(pagination.perPage)
+            .limit(21)
             .toArray()
         const count = await collection.countDocuments(query)
         return { documents: docs, count: count }

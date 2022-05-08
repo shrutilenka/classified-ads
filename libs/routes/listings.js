@@ -37,6 +37,7 @@ async function routes(fastify, options, next) {
             20, '', req.pagination))
         const { page, perPage } = req.pagination
         const data = {
+            context: 'listings',
             listings: listings.documents,
             addressPoints: [],
             current: page,
@@ -54,6 +55,7 @@ async function routes(fastify, options, next) {
         const { page, perPage } = req.pagination
         const data = {
             section: section,
+            context: 'listings',
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage),
@@ -133,19 +135,17 @@ async function routes(fastify, options, next) {
             const { body } = req
             const lang = await helpers.getLanguage(body.title_desc)
             let [err, listings] = await to(QInstance.gwoogl(body.title_desc,
-                body.exact, body.div_q, body.section, lang, req.pagination))
+                body.exact, body.div_q, body.section, lang))
             if (err) {
                 req.log.error(`gwoogl#gwoogl: ${err.message}`)
                 return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
             }
-            const { page, perPage } = req.pagination
             const data = {
                 section: body.section,
+                context: 'gwoogl',
                 addressPoints: [],
                 listings: listings.documents,
                 crossLangListings: listings.crossLangDocs,
-                current: page,
-                pages: Math.ceil(listings.count / perPage),
             }
             reply.blabla([data, 'listings', 'gwoogl'], req)
             return reply
@@ -158,18 +158,16 @@ async function routes(fastify, options, next) {
         async (req, reply) => {
             const { body } = req
             let [err, listings] = await to(QInstance.getListingsByGeolocation(
-                body.lat, body.lng, body.section, req.pagination))
+                body.lat, body.lng, body.section))
             if (err) {
                 req.log.error(`geolocation#getListingsByGeolocation: ${err.message}`)
                 return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
             }
-            const { page, perPage } = req.pagination
             const data = {
                 section: body.section,
+                context: 'geolocation',
                 addressPoints: [],
                 listings: listings.documents,
-                current: page,
-                pages: Math.ceil(listings.count / perPage),
             }
             reply.blabla([data, 'listings', 'geolocation'], req)
             return reply
