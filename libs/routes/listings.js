@@ -176,11 +176,13 @@ async function routes(fastify, options, next) {
 
     const multer = require('fastify-multer')
     const postSectionHandler = require('../decorators/postSectionHandler')(fastify)
+    // TODO: only register this when upload is attached
     fastify.register(multer.contentParser)
     const upload = NODE_ENV < 1 ? helpers.localMulter : helpers.cloudMulter
     fastify.post('/donations', { preHandler: [auth, upload] }, postSectionHandler)
     fastify.post('/skills', { preHandler: [auth, upload] }, postSectionHandler)
     fastify.post('/blogs', { preHandler: auth }, postSectionHandler)
+    fastify.post('/events', { preHandler: auth }, postSectionHandler)
 
     const commentSchema = constraints[process.env.NODE_ENV].POST.comment
     /* Contact poster one listing. */

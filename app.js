@@ -289,7 +289,6 @@ async function instantiateApp() {
                 process.exit()
             })
     }
-    // TODO: use conf instead 
     const seconds = fastify.conf('PIPELINE_KEYWORDS_SECONDS') // a day
     // Use connect method to connect to the Server
     const prepareData = async () => {

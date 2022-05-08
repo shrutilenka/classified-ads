@@ -139,7 +139,7 @@ async function routes(fastify, options) {
     })
 
     fastify.get('/keyword/:keyword', async function (req, reply) {
-        const keyword = req.params.keyword
+        const keyword = req.params.keyword.trim()
         const [err, listings] = await to(QInstance.getListingsByKeyword(
             keyword, req.pagination))
         if (err) {
@@ -159,7 +159,7 @@ async function routes(fastify, options) {
 
     /* TODO: throttle this and limit requests to > 3 chars */
     fastify.get('/autocomplete/:keyword', async function (req, reply) {
-        const keyword = req.params.keyword
+        const keyword = req.params.keyword.trim()
         const [err, elems] = await to(QInstance.autocomplete(keyword))
         if (err) {
             req.log.error(`index/autocomplete#autocomplete: ${err.message}`)

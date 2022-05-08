@@ -277,7 +277,7 @@ const scripts = require('../libs/services/mongo-jobs')
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
     const QInstance = new scripts(db)
     const task = new AsyncTask(
-        'simple task',
+        'Refereshing top words accross all listings',
         () => {
             return QInstance.refreshKeywords()
                 .then((result) => {

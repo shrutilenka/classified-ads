@@ -1,9 +1,9 @@
 const { MongoDBNamespace, Collection } = require('mongodb')
-
+//.replace(/(\b(\w{1,3})\b(\W|$))/g,'').split(/\s+/).join(' ')
 const routine = `function (text) {
     const stopwords = ['the', 'this', 'and', 'or', 'id']
     text = text.replace(new RegExp('\\b(' + stopwords.join('|') + ')\\b', 'g'), '')
-    text = text.replace(/[;,.]/g, ' ')
+    text = text.replace(/[;,.]/g, ' ').trim()
     return text.toLowerCase()
 }`
 // If the pipeline includes the $out operator, aggregate() returns an empty cursor.
