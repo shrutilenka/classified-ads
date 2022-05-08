@@ -1,5 +1,5 @@
 const config = require('config')
-
+const pino = require('pino')
 module.exports = () => {
     return config.get('HEROKU') ? true : {
         file: "./logs/all.log",
@@ -9,12 +9,16 @@ module.exports = () => {
                 return {
                     method: request.method,
                     url: request.url,
-                    headers: request.headers,
+                    useragent: request.headers["user-agent"].slice(0,100),
                     hostname: request.hostname,
                     remoteAddress: request.ip,
                     remotePort: request.socket.remotePort,
                     ingest: 'fluentd'
                 }
+            },
+            res(response) {
+                if(response.statusCode == 304) return
+                return pino.stdSerializers.res
             },
         },
     }
