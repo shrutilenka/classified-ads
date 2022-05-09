@@ -59,3 +59,14 @@
 #  to give read, write, and execute to everyone. (last solution)
 # sudo chmod ugo+rwx /var/lib/db0/
 # mongod --port 27017 --dbpath /var/lib/db0 --replSet rs0 --bind_ip localhost
+
+# NODE-GYP problems
+# Node and npm version
+# upgrade to node 16 it works !
+# "gyp info find Python using Python version blablabla" then change to python 2
+# virtualenv -p /usr/bin/python2.7 temp-python
+# source ~/temp-python/bin/activate
+## or ...
+# alias python="/usr/bin/python2.7"
+
+# sudo npm install -g node-gyp

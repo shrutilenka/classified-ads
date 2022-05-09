@@ -3,7 +3,7 @@
 // * @return {Promise<string>}
 // */
 
-const { ObjectId } = require('fastify-mongodb')
+const { ObjectId } = require('@fastify/mongodb')
 const {
     MongoDBNamespace,
     Collection,
