@@ -6,7 +6,7 @@ module.exports = () => {
         crossOriginResourcePolicy: { policy: 'same-site' },
         contentSecurityPolicy: {
             directives: {
-                ...require("fastify-helmet").contentSecurityPolicy.getDefaultDirectives(),
+                ...require("@fastify/helmet").contentSecurityPolicy.getDefaultDirectives(),
                 "default-src": ["'self'", "'unsafe-eval'", 'fonts.googleapis.com', 'www.googleapis.com', 'app.zingsoft.com', toBeReplaced],
                 "style-src": ["'self'", "'unsafe-inline'", 'unpkg.com', 'cdn.jsdelivr.net',
                     'fonts.googleapis.com', 'use.fontawesome.com', 'maxcdn.bootstrapcdn.com', 'cdn.datatables.net'],

@@ -17,17 +17,17 @@ const path = require('path')
 
 const { fastifySchedulePlugin } = require('fastify-schedule')
 const fastify_ = require('fastify')
-const helmet = require('fastify-helmet')
+const helmet = require('@fastify/helmet')
 const compressPlugin = require('@fastify/compress')
 const errorPlugin = require('fastify-error-page')
 const serve = require('@fastify/static')
 const mongodb = require('@fastify/mongodb')
 const redis = require('@fastify/redis')
 const formbody = require('@fastify/formbody')
-const rateLimit = require('fastify-rate-limit')
+const rateLimit = require('@fastify/rate-limit')
 // TODO: looks heavy on memory
 // const metricsPlugin = require('fastify-metrics')
-const fastifySwagger = require('fastify-swagger')
+const fastifySwagger = require('@fastify/swagger')
 
 // Rendering systems and internationalization
 const ejs = require('ejs')
@@ -44,7 +44,7 @@ const logger_ = require('./config/options/logger')()
 const helmet_ = require('./config/options/helmet')()
 
 const crypto = require('node:crypto')
-const fastifyJWT = require('fastify-jwt')
+const fastifyJWT = require('@fastify/jwt')
 const fastifyAuth = require('@fastify/auth')
 const fastifyCookies = require('@fastify/cookie')
 const fastifySession = require('@fastify/session')
@@ -54,7 +54,7 @@ const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 // const apiSpec = require('./swagger.json')
 // async function setSwaggerStats(fastify, opts) {
-//     await fastify.register(require('fastify-express'))
+//     await fastify.register(require('@fastify/express'))
 //     fastify.register(swStats.getFastifyPlugin, { })
 // }
 

@@ -18,7 +18,7 @@ async function routes(fastify, options) {
     const blabla = require('../decorators/blabla')
 
     const bcrypt = require('bcryptjs')
-    var crypto = require('crypto')
+    var crypto = require('node:crypto')
     const jwt = require('jsonwebtoken')
     const JWT_SECRET = process.env.JWT_SECRET
     const COOKIE_NAME = config.get('COOKIE_NAME')
