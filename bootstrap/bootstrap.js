@@ -61,7 +61,7 @@ function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
 }
 
-for (let i = 0; i < 10000; i++) {
+for (let i = 0; i < 1000; i++) {
     let email
     if (i < 10) {
         email = 'bacloud14@gmail.com'
