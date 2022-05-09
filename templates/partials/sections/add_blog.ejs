@@ -1,8 +1,8 @@
-<% if(typeof section != 'undefined' && section == 'events'){ %>
+<% if(typeof section != 'undefined' && section == 'blogs'){ %>
 <br>
 <hr>
 <details>
-  <summary class="text-dark">Add an Event</summary>
+  <summary class="text-dark">Add a Blog post</summary>
   <div class="row">
     <div class="col-md-12 mt-xl-3 col-xl-5">
       <h2 class="text-dark hidden">Add an Event</h2>
@@ -17,7 +17,7 @@
       </details>
     </div>
     <div class="mt-3 mb-0 m-md-3 mb-xl-auto col-md-6 col-xl-3 " id="listing-map"></div>
-    <form class="d-flex flex-wrap p-3 m-md-3 col-md col-xl mb-xl-auto align-items-between" style="min-height:400px;" action="/listings/events" method="POST" name="addEvent">
+    <form class="d-flex flex-wrap p-3 m-md-3 col-md col-xl mb-xl-auto align-items-between" style="min-height:400px;" action="/listings/blogs" method="POST" name="addBlog">
       <div class="form-group w-100 py-2">
         <!-- <label for="title">Choose a title</label> -->
         <input name="title" class="add w-100 py-1" id="title" value="" placeholder="Title">

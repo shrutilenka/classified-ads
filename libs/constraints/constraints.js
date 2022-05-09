@@ -97,6 +97,28 @@ const skillsSchema = () => {
     }
 }
 
+const blogsSchema = () => {
+    return {
+        called: false,
+        def: S.object()
+            .prop('title', S.string().minLength(10).maxLength(100).required())
+            .prop('desc', S.string().minLength(10).maxLength(5000).required())
+            .prop(
+                'tags',
+                S.array()
+                    .minItems(1)
+                    .maxItems(3)
+                    .items(S.string().minLength(3).maxLength(TAG_SIZE))
+                    .required(),
+            )
+            .prop('offer', S.boolean().default(false))
+            .prop('lat', S.number().maximum(90).minimum(-90))
+            .prop('lng', S.number().maximum(180).minimum(-180))
+            .prop('div', S.string().minLength(3).maxLength(40))
+            .prop('section', S.string().enum(['blogs']).required()),
+    }
+}
+
 const eventsSchema = () => {
     return {
         called: false,
@@ -187,6 +209,10 @@ const constraints = {
                     requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
                 },
+                addBlog: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
                 addEvent: {
                     requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
@@ -226,12 +252,19 @@ const constraints = {
                 illustrations: false,
                 schema: donationsSchema,
             },
+            blogs: {
+                secured: true,
+                upload: true,
+                geolocation: true,
+                illustrations: false,
+                schema: blogsSchema,
+            },
             events: {
                 secured: true,
                 upload: true,
                 geolocation: true,
                 illustrations: false,
-                schema: donationsSchema,
+                schema: eventsSchema,
             },
             comment: {
                 schema: commentSchema,
@@ -273,7 +306,7 @@ const constraints = {
                 upload: true,
                 geolocation: true,
                 illustrations: false,
-                schema: donationsSchema,
+                schema: eventsSchema,
             },
             comment: {
                 schema: commentSchema,
@@ -354,7 +387,7 @@ const constraints = {
                 upload: true,
                 geolocation: true,
                 illustrations: false,
-                schema: donationsSchema,
+                schema: eventsSchema,
             },
             comment: {
                 schema: commentSchema,
@@ -435,7 +468,7 @@ const constraints = {
                 upload: true,
                 geolocation: true,
                 illustrations: false,
-                schema: donationsSchema,
+                schema: eventsSchema,
             },
             comment: {
                 schema: commentSchema,
