@@ -7,21 +7,9 @@ class MailerOps {
     constructor(db) {
         const transports = []
         // Mailhog SMTP
-        transports.push(nodemailer.createTransport(config.get('SMTP_TIMER')))
+        transports.push(nodemailer.createTransport(config.get('SMTP_MAILHOG')))
         // Outlook Apps SMTP
-        transports.push(
-            nodemailer.createTransport({
-                host: 'smtp.office365.com',
-                from: 'no-reply@classified-ads.com',
-                port: 587,
-                tls: { ciphers: 'SSLv3' },
-                secure: false,
-                auth: {
-                    user: process.env.ADMIN_EMAIL,
-                    pass: process.env.ADMIN_PASS,
-                },
-            }),
-        )
+        transports.push(nodemailer.createTransport(config.get('SMTP_OUTLOOK')))
 
         const mailQueue = new MailTime({
             db, // MongoDB
@@ -52,7 +40,15 @@ class MailerOps {
          * @param {import('fastify').FastifyRequest} [req] request object to derive i18next translations
          * @param {JSON} [data] key-values to inject to i18next
          */
-        this.sendMail = function ({to, todo, subject, text, html, req, data}) {
+        this.sendMail = function ({
+            to,
+            todo,
+            subject,
+            text,
+            html,
+            req,
+            data,
+        }) {
             // If req is provided we assume here that
             // a multilanguage version exists and data is provieded
             if (req) {
