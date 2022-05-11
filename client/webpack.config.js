@@ -4,6 +4,7 @@ const path = require('path')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const WebpackBeforeBuildPlugin = require('before-build-webpack')
+const WebpackFavicons = require('webpack-favicons');
 
 const dotenv = require('dotenv')
 const envKeys = dotenv.config()
@@ -98,7 +99,16 @@ module.exports = {
       runTasksInSeries: false,
       runOnceInWatchMode: false
     }),
-    new Dotenv()
+    new Dotenv(),
+    new WebpackFavicons({
+      src: 'assets/favicon.svg',
+      path: 'img',
+      background: '#000',
+      theme_color: '#000',
+      icons: {
+        favicons: true
+      }
+    })
   ]
 }
 

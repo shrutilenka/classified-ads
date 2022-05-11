@@ -15,11 +15,7 @@ module.exports = () => {
                     remotePort: request.socket.remotePort,
                     ingest: 'fluentd'
                 }
-            },
-            res(response) {
-                if(response.statusCode == 304) return
-                return pino.stdSerializers.res
-            },
+            }
         },
     }
 }
