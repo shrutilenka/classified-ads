@@ -14,7 +14,6 @@ const {
 } = require('../services/pipeLine.js')
 const queries = require('../services/mongo')
 // Require dependencies (fastify plugins and others)
-require('dotenv').config()
 const config = require('config')
 var tidy = require('htmltidy2').tidy
 const tidyP = promisify(tidy)

@@ -1,6 +1,5 @@
 const { SVGs } = require('../services/data').give
 // Require dependencies (fastify plugins and others)
-require('dotenv').config()
 const config = require('config')
 // incremental is better at least here in app.js
 const NODE_ENV = {
@@ -38,7 +37,7 @@ async function routes(fastify, options) {
     })
 
     /* GET home page. */
-    fastify.get('/', async function (req, reply) {
+    fastify.get('/', { preHandler: softAuth }, async function (req, reply) {
         const [err, listings] = await to(QInstance.getListingsSince(
             20, '', req.pagination))
         if (err) {

@@ -1,5 +1,4 @@
 // No auth
-require('dotenv').config()
 const config = require('config')
 const secretPath = process.env.SECRET_PATH
 

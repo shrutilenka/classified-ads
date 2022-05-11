@@ -1,4 +1,3 @@
-require('dotenv').config()
 const config = require('config')
 
 const UXBlabla = require('../services/UX-blabla')

@@ -17,6 +17,7 @@ const path = require('path')
 
 const { fastifySchedulePlugin } = require('fastify-schedule')
 const fastify_ = require('fastify')
+const fastifyWebsocket = require('@fastify/websocket')
 const helmet = require('@fastify/helmet')
 const compressPlugin = require('@fastify/compress')
 const errorPlugin = require('fastify-error-page')
@@ -49,7 +50,7 @@ const fastifyAuth = require('@fastify/auth')
 const fastifyCookies = require('@fastify/cookie')
 const fastifySession = require('@fastify/session')
 const fastifyFlash = require('@fastify/flash')
-const { verifyJWT, softVerifyJWT } = require('./libs/decorators/jwt')
+const { verifyJWT, softVerifyJWT, wsauth } = require('./libs/decorators/jwt')
 // In case we add ElasticSearch we can benefit 'swagger-stats'
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 // const apiSpec = require('./swagger.json')
@@ -71,7 +72,7 @@ async function instantiateApp() {
     })
     fastify.decorate('conf', (tag) => config.get(tag))
     fastify.register(formbody)
-
+    fastify.register(fastifyWebsocket)
     // For easy debugging (in Localhost) set ERROR_STACK= true
     // Otherwise not useful and not secure,
     if (config.get('ERROR_STACK')) {
@@ -97,7 +98,7 @@ async function instantiateApp() {
     const listingsRouter = require('./libs/routes/listings.js')
     const dataRouter = require('./libs/routes/data.js')
     const debugRouter = require('./libs/routes/debug.js')
-    const gameRouter = require('./libs/routes/game.js')
+    const chatRouter = require('./libs/routes/chat.js')
 
 
     fastify.register(helmet, helmet_)
@@ -124,7 +125,7 @@ async function instantiateApp() {
     // after necessary plugins have been loaded
     fastify.decorate('verifyJWT', verifyJWT)
     fastify.decorate('softVerifyJWT', softVerifyJWT)
-
+    fastify.decorate('wsauth', wsauth)
     const Mailer = require('./libs/services/mailer')
     const { db } = fastify.mongo
     const mailer = Mailer.getInstance(db)
@@ -268,7 +269,7 @@ async function instantiateApp() {
     if (NODE_ENV < 1) {
         fastify.register(debugRouter, { prefix: 'debug' })
     }
-    fastify.register(gameRouter, { prefix: 'game' })
+    fastify.register(chatRouter, { prefix: 'chat' })
     fastify.register(serve, { root: path.join(__dirname, 'public') })
     fastify.register(serve, { root: path.join(__dirname, 'uploads'), prefix: '/cdn/', decorateReply: false })
     /*********************************************************************************************** */

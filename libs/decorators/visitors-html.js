@@ -1,5 +1,4 @@
 // No auth
-require('dotenv').config()
 const secretPath = process.env.SECRET_PATH
 
 module.exports = `<!DOCTYPE html>

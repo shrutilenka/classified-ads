@@ -43,6 +43,7 @@
     "@fastify/session": "^8.2.0",
     "@fastify/static": "^5.0.0",
     "@fastify/swagger": "^6.0.1",
+    "@fastify/websocket": "^5.0.0",
     "@google-cloud/storage": "^5.18.3",
     "@smodin/fast-text-language-detection": "^0.2.3",
     "@toreda/adt": "^0.4.0",
@@ -90,6 +91,7 @@
     "through": "^2.3.8",
     "toad-scheduler": "^1.6.0",
     "under-pressure": "^5.8.0",
+    "uuid": "^8.3.2",
     "visitor-counter": "github:bacloud22/visitor-counter#3",
     "wink-nlp-utils": "^2.0.7"
   },

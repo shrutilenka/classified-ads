@@ -1,4 +1,3 @@
-require('dotenv').config()
 const config = require('config')
 // incremental is better at least here in app.js
 const NODE_ENV = {
