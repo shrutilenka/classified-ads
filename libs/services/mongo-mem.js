@@ -10,11 +10,12 @@ let listings
  * @param { import('ioredis').Redis } redisDB
  */
 async function cache(mongoDB, redisDB) {
+    console.log('Running MongoDB cache')
     let collection
     // fill in listings
-    collection = mongoDB.collection('listings')
+    collection = mongoDB.collection('listing')
     const tmp = await collection
-        .find()
+        .find({})
         .project({ _id: 1.0, usr: 1.0 })
         .toArray()
     listings = tmp.map((doc) => {
@@ -23,7 +24,7 @@ async function cache(mongoDB, redisDB) {
 }
 
 function isAuthor(id, author) {
-    return listings[id] && listings[id].author === author
+    return listings.find(l => l.id == id && l.author == author)
 }
 
 module.exports = { cache, isAuthor }

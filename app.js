@@ -321,6 +321,7 @@ async function instantiateApp() {
             // TODO: deal with production indexes and map reduce functions
             await bootstrap.createIndexes(db)
             bootstrap.registerPipelines(db, fastify.scheduler, seconds)
+            await mongoMem.cache(db, redis)
         }
 
         // db.on('error', function (error) {
