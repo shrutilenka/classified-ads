@@ -40,6 +40,11 @@
   var __section__ = "<%= section  %>"
 </script>
 <% } %>
+<% if(typeof channel != 'undefined'){ %>
+  <script>
+    var __channel__ = "<%= channel  %>"
+  </script>
+<% } %>
 <% if(typeof data != 'undefined' && typeof data.font != 'undefined'){ %>
 <script>
   var __font__ = "<%= data.font  %>"

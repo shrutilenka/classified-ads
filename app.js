@@ -23,6 +23,7 @@ const compressPlugin = require('@fastify/compress')
 const errorPlugin = require('fastify-error-page')
 const serve = require('@fastify/static')
 const mongodb = require('@fastify/mongodb')
+const mongoMem = require('./libs/services/mongo-mem')
 const redis = require('@fastify/redis')
 const formbody = require('@fastify/formbody')
 const rateLimit = require('@fastify/rate-limit')
@@ -311,6 +312,7 @@ async function instantiateApp() {
                 // not working on heroku for some reason
                 if (!fastify.conf('HEROKU'))
                     bootstrap.registerPipelines(db, fastify.scheduler, seconds)
+                await mongoMem.cache(db, redis)
             }).catch((err) => {
                 fastify.log.error('Refusing to start because of ' + err)
                 process.exit()

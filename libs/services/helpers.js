@@ -1,6 +1,6 @@
 const fs = require('fs')
 const Multer = require('fastify-multer')
-
+const crypto = require('node:crypto')
 const ops = {}
 
 // Initiate Multer Object (a middleware for handling multipart/form-data),
@@ -106,4 +106,35 @@ ops.initials = function initials(email) {
     return email
 }
 
-module.exports = { ops, EphemeralData }
+var Xorc = function(salt){
+    var randomMax = 100,
+        randomMin = -100;
+    var saltInt = parseInt(salt);
+    if ( salt ) {
+        if ( !saltInt ) throw new Error('Salt is not a Number');
+        this.salt = saltInt;
+    }
+    else {
+        this.salt = Math.round(Math.random()*(randomMax-randomMin)+randomMin);
+    }
+}
+
+Xorc.prototype.encrypt = function(str) {
+    var result = '';
+    for (var i=0; i<str.length; i++) {
+        result += String.fromCharCode( this.salt ^ str.charCodeAt(i) );
+        
+    }
+    return result;
+}
+
+Xorc.prototype.decrypt = function(hash) {
+    var result = '';
+    for (var i=0; i<hash.length; i++) {
+        result += String.fromCharCode( this.salt ^ hash.charCodeAt(i) );
+    }
+    return result;
+}
+
+
+module.exports = { ops, EphemeralData, Xorc }
