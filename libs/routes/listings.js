@@ -90,11 +90,49 @@ async function routes(fastify, options, next) {
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
 
         const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
+        // Todo: if author == viewer then the author could have multiple channels on one thread 
         data = { data: elem, section: elem.section, author, channel }
         reply.blabla([data, 'listing', 'id'], req)
         return reply
     })
 
+    /* GET one new channel at least or all channels. */
+    // TODO: cache later on Redis
+    const allChannels = [{
+        au: 'super_author', 
+        vi: 'logged_in_viewer',
+        th: 'LISTING0435232'
+    }]
+    fastify.get('/id/:id/channel', { preHandler: auth }, async function (req, reply) {
+        let channels = []
+        const viewer = req.params.username
+        const thread = req.params.id
+        const hex = /[0-9A-Fa-f]{6}/g
+        // replace getListingById by a quicker QInstance.listingExists()
+        const [err, elem] = (hex.test(thread))
+            ? await to(QInstance.getListingById(thread, false, viewer))
+            : ['NOT_FOUND', undefined]
+        if (err === 'NOT_FOUND' || !elem) return reply.send({err: 'NOT_FOUND'})
+        if (err) {
+            req.log.error(`get/id#getListingById: ${err.message}`)
+            return reply.send({err: 'SERVER_ERROR'})
+        }
+        const author = elem.usr;
+        // update allChannels with new channel if needed
+        if(!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
+            allChannels.push({ au: author, vi: viewer, th: thread})
+        }
+        // get channels conveniant to this thread and viewer
+        if(author === viewer) {
+            channels = allChannels.filter((ch) => ch.au === author)
+        } else {
+            channels = allChannels.filter((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)
+        }
+        // encrypt channels names
+        channels = channels.map(channel => crypto.encrypt(key, `${channel.au},${channel.vi},${channel.th}`))
+        return reply.send({channels})
+    })
+    
     /* GET one listing; must not be deactivated. */
     const COOKIE_NAME = config.get('COOKIE_NAME')
     fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
