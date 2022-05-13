@@ -180,7 +180,8 @@ module.exports = function (mongoDB, redisDB) {
         const getListingById = new encoder.getListingById()
         const unique = `glid:${id}`
         const canView = (doc) => isAdmin || doc.usr === viewer || doc['a']
-        const cached = await redisDB.exists(unique)
+        
+        const cached = await redisDB.exists(unique)// && false
         collection = mongoDB.collection('listing')
         // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
         const query = {}

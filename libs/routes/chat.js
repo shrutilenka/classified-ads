@@ -1,8 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
-const Xorc = require('../services/helpers').Xorc
-var xorc = new Xorc(99)
 const mongoMem = require('../services/mongo-mem')
-
+const crypto = require('../services/helpers').crypto
+const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 async function routes(fastify, options) {
     const channels = new Map()
 
@@ -14,14 +13,20 @@ async function routes(fastify, options) {
         }
     })
 
-    // const interval = setInterval(function ping() {
-    //     wss.clients.forEach(function each(ws) {
-    //         if (ws.isAlive === false) return ws.terminate();
+    setInterval(function ping() {
+        fastify.websocketServer.clients.forEach(function each(ws) {
+            console.log('cleaning dead sockets')
+            if (ws.isAlive === false) return ws.terminate()
 
-    //         ws.isAlive = false;
-    //         ws.ping();
-    //     });
-    // }, 30000);
+            ws.isAlive = false
+            ws.ping()
+        })
+    }, 10000)
+
+    setInterval(function () {
+        console.log('refreshing channels')
+        refreshChannels(channels)
+    }, 10000)
 
     fastify.get('/ping/*', { websocket: true }, (connection, request) => {
         connection.socket.id = uuidv4()
@@ -30,8 +35,7 @@ async function routes(fastify, options) {
         // Client connect
         console.log(`Browser connected ${socket.id}`)
         console.log(`Client connected ${user}`)
-        // const channel = xorc.decrypt(request.query.channel)
-        const channel = request.query.channel
+        const channel = crypto.decrypt(key, request.query.channel)
         console.log(`Channel identified ${channel}`)
         if (validChannel(channel, user)) {
             addToChannel(channel, socket)
@@ -44,14 +48,6 @@ async function routes(fastify, options) {
             connection.destroy()
             return
         }
-        // Client message
-        socket.on('message', (message) => {
-            console.log(`Client message: ${message}`)
-        })
-        // Client disconnect
-        socket.on('close', () => {
-            console.log('Client disconnected')
-        })
 
         // New user
         broadcast({
@@ -60,7 +56,8 @@ async function routes(fastify, options) {
         })
         // Leaving user
         socket.on('close', () => {
-            socket.destroy()
+            socket.isAlive = false
+            connection.destroy()
             broadcast({
                 sender: '__server',
                 message: `${user} left`,
@@ -81,7 +78,7 @@ async function routes(fastify, options) {
     }
 
     function validChannel(channel, user) {
-        let [author, claimedUser, thread] = channel.split('-')
+        let [author, claimedUser, thread] = channel.split(',')
         return user === claimedUser && mongoMem.isAuthor(thread, author)
     }
 

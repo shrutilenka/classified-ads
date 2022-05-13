@@ -1,6 +1,6 @@
 const helpers = require('../services/helpers').ops
-const Xorc = require('../services/helpers').Xorc
-var xorc = new Xorc(99)
+const crypto = require('../services/helpers').crypto
+const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 const config = require('config')
 // incremental is better at least here in app.js
 const NODE_ENV = {
@@ -72,7 +72,7 @@ async function routes(fastify, options, next) {
     fastify.get('/events', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/skills', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/blogs', { preHandler: softAuth }, getSectionHandler)
-
+    
     /* GET one listing; must not be deactivated. */
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
         const viewer = req.params.username
@@ -80,7 +80,7 @@ async function routes(fastify, options, next) {
         const [err, elem] = (hex.test(req.params.id))
             ? await to(QInstance.getListingById(req.params.id, false, viewer))
             : ['NOT_FOUND', undefined]
-        if (err === 'NOT_FOUND') return reply.blabla([{}, 'message', 'NOT_FOUND'], req)
+        if (err === 'NOT_FOUND' || !elem) return reply.blabla([{}, 'message', 'NOT_FOUND'], req)
         if (err) {
             req.log.error(`get/id#getListingById: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -88,8 +88,8 @@ async function routes(fastify, options, next) {
         let data = {}
         const author = elem.usr;
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
-        // const channel = xorc.encrypt(`${author},${viewer},${req.params.id}`)
-        const channel = (`${author}-${viewer}-${req.params.id}`)
+
+        const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
         data = { data: elem, section: elem.section, author, channel }
         reply.blabla([data, 'listing', 'id'], req)
         return reply
