@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-xl navbar-dark bg-dark mb-4">
+<!-- <nav class="navbar navbar-expand-xl navbar-dark bg-dark mb-4">
   <div class="container-fluid">
     <a class="navbar-brand" data-trans="(today)" href="/">Classified-ads</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,11 +27,11 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="fa fa-home"></span> </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <% if(typeof user == 'undefined'){ %>
+            <%# if(typeof user == 'undefined'){ %>
             <li><a class="dropdown-item" data-trans="(login)" href="/login">Login 🔒</a></li>
-            <% } else { %>
+            <%# } else { %>
             <li><a class="dropdown-item" href="/listings/user"><span class="fa fa-user"></span> Welcome <%= user.nickname %></a></li>
-            <% }%>
+            <%# }%>
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -45,10 +45,10 @@
       </form>
     </div>
   </div>
-</nav>
+</nav> -->
 
 <header class="p-3 bg-dark text-white">
-  <div class="container">
+  <div class="container-fluid">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
         <img src="/javascripts/img/favicon-48x48.png" height="32">
@@ -60,13 +60,21 @@
         <li><a data-trans="(events)" href="/listings/events" class="nav-link px-2 text-white">Events</a></li>
         <li><a data-trans="(skills)" href="/listings/skills" class="nav-link px-2 text-white">Skills</a></li>
         <li><a data-trans="(blogs)" href="/listings/blogs" class="nav-link px-2 text-white">Blogs</a></li>
-
       </ul>
 
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
         <input id="autoComplete" class="form-control form-control-dark text-white bg-dark" type="search" spellcheck=false autocomplete="off" placeholder="Quick search...">
       </form>
-      <ul class="nav">
+
+      <div class="text-end">
+        <% if(typeof user.nickname === 'undefined' || user.nickname === ''){ %>
+        <button type="button" class="btn btn-outline-light me-2" href="/login">Login</button>
+        <button type="button" class="btn btn-warning" href="/signup">Sign-up</button>
+        <% } else { %>
+        <a class="dropdown-item" href="/listings/user"><span class="fa fa-user"></span> Welcome <%= user.nickname %></a>
+        <% }%>
+      </div>
+      <ul class="nav float-end">
         <li class="nav-item px-xl-2">
           <select class="selectpicker" id="langSelect">
             <option value="en-US" data-content='English'>🇬🇧</option>
@@ -75,12 +83,7 @@
           </select>
         </li>
       </ul>
-      <div class="text-end">
-        <button type="button" class="btn btn-outline-light me-2" href="/login">Login</button>
-        <button type="button" class="btn btn-warning" href="/signup">Sign-up</button>
-      </div>
     </div>
   </div>
 </header>
-
 <h1 class="loading-text">0%</h1>

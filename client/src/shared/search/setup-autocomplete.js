@@ -13,7 +13,7 @@ export const setupAutoComplete = async () => {
     try {
       const autoCompleteJS = new autoComplete({
         selector: '#autoComplete',
-        placeHolder: 'Search for Listings...',
+        placeHolder: 'Quick search...',
         data: {
           src: async (query) => {
             try {
