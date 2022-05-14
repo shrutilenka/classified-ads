@@ -103,7 +103,7 @@ async function routes(fastify, options, next) {
         vi: 'logged_in_viewer',
         th: 'LISTING0435232'
     }]
-    fastify.get('/id/:id/channel', { preHandler: auth }, async function (req, reply) {
+    fastify.get('/id/:id/channels', { preHandler: auth }, async function (req, reply) {
         let channels = []
         const viewer = req.params.username
         const thread = req.params.id
@@ -117,19 +117,20 @@ async function routes(fastify, options, next) {
             req.log.error(`get/id#getListingById: ${err.message}`)
             return reply.send({err: 'SERVER_ERROR'})
         }
-        const author = elem.usr;
+        const author = elem.usr
+        const newChannel = { au: author, vi: viewer, th: thread}
         // update allChannels with new channel if needed
         if(!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
-            allChannels.push({ au: author, vi: viewer, th: thread})
+            allChannels.push(newChannel)
         }
         // get channels conveniant to this thread and viewer
         if(author === viewer) {
-            channels = allChannels.filter((ch) => ch.au === author)
+            channels = allChannels.filter((ch) => ch.au == author && ch.th == thread)
         } else {
-            channels = allChannels.filter((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)
+            channels.push(newChannel)
         }
         // encrypt channels names
-        channels = channels.map(channel => crypto.encrypt(key, `${channel.au},${channel.vi},${channel.th}`))
+        channels = channels.map(ch => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
         return reply.send({channels})
     })
     
@@ -140,7 +141,7 @@ async function routes(fastify, options, next) {
         const [err, elem] = (hex.test(req.params.id))
             ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
             : ['NOT_FOUND', undefined]
-        if (err === 'NOT_FOUND') return reply.send({ boom: ':(' })
+        if (err === 'NOT_FOUND' || !elem) return reply.send({ boom: ':(' })
         if (err) {
             req.log.error(`get/id/comments#getListingById: ${err.message}`)
             return reply.send({ boom: ':(' })
