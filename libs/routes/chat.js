@@ -21,12 +21,12 @@ async function routes(fastify, options) {
             ws.isAlive = false
             ws.ping()
         })
-    }, 10000)
+    }, 100000)
 
     setInterval(function () {
         console.log('refreshing channels')
         refreshChannels(channels)
-    }, 10000)
+    }, 100000)
 
     fastify.get('/ping/*', { websocket: true }, (connection, request) => {
         connection.socket.id = uuidv4()
