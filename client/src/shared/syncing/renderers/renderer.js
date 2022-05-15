@@ -2,8 +2,22 @@
 import { LIS } from '../../../helpers/lis'
 import { commentsTemplate } from './templates/comments-template'
 import { topDivsTemplate } from './templates/top-divs-template'
+import { topSearchesTemplate } from './templates/top-searches-template'
 import { topTagsTemplate } from './templates/top-tags-template'
 
+
+export function renderTopSearches() {
+  const topSearches = LIS.id('sync-top-searches')
+  if (!topSearches) {
+    return
+  }
+  fetch(`/top/searches`)
+    .then(response => response.json())
+    .then(data => {
+      const html = window.ejs.render(topSearchesTemplate, { tags: data })
+      topSearches.innerHTML = html
+    })
+}
 
 export function renderComments() {
   const comments = LIS.id('sync-comments')

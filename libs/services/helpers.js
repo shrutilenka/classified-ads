@@ -4,7 +4,7 @@ const ops = {}
 const crypto = {}
 
 // Initiate Multer Object (a middleware for handling multipart/form-data),
-// when env is not monkey chaos
+// when env is not api env
 ops.cloudMulter = Multer({
     storage: Multer.memoryStorage(),
     limits: {

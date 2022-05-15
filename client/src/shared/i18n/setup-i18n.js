@@ -21,7 +21,7 @@ export const setupI18n = async () => {
         .use(HttpApi)
         .use(LanguageDetector)
         .init({
-          fallbackLng: 'en-US',
+          fallbackLng: process.env.DEFAULT_LANG,
           debug: ['development', 'localhost'].includes(process.env.NODE_ENV),
           ns: ['common'],
           defaultNS: 'common',
@@ -29,7 +29,17 @@ export const setupI18n = async () => {
           // load from i18next-gitbook repo
             loadPath: '/locales/{{lng}}/common.json',
             crossDomain: true
-          }
+          },
+          cookiename: 'locale',
+          detection: {
+              order: ['cookie'],
+              lookupCookie: 'locale',
+              caches: ['cookie']
+          },
+          cache: {
+              enabled: true,
+          },
+          load: 'languageOnly',
         }).then(function(t) {
           if (cookizz.locale) {
             i18next.changeLanguage(cookizz.locale).then((t) => {

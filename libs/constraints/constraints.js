@@ -272,7 +272,7 @@ const constraints = {
         },
     },
     // to change
-    'monkey chaos': {
+    'api env': {
         GET: {},
         POST: {
             login: {

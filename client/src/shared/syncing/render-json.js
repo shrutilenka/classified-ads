@@ -3,13 +3,14 @@
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Sync data @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 import { markRequiredInputs, updatePostPostInputs } from './ReactiveUI/constraints'
-import { renderComments, renderTopByDiv, renderTopTags } from './renderers/renderer'
+import { renderComments, renderTopByDiv, renderTopSearches, renderTopTags } from './renderers/renderer'
 export const renderShared = async () => {
   return new Promise(function (resolve, reject) {
     try {
       if (window.__section__) {
         renderTopTags(window.__section__)
       }
+      renderTopSearches()
       renderTopByDiv()
       renderComments()
       markRequiredInputs()

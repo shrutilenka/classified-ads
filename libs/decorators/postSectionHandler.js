@@ -19,7 +19,7 @@ var tidy = require('htmltidy2').tidy
 const tidyP = promisify(tidy)
 // incremental is better at least here in app.js
 const NODE_ENV = {
-    'monkey chaos': -1,
+    'api env': -1,
     localhost: 0,
     development: 1,
     production: 2,

@@ -4,7 +4,7 @@ process.title = 'classified-ads'
 const config = require('config')
 // Incremental is better
 const NODE_ENV = {
-    'monkey chaos': -1,
+    'api env': -1,
     'localhost': 0,
     'development': 1,
     'production': 2
@@ -164,7 +164,11 @@ async function instantiateApp() {
             lookupCookie: 'locale',
             caches: ['cookie']
         },
-        // debug: true, // set debug: true for logging errors in internationalization
+        cache: {
+            enabled: true,
+        },
+        load: 'languageOnly',
+        debug: NODE_ENV < 1,
     })
     fastify.register(i18nextMiddleware.plugin, {
         i18next,
@@ -202,7 +206,10 @@ async function instantiateApp() {
 
     /*********************************************************************************************** */
     // !!SPAM ASSASSIN !!
-    fastify.register(rateLimit, config.get('PING_LIMITER'))
+    if (NODE_ENV > 1) {
+        fastify.register(rateLimit, config.get('PING_LIMITER'))
+    }
+    
     // against 404 endoint ddos
     // fastify.setNotFoundHandler({
     //     preHandler: fastify.rateLimit()
@@ -216,14 +223,14 @@ async function instantiateApp() {
     //     maxEventLoopUtilization:0.98
     // })    
       
-    // TODO: Rate limiter && honeyPot except in process.env === 'monkey chaos'
+    // TODO: Rate limiter && honeyPot except in process.env === 'api env'
     fastify.addHook('preHandler', (req, reply, done) => {
         // TODO: req.socket ? does it work ?
         let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
         if (ip.substr(0, 7) === '::ffff:') {
             ip = ip.substr(7)
         }
-        if (NODE_ENV < 1 || ip.split('.')[0] === '127') {
+        if (NODE_ENV <= 1 || ip.split('.')[0] === '127') {
             done()
             return
         }
@@ -301,7 +308,7 @@ async function instantiateApp() {
         const colListings = db.collection('listing')
         const colUsers = db.collection('users')
         // Create indexes
-        //process.env.NODE_ENV in {localhost, monkey chaos}
+        //process.env.NODE_ENV in {development, localhost, api env}
         if (NODE_ENV <= 1) {
             await colListings.deleteMany({})
             await colUsers.deleteMany({})
@@ -343,7 +350,7 @@ async function instantiateApp() {
 
     /*********************************************************************************************** */
     // !!APP AND USER METRICS!!
-    // Don't track for monkey chaos env (API testing)
+    // Don't track for api env env (API testing)
     const secretPath = process.env.SECRET_PATH
     const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
     if (NODE_ENV > -1 && process.env.worker_id == '1') {

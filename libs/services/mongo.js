@@ -598,6 +598,23 @@ module.exports = function (mongoDB, redisDB) {
             .toArray()
     }
 
+    // One day
+    let topSearches = new EphemeralData(86400000)
+    this.topSearches = async function () {
+        if (topSearches.isSame()) {
+            return topSearches.data
+        }
+        topSearches.reset()
+        collection = mongoDB.collection('words')
+        topSearches.data = await collection
+            .find({ })
+            .project({ _id: 1 })
+            .sort(/* somehow */)
+            .limit(10)
+            .toArray()
+        return topSearches.data
+    }
+
     this.getListingsByKeyword = async function (keyword, pagination) {
         collection = mongoDB.collection('words')
         const result = await collection.findOne({ _id: keyword })
