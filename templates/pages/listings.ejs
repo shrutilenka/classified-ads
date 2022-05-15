@@ -14,15 +14,10 @@
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
     </div>
     
-    <div id="sync-top-tags"></div>
+    <div class="nav-scroller py-1 mb-2" id="sync-top-tags"></div>
     <%- include('../partials/sections/geo_search_map'); %>
     <%- include('../partials/forms/gwoogl'); %>
-    <div class="search d-flex py-4">
-      <div class="mx-auto mx-lg-0">
-        <label for="qsearch">Highlight listings</label>
-        <input type="text" name="qsearch" maxlength="8" size="10" placeholder="Today listings" data-trans="placeholder=(today-listings);html=(today-listings)" required>
-      </div>
-    </div>
+
     <hr>
     <h2 class="pb-2">Listings</h2>
     <% if(typeof context != 'undefined' && (context == 'gwoogl' || context == 'geolocation' || context == 'alllistings')){ %>

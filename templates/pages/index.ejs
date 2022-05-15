@@ -14,15 +14,9 @@
         <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
       </div>
 
-      <div id="sync-top-by-div"></div>
+      <div class="nav-scroller py-1 mb-2" id="sync-top-by-div"></div>
       <div id="delimitations-map"></div>
 
-      <div class="search d-flex py-4">
-        <div class="mx-auto mx-lg-0">
-          <label class="text-centermb-1 sm:mb-0" for="qsearch">Highlight listings</label>
-          <input type="text" name="qsearch" maxlength="8" size="10" placeholder="Today listings" required>
-        </div>
-      </div>
       <br>
       <%- include('../partials/sections/listings_parser'); %>
       <%- include('../partials/shared/pagination'); %>

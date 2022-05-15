@@ -47,44 +47,107 @@
   </div>
 </nav> -->
 
-<header class="p-3 bg-dark text-white" style="margin-bottom: 1rem;">
+<header class="p-3 bg-dark text-white">
   <div class="container-fluid">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-        <img src="/javascripts/img/favicon-48x48.png" height="32">
-      </a>
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              <img src="/javascripts/img/favicon-48x48.png" height="32">
+          </a>
 
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a data-trans="(categories)" href="/categories" class="nav-link px-2 text-secondary">Categories</a></li>
-        <li><a data-trans="(donations)" href="/listings/donations" class="nav-link px-2 text-white">Donations</a></li>
-        <li><a data-trans="(events)" href="/listings/events" class="nav-link px-2 text-white">Events</a></li>
-        <li><a data-trans="(skills)" href="/listings/skills" class="nav-link px-2 text-white">Skills</a></li>
-        <li><a data-trans="(blogs)" href="/listings/blogs" class="nav-link px-2 text-white">Blogs</a></li>
-      </ul>
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a data-trans="(categories)" href="/categories" class="nav-link px-2 text-secondary">Categories</a>
+              </li>
+              <li><a data-trans="(donations)" href="/listings/donations"
+                      class="nav-link px-2 text-white">Donations</a></li>
+              <li><a data-trans="(events)" href="/listings/events" class="nav-link px-2 text-white">Events</a></li>
+              <li><a data-trans="(skills)" href="/listings/skills" class="nav-link px-2 text-white">Skills</a></li>
+              <li><a data-trans="(blogs)" href="/listings/blogs" class="nav-link px-2 text-white">Blogs</a></li>
+          </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input id="autoComplete" class="form-control form-control-dark text-white bg-dark" type="search" spellcheck=false autocomplete="off" placeholder="Quick search...">
-      </form>
+          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+              <input id="autoComplete" class="form-control form-control-dark text-white bg-dark" type="search"
+                  spellcheck=false autocomplete="off" placeholder="Quick search...">
+          </form>
 
-      <div class="text-end">
-        <% if(typeof user.nickname === 'undefined' || user.nickname === ''){ %>
-        <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
-        <a href="/signup"><button type="button" class="btn btn-warning">Sign-up</button></a>
-        <% } else { %>
-        <a class="dropdown-item" href="/listings/user"><span class="fa fa-user"></span> Welcome <%= user.nickname %></a>
-        <% }%>
+          <div class="text-end">
+              <% if(typeof user.nickname==='undefined' || user.nickname==='' ){ %>
+                  <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+                  <a href="/signup"><button type="button" class="btn btn-warning">Sign-up</button></a>
+                  <% } else { %>
+                      <a class="dropdown-item" href="/listings/user"><span class="fa fa-user"></span> Welcome <%=
+                              user.nickname %></a>
+                      <% }%>
+          </div>
+          <ul class="nav float-end">
+              <li class="nav-item px-xl-2">
+                  <select class="selectpicker" id="langSelect">
+                      <option value="en-US" data-content='English'>🇬🇧</option>
+                      <option value="ar" data-content='عربية'>🇩🇿</option>
+                      <option value="fr" data-content='Français'>🇫🇷</option>
+                  </select>
+              </li>
+          </ul>
       </div>
-      <ul class="nav float-end">
-        <li class="nav-item px-xl-2">
-          <select class="selectpicker" id="langSelect">
-            <option value="en-US" data-content='English'>🇬🇧</option>
-            <option value="ar" data-content='عربية'>🇩🇿</option>
-            <option value="fr" data-content='Français'>🇫🇷</option>
-          </select>
-        </li>
-      </ul>
-    </div>
   </div>
 </header>
 
+<nav class="bd-subnavbar py-2" aria-label="Secondary navigation">
+  <div class="container-xxl d-flex align-items-md-center">
+      <form class="bd-search position-relative me-auto">
+          <div class="search">
+              <input type="search"
+                  name="qsearch"
+                  class="form-control ds-input"
+                  maxlength="8"
+                  size="10"
+                  placeholder="Today listings"
+                  style="position: relative; vertical-align: top;"
+                  dir="auto"
+                  required>
+          </div>
+      </form>
+
+      <div class="dropdown ms-3">
+          <button class="btn btn-bd-light dropdown-toggle" id="bd-versions" data-bs-toggle="dropdown"
+              aria-expanded="false" data-bs-display="static">
+              <span class="d-none d-lg-inline">Bootstrap</span> v5.0
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-versions">
+              <li><a class="dropdown-item current" aria-current="true" href="/docs/5.0/">Latest (5.0.x)</a></li>
+              <li>
+                  <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="https://getbootstrap.com/docs/4.6/">v4.6.x</a></li>
+              <li><a class="dropdown-item" href="https://getbootstrap.com/docs/3.4/">v3.4.1</a></li>
+              <li><a class="dropdown-item" href="https://getbootstrap.com/2.3.2/">v2.3.2</a></li>
+              <li>
+                  <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="/docs/versions/">All versions</a></li>
+          </ul>
+      </div>
+
+
+      <button class="btn bd-sidebar-toggle d-md-none py-0 px-1 ms-3 order-3 collapsed" type="button"
+          data-bs-toggle="collapse" data-bs-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false"
+          aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-expand" fill="currentColor"
+              viewBox="0 0 16 16">
+              <title>Expand</title>
+              <path fill-rule="evenodd"
+                  d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z">
+              </path>
+          </svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-collapse" fill="currentColor"
+              viewBox="0 0 16 16">
+              <title>Collapse</title>
+              <path fill-rule="evenodd"
+                  d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z">
+              </path>
+          </svg>
+
+      </button>
+  </div>
+</nav>
 <h1 class="loading-text">0%</h1>
