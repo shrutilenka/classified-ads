@@ -12,11 +12,11 @@
   <div id="lower_right" class="svg"></div>
   <div class="container">
     <%- include('partials/navbar'); %>
-    <h1 class="servervar">
-      <%= title %>
-    </h1>
-    <p class="servervar">welcome-to <%= title %>
-    </p>
+    <div class="bg-light p-5 rounded">
+      <h1><%= title %></h1>
+      <p class="lead"><%= intro %></p>
+      <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
+    </div>
     <br>
     <div id="game-map"></div>
     <%- include('partials/footer'); %>

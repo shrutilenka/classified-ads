@@ -18,9 +18,11 @@
   <div id="lower_right" class="svg"></div>
   <%- include('../partials/shared/navbar'); %>
   <div class="container">
-    <h1 class="servervar">
-      <%= title %>
-    </h1>
+    <div class="bg-light p-5 rounded">
+      <h1><%= title %></h1>
+      <p class="lead"><%= intro %></p>
+      <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
+    </div>
     <% if(typeof data.lang === 'undefined' || data.lang !== 'ar'){ %>
     <div class="listing">
       <% } else { %>
