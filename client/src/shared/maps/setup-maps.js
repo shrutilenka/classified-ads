@@ -1,11 +1,11 @@
-import { LIS } from '../../helpers/lis'
-import { listingMap } from './create-maps/create-listing-map'
-import { delimitationsMap } from './create-maps/create-delimitations-map'
-import { geoSearchMap } from './create-maps/create-geo-search-map'
-import { gameMap } from './create-maps/create-game-map'
 import L from 'leaflet'
 import { MarkerClusterGroup } from 'leaflet.markercluster/src'
 import { APIHost } from '../../consts'
+import { LIS } from '../../helpers/lis'
+import { delimitationsMap } from './create-maps/create-delimitations-map'
+import { gameMap } from './create-maps/create-game-map'
+import { geoSearchMap } from './create-maps/create-geo-search-map'
+import { listingMap } from './create-maps/create-listing-map'
 import { tweakLeaflet } from './tweak-leaflet'
 const __lat__ = window.__lat__
 const __lng__ = window.__lng__
@@ -84,6 +84,7 @@ export const setupMaps = () => {
     map = gameMap({ lat, lng, layerFactory, zoom })
     maps.push(map)
   }
+  // TODO: handle invalidateSize in the same way for Bootstrap accordions !
   const details = document.querySelectorAll('details')
   details.forEach((a) => {
     a.addEventListener('toggle', function () {

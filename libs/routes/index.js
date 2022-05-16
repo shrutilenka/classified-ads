@@ -48,8 +48,12 @@ async function routes(fastify, options) {
         const data = {
             listings: listings.documents,
             current: page,
-            pages: Math.ceil(listings.count / perPage)
+            pages: Math.ceil(listings.count / perPage),
+            addressPoints: []
         }
+        data.addressPoints = listings.documents.map((a) => {
+            return [a.lat, a.lng, a.title, a._id]
+        })
         reply.blabla([data, 'index', 'listings'], req)
         return reply
     })
