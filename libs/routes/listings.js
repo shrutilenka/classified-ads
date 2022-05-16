@@ -125,9 +125,11 @@ async function routes(fastify, options, next) {
         }
         // get channels conveniant to this thread and viewer
         if(author === viewer) {
+            // get channels of all visitors (viewer) for the autor
             channels = allChannels.filter((ch) => ch.au == author && ch.th == thread)
         } else {
-            channels.push(newChannel)
+            // find the one channel for the current viewer 
+            channels = allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)
         }
         // encrypt channels names
         channels = channels.map(ch => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
