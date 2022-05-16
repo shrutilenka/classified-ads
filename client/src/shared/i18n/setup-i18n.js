@@ -32,14 +32,14 @@ export const setupI18n = async () => {
           },
           cookiename: 'locale',
           detection: {
-              order: ['cookie'],
-              lookupCookie: 'locale',
-              caches: ['cookie']
+            order: ['cookie'],
+            lookupCookie: 'locale',
+            caches: ['cookie']
           },
-          cache: {
-              enabled: true,
-          },
-          load: 'languageOnly',
+          // cache: {
+          //   enabled: true,
+          // },
+          // load: 'languageOnly',
         }).then(function(t) {
           if (cookizz.locale) {
             i18next.changeLanguage(cookizz.locale).then((t) => {

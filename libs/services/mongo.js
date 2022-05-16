@@ -812,6 +812,10 @@ module.exports = function (mongoDB, redisDB) {
             .deleteOne({ _id: ObjectId(id) })
         return result
     }
+
+    this.existsDocument = async function (id, collName) {
+        return await redisDB.exists(`cacheIds:${collName}:${id}`)
+    }
 }
 
 // // function traceMethodCalls(obj) {

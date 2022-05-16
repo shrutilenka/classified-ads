@@ -35,18 +35,11 @@
 </h3>
 <div id="chat"></div>
 <input id="message" type="text" autofocus />
+<div id="channels"></div>
 <script>
     let _ws = null
-    init()
+    // init()
     function init() {
-        let username = getUsername()
-        if (!username) {
-            sessionStorage.setItem('username', prompt('Enter username'))
-            username = getUsername()
-        }
-        if (!username) {
-            init()
-        }
         _ws = new WebSocket(
             `ws://${window.location.host}/chat/ping/?channel=${__channel__}`,
         )
@@ -65,12 +58,19 @@
             }
         }
     }
-    function getUsername() {
-        return sessionStorage.username
-    }
     function appendMessage(message) {
         document.getElementById(
             'chat',
         ).innerHTML += `<div><b>${message.sender}:&nbsp;</b>${message.message}</div>`
     }
+
+    const channels = document.getElementById('channels')
+    if (channels) {
+        fetch(`/listings/id/${window.__id__}/channels`)
+            .then(response => response.json())
+            .then(data => {
+                channels.innerHTML = JSON.stringify(data, null, 4)
+            })
+    }
+
 </script>

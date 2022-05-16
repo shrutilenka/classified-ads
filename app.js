@@ -164,11 +164,12 @@ async function instantiateApp() {
             lookupCookie: 'locale',
             caches: ['cookie']
         },
-        cache: {
-            enabled: true,
-        },
-        load: 'languageOnly',
-        debug: NODE_ENV < 1,
+        // cache: {
+        //     enabled: true,
+        // },
+        // load: 'languageOnly',
+        // TODO: what's going on with en and en-US!!
+        // debug: NODE_ENV < 1,
     })
     fastify.register(i18nextMiddleware.plugin, {
         i18next,
@@ -303,8 +304,9 @@ async function instantiateApp() {
     const prepareData = async () => {
         const { db } = fastify.mongo
         const redis = fastify.redis
-        const redisAPI = new RedisAPI(redis)
+        const redisAPI = new RedisAPI(redis, db)
         redisAPI.purgeKeys()
+        redisAPI.cacheIds()
         const colListings = db.collection('listing')
         const colUsers = db.collection('users')
         // Create indexes
