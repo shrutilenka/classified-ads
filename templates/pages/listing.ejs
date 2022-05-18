@@ -56,13 +56,13 @@
         <h2><%= data.title.charAt(0).toUpperCase() + data.title.slice(1) %></h2>
         <p class="apply-font"><%- data.desc %></p>
         <% if (data.section == 'donations') { %>
-        <div class="mapp" id="listing-map"></div>
+        <div class="map" id="listing-map"></div>
         <% } %>
         <br>
         <hr>
         <div class="d-flex">
           <div class="mx-auto mx-lg-0">
-            <img id="imgg" src="<%- data.img %>" width="200rem">
+            <img id="listingImg" src="<%- data.img %>" width="200rem">
           </div>
         </div>
         <!-- The Modal -->

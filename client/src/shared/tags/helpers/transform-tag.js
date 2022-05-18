@@ -2,14 +2,14 @@
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ TAGIFY @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // The DOM element you wish to replace with Tagify
+import { stringToColor } from '../../maps/create-maps/helpers/string-to-color'
 import { lightenDarkenColor } from './colors/lighten-color'
-import { stringToColour } from '../../maps/create-maps/helpers/string-to-colour'
 
 /**
- * blablabla (0_o)
+ * 
  * @param {@@} tagData
  */
 export function transformTag (tagData) {
   tagData.style =
-    '--tag-bg:' + lightenDarkenColor(stringToColour(tagData.value), 30)
+    '--tag-bg:' + lightenDarkenColor(stringToColor(tagData.value), 30)
 }

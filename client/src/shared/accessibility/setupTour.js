@@ -7,8 +7,8 @@ export const setupTour = async () => {
       // TODO
       console.log(introJs)
       console.log('Im here but wip')
-      const cookizz = getCookies()
-      const lang = cookizz.locale
+      const cookies = getCookies()
+      const lang = cookies.locale
       resolve('### function "setupTour" run successfully')
     } catch (error) {
       reject(new Error(`### function "setupTour" failed with error ${error.message}`))

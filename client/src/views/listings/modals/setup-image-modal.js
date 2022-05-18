@@ -1,9 +1,9 @@
-// Define the modal (for the image onclick) behaviour
+// Define the modal (for the image onclick) behavior
 import { LIS } from '../../../helpers/lis'
 
 export const setupImageModal = () => {
   const modal = LIS.id('myModal')
-  const img = LIS.id('imgg')
+  const img = LIS.id('listingImg')
   if (img) {
     const modalImg = LIS.id('img01')
     const captionText = LIS.id('caption')

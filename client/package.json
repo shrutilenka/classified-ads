@@ -1,7 +1,7 @@
 {
   "name": "classified-ads-58-client",
   "version": "1.0.0",
-  "description": "not a standalone client (easier) It only generates client scripts and styles that are served publically",
+  "description": "not a standalone client (easier) It only generates client scripts and styles that are served publicly",
   "main": "src/index.js",
   "scripts": {
     "dev:client": "webpack && sass src/style:../public/stylesheets",
@@ -56,7 +56,7 @@
     "webpack",
     "javascript",
     "leaflet",
-    "vanillajs"
+    "vanilla js"
   ],
   "author": "bacloud22",
   "license": "ISC"

@@ -42,8 +42,8 @@ export const setupInputTags = async () => {
     // Tagify the current page based on section and current language
     function tagifyPage() {
       // Default load tags based on user language
-      const cookizz = getCookies()
-      const lang = cookizz.locale
+      const cookies = getCookies()
+      const lang = cookies.locale
       if (tags[lang]) {
         tagifyObj = newTagify(tagifyObj, inputElm, tags[lang])
         tagifyObj.lang = lang

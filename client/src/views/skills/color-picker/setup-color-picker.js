@@ -1,7 +1,7 @@
 // eslint-disable-next-line max-len
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Color picker @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-import { allPaths } from '../load-illustrations/state/all-paths'
 import Picker from 'vanilla-picker'
+import { allPaths } from '../load-illustrations/state/all-paths'
 import { pastColor } from '../load-illustrations/state/past-color'
 let newColor
 export const setupColorPicker = () => {
@@ -9,7 +9,7 @@ export const setupColorPicker = () => {
   if (parent) {
     const picker = new Picker(parent)
     picker.onChange = function (color) {
-      // Fill allPaths with pathes of SVGs inside 'img-container' div (undraw illustrations)
+      // Fill allPaths with paths of SVGs inside 'img-container' div (undraw illustrations)
       if (!allPaths.current) {
         allPaths.current = Array.from(
           document.querySelectorAll('.img-container')

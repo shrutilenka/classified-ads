@@ -6,7 +6,7 @@ export const tweakBootstrap = async () => {
   return new Promise(function (resolve, reject) {
     if (
       LIS.elements('collapse').length == 0 ||
-        LIS.elements('mapp').length == 0
+        LIS.elements('map').length == 0
     ) {
       return resolve('### function "tweakBootstrap" ignored well')
     }
@@ -14,7 +14,7 @@ export const tweakBootstrap = async () => {
     try {
       LIS.elements('collapse').forEach((element) => {
         element.addEventListener('hidden.bs.collapse', (event) => {
-          LIS.elements('mapp').forEach(map => {
+          LIS.elements('map').forEach(map => {
             setTimeout(() => {
               try {
                 map.invalidateSize()

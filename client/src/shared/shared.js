@@ -6,7 +6,7 @@ import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-
 import { setupUndrawKeywords } from './auto-complete/setup-undraw-keywords';
 import { setupInteractiveCards } from './cards/setup-interactive-cards';
 import { setupPell } from './editor/setup-pell';
-import { setupFavourites } from './favourites/setup-favourites';
+import { setupFavorites } from './favorites/favorites';
 import { setupScrollBlink } from './focus/scroll&blink';
 // import { setupFontPicker } from './fonts/setup-font-picker'
 import { dateFromObjectId } from './formatters/date-from-objectId';
@@ -46,7 +46,7 @@ export const setupShared = () => {
     [setupDelimitationsKeywords, true],
     [setupUndrawKeywords, true],
     [runToasts, true],
-    [setupFavourites, true],
+    [setupFavorites, true],
     [setupInteractiveCards, false],
     [setupAdsRotator, false],
     [setupTips, true],

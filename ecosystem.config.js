@@ -1,4 +1,4 @@
-// TODO: revise pathes
+// TODO: revise paths
 const path = require('path');
 
 module.exports = {

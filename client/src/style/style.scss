@@ -55,11 +55,11 @@
   background-color: cadetblue;
 }
 .ca-listings .ca-listing:hover:after,
-.ca-listings .ca-listing.favourites:after {
+.ca-listings .ca-listing.favorites:after {
   content: ' \2605';
   color: rgb(255, 203, 0);
 }
-.ca-listings .ca-listing.favourites:hover:after {
+.ca-listings .ca-listing.favorites:hover:after {
   content: ' \2606';
 }
 
@@ -129,7 +129,7 @@ pre {
   background-color: #f5eabf28;
 }
 
-.card.notapproved {
+.card.nonapproved {
   border-width: thick;
 }
 
@@ -218,13 +218,13 @@ pre {
 }
 /* Style the Image Used to Trigger the Modal */
 
-#imgg {
+#listingImg {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-#imgg:hover {
+#listingImg:hover {
   opacity: 0.7;
 }
 

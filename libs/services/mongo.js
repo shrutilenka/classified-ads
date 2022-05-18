@@ -328,7 +328,7 @@ module.exports = function (mongoDB, redisDB) {
             .sort(baseSort)
             .toArray()
         tmp.forEach((l) => {
-            l.a = l.a ? '' : 'notapproved'
+            l.a = l.a ? '' : 'nonapproved'
             l.d = l.d ? 'deactivated' : ''
         })
         return tmp

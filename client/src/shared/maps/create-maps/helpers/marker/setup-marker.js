@@ -43,7 +43,7 @@ export function moveableMarker(map, marker, coordinates) {
     map.on('mousemove', trackCursor)
   })
   // First run of the map, find division based on marker
-  // which is centured anyway
+  // which is centered anyway
   if (map.name === 'geoSearchMap' || map.name === 'listingMap') {
     const where = polygon.findIndex((coo) =>
       isMarkerInsidePolygon(marker, coo)

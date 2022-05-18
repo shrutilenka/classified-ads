@@ -14,7 +14,7 @@ export const setupI18n = async () => {
     langSelect(lang)
   })
 
-  const cookizz = getCookies()
+  const cookies = getCookies()
   return new Promise(function (resolve, reject) {
     try {
       i18next
@@ -41,21 +41,21 @@ export const setupI18n = async () => {
           // },
           // load: 'languageOnly',
         }).then(function(t) {
-          if (cookizz.locale) {
-            i18next.changeLanguage(cookizz.locale).then((t) => {
+          if (cookies.locale) {
+            i18next.changeLanguage(cookies.locale).then((t) => {
               const localize = locI18next.init(i18next, { selectorAttr:'data-trans' })
               refreshTrans(localize)
-              document.documentElement.setAttribute('lang', cookizz.locale)
-              document.body.setAttribute('lang', cookizz.locale)
-              if (cookizz.locale === 'ar') {
+              document.documentElement.setAttribute('lang', cookies.locale)
+              document.body.setAttribute('lang', cookies.locale)
+              if (cookies.locale === 'ar') {
                 document.body.setAttribute('dir', 'rtl')
               }
               const langOptions = document.getElementsByTagName('option')
               const opt = [...langOptions].find(
-                (opt) => opt.value === cookizz.locale
+                (opt) => opt.value === cookies.locale
               )
               opt.selected = 'selected'
-              console.log('SET LANGUAGE TO: ' + cookizz.locale)
+              console.log('SET LANGUAGE TO: ' + cookies.locale)
             })
           }
         })

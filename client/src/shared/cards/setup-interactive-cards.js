@@ -14,7 +14,7 @@ export const setupInteractiveCards = async () => {
       const instances = tippy('.deactivated', {
         content: "Deactivated, you can reactivate it again!",
       })
-      const instances2 = tippy('.notapproved', {
+      const instances2 = tippy('.nonapproved', {
         content: "Not yet approved, wait for approval!",
       })
       document.querySelector('.sharer').addEventListener('click', function (e) {

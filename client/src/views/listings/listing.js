@@ -34,16 +34,14 @@ window.postComment = function (commentId) {
   } else {
     // blink or something
     const replyingTo = document.getElementById(commentId)
-    let start = Date.now() // mémoriser l'heure de début
+    let start = Date.now()
     let timer = setInterval(function () {
-      // combien de temps s'est écoulé depuis le début ?
       let timePassed = Date.now() - start
       if (timePassed >= 2000) {
-        clearInterval(timer) // terminer l'animation après 2 secondes
+        clearInterval(timer)
         // draw(0)
         return
       }
-      // dessiner l'animation à l'instant timePassed
       draw(timePassed)
     }, 20)
     // eslint-disable-next-line no-inner-declarations

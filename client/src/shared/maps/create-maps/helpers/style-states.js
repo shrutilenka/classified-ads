@@ -1,4 +1,4 @@
-import { stringToColour } from './string-to-colour'
+import { stringToColor } from './string-to-color'
 /**
  * Gets style from name of state
  * @param {json} feature
@@ -7,7 +7,7 @@ import { stringToColour } from './string-to-colour'
 export function styleStatesClosure (map) {
   return function styleStates (feature) {
     // string to color, then make it greener
-    const color = stringToColour(feature.properties.name).slice(0, 5) + '00'
+    const color = stringToColor(feature.properties.name).slice(0, 5) + '00'
     const fillOpacity = map.name === 'gameMap' ? 0 : 0.6
     const weight = map.name === 'gameMap' ? 1 : 2
     const opacity = map.name === 'gameMap' ? 0.2 : 1
