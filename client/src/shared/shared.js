@@ -53,6 +53,7 @@ export const setupShared = () => {
     [setupTour, false],
     [setupScrollBlink, true],
     [renderShared, true],
+    // [tweakBootstrap, true]
   ]
   if (md.mobile()) {
     log.info('RUNNING ON A MOBILE DEVICE')

@@ -6,6 +6,7 @@ import { delimitationsMap } from './create-maps/create-delimitations-map'
 import { gameMap } from './create-maps/create-game-map'
 import { geoSearchMap } from './create-maps/create-geo-search-map'
 import { listingMap } from './create-maps/create-listing-map'
+import { listingsMap } from './create-maps/create-listings-map'
 import { tweakLeaflet } from './tweak-leaflet'
 const __lat__ = window.__lat__
 const __lng__ = window.__lng__
@@ -79,6 +80,11 @@ export const setupMaps = () => {
     map = geoSearchMap({ lat, lng, layerFactory, clusterFactory, zoom })
     maps.push(map)
   }
+  // Same as Geo search map, but without search marker and with more addressPoints
+  if (LIS.id('listings-map')) {
+    map = listingsMap({ lat, lng, layerFactory, clusterFactory, zoom })
+    maps.push(map)
+  }
   // Game map
   if (LIS.id('game-map')) {
     map = gameMap({ lat, lng, layerFactory, zoom })
@@ -88,8 +94,27 @@ export const setupMaps = () => {
   const details = document.querySelectorAll('details')
   details.forEach((a) => {
     a.addEventListener('toggle', function () {
-      maps.forEach((m) => {
-        m.invalidateSize()
+      maps.forEach((map) => {
+        setTimeout(() => {
+          try {
+            map.invalidateSize()
+          } catch (error) {
+            console.log(`Refreshing map: ${map.name}`)
+          }
+        }, 100)
+      })
+    })
+  })
+  LIS.elements('collapse').forEach((element) => {
+    element.addEventListener('hidden.bs.collapse', (event) => {
+      maps.forEach(map => {
+        setTimeout(() => {
+          try {
+            map.invalidateSize()
+          } catch (error) {
+            console.log(`Refreshing map: ${map.name}`)
+          }
+        }, 100)
       })
     })
   })
