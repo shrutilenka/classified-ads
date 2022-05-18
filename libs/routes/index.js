@@ -163,12 +163,12 @@ async function routes(fastify, options) {
     /* TODO: throttle this and limit requests to > 3 chars */
     fastify.get('/autocomplete/:keyword', async function (req, reply) {
         const keyword = req.params.keyword.trim()
-        const [err, elems] = await to(QInstance.autocomplete(keyword))
+        const [err, keywords] = await to(QInstance.autocomplete(keyword))
         if (err) {
             req.log.error(`index/autocomplete#autocomplete: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
-        return elems
+        return keywords
     })
 
     /* GET Top listings by tag. */
@@ -183,9 +183,9 @@ async function routes(fastify, options) {
     
     fastify.get('/top/div', async function (req, reply) {
         // const section = req.params.section
-        const [err, topTags] = await to(QInstance.topBydivision())
+        const [err, topTags] = await to(QInstance.topByDivision())
         if (err) {
-            req.log.error(`index/top/div#topBydivision: ${err.message}`)
+            req.log.error(`index/top/div#topByDivision: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         return topTags
@@ -241,7 +241,7 @@ async function routes(fastify, options) {
         })
     })
 
-    fastify.get('/howto', function (req, reply) {
+    fastify.get('/how-to', function (req, reply) {
         reply.view('/templates/pages/blog', {
             title: 'How to post on Listings',
             sections: [
@@ -263,12 +263,12 @@ async function routes(fastify, options) {
         })
     })
 
-    // Some eastereggs
+    // Some easter-eggs
     fastify.get('/fennec-fox', function (req, reply) {
         const idx = Math.floor(Math.random() * 4) + 1
-        reply.view('/templates/pages/easteregg', {
+        reply.view('/templates/pages/easter-egg', {
             svg: SVGs[idx - 1],
-            style: `easteregg-${idx}.css`
+            style: `easter-egg-${idx}.css`
         })
     })
 

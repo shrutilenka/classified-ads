@@ -138,7 +138,7 @@ async function routes(fastify, options) {
         const token = request.params.token
         const tmpUser = await QInstance.getTmpUserByToken(token)
         if (!tmpUser) {
-            throw { statusCode: 401, message: 'UNAUTHORISED' }
+            throw { statusCode: 401, message: 'UNAUTHORIZED' }
         }
         const user = await QInstance.getUserById(tmpUser.username)
         if (!user) {

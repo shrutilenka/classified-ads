@@ -28,7 +28,7 @@ class MailerOps {
 
         /**
          * Send an email with user defined language !
-         * TODO: How to deal with multilanguage emails ??
+         * TODO: How to deal with multilingual emails ??
          * https://www.contactmonkey.com/blog/multilingual-emails
          * User can send directly `sendMail(to, subject, text, html)` or
          * `sendMail(to, todo, req, data)` and subject, text, html are derived
@@ -50,7 +50,7 @@ class MailerOps {
             data,
         }) {
             // If req is provided we assume here that
-            // a multilanguage version exists and data is provieded
+            // a multilingual version exists and data is provided
             if (req) {
                 subject = req.t(`mail.${todo}.subject`, data)
                 text = req.t(`mail.${todo}.text`, data)

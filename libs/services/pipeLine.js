@@ -26,7 +26,7 @@ function sanitize(str) {
         allowedStyles: {
             '*': {
                 // Match HEX and RGB
-                color: html.allowerColors,
+                color: html.allowedColors,
                 'text-align': [/^left$/, /^right$/, /^center$/],
                 // Match any number with px, em, or %
                 'font-size': [/^\d+(?:px|em|%)$/]
@@ -39,19 +39,19 @@ function sanitize(str) {
     })
 }
 
-function cleanSensitive(blob, maxlen) {
-    if (maxlen === 0) {
+function cleanSensitive(blob, maxLen) {
+    if (maxLen === 0) {
         return ''
     }
-    if (maxlen < 9) {
+    if (maxLen < 9) {
         return blob
     }
     if (blob.length > 9) {
         const whitelisted = []
-        for (const regexw in rew) {
-            if (Object.prototype.hasOwnProperty.call(rew, regexw)) {
+        for (const regexW in rew) {
+            if (Object.prototype.hasOwnProperty.call(rew, regexW)) {
                 blob = blob.replace(
-                    rew[regexw],
+                    rew[regexW],
                     function (match, index) {
                         this.push({ i: index, m: match })
                         return ''
@@ -60,17 +60,17 @@ function cleanSensitive(blob, maxlen) {
             }
         }
         const maskStr = (match) => new Array(match.length + 1).join('X')
-        for (const regexb in reb) {
-            if (Object.prototype.hasOwnProperty.call(reb, regexb)) {
-                blob = blob.replace(reb[regexb], maskStr)
+        for (const regexB in reb) {
+            if (Object.prototype.hasOwnProperty.call(reb, regexB)) {
+                blob = blob.replace(reb[regexB], maskStr)
             }
         }
         whitelisted.forEach((w) => {
             blob = blob.slice(0, w.i) + w.m + blob.slice(w.i)
         })
     }
-    if (maxlen && blob.length >= this.maxlen) {
-        blob = blob.substr(0, this.maxlen - 1)
+    if (maxLen && blob.length >= this.maxLen) {
+        blob = blob.substr(0, this.maxLen - 1)
     }
     return blob
 }
@@ -186,7 +186,7 @@ PipeLine.prototype = {
         return this
     },
     // Expects this.data to be body
-    isValideBetween: function (schema, op) {
+    isValidBetween: function (schema, op) {
         const predicate = (schema) => {
             if (schema.called) {
                 return true
@@ -221,7 +221,7 @@ PipeLine.prototype = {
         const arabic = english ? false : french ? false : googleTagsArLite.indexOf(this.data.tags[0]) > -1
         try {
             if (!english && !french && !arabic)
-                throw new Error('Tags should be choosen from list')
+                throw new Error('Tags should be chosen from list')
             var parent, granpa
             if (english) {
                 [parent, granpa] = getAscendants(this.data.tags[0], 'en')
@@ -261,7 +261,7 @@ function validationPipeLine(req) {
     const bodyPipeline = new PipeLine(body)
     const bodyPipeline2 = new PipeLine(body)
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
-    const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().isValideBetween(singletonSchema).undrawPostValidate().isTrue
+    const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().isValidBetween(singletonSchema).undrawPostValidate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents().evaluate().isTrue
 
     ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////

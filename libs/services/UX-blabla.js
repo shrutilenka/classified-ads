@@ -1,9 +1,9 @@
 /**
  * `UXBlabla` uses i18next for more user friendly messages
- * It maps messages (multilanguale) to routes in different contexts
- * @param {*} route abstracts the requested route/ressource
+ * It maps messages (multilingual) to routes in different contexts
+ * @param {*} route abstracts the requested route/resource
  * @param {*} kind abstracts the response route. An EJS view or an indication of the kind/context of response
- * @param {*} data is the additionnal data take into account
+ * @param {*} data is the additional data take into account
  * @param {*} req request object to derive localized messages from
  * @param {*} reply reply object to derive flash messages from
  */
@@ -26,7 +26,7 @@ module.exports = function (data, route, kind, req, reply) {
         errors = req.validationError.validation.map((err) => err.message)
         errors.push(userFriendlyMsg.error)
     }
-    // When there are `errors` (generated in `pipline.js` for example)
+    // When there are `errors` (generated in `pipeline.js` for example)
     if (data.errors) {
         errors = [...errors, ...data.errors]
     }

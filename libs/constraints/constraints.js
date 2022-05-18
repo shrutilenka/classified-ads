@@ -169,7 +169,7 @@ const commentSchema = {
     also sometimes passed to client to be maintained on the browser.
     Keys as defined might represent:
     * The actual name of some context (HTTP method, route, EJS page, named forms (in partials)...)
-    * Arbitrary chosen and reused elswhere in the app 
+    * Arbitrary chosen and reused elsewhere in the app 
     TODO: I will try to make some intelligence and have a clear definition of keys (the earlier case).
     Example 1: on localhost env, the login page is requested (/login => login.ejs), inputs in HTML named form 'doLogin' must have required tag
     Example 2: on localhost env, the listings page is requested (/listings/, /listings/{section}/...),

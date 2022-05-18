@@ -107,7 +107,7 @@ module.exports = function (db) {
     this.refreshKeywords = async function () {
         collection = db.collection('listing')
         // .toArray() to trigger the aggregation
-        // it returns an empty curson so it's fine
+        // it returns an empty cursor so it's fine
         return await collection.aggregate(agg).toArray()
     }
 }

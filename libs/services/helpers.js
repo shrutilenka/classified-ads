@@ -68,8 +68,8 @@ ops.hashCode = function hashCode(s) {
 }
 
 ops.readJSON = function readJSON(path) {
-    const rawdata = fs.readFileSync(path)
-    const data = JSON.parse(rawdata)
+    const rawData = fs.readFileSync(path)
+    const data = JSON.parse(rawData)
     return data
 }
 
@@ -118,7 +118,7 @@ ops.initials = function initials(email) {
  */
 // Super simple XOR encrypt function
 crypto.encrypt = function encrypt(key, plaintext) {
-    let cyphertext = [];
+    let cypherText = [];
     // Convert to hex to properly handle UTF8
     plaintext = Array.from(plaintext).map(function(c) {
         if(c.charCodeAt(0) < 128) return c.charCodeAt(0).toString(16).padStart(2, '0');
@@ -128,22 +128,22 @@ crypto.encrypt = function encrypt(key, plaintext) {
     plaintext = plaintext.match(/.{1,2}/g).map(x => parseInt(x, 16));
     // Perform xor operation
     for (let i = 0; i < plaintext.length; i++) {
-        cyphertext.push(plaintext[i] ^ key.charCodeAt(Math.floor(i % key.length)));
+        cypherText.push(plaintext[i] ^ key.charCodeAt(Math.floor(i % key.length)));
     }
     // Convert to hex
-    cyphertext = cyphertext.map(function(x) {
+    cypherText = cypherText.map(function(x) {
         return x.toString(16).padStart(2, '0');
     });
-    return cyphertext.join('');
+    return cypherText.join('');
 }
 
 // Super simple XOR decrypt function
-crypto.decrypt = function decrypt(key, cyphertext) {
+crypto.decrypt = function decrypt(key, cypherText) {
     try {
-        cyphertext = cyphertext.match(/.{1,2}/g).map(x => parseInt(x, 16));
+        cypherText = cypherText.match(/.{1,2}/g).map(x => parseInt(x, 16));
         let plaintext = [];
-        for (let i = 0; i < cyphertext.length; i++) {
-            plaintext.push((cyphertext[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'));
+        for (let i = 0; i < cypherText.length; i++) {
+            plaintext.push((cypherText[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'));
         }
         return decodeURIComponent('%' + plaintext.join('').match(/.{1,2}/g).join('%'));
     }
@@ -179,7 +179,7 @@ crypto.passwordDerivedKey = function passwordDerivedKey(password, salt, iteratio
     return key.substring(0, len);
 }
 
-// Generates a random string of the specificed length
+// Generates a random string of the specified length
 function randomStr(len) {
     var str = parseInt(Math.random()*10e16).toString(36);
     if(typeof len == 'undefined') return str;

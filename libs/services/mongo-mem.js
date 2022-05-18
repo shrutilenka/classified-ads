@@ -1,4 +1,4 @@
-// A full database replica based on some collections subkeys
+// A full database replica based on some collections sub-keys
 // Data is replicated on startup and updated in realtime
 // Methods must be synchronous and fast
 

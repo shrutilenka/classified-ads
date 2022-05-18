@@ -97,9 +97,9 @@ module.exports = function (mongoDB, redisDB) {
 
     /**
      * Get comments from DB
-     * @param {string} peer1 email of sender or reciever
-     * @param {string} peer2 email of sender or reciever
-     * @param {string} thread id of the thread where a message was sent/recieved
+     * @param {string} peer1 email of sender or receiver
+     * @param {string} peer2 email of sender or receiver
+     * @param {string} thread id of the thread where a message was sent/received
      * @return {Promise}
      */
     this.getComments = async function (peer1, peer2, thread) {
@@ -118,9 +118,9 @@ module.exports = function (mongoDB, redisDB) {
 
     /**
      * Get the comment from DB
-     * @param {string} peer1 email of sender or reciever
-     * @param {string} peer2 email of sender or reciever
-     * @param {string} thread id of the thread where a message was sent/recieved
+     * @param {string} peer1 email of sender or receiver
+     * @param {string} peer2 email of sender or receiver
+     * @param {string} thread id of the thread where a message was sent/received
      * @return {Promise}
      */
     this.getCommentById = async function (id) {
@@ -169,7 +169,7 @@ module.exports = function (mongoDB, redisDB) {
 
     /**
      * Get a document from DB
-     * If Admin then get unnaproved document
+     * If Admin then get unapproved document
      * @param {String} id Id of a Listing
      * @param {Boolean} isAdmin if the caller is admin
      * @return {Promise}
@@ -403,8 +403,8 @@ module.exports = function (mongoDB, redisDB) {
     /**
      * Approximate search based on indexed text fields: title, desc, tags
      * It also feeds topK miner
-     * @param {*} phrase sentense to search
-     * @param {*} exact whether search the exact sentense or separate terms
+     * @param {*} phrase sentence to search
+     * @param {*} exact whether search the exact sentence or separate terms
      * @param {*} division which division
      * @param {*} section which section
      * @param {*} lang which language
@@ -527,7 +527,7 @@ module.exports = function (mongoDB, redisDB) {
     }
 
     /**
-     * Search based on indexed Geospatial field: lat, lng
+     * Search based on indexed Geo-spatial field: lat, lng
      * @param {*} latitude
      * @param {*} longitude
      * @param {*} section
@@ -565,7 +565,7 @@ module.exports = function (mongoDB, redisDB) {
     /**
      *
      * @param {*} id id of unique document
-     * @param {*} key boolean field to be toggeled
+     * @param {*} key boolean field to be toggled
      * @returns
      */
     this.toggleValue = async function (id, key, collName) {
@@ -689,7 +689,7 @@ module.exports = function (mongoDB, redisDB) {
     // { _id: 'Ouargla', count: 6 }
     // 5 minutes
     let topByDiv = new EphemeralData(300000)
-    this.topBydivision = async function () {
+    this.topByDivision = async function () {
         if (topByDiv.isSame()) {
             return topByDiv.data
         }

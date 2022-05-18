@@ -4,13 +4,13 @@ var adt_1 = require("@toreda/adt")
 
 // Arbitrary choice
 const maxSize = 3000
-let fuzzyset, circularBuffer, topk
+let fuzzySet, circularBuffer, topk
 
 /**
  * Inits the bag (circular buffer) and the topK bloom filter
  */
 function init() {
-    fuzzyset = FuzzySet()
+    fuzzySet = FuzzySet()
     circularBuffer = new adt_1.CircularQueue({
         maxSize: maxSize,
         overwrite: true
@@ -40,9 +40,9 @@ const purgeOld = () => {
  * @returns {string}
  */
 const checkSimilarity = (keyword) => {
-    const similar = fuzzyset.get(keyword)
+    const similar = fuzzySet.get(keyword)
     if (!similar || (similar[0][0] < 0.8)) {
-        fuzzyset.add(keyword)
+        fuzzySet.add(keyword)
         return false
     } else {
         return similar[0][1]

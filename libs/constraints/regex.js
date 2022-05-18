@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 
 const allowedTags = ['a', 'b', 'i', 'u', 'strike', 'ul', 'li', 'ol', 'pre', 'h3', 'h4', 'blockquote', 'hr', 'span', 'code', 'p']
-const allowerColors = [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/]
-const html = {allowedTags, allowerColors}
+const allowedColors = [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/]
+const html = {allowedTags, allowedColors}
 
 // regexp blacklist
 // List of things to censor

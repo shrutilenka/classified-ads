@@ -53,8 +53,8 @@ module.exports = function (languages) {
         if (from ==='und' || word.length < 3) return {}
         const to = transTable[from][0]
         const to_ = transTable[from][1]
-        const wordid = models[from].word2id[word]
-        const vector = models[from].index.getItem(wordid)
+        const wordId = models[from].word2id[word]
+        const vector = models[from].index.getItem(wordId)
         let indices = []
         let indices_ = []
         let neighbors = models[to].index.getNNsByVector(vector, count, -1, true)

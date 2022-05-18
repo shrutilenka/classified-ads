@@ -123,9 +123,9 @@ async function routes(fastify, options, next) {
         if(!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
             allChannels.push(newChannel)
         }
-        // get channels conveniant to this thread and viewer
+        // get channels convenient to this thread and viewer
         if(author === viewer) {
-            // get channels of all visitors (viewer) for the autor
+            // get channels of all visitors (viewer) for the author
             channels = allChannels.filter((ch) => ch.au == author && ch.th == thread)
         } else {
             // find the one channel for the current viewer 
@@ -197,7 +197,7 @@ async function routes(fastify, options, next) {
         }
     );
     const geolocationSchema = constraints[process.env.NODE_ENV].POST.queryGeolocation.schema
-    /* Query listings withing a geopoint and radius */
+    /* Query listings withing a geo-point and radius */
     fastify.post(
         '/geolocation', { schema: geolocationSchema, preHandler: softAuth, preValidation: require('../decorators/preValidation') },
         async (req, reply) => {
@@ -249,7 +249,7 @@ async function routes(fastify, options, next) {
         let to = elem.usr
         const { body } = req
         // from: the sender, which is the one logged in
-        // to: two scenarion:
+        // to: two scenarios:
         // Sender is a visitor to the thread, then "to" is simply the "author" of the listing
         // Sender is the "author" of the thread, then "comment id" must be present, to derive 'from' from it.
         // author is the one logged in and now responding to a comment
