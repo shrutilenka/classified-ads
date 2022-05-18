@@ -52,7 +52,7 @@ async function routes(fastify, options) {
             addressPoints: []
         }
         data.addressPoints = listings.documents.map((a) => {
-            return [a.lat, a.lng, a.title, a._id]
+            return [a.lat, a.lng, a.title, a._id, a.section]
         })
         reply.blabla([data, 'index', 'listings'], req)
         return reply

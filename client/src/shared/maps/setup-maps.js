@@ -7,6 +7,7 @@ import { gameMap } from './create-maps/create-game-map'
 import { geoSearchMap } from './create-maps/create-geo-search-map'
 import { listingMap } from './create-maps/create-listing-map'
 import { listingsMap } from './create-maps/create-listings-map'
+import { getIcon } from './create-maps/helpers/marker/icon'
 import { tweakLeaflet } from './tweak-leaflet'
 const __lat__ = window.__lat__
 const __lng__ = window.__lng__
@@ -52,12 +53,19 @@ export const setupMaps = () => {
     const osm = new L.TileLayer(osmUrl, tilesOptions)
     return osm
   }
-  const clusterFactory = function clusterFactory () {
+  function clusterFactory () {
     const markers = new MarkerClusterGroup()
     for (let i = 0; i < addressPoints.length; i++) {
       const a = addressPoints[i]
       const title = `<a href='${APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}</a>`
-      const marker = L.marker(new L.LatLng(a[0], a[1]), { title: title })
+      let marker
+      if(a[4]) {
+        const icon = getIcon()
+        marker = L.marker(new L.LatLng(a[0], a[1]), { title, icon })
+      } else {
+        marker = L.marker(new L.LatLng(a[0], a[1]), { title })
+      }
+      
       marker.bindPopup(title)
       markers.addLayer(marker)
     }
