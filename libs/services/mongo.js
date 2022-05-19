@@ -16,7 +16,7 @@ const {
     Blog,
     Comment,
     User,
-} = require('../constraints/db_models')
+} = require('../constraints/models')
 const { refreshTopK, topk } = require('../services/miner')
 const EphemeralData = require('./helpers').EphemeralData
 var { Mutex, MutexInterface } = require('async-mutex')
@@ -356,8 +356,7 @@ module.exports = function (mongoDB, redisDB) {
         collection = mongoDB.collection('users')
         user = new User(elem)
         delete user.password
-        const res = await collection.insertOne(user)
-        return res.acknowledged
+        return await collection.insertOne(user)
     }
 
     this.updateUser = async function (elem) {

@@ -25,7 +25,7 @@ const loginSchema = {
 
 const signup = S.object()
     .prop('username', S.string().format(S.FORMATS.EMAIL))
-    .prop('password', S.string().minLength(6).maxLength(40))
+    .prop('password', S.string().minLength(8).maxLength(40))
     .required(['username', 'password'])
 const signupSchema = {
     body: signup,

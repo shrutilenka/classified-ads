@@ -6,7 +6,7 @@ const NODE_ENV = {
     development: 1,
     production: 2,
 }[process.env.NODE_ENV]
-
+const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
@@ -101,13 +101,10 @@ async function routes(fastify, options) {
                         token: crypto.randomBytes(16).toString('hex'),
                     }
                     // Actual user but unverified
-                    const acknowledged = await QInstance.insertUser({
-                        username,
-                        password,
-                        passhash,
-                        isVerified,
-                        role,
-                    })
+                    const [err, acknowledged] = await to(QInstance.insertUser({
+                        username, password, passhash, isVerified, role }))
+                    if (err) return reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
+
                     if (role === 'admin') {
                         reply.redirect('/')
                         return

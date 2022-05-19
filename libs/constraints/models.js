@@ -74,7 +74,9 @@ const User = new ObjectModel({
     passhash: String,
     isVerified: Boolean,
     role: ['admin', 'regular']
-}).assert(u => u.username !== u.password, "username and password must differ")
-    .assert(u => u.password.length >= 8, "password is too weak")       
+}).assert(u => (typeof(u.password) == "undefined") || u.username !== u.password, "username and password must differ")
+    .assert(u => (typeof(u.password) == "undefined") || u.password.length >= 8, "password is too weak")       
+
+// TODO: assert only when password exists !
 
 module.exports = { Donation, Skill, Blog, Comment, User, Event }
