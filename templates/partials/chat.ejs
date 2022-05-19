@@ -1,76 +1,81 @@
 <style>
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    * {
-        box-sizing: border-box;
-        font-family: Arial;
-    }
-    #chat {
-        width: 100vw;
-        height: 100vh;
-        padding: 12px;
-    }
-    #chat div {
-        padding: 4px 0px;
-    }
-    #chat div b {
-        color: #555;
-    }
-    input[type='text'] {
-        position: fixed;
-        bottom: 10px;
-        left: 12px;
-        outline: none;
-        width: 400px;
-        border: #555 solid 1px;
-        font-size: 14px;
-        padding: 4px;
-    }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: Arial;
+  }
+
+  #chat {
+    width: 100vw;
+    height: 100vh;
+    padding: 12px;
+  }
+
+  #chat div {
+    padding: 4px 0px;
+  }
+
+  #chat div b {
+    color: #555;
+  }
+
+  input[type='text'] {
+    position: fixed;
+    bottom: 10px;
+    left: 12px;
+    outline: none;
+    width: 400px;
+    border: #555 solid 1px;
+    font-size: 14px;
+    padding: 4px;
+  }
 </style>
 <h3 class="servervar">
-    Chat topic <%= channel %>
+  Chat topic <%= channel %>
 </h3>
 <div id="chat"></div>
 <input id="message" type="text" autofocus />
 <div id="channels"></div>
 <script>
-    let _ws = null
-    // init()
-    function init() {
-        _ws = new WebSocket(
-            `ws://${window.location.host}/chat/ping/?channel=${__channel__}`,
+  let _ws = null
+  // init()
+  function init() {
+    _ws = new WebSocket(
+      `ws://${window.location.host}/chat/ping/?channel=${__channel__}`,
+    )
+    _ws.onmessage = (message) => {
+      message = JSON.parse(message.data)
+      appendMessage(message)
+    }
+    document.getElementById('message').onkeypress = (evt) => {
+      if (evt.key == 'Enter') {
+        _ws.send(
+          JSON.stringify({
+            message: evt.target.value,
+          }),
         )
-        _ws.onmessage = (message) => {
-            message = JSON.parse(message.data)
-            appendMessage(message)
-        }
-        document.getElementById('message').onkeypress = (evt) => {
-            if (evt.key == 'Enter') {
-                _ws.send(
-                    JSON.stringify({
-                        message: evt.target.value,
-                    }),
-                )
-                evt.target.value = ''
-            }
-        }
+        evt.target.value = ''
+      }
     }
-    function appendMessage(message) {
-        document.getElementById(
-            'chat',
-        ).innerHTML += `<div><b>${message.sender}:&nbsp;</b>${message.message}</div>`
-    }
+  }
 
-    const channels = document.getElementById('channels')
-    if (channels) {
-        fetch(`/listings/id/${window.__id__}/channels`)
-            .then(response => response.json())
-            .then(data => {
-                channels.innerHTML = JSON.stringify(data, null, 4)
-            })
-    }
+  function appendMessage(message) {
+    document.getElementById(
+      'chat',
+    ).innerHTML += `<div><b>${message.sender}:&nbsp;</b>${message.message}</div>`
+  }
 
+  const channels = document.getElementById('channels')
+  if (channels) {
+    fetch(`/listings/id/${window.__id__}/channels`)
+      .then(response => response.json())
+      .then(data => {
+        channels.innerHTML = JSON.stringify(data, null, 4)
+      })
+  }
 </script>

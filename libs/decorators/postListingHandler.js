@@ -88,11 +88,11 @@ module.exports = (fastify) => {
 
             if (NODE_ENV < 1) {
                 formatInsertDocument(QInstance, req, null, false,)
-                .then((data) =>  reply.blabla([data, 'listing', section]))
-                .catch((err) => {
-                    req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
-                    reply.blabla([{}, 'messages', 'server error... Please try again later.'])
-                })
+                    .then((data) =>  reply.blabla([data, 'listing', section]))
+                    .catch((err) => {
+                        req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
+                        reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                    })
                
             } else {
                 // Upload that damn pictures the original and the thumbnail
@@ -103,12 +103,12 @@ module.exports = (fastify) => {
                 const blob = bucket.file(filename)
                 const uploadSmallImg =  new Promise((resolve, reject) => {
                     blob.createWriteStream({
-                      resumable: false //Good for small files
+                        resumable: false //Good for small files
                     }).on('finish', () => {
                         resolve({ name: blob.name, small: true })
                     }).on('error', err => {
-                      reject('upload error: ', err);
-                    }).end(thumbnailBuffer);
+                        reject('upload error: ', err)
+                    }).end(thumbnailBuffer)
                 })
                 const uploadImg =  new Promise((resolve, reject) => {
                     blob.createWriteStream({
@@ -117,22 +117,20 @@ module.exports = (fastify) => {
                     }).on('finish', () => {
                         resolve({ name: blob.name, small: false })
                     }).on('error', err => {
-                        reject('upload error: ', err);
-                    }).end(thumbnailBuffer);
+                        reject('upload error: ', err)
+                    }).end(originqlBuffer)
                 })
                 Promise.all([uploadImg, uploadSmallImg]).then((blobNames) => {
-                    await formatInsertDocument( QInstance, req, blobNames, true, )
-                    .then((data) =>  reply.blabla([data, 'listing', section]))
-                    .catch((err) => {
-                        req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
-                        reply.blabla([{}, 'messages', 'server error... Please try again later.'])
-                    })
+                    formatInsertDocument( QInstance, req, blobNames, true, )
+                        .then((data) =>  reply.blabla([data, 'listing', section]))
+                        .catch((err) => {
+                            req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
+                            reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                        })
                 }).catch((err) => {
-                req.log.error(`formatInsertDocument#upload: ${err.message}`)
-                reply.blabla([{}, 'messages', 'server error... Please try again later.'])
-                });
-
-
+                    req.log.error(`formatInsertDocument#upload: ${err.message}`)
+                    reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                })
             }
         }
     }
