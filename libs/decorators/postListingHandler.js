@@ -17,7 +17,7 @@ const queries = require('../services/mongo')
 const config = require('config')
 var tidy = require('htmltidy2').tidy
 const tidyP = promisify(tidy)
-// incremental is better at least here in app.js
+
 const NODE_ENV = {
     api: -1,
     localhost: 0,

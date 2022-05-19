@@ -1,14 +1,15 @@
-const helpers = require('../services/helpers').ops
-const crypto = require('../services/helpers').crypto
-const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 const config = require('config')
-// incremental is better at least here in app.js
 const NODE_ENV = {
     api: -1,
     'localhost': 0,
     'development': 1,
     'production': 2
 }[process.env.NODE_ENV]
+
+const helpers = require('../services/helpers').ops
+const crypto = require('../services/helpers').crypto
+const key = crypto.passwordDerivedKey(process.env.PASSWORD)
+const authAdapter = require('../decorators/auth')
 const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
@@ -20,16 +21,7 @@ async function routes(fastify, options, next) {
     const { db } = fastify.mongo
     const { redis } = fastify
     const QInstance = new queries(db, redis)
-    let auth, adminAuth, softAuth
-    if (fastify.auth) {
-        auth = fastify.auth([fastify.verifyJWT('regular'),])
-        adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
-        softAuth = fastify.auth([fastify.softVerifyJWT,])
-    } else if (NODE_ENV < 1) {
-        auth = softAuth = (fastify, opts, done) => { done() }
-    } else {
-        auth = softAuth = (fastify, opts, done) => { done(new Error('An error happened')) }
-    }
+    let { auth, adminAuth, softAuth } = authAdapter(fastify) 
 
     fastify.decorateReply('blabla', blabla)
 

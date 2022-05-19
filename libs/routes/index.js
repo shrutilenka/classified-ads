@@ -1,15 +1,9 @@
 const { SVGs } = require('../services/data').give
-// Require dependencies (fastify plugins and others)
-const config = require('config')
-// incremental is better at least here in app.js
-const NODE_ENV = {
-    api: -1,
-    'localhost': 0,
-    'development': 1,
-    'production': 2
-}[process.env.NODE_ENV]
+const authAdapter = require('../decorators/auth')
 const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
-// Encapsulates routes: (Init shared variables and so)
+
+// The function would need to be declared async for return to work.
+// Only routes accept next parameter.
 async function routes(fastify, options) {
     const blabla = require('../decorators/blabla')
     const queries = require('../services/mongo')
@@ -17,16 +11,7 @@ async function routes(fastify, options) {
     /** @type { import('ioredis').Redis } redis */
     const redis = fastify.redis
     const QInstance = new queries(db, redis)
-    let auth, adminAuth, softAuth
-    if (fastify.auth) {
-        auth = fastify.auth([fastify.verifyJWT('regular'),])
-        adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
-        softAuth = fastify.auth([fastify.softVerifyJWT,])
-    } else if (NODE_ENV < 1) {
-        auth = softAuth = (fastify, opts, done) => { done() }
-    } else {
-        auth = softAuth = (fastify, opts, done) => { done(new Error('An error happened')) }
-    }
+    let { softAuth } = authAdapter(fastify)
     
     // Using reply.blabla instead of regular `reply.view`
     fastify.decorateReply('blabla', blabla)
