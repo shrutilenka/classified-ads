@@ -25,6 +25,8 @@ const Donation = Listing.extend({
     lat: Number,
     lng: Number,
     offer: Boolean,
+    img: new RegExp(URL),
+    thum: new RegExp(URL),
     geolocation: {
         type: 'Point',
         coordinates: ArrayModel(Coordinate).extend()
@@ -68,7 +70,7 @@ const Comment = new ObjectModel({
 
 const User = new ObjectModel({
     username: String,
-    password: String,
+    password: [String],
     passhash: String,
     isVerified: Boolean,
     role: ['admin', 'regular']

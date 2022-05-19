@@ -221,7 +221,6 @@ async function routes(fastify, options, next) {
 
     const multer = require('fastify-multer')
     const postListingHandler = require('../decorators/postListingHandler')(fastify)
-    // TODO: only register this when upload is attached
     fastify.register(multer.contentParser)
     const upload = NODE_ENV < 1 ? helpers.localMulter : helpers.cloudMulter
     fastify.post('/donations', { preHandler: [auth, upload] }, postListingHandler)

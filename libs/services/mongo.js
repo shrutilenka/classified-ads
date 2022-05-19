@@ -253,7 +253,7 @@ module.exports = function (mongoDB, redisDB) {
         }
         const upIds = await redisDB.hkeys(`up-ids`)
         const glsIds = await redisDB.smembers(`gls-ids:${unique}`)
-        // TODO: because cache mechanism is only one to many
+        // Because cache mechanism is only one to many
         // only deal with pages with section 'index' (most important)
         if (cached && section === '') {
             // get gls-ids:${unique} and intersect with glid-ids
@@ -355,8 +355,7 @@ module.exports = function (mongoDB, redisDB) {
         let user
         collection = mongoDB.collection('users')
         user = new User(elem)
-        // delete user.password
-        // TODO: remove pass again, but objectmodel restricts that :(
+        delete user.password
         const res = await collection.insertOne(user)
         return res.acknowledged
     }
@@ -458,7 +457,6 @@ module.exports = function (mongoDB, redisDB) {
                     result.crossLangDocs =
                         result.crossLangDocs.concat(crossLangDocs)
                 }
-                // TODO: stack it in documents somehow
             } catch (error) {
                 console.log(error.message)
             }

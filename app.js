@@ -39,7 +39,6 @@ const Backend = require('i18next-fs-backend')
 const i18nextMiddleware = require('i18next-http-middleware')
 
 // Require plugins configurations
-// TODO: this has of async operations
 // const miner = require('./libs/decorators/miner').miner
 const swagger_ = require('./config/options/swagger')
 const logger_ = require('./config/options/logger')()
@@ -202,7 +201,6 @@ async function instantiateApp() {
     })
 
     // Mine topK events
-    // TODO: must be very safe, and fast
     // fastify.addHook('preHandler', miner)
 
     /*********************************************************************************************** */

@@ -28,7 +28,7 @@ async function routes(fastify, options) {
         auth = softAuth = (fastify, opts, done) => { done(new Error('An error happened')) }
     }
     
-    // TODO: replace `reply.view` with reply.blabla([data, route, kind])
+    // Using reply.blabla instead of regular `reply.view`
     fastify.decorateReply('blabla', blabla)
 
     fastify.get('/update/:id/', async function (req, reply) {

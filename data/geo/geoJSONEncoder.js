@@ -3,8 +3,6 @@ const states = require('./states.json')
 
 // TODO: DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
-// DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
-// DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 function getBorders() {
     return borders.features[0].geometry.coordinates[0]
 }

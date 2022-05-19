@@ -8,7 +8,7 @@ const inputElm =
 let tagifyObj
 let tags = {}
 const choices = document.getElementsByClassName('tags-lang')
-// TODO: Context specific. Deal with languages.
+
 export const setupInputTags = async () => {
   return new Promise(function (resolve, reject) {
     if (!(choices.length === 3) || !inputElm) {

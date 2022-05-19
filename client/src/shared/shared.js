@@ -1,5 +1,3 @@
-// import { setupStretchy } from "./stretchy/setup-stretchy";
-import { setupTips } from './accessibility/setupTips';
 import { setupTour } from './accessibility/setupTour';
 import { setupAdsRotator } from './ads/setup-ads-rotator';
 import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords';
@@ -31,7 +29,6 @@ export const setupShared = () => {
   const log = window.log
   log.info('Logging setup shared')
   const toArray = (a) => Array.isArray(a) ? a : [a]
-  // setupStretchy();
   const md = new MobileDetect(window.navigator.userAgent)
   // functions to be run everywhere, and others to be run only on big screens
   let functions = [
@@ -49,7 +46,6 @@ export const setupShared = () => {
     [setupFavorites, true],
     [setupInteractiveCards, false],
     [setupAdsRotator, false],
-    [setupTips, true],
     [setupTour, false],
     [setupScrollBlink, true],
     [renderShared, true],

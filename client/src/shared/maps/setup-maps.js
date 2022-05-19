@@ -98,7 +98,6 @@ export const setupMaps = () => {
     map = gameMap({ lat, lng, layerFactory, zoom })
     maps.push(map)
   }
-  // TODO: handle invalidateSize in the same way for Bootstrap accordions !
   const details = document.querySelectorAll('details')
   details.forEach((a) => {
     a.addEventListener('toggle', function () {

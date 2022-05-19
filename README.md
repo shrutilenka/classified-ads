@@ -33,7 +33,6 @@ Notes:
 [<img src="https://cdn.worldvectorlogo.com/logos/leaflet-1.svg" alt="Leaflet logo" width="100" height="50" />](https://leafletjs.com/)
 [<img src="https://camo.githubusercontent.com/2ad966e7273e5fa36e98a63f6ad2c99e023ac67f0bef3bb8ff3a308a12d219aa/68747470733a2f2f67626c6f627363646e2e676974626f6f6b2e636f6d2f7370616365732532462d4c39695336576d3268796e53354839476a376a2532466176617461722e706e673f616c743d6d65646961" alt="I18n
 " width="50" height="50" />](https://github.com/danabr/jsI18n)
-[<img src="https://camo.githubusercontent.com/b9f9f0f7f6eba68351d09485a9555ce9ec94195da3e471a6917d26908f40b283/68747470733a2f2f73747265746368792e7665726f752e6d652f6c6f676f2e737667236e6f74657874" alt="Stretchy" width="50" height="50" />](https://github.com/LeaVerou/stretchy)
 <p>... and many others</p>
 
 
@@ -148,7 +147,6 @@ With a different geoJSON data, you might need to change encoders in both files `
   * jsi18n: Simple client side internationalization with javascript. [repo](https://github.com/danabr/jsI18n) 
   * avatar: Library for showing Gravatars or generating user avatars. [repo](https://github.com/MatthewCallis/avatar) 
   * FontPicker: Font selector component for Google Fonts . [repo](https://github.com/samuelmeuli/font-picker)
-  * stretchy: Form element autosizing, the way it should be. [repo](https://github.com/LeaVerou/stretchy)
 
     This raises multiple challenges mainly for upgrading and actively maintained from their authors. We would like to rely always on the latest versions but we would change one library by another if the project seems inactive or very old (like not supporting modules or so).
     Leaflet particularly is the most important in this regard.

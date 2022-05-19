@@ -4,9 +4,9 @@ module.exports = {
     NODE_PORT: 3000, // TODO: 8080 http port
     HEROKU: false,
     ERROR_STACK: false,
-    PIPELINE_KEYWORDS_SECONDS: 86400, // TODO: 86400 seconds in a day
+    PIPELINE_KEYWORDS_SECONDS: 86400, // 86400 seconds in a day
     DATABASE: 'mongodb://localhost:27017/listings_db_dev',
-    APIHost: 'http://localhost:3000', // TODO: 'https://classified-ads-bacloud14.herokuapp.com/'
+    APIHost: 'http://localhost:3000', // TODO: replace with 'https://domain.com/' for instance
     COOKIE_NAME: 'classified-ads-login',
     SMTP_MAILHOG: {
         host: '0.0.0.0',

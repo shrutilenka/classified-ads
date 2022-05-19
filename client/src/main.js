@@ -14,7 +14,6 @@
   - new autoComplete:  https://github.com/Pixabay/JavaScript-autoComplete
   - new Avatar: https://github.com/MatthewCallis/avatar
   - new FontPicker: https://github.com/samuelmeuli/font-picker
-  - Stretchy: https://github.com/LeaVerou/stretchy
   - SVGInjector: https://github.com/iconic/SVGInjector
 */
 

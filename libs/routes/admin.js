@@ -1,4 +1,3 @@
-// TODO: secure access with an Admin role
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
@@ -8,7 +7,7 @@ async function routes(fastify, options) {
     const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
     // CLONE BASE DATA LIST
     let realtimeJSON
-    // TODO: secure, but doubleSecure (admin)
+
     fastify.get('/', { preHandler: adminAuth }, async function (req, reply) {
         const listings = await QInstance.getListingsForModeration(true)
         realtimeJSON = listings.documents
