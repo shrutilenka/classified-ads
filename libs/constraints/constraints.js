@@ -272,7 +272,7 @@ const constraints = {
         },
     },
     // to change
-    'api env': {
+    api: {
         GET: {},
         POST: {
             login: {

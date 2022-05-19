@@ -1,7 +1,7 @@
 const config = require('config')
 // incremental is better at least here in app.js
 const NODE_ENV = {
-    'api env': -1,
+    api: -1,
     localhost: 0,
     development: 1,
     production: 2,

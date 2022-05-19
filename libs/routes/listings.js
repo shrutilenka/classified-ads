@@ -4,7 +4,7 @@ const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 const config = require('config')
 // incremental is better at least here in app.js
 const NODE_ENV = {
-    'api env': -1,
+    api: -1,
     'localhost': 0,
     'development': 1,
     'production': 2
@@ -220,14 +220,14 @@ async function routes(fastify, options, next) {
     );
 
     const multer = require('fastify-multer')
-    const postSectionHandler = require('../decorators/postSectionHandler')(fastify)
+    const postListingHandler = require('../decorators/postListingHandler')(fastify)
     // TODO: only register this when upload is attached
     fastify.register(multer.contentParser)
     const upload = NODE_ENV < 1 ? helpers.localMulter : helpers.cloudMulter
-    fastify.post('/donations', { preHandler: [auth, upload] }, postSectionHandler)
-    fastify.post('/skills', { preHandler: [auth, upload] }, postSectionHandler)
-    fastify.post('/blogs', { preHandler: auth }, postSectionHandler)
-    fastify.post('/events', { preHandler: auth }, postSectionHandler)
+    fastify.post('/donations', { preHandler: [auth, upload] }, postListingHandler)
+    fastify.post('/skills', { preHandler: [auth, upload] }, postListingHandler)
+    fastify.post('/blogs', { preHandler: auth }, postListingHandler)
+    fastify.post('/events', { preHandler: auth }, postListingHandler)
 
     const commentSchema = constraints[process.env.NODE_ENV].POST.comment
     /* Contact poster one listing. */

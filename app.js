@@ -4,7 +4,7 @@ process.title = 'classified-ads'
 const config = require('config')
 // Incremental is better
 const NODE_ENV = {
-    'api env': -1,
+    api: -1,
     'localhost': 0,
     'development': 1,
     'production': 2
@@ -222,9 +222,9 @@ async function instantiateApp() {
     //     maxHeapUsedBytes: 100000000,
     //     maxRssBytes: 100000000,
     //     maxEventLoopUtilization:0.98
-    // })    
+    // })
       
-    // TODO: Rate limiter && honeyPot except in process.env === 'api env'
+    // TODO: Rate limiter && honeyPot except in process.env === "api"
     fastify.addHook('preHandler', (req, reply, done) => {
         // TODO: req.socket ? does it work ?
         let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
@@ -310,7 +310,7 @@ async function instantiateApp() {
         const colListings = db.collection('listing')
         const colUsers = db.collection('users')
         // Create indexes
-        //process.env.NODE_ENV in {development, localhost, api env}
+        //process.env.NODE_ENV in {development, localhost, api}
         if (NODE_ENV <= 1) {
             await colListings.deleteMany({})
             await colUsers.deleteMany({})
@@ -338,7 +338,6 @@ async function instantiateApp() {
         //     // global.mongodb.disconnect()
         // })
 
-
         setTimeout(() => {
             mailer.sendMail({
                 to: process.env.ADMIN_EMAIL,
@@ -352,7 +351,7 @@ async function instantiateApp() {
 
     /*********************************************************************************************** */
     // !!APP AND USER METRICS!!
-    // Don't track for api env env (API testing)
+    // Don't track for api env (API testing)
     const secretPath = process.env.SECRET_PATH
     const adminAuth = fastify.auth([fastify.verifyJWT('admin'),])
     if (NODE_ENV > -1 && process.env.worker_id == '1') {

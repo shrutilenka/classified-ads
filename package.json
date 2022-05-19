@@ -7,15 +7,15 @@
     "build": "sudo apt-get install -y build-essential && npm install && cd client && npm install && npm run dev:client && cd ..",
     "start": "node app.js",
     "dev:start": "~/go/bin/MailHog > '/dev/null' 2>&1 & node app.js",
-    "inpect": "~/go/bin/MailHog & node --inspect app.js",
-    "beautiful:inspect": "NO_CLUSTER=true clinic doctor -- node app.js",
-    "beautiful:inspect:2": "NO_CLUSTER=true clinic doctor --on-port 'autocannon localhost:3000' -- node app.js",
-    "beautiful:inspect:3": "NO_CLUSTER=true clinic bubbleprof --on-port 'autocannon -c 5 -a 500 localhost:3000' -- node app.js",
-    "stop": "pkill --signal SIGINT classified-ads && kill -9 `pidof ~/go/bin/MailHog`",
+    "dev:stop": "pkill --signal SIGINT classified-ads && kill -9 `pidof ~/go/bin/MailHog`",
+    "dev:inpect": "~/go/bin/MailHog & node --inspect app.js",
+    "dev:beautiful:inspect": "NO_CLUSTER=true clinic doctor -- node app.js",
+    "dev:beautiful:inspect:2": "NO_CLUSTER=true clinic doctor --on-port 'autocannon localhost:3000' -- node app.js",
+    "dev:beautiful:inspect:3": "NO_CLUSTER=true clinic bubbleprof --on-port 'autocannon -c 5 -a 500 localhost:3000' -- node app.js",
+    "build:tools": "sudo apt-get -y install golang-go && go get github.com/mailhog/MailHog && cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip",
     "tools:mlmodels:en": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec --output wiki.multi.en.vec",
     "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
-    "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",
-    "tools": "sudo apt-get -y install golang-go && go get github.com/mailhog/MailHog && cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip"
+    "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec"
   },
   "keywords": [
     "Node.js",
