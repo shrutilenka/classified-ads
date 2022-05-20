@@ -1,9 +1,10 @@
 // Constraints to ease code complexity. These constraints reflect
-// which operations to run on some endpoint on some environment
-const S = require('fluent-json-schema')
-const { illustrations, fontFamilies } = require('./hallux.js')
+// which operations to run on any endpoint on any environment
 const config = require('config')
 const TAG_SIZE = config.get('TAG_SIZE')
+const S = require('fluent-json-schema')
+const { illustrations, fontFamilies } = require('./hallux.js')
+
 
 // TODO: one single format, w'll see how to deal with on client side
 const toDay = () => {

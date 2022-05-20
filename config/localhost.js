@@ -29,4 +29,10 @@ module.exports = {
         timeWindow: '1 minute',
     },
     TAG_SIZE: 35,
+    IMG_THUMB: {
+        url: 'https://via.placeholder.com/1200x90.png?text=No image for this listing',
+        // TODO: revise best resolutions
+        height: 1800,
+        width: 948,
+    }
 }

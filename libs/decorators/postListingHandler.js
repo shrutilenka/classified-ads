@@ -27,11 +27,17 @@ const NODE_ENV = {
 
 const formatInsertDocument = async (QInstance, req, blobNames) => {
     const { body } = req
-    const [blobName, blobNameSmall] = blobNames[0].small ? [
-        blobNames[1].name, blobNames[0].name
-    ] : [blobNames[0].name, blobNames[1].name]
-    const publicUrlSmall = format(`https://storage.googleapis.com/${bucket.name}/${blobNameSmall}`)
-    const publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
+    let publicUrl, publicUrlSmall
+    if(blobNames) {
+        const [blobName, blobNameSmall] = blobNames[0].small ? [
+            blobNames[1].name, blobNames[0].name
+        ] : [blobNames[0].name, blobNames[1].name]
+        publicUrlSmall = format(`https://storage.googleapis.com/${bucket.name}/${blobNameSmall}`)
+        publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
+    } else {
+        // TODO: config.get('IMG') & config.get('IMG_THUMB')
+    }
+
     const entry = Object.assign(body, {
         d: false,
         a: false,
@@ -53,8 +59,20 @@ module.exports = (fastify) => {
     return async (req, reply) => {
         const { body } = req
         const section = body.section
-        const { errors, tagsValid, geoValid, undrawValid } =
-            validationPipeLine(req)
+        if(!section) {
+            req.log.error(`post/listings#postListingHandler: no section provided}`)
+            reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+            return reply
+        }
+        let errors, tagsValid, geoValid, undrawValid
+        try {
+            ({ errors, tagsValid, geoValid, undrawValid } =
+            validationPipeLine(req))
+        } catch (error) {
+            req.log.error(`post/listings#postListingHandler: ${error.message}`)
+            reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+            return reply
+        }
         const valid = !errors.length && tagsValid && geoValid && undrawValid
         if (!valid) {
             req.log.error(`post/listings#postListingHandler: ${JSON.stringify(errors)}`)
@@ -67,50 +85,56 @@ module.exports = (fastify) => {
                 .cleanSensitive()
                 .valueOf()
             body.lang = await helpers.getLanguage(body.desc)
-            if (!req.file && NODE_ENV > 0) {
-                reply.send({
-                    message: 'Invalid request',
-                    data: body,
-                    error: 'file not found',
-                })
+            const { upload } = constraints[process.env.NODE_ENV][method][section]
+            if (upload && !req.file) {
+                req.log.error(`post/listings#postListingHandler: file not found`)
+                reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                return reply
             }
-            let thumbnailBuffer
-            let originqlBuffer = req.file.buffer
-            try {
-                thumbnailBuffer = await sharp(originqlBuffer)
-                    .resize(1800, 948)
-                    .toFormat('jpeg')
-                    .jpeg({ quality: 80 })
-                    .toBuffer()
-            } catch (error) {
-                req.log.error(`post/listings#postListingHandler#sharp: ${error.message}`)
-            }
-
-            if (NODE_ENV < 1) {
+            if (!upload) {
                 formatInsertDocument(QInstance, req, null, false,)
-                    .then((data) =>  reply.blabla([data, 'listing', section]))
+                    .then((data) =>  {
+                        reply.blabla([data, 'listing', section])
+                        return reply
+                    })
                     .catch((err) => {
                         req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
                         reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                        return reply
                     })
                
             } else {
                 // Upload that damn pictures the original and the thumbnail
                 // Create a new blob in the bucket and upload the file data.
-                const suffix =
-                    Date.now() + '-' + Math.round(Math.random() * 1e9)
+                let uploadSmallImg, uploadImg
+                let thumbnailBuffer, originqlBuffer
+                originqlBuffer = req.file.buffer
+                const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
                 const filename = suffix + path.extname(req.file.originalname)
                 const blob = bucket.file(filename)
-                const uploadSmallImg =  new Promise((resolve, reject) => {
-                    blob.createWriteStream({
-                        resumable: false //Good for small files
-                    }).on('finish', () => {
-                        resolve({ name: blob.name, small: true })
-                    }).on('error', err => {
-                        reject('upload error: ', err)
-                    }).end(thumbnailBuffer)
-                })
-                const uploadImg =  new Promise((resolve, reject) => {
+                try {
+                    thumbnailBuffer = await sharp(originqlBuffer)
+                        .resize(config.get('IMG_THUMB').height, config.get('IMG_THUMB').width)
+                        .toFormat('jpeg')
+                        .jpeg({ quality: 80 })
+                        .toBuffer()
+                } catch (error) {
+                    req.log.error(`post/listings#postListingHandler#sharp: ${error.message}`)
+                }
+                
+                if (thumbnailBuffer)
+                    uploadSmallImg =  new Promise((resolve, reject) => {
+                        blob.createWriteStream({
+                            resumable: false //Good for small files
+                        }).on('finish', () => {
+                            resolve({ name: blob.name, small: true })
+                        }).on('error', err => {
+                            reject('upload error: ', err)
+                        }).end(thumbnailBuffer)
+                    })
+                else
+                    uploadSmallImg =  Promise.resolve({ name: config.get('IMG_THUMB').url, small: true })
+                uploadImg =  new Promise((resolve, reject) => {
                     blob.createWriteStream({
                         metadata: { contentType: req.file.mimetype },
                         resumable: true
@@ -122,14 +146,19 @@ module.exports = (fastify) => {
                 })
                 Promise.all([uploadImg, uploadSmallImg]).then((blobNames) => {
                     formatInsertDocument( QInstance, req, blobNames, true, )
-                        .then((data) =>  reply.blabla([data, 'listing', section]))
+                        .then((data) =>  {
+                            reply.blabla([data, 'listing', section])
+                            return reply
+                        })
                         .catch((err) => {
                             req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
                             reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                            return reply
                         })
                 }).catch((err) => {
                     req.log.error(`formatInsertDocument#upload: ${err.message}`)
                     reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                    return reply
                 })
             }
         }
