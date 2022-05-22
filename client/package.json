@@ -43,6 +43,7 @@
     "@babel/core": "^7.14.6",
     "@babel/eslint-parser": "^7.14.7",
     "@types/leaflet.fullscreen": "^1.6.1",
+    "@types/web": "^0.0.67",
     "dotenv-webpack": "^7.0.3",
     "filemanager-webpack-plugin": "^6.1.5",
     "prettier": "^2.3.1",
