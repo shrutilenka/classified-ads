@@ -24,7 +24,7 @@ const Donation = Listing.extend({
     section: 'donations',
     lat: Number,
     lng: Number,
-    offer: Boolean,
+    offer: [Boolean],
     img: new RegExp(URL),
     thum: new RegExp(URL),
     geolocation: {
@@ -53,7 +53,7 @@ const Event = Listing.extend({
 const Skill = Listing.extend({
     section: 'skills',
     undraw: String,
-    offer: Boolean
+    offer: [Boolean]
 })
 
 const Blog = Listing

@@ -4,7 +4,7 @@
   "description": "A performant classified-ads website with maps and tags",
   "main": "index.js",
   "scripts": {
-    "build": "sudo apt-get install -y build-essential && npm install && cd client && npm install && npm run dev:client && cd ..",
+    "build": "sudo apt-get install -y build-essential && npm install && sudo chmod -R a+rwx node_modules && cd client && npm install && npm run dev:client && cd ..",
     "start": "node app.js",
     "dev:start": "~/go/bin/MailHog > '/dev/null' 2>&1 & node app.js",
     "dev:stop": "pkill --signal SIGINT classified-ads && kill -9 `pidof ~/go/bin/MailHog`",

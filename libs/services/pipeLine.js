@@ -246,9 +246,8 @@ PipeLine.prototype = {
 const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true, coerceTypes: 'number' })
 function validationPipeLine(req) {
-    const { body } = req
+    const { body, method } = req
     const section = body.section
-    const method = req.method
     const {
         upload,
         geolocation,
@@ -256,6 +255,7 @@ function validationPipeLine(req) {
         schema
     } = constraints[process.env.NODE_ENV][method][section]
     const singletonSchema = schema()
+    
     ///////////////////////////////////THIS IS CONSTRUCTION OF THE PIPELINE (MAIN LIKE)//////////////////////////////////////////////////////////////////////
     const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng })
     const bodyPipeline = new PipeLine(body)
@@ -268,6 +268,7 @@ function validationPipeLine(req) {
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
     const valid = singletonSchema.called ? true : validate(body)
+
     let errors = []
     if (!valid) {
         localize[(req.i18n && req.i18n.language) || req.cookies.locale || 'en'](validate.errors)

@@ -30,9 +30,9 @@ module.exports = {
     },
     TAG_SIZE: 35,
     IMG_THUMB: {
-        url: 'https://via.placeholder.com/1200x90.png?text=No image for this listing',
+        url: 'https://via.placeholder.com/200x170.png?text=No image',
         // TODO: revise best resolutions
-        height: 1800,
-        width: 948,
+        height: 170,
+        width: 200,
     }
 }

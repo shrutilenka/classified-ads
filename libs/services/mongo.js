@@ -79,7 +79,7 @@ module.exports = function (mongoDB, redisDB) {
             break
         }
         const res = await collection.insertOne(listing)
-        return res.acknowledged
+        return res.insertedId
     }
 
     /**

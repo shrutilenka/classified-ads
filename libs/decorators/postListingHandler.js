@@ -12,18 +12,15 @@ const {
     validationPipeLine,
     stringTransformer,
 } = require('../services/pipeLine.js')
+const { constraints } = require('../constraints/constraints')
+
 const queries = require('../services/mongo')
 // Require dependencies (fastify plugins and others)
 const config = require('config')
 var tidy = require('htmltidy2').tidy
 const tidyP = promisify(tidy)
-
-const NODE_ENV = {
-    api: -1,
-    localhost: 0,
-    development: 1,
-    production: 2,
-}[process.env.NODE_ENV]
+const crypto = require('../services/helpers').crypto
+const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 
 const formatInsertDocument = async (QInstance, req, blobNames) => {
     const { body } = req
@@ -38,15 +35,21 @@ const formatInsertDocument = async (QInstance, req, blobNames) => {
         // TODO: config.get('IMG') & config.get('IMG_THUMB')
     }
 
-    const entry = Object.assign(body, {
+    const listing = Object.assign(body, {
         d: false,
         a: false,
         img: publicUrl,
         thum: publicUrlSmall,
         usr: req.params.username,
     })
-    const [err, acknowledged] = await to(QInstance.insertListing(entry))
-    return { data: entry, messages: [] }
+    const [err, insertedId] = await to(QInstance.insertListing(listing))
+    if (err) throw err
+    listing['id'] = insertedId.toHexString()
+    // TODO: check id
+    const author = req.params.username
+    const channel = crypto.encrypt(key, `${author},${author},${listing['id']}`)
+    let data = { data: listing, section: listing.section, author, channel, messages: [] }
+    return data
 }
 
 // options http://api.html-tidy.org/tidy/tidylib_api_5.6.0/tidy_quickref.html
@@ -57,11 +60,11 @@ module.exports = (fastify) => {
     const { redis } = fastify
     const QInstance = new queries(db, redis)
     return async (req, reply) => {
-        const { body } = req
+        const { body, method } = req
         const section = body.section
         if(!section) {
             req.log.error(`post/listings#postListingHandler: no section provided}`)
-            reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+            reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
             return reply
         }
         let errors, tagsValid, geoValid, undrawValid
@@ -70,7 +73,7 @@ module.exports = (fastify) => {
             validationPipeLine(req))
         } catch (error) {
             req.log.error(`post/listings#postListingHandler: ${error.message}`)
-            reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+            reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
             return reply
         }
         const valid = !errors.length && tagsValid && geoValid && undrawValid
@@ -88,18 +91,18 @@ module.exports = (fastify) => {
             const { upload } = constraints[process.env.NODE_ENV][method][section]
             if (upload && !req.file) {
                 req.log.error(`post/listings#postListingHandler: file not found`)
-                reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
                 return reply
             }
             if (!upload) {
                 formatInsertDocument(QInstance, req, null, false,)
                     .then((data) =>  {
-                        reply.blabla([data, 'listing', section])
+                        reply.blabla([data, 'listing', 'id'], req)
                         return reply
                     })
                     .catch((err) => {
                         req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
-                        reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                        reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
                         return reply
                     })
                
@@ -107,17 +110,26 @@ module.exports = (fastify) => {
                 // Upload that damn pictures the original and the thumbnail
                 // Create a new blob in the bucket and upload the file data.
                 let uploadSmallImg, uploadImg
-                let thumbnailBuffer, originqlBuffer
-                originqlBuffer = req.file.buffer
+                let thumbnailBuffer, originalBuffer
+                originalBuffer = req.file.buffer
+                const { width } = config.get('IMG_THUMB')
                 const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
                 const filename = suffix + path.extname(req.file.originalname)
                 const blob = bucket.file(filename)
                 try {
-                    thumbnailBuffer = await sharp(originqlBuffer)
-                        .resize(config.get('IMG_THUMB').height, config.get('IMG_THUMB').width)
-                        .toFormat('jpeg')
-                        .jpeg({ quality: 80 })
-                        .toBuffer()
+                    thumbnailBuffer = await sharp(originalBuffer)
+                        .metadata()
+                        .then(({ width : originalWidth }) => {
+                            if(originalWidth > 400) {
+                                return sharp(originalBuffer)
+                                    .resize(Math.round(originalWidth * 0.5)).toBuffer()
+                            }
+                            if(originalWidth > 200){
+                                return sharp(originalBuffer)
+                                    .resize(width, { fit: 'inside' }).toBuffer()
+                            }
+                            return undefined
+                        })
                 } catch (error) {
                     req.log.error(`post/listings#postListingHandler#sharp: ${error.message}`)
                 }
@@ -142,22 +154,22 @@ module.exports = (fastify) => {
                         resolve({ name: blob.name, small: false })
                     }).on('error', err => {
                         reject('upload error: ', err)
-                    }).end(originqlBuffer)
+                    }).end(originalBuffer)
                 })
                 Promise.all([uploadImg, uploadSmallImg]).then((blobNames) => {
                     formatInsertDocument( QInstance, req, blobNames, true, )
                         .then((data) =>  {
-                            reply.blabla([data, 'listing', section])
+                            reply.blabla([data, 'listing', 'id'], req)
                             return reply
                         })
                         .catch((err) => {
                             req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
-                            reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                            reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
                             return reply
                         })
                 }).catch((err) => {
                     req.log.error(`formatInsertDocument#upload: ${err.message}`)
-                    reply.blabla([{}, 'messages', 'server error... Please try again later.'])
+                    reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
                     return reply
                 })
             }
