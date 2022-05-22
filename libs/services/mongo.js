@@ -1,25 +1,10 @@
-// if not, specify jsdoc like
-// /**
-// * @return {Promise<string>}
-// */
-
 const { ObjectId } = require('@fastify/mongodb')
-const {
-    MongoDBNamespace,
-    Collection,
-    Filter,
-    CollationOptions,
-} = require('mongodb')
-const {
-    Donation,
-    Skill,
-    Blog,
-    Comment,
-    User,
-} = require('../constraints/models')
-const { refreshTopK, topk } = require('../services/miner')
+const { MongoDBNamespace, Collection, Filter, CollationOptions } = require('mongodb')
+const { Donation, Skill, Blog, Comment, User } = require('../constraints/models')
+const { refreshTopK } = require('../services/miner')
+
 const EphemeralData = require('./helpers').EphemeralData
-var { Mutex, MutexInterface } = require('async-mutex')
+var { Mutex } = require('async-mutex')
 
 /**
  * This function returns an ObjectId embedded with a given datetime

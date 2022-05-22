@@ -1,14 +1,18 @@
+const config = require('config')
 const fs = require('fs')
+
 const Multer = require('fastify-multer')
+const LanguageDetection = require('@smodin/fast-text-language-detection')
+
 const ops = {}
 const crypto = {}
-
 // Initiate Multer Object (a middleware for handling multipart/form-data),
-// when env is not api
+// cloudMulter is used to upload to cloud
+// localMulter is used to upload to a folder within the project
 ops.cloudMulter = Multer({
     storage: Multer.memoryStorage(),
     limits: {
-        fileSize: 3 * 1024 * 1024, // no larger than 3mb.
+        fileSize: config.get('IMG').size, // no larger than 3mb.
     },
     // Makes req.file undefined in request if not a valid image file.
     fileFilter: (req, file, cb) => {
@@ -35,7 +39,6 @@ ops.localMulter = Multer({ dest: 'uploads/' }).single('avatar')
 
 const Dictionary = require('./dictionary')
 const dictionary = new Dictionary(['en', 'ar', 'fr'])
-const LanguageDetection = require('@smodin/fast-text-language-detection')
 const lid = new LanguageDetection()
 ops.getLanguage = async (text) => {
     const language = await lid.predict(text, 3)
@@ -197,4 +200,5 @@ function hash(str) {
     h = (h ^ h >>> 17) >>> 0;
     return h.toString(36);
 }
+
 module.exports = { ops, crypto, EphemeralData }
