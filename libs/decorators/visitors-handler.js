@@ -11,10 +11,15 @@ const params = (req, param) => {
 }
 let stats
 
-const dbName = process.env.NODE_ENV === 'development'? 'listings_db_dev': 'listings_db'
+const dbName = process.env.NODE_ENV === 'development' ? 'listings_db_dev' : 'listings_db'
 
-module.exports.getStats = async function getStats(){
-    stats = stats || await visitorCounter({ mongourl: config.get('DATABASE') || process.env.MONGODB_URI, dbName: dbName })
+module.exports.getStats = async function getStats() {
+    stats =
+        stats ||
+        (await visitorCounter({
+            mongourl: config.get('DATABASE') || process.env.MONGODB_URI,
+            dbName: dbName,
+        }))
     return stats
 }
 module.exports.handler = async (req, reply) => {

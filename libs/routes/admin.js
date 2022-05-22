@@ -35,7 +35,9 @@ async function routes(fastify, options) {
     fastify.patch('/:id', { preHandler: adminAuth }, async function (req, reply) {
         // Early Exit
         if (!Object.keys(req.body).length) {
-            reply.send('The request object has no options or is not in the correct format (application/json).')
+            reply.send(
+                'The request object has no options or is not in the correct format (application/json).',
+            )
         }
         // Update the target object
         else {
@@ -66,7 +68,6 @@ async function routes(fastify, options) {
     function getMatch(req) {
         return realtimeJSON.findIndex((a) => a._id.toString() === req.params.id.toString())
     }
-
 }
 
 module.exports = routes

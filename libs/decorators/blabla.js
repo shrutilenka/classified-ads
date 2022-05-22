@@ -4,34 +4,38 @@ const UXBlabla = require('../services/UX-blabla')
 const { constraints } = require('../constraints/constraints')
 const NODE_ENV = {
     api: -1,
-    'localhost': 0,
-    'development': 1,
-    'production': 2
+    localhost: 0,
+    development: 1,
+    production: 2,
 }[process.env.NODE_ENV]
 const COOKIE_NAME = config.get('COOKIE_NAME')
 
 /**
  * `blabla` is a reply decorator ie: It is a customization of `request.view`
- * @param {*} context is like [data, route, kind] where data holds 
+ * @param {*} context is like [data, route, kind] where data holds
  * a lot of values to be sent to user
  * Note: `this` is a Fastify object in the context of calling this
  * It's a function inside a request handler so this.request is simply the request object
  */
- module.exports = function blabla(context) {
+module.exports = function blabla(context) {
     // get prior user info somehow
     const user = {}
     // safe add cookies object when not present, for debugging purposes
     // this.request.raw['cookies'] = this.request.raw['cookies'] ? this.request.raw['cookies'] : {}
-    
-    user['nickname'] = this.request.params.username ? this.request.params.username : this.request.cookies[COOKIE_NAME] ? '🏠' : ''
+
+    user['nickname'] = this.request.params.username
+        ? this.request.params.username
+        : this.request.cookies[COOKIE_NAME]
+            ? '🏠'
+            : ''
     // Send JSON for API env
     if (NODE_ENV == -1) {
         this.send(context[0])
     } else {
         let formData = {}
-        // When user is entering data, Send back same data again 
-        // to fill input forms (it helps when there was an error) 
-        if(this.request.method === 'POST') {
+        // When user is entering data, Send back same data again
+        // to fill input forms (it helps when there was an error)
+        if (this.request.method === 'POST') {
             formData = JSON.parse(JSON.stringify(this.request.body))
             // TODO: remove passwords
             Object.assign(context[0], { formData })
@@ -72,7 +76,7 @@ function localize(data, route, kind, req, reply) {
     if (!userFriendlyMsg['error'] && reply.flash('error').length) {
         userFriendlyMsg['error'] = reply.flash('error')[0]
     }
-    // Reformatting (flattening) of AJV validation errors to send to client 
+    // Reformatting (flattening) of AJV validation errors to send to client
     let errors = []
     if (req.validationError) {
         errors = req.validationError.validation.map((err) => err.message)

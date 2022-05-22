@@ -1,6 +1,6 @@
 const { SVGs } = require('../services/data').give
 const authAdapter = require('../decorators/auth')
-const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
+const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
@@ -12,7 +12,7 @@ async function routes(fastify, options) {
     const redis = fastify.redis
     const QInstance = new queries(db, redis)
     let { softAuth } = authAdapter(fastify)
-    
+
     // Using reply.blabla instead of regular `reply.view`
     fastify.decorateReply('blabla', blabla)
 
@@ -23,8 +23,7 @@ async function routes(fastify, options) {
 
     /* GET home page. */
     fastify.get('/', { preHandler: softAuth }, async function (req, reply) {
-        const [err, listings] = await to(QInstance.getListingsSince(
-            20, '', req.pagination))
+        const [err, listings] = await to(QInstance.getListingsSince(20, '', req.pagination))
         if (err) {
             req.log.error(`index#getListingsSince: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -34,7 +33,7 @@ async function routes(fastify, options) {
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage),
-            addressPoints: []
+            addressPoints: [],
         }
         data.addressPoints = listings.documents.map((a) => {
             return [a.lat, a.lng, a.title, a._id, a.section]
@@ -48,12 +47,11 @@ async function routes(fastify, options) {
         return reply
     })
 
-    // TODO: three repetitive methods but fine, 
-    // maybe they evolve differently in future 
+    // TODO: three repetitive methods but fine,
+    // maybe they evolve differently in future
     fastify.get('/tag/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const [err, listings] = await to(QInstance.getListingsByTag(
-            tag, 'origin', req.pagination))
+        const [err, listings] = await to(QInstance.getListingsByTag(tag, 'origin', req.pagination))
         if (err) {
             req.log.error(`index/tag#getListingsByTag: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -63,7 +61,7 @@ async function routes(fastify, options) {
             subtitle: tag,
             listings: listings.documents,
             current: page,
-            pages: Math.ceil(listings.count / perPage)
+            pages: Math.ceil(listings.count / perPage),
         }
         reply.blabla([data, 'index', 'tags'], req)
         return reply
@@ -71,8 +69,7 @@ async function routes(fastify, options) {
 
     fastify.get('/tag/parent/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const [err, listings] = await to(QInstance.getListingsByTag(
-            tag, 'parent', req.pagination))
+        const [err, listings] = await to(QInstance.getListingsByTag(tag, 'parent', req.pagination))
         if (err) {
             req.log.error(`index/tag/parent#getListingsByTag: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -82,7 +79,7 @@ async function routes(fastify, options) {
             subtitle: tag,
             listings: listings.documents,
             current: page,
-            pages: Math.ceil(listings.count / perPage)
+            pages: Math.ceil(listings.count / perPage),
         }
         reply.blabla([data, 'index', 'tags'], req)
         return reply
@@ -90,8 +87,7 @@ async function routes(fastify, options) {
 
     fastify.get('/tag/granpa/:tag', async function (req, reply) {
         const tag = req.params.tag
-        const [err, listings] = await to(QInstance.getListingsByTag(
-            tag, 'granpa', req.pagination))
+        const [err, listings] = await to(QInstance.getListingsByTag(tag, 'granpa', req.pagination))
         if (err) {
             req.log.error(`index/tag/granpa#getListingsByTag: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -101,7 +97,7 @@ async function routes(fastify, options) {
             subtitle: tag,
             listings: listings.documents,
             current: page,
-            pages: Math.ceil(listings.count / perPage)
+            pages: Math.ceil(listings.count / perPage),
         }
         reply.blabla([data, 'index', 'tags'], req)
         return reply
@@ -109,8 +105,7 @@ async function routes(fastify, options) {
 
     fastify.get('/division/:division', async function (req, reply) {
         const division = req.params.division
-        const [err, listings] = await to(QInstance.getListingsByDivision(
-            division, req.pagination))
+        const [err, listings] = await to(QInstance.getListingsByDivision(division, req.pagination))
         if (err) {
             req.log.error(`index/division#getListingsByDivision: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -120,7 +115,7 @@ async function routes(fastify, options) {
             subtitle: division,
             listings: listings.documents,
             current: page,
-            pages: Math.ceil(listings.count / perPage)
+            pages: Math.ceil(listings.count / perPage),
         }
         reply.blabla([data, 'index', 'division'], req)
         return reply
@@ -128,8 +123,7 @@ async function routes(fastify, options) {
 
     fastify.get('/keyword/:keyword', async function (req, reply) {
         const keyword = req.params.keyword.trim()
-        const [err, listings] = await to(QInstance.getListingsByKeyword(
-            keyword, req.pagination))
+        const [err, listings] = await to(QInstance.getListingsByKeyword(keyword, req.pagination))
         if (err) {
             req.log.error(`index/keyword#getListingsByKeyword: ${err.message}`)
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -139,7 +133,7 @@ async function routes(fastify, options) {
             subtitle: keyword,
             listings: listings.documents,
             current: page,
-            pages: Math.ceil(listings.count / perPage)
+            pages: Math.ceil(listings.count / perPage),
         }
         reply.blabla([data, 'index', 'keyword'], req)
         return reply
@@ -165,7 +159,7 @@ async function routes(fastify, options) {
         }
         return topTags
     })
-    
+
     fastify.get('/top/div', async function (req, reply) {
         // const section = req.params.section
         const [err, topTags] = await to(QInstance.topByDivision())
@@ -176,7 +170,7 @@ async function routes(fastify, options) {
         return topTags
     })
 
-    // TODO: not being called in UI yet, 
+    // TODO: not being called in UI yet,
     fastify.get('/top/parent/tags', async function (req, reply) {
         // const section = req.params.section
         const [err, topTags] = await to(QInstance.topByParentTag())
@@ -203,7 +197,7 @@ async function routes(fastify, options) {
             title: 'Explore all tags!',
         })
     })
-    
+
     // Blog pages are pages with little server processing
     fastify.get('/categories', function (req, reply) {
         reply.view('/templates/pages/blog', {
@@ -211,8 +205,8 @@ async function routes(fastify, options) {
             sections: [
                 { id: 'Donations', html: req.t('doc.donations') },
                 { id: 'Skills', html: req.t('doc.skills') },
-                { id: 'Blogs', html: req.t('doc.blogs') }
-            ]
+                { id: 'Blogs', html: req.t('doc.blogs') },
+            ],
         })
     })
 
@@ -221,8 +215,8 @@ async function routes(fastify, options) {
             title: 'What is Classified-ads-48',
             sections: [
                 { id: 'What is', html: req.t('doc.about') },
-                { id: 'Careful', html: req.t('doc.careful') }
-            ]
+                { id: 'Careful', html: req.t('doc.careful') },
+            ],
         })
     })
 
@@ -232,8 +226,8 @@ async function routes(fastify, options) {
             sections: [
                 { id: 'Careful', html: req.t('doc.careful') },
                 { id: 'Login', html: req.t('doc.login') },
-                { id: 'Validation', html: req.t('doc.validation') }
-            ]
+                { id: 'Validation', html: req.t('doc.validation') },
+            ],
         })
     })
 
@@ -243,8 +237,8 @@ async function routes(fastify, options) {
             sections: [
                 { id: 'sec1', html: 'bob' },
                 { id: 'sec2', html: 'lorem upsom lorem upsom lorem upsom lorem  ' },
-                { id: 'sec3', html: 'lorem upsom lorem upsom lorem upsom lorem  '.toUpperCase() }
-            ]
+                { id: 'sec3', html: 'lorem upsom lorem upsom lorem upsom lorem  '.toUpperCase() },
+            ],
         })
     })
 
@@ -253,10 +247,9 @@ async function routes(fastify, options) {
         const idx = Math.floor(Math.random() * 4) + 1
         reply.view('/templates/pages/easter-egg', {
             svg: SVGs[idx - 1],
-            style: `easter-egg-${idx}.css`
+            style: `easter-egg-${idx}.css`,
         })
     })
-
 }
 
 module.exports = routes

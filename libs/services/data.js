@@ -8,28 +8,20 @@ const give = {}
 const TAG_SIZE = config.get('TAG_SIZE')
 const artsPath = path.join(__dirname, '../../data/raw/arts/')
 give.SVGs = fs
-    .readdirSync(artsPath, (err, files) =>
-        files.filter((e) => path.extname(e).toLowerCase() === '.svg'),
-    )
+    .readdirSync(artsPath, (err, files) => files.filter((e) => path.extname(e).toLowerCase() === '.svg'))
     .map((p) => path.join(__dirname, '../../data/raw/arts/' + p))
     .map((p) => fs.readFileSync(p, 'utf-8'))
 
 const taxonomyPathEn = '../../data/taxonomy/taxonomy-with-ids.en-US.txt'
-const fileSyncEn = fs
-    .readFileSync(path.join(__dirname, taxonomyPathEn))
-    .toString()
+const fileSyncEn = fs.readFileSync(path.join(__dirname, taxonomyPathEn)).toString()
 const fileContentEn = fileSyncEn.replace(',', '_').split('\n').filter(Boolean)
 
 const taxonomyPathAr = '../../data/taxonomy/taxonomy-with-ids.ar-SA.txt'
-const fileSyncAr = fs
-    .readFileSync(path.join(__dirname, taxonomyPathAr))
-    .toString()
+const fileSyncAr = fs.readFileSync(path.join(__dirname, taxonomyPathAr)).toString()
 const fileContentAr = fileSyncAr.replace(',', '_').split('\n').filter(Boolean)
 
 const taxonomyPathFr = '../../data/taxonomy/taxonomy-with-ids.fr-FR.txt'
-const fileSyncFr = fs
-    .readFileSync(path.join(__dirname, taxonomyPathFr))
-    .toString()
+const fileSyncFr = fs.readFileSync(path.join(__dirname, taxonomyPathFr)).toString()
 const fileContentFr = fileSyncFr.replace(',', '_').split('\n').filter(Boolean)
 
 const splitBy = (sep) => (str) => str.split(sep).map((x) => x.trim())
@@ -50,9 +42,7 @@ const load = (lines) =>
 
 give.googleTagsEn = [
     ...new Set(
-        load(fileContentEn).filter(
-            (arr) => arr.length == 3 && arr[2].length < TAG_SIZE,
-        ),
+        load(fileContentEn).filter((arr) => arr.length == 3 && arr[2].length < TAG_SIZE),
         (x) => x.join(''),
     ),
 ]
@@ -60,9 +50,7 @@ give.googleTagsEnLite = give.googleTagsEn.map((elem) => elem[2])
 
 give.googleTagsAr = [
     ...new Set(
-        load(fileContentAr).filter(
-            (arr) => arr.length == 3 && arr[2].length < TAG_SIZE,
-        ),
+        load(fileContentAr).filter((arr) => arr.length == 3 && arr[2].length < TAG_SIZE),
         (x) => x.join(''),
     ),
 ]
@@ -70,9 +58,7 @@ give.googleTagsArLite = give.googleTagsAr.map((elem) => elem[2])
 
 give.googleTagsFr = [
     ...new Set(
-        load(fileContentFr).filter(
-            (arr) => arr.length == 3 && arr[2].length < TAG_SIZE,
-        ),
+        load(fileContentFr).filter((arr) => arr.length == 3 && arr[2].length < TAG_SIZE),
         (x) => x.join(''),
     ),
 ]
@@ -111,15 +97,8 @@ getTags('../../data/taxonomy/occupations_en.csv', give.ESCOTagsEn)
  * 17000000 météo
  *
  */
-const toKeep = [
-    '01000000',
-    '05000000',
-    '06000000',
-    '08000000',
-    '10000000',
-    '15000000',
-]
-const toKeep_ = (s) => toKeep.some((mediatopic) => s.indexOf(mediatopic) >=0) 
+const toKeep = ['01000000', '05000000', '06000000', '08000000', '10000000', '15000000']
+const toKeep_ = (s) => toKeep.some((mediatopic) => s.indexOf(mediatopic) >= 0)
 give.cptallTagsEn = require('../../data/taxonomy/cptall-en-US.json')
     .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['en-US'])
@@ -129,7 +108,6 @@ give.cptallTagsFr = require('../../data/taxonomy/cptall-fr.json')
 give.cptallTagsAr = require('../../data/taxonomy/cptall-ar.json')
     .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['ar'])
-
 
 // const pipeline = chain([
 //     fs.createReadStream(path.join(__dirname, taxonomyPathEn)),

@@ -1,6 +1,6 @@
 const config = require('config')
 
-const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
+const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
@@ -19,53 +19,43 @@ async function routes(fastify, options) {
     const Mailer = require('../services/mailer')
     const mailer = Mailer.getInstance(null)
     fastify.decorateReply('blabla', blabla)
-    fastify.post(
-        '/login',
-        { schema: loginSchema, attachValidation: true },
-        async function (request, reply) {
-            if (request.validationError) {
-                reply.blabla([{}, 'login', 'VALIDATION_ERROR'], request)
-            }
-            const { username, password } = request.body
-            const user = await QInstance.getUserById(username)
-            if (!user) {
+    fastify.post('/login', { schema: loginSchema, attachValidation: true }, async function (request, reply) {
+        if (request.validationError) {
+            reply.blabla([{}, 'login', 'VALIDATION_ERROR'], request)
+        }
+        const { username, password } = request.body
+        const user = await QInstance.getUserById(username)
+        if (!user) {
+            reply.blabla([{}, 'login', 'INCORRECT_CREDENTIALS'], request)
+            return
+        }
+        try {
+            const isMatch = await bcrypt.compare(password, user.passhash)
+            if (!isMatch) {
                 reply.blabla([{}, 'login', 'INCORRECT_CREDENTIALS'], request)
                 return
-            }
-            try {
-                const isMatch = await bcrypt.compare(password, user.passhash)
-                if (!isMatch) {
-                    reply.blabla(
-                        [{}, 'login', 'INCORRECT_CREDENTIALS'],
-                        request,
-                    )
-                    return
-                } else if (!user.isVerified) {
-                    reply.blabla([{}, 'login', 'USER_UNVERIFIED'], request)
+            } else if (!user.isVerified) {
+                reply.blabla([{}, 'login', 'USER_UNVERIFIED'], request)
+                return
+            } else {
+                const token = await jwt.sign({ username: username, role: user.role }, JWT_SECRET)
+                reply.setCookie(COOKIE_NAME, token)
+                // this.user = username
+                if (request.headers.referer) {
+                    reply.redirect(request.headers.referer)
                     return
                 } else {
-                    const token = await jwt.sign(
-                        { username: username, role: user.role },
-                        JWT_SECRET,
-                    )
-                    reply.setCookie(COOKIE_NAME, token)
-                    // this.user = username
-                    if (request.headers.referer) {
-                        reply.redirect(request.headers.referer)
-                        return
-                    } else {
-                        request.flash('success', 'Successfully logged in')
-                        reply.redirect('/')
-                        return
-                    }
+                    request.flash('success', 'Successfully logged in')
+                    reply.redirect('/')
+                    return
                 }
-            } catch (err) {
-                console.log(err)
-                reply.blabla([{}, 'login', 'SERVER_ERROR'], request)
-                return
             }
-        },
-    )
+        } catch (err) {
+            console.log(err)
+            reply.blabla([{}, 'login', 'SERVER_ERROR'], request)
+            return
+        }
+    })
 
     const signupSchema = constraints[process.env.NODE_ENV].POST.signup.schema
     fastify.post(
@@ -79,7 +69,9 @@ async function routes(fastify, options) {
             const { username, password } = request.body
             // Always 'regular' by default (except user@mail.com for tests)
             const role =
-                username === 'bacloud14@gmail.com' || username === 'sracer2016@yahoo.com' ? 'admin' : 'regular'
+                username === 'bacloud14@gmail.com' || username === 'sracer2016@yahoo.com'
+                    ? 'admin'
+                    : 'regular'
             const isVerified = role === 'admin' ? true : false
             try {
                 const user = await QInstance.getUserById(username)
@@ -95,8 +87,15 @@ async function routes(fastify, options) {
                         token: crypto.randomBytes(16).toString('hex'),
                     }
                     // Actual user but unverified
-                    const [err, acknowledged] = await to(QInstance.insertUser({
-                        username, password, passhash, isVerified, role }))
+                    const [err, acknowledged] = await to(
+                        QInstance.insertUser({
+                            username,
+                            password,
+                            passhash,
+                            isVerified,
+                            role,
+                        }),
+                    )
                     if (err) return reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
 
                     if (role === 'admin') {

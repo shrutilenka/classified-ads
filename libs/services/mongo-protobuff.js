@@ -19,7 +19,6 @@ function getListingsSince() {
     this.decodeBuffer = (buffer) => {
         var decodedMessage = GetListingsSince.decode(buffer)
         return decodedMessage.toJSON()
-
     }
 }
 

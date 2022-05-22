@@ -2,7 +2,7 @@ const geoEncoder = require('../../data/geo/geoJSONEncoder')
 const { constraints } = require('../constraints/constraints')
 const { html, reb, rew } = require('../constraints/regex')
 const sanitizeHtml = require('sanitize-html')
-const nlp = require('wink-nlp-utils');
+const nlp = require('wink-nlp-utils')
 const coordinates = geoEncoder.getBorders()
 const localize = {
     en: require('ajv-i18n/localize/en'),
@@ -21,7 +21,7 @@ function sanitize(str) {
         allowedTags: html.allowedTags,
         allowedAttributes: {
             span: ['style'],
-            a: ['href', 'name', 'target']
+            a: ['href', 'name', 'target'],
         },
         allowedStyles: {
             '*': {
@@ -29,13 +29,13 @@ function sanitize(str) {
                 color: html.allowedColors,
                 'text-align': [/^left$/, /^right$/, /^center$/],
                 // Match any number with px, em, or %
-                'font-size': [/^\d+(?:px|em|%)$/]
+                'font-size': [/^\d+(?:px|em|%)$/],
             },
             span: {
                 'font-size': [/^\d+rem$/],
-                'background-color': [/^pink$/]
-            }
-        }
+                'background-color': [/^pink$/],
+            },
+        },
     })
 }
 
@@ -55,7 +55,7 @@ function cleanSensitive(blob, maxLen) {
                     function (match, index) {
                         this.push({ i: index, m: match })
                         return ''
-                    }.bind(whitelisted)
+                    }.bind(whitelisted),
                 )
             }
         }
@@ -74,7 +74,6 @@ function cleanSensitive(blob, maxLen) {
     }
     return blob
 }
-
 
 // Chain wrapper for Strings
 function stringTransformer(s) {
@@ -98,7 +97,7 @@ function stringTransformer(s) {
 // derive parent tag from an array of arrays
 function groupOneLevel(data, fstIdx, sndIdx) {
     const result = {}
-    data.forEach(row => {
+    data.forEach((row) => {
         if (!result[row[fstIdx]]) {
             result[row[fstIdx]] = new Set()
         }
@@ -124,7 +123,7 @@ function getAscendants(keyword, lang) {
 const give = require('./data').give
 const { googleTagsEn, googleTagsFr, googleTagsAr } = give
 const { googleTagsEnLite, googleTagsFrLite, googleTagsArLite } = give
-const leveled = { 'en': {}, 'fr': {}, 'ar': {} }
+const leveled = { en: {}, fr: {}, ar: {} }
 leveled.en['level1'] = groupOneLevel(googleTagsEn, 0, 1)
 leveled.en['level2'] = groupOneLevel(googleTagsEn, 1, 2)
 leveled.fr['level1'] = groupOneLevel(googleTagsFr, 0, 1)
@@ -142,7 +141,7 @@ function PipeLine(data) {
 ///////////////////////////////////SIMPLE BOOLEAN HELPER////////////////////////////////////////////////////////////////////////////////////////////////////
 const and = (x, y) => x && y
 const or = (x, y) => x || y
-const assign = (fn, obj, solution) => obj.value = fn(obj.value, solution)
+const assign = (fn, obj, solution) => (obj.value = fn(obj.value, solution))
 function ChainBool(solution, op) {
     this.value = op === 'or' ? assign(or, this, solution) : assign(and, this, solution)
 }
@@ -160,8 +159,7 @@ PipeLine.prototype = {
                 const yi = vs[i][0]
                 const xj = vs[j][1]
                 const yj = vs[j][0]
-                const intersect = ((yi > y) != (yj > y)) &&
-                    (x < (xj - xi) * (y - yi) / (yj - yi) + xi)
+                const intersect = yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi
                 if (intersect) inside = !inside
             }
             return inside
@@ -175,7 +173,7 @@ PipeLine.prototype = {
         const predicate = () => {
             try {
                 let tags = JSON.parse(this.data.tags)
-                this.data.tags = tags.map(a => a.value)
+                this.data.tags = tags.map((a) => a.value)
                 return true
             } catch (error) {
                 this.error['isTagsValid'] = error.message
@@ -202,7 +200,7 @@ PipeLine.prototype = {
     },
     // Expects this.data to be body having body.undraw
     undrawSplit: function () {
-        [this.data.undraw, this.data.color] = this.data.undraw.split('#')
+        ;[this.data.undraw, this.data.color] = this.data.undraw.split('#')
         return this
     },
     // Expects this.data to be body having body.undraw.color
@@ -220,17 +218,16 @@ PipeLine.prototype = {
         const french = english ? false : googleTagsFrLite.indexOf(this.data.tags[0]) > -1
         const arabic = english ? false : french ? false : googleTagsArLite.indexOf(this.data.tags[0]) > -1
         try {
-            if (!english && !french && !arabic)
-                throw new Error('Tags should be chosen from list')
+            if (!english && !french && !arabic) throw new Error('Tags should be chosen from list')
             var parent, granpa
             if (english) {
-                [parent, granpa] = getAscendants(this.data.tags[0], 'en')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'en')
             }
             if (french) {
-                [parent, granpa] = getAscendants(this.data.tags[0], 'fr')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'fr')
             }
             if (arabic) {
-                [parent, granpa] = getAscendants(this.data.tags[0], 'ar')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'ar')
             }
             this.data.parent = parent
             this.data.granpa = granpa
@@ -241,27 +238,24 @@ PipeLine.prototype = {
     },
     evaluate: function () {
         return { isTrue: this.value, data: this.data, error: this.error }
-    }
+    },
 }
-const Ajv = require('ajv');
+const Ajv = require('ajv')
 const ajv = new Ajv({ allErrors: true, coerceTypes: 'number' })
 function validationPipeLine(req) {
     const { body, method } = req
     const section = body.section
-    const {
-        upload,
-        geolocation,
-        illustrations,
-        schema
-    } = constraints[process.env.NODE_ENV][method][section]
+    const { upload, geolocation, illustrations, schema } = constraints[process.env.NODE_ENV][method][section]
     const singletonSchema = schema()
-    
+
     ///////////////////////////////////THIS IS CONSTRUCTION OF THE PIPELINE (MAIN LIKE)//////////////////////////////////////////////////////////////////////
     const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng })
     const bodyPipeline = new PipeLine(body)
     const bodyPipeline2 = new PipeLine(body)
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
-    const undrawValid = !illustrations ? true : bodyPipeline.undrawSplit().isValidBetween(singletonSchema).undrawPostValidate().isTrue
+    const undrawValid = !illustrations
+        ? true
+        : bodyPipeline.undrawSplit().isValidBetween(singletonSchema).undrawPostValidate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents().evaluate().isTrue
 
     ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////
@@ -272,15 +266,19 @@ function validationPipeLine(req) {
     let errors = []
     if (!valid) {
         localize[(req.i18n && req.i18n.language) || req.cookies.locale || 'en'](validate.errors)
-        errors = validate.errors.map(err => `${err.dataPath.substring(1)} - ${err.message}`)
+        errors = validate.errors.map((err) => `${err.dataPath.substring(1)} - ${err.message}`)
     }
     if (geoPipeline.error) {
-        let friendlyErrors = Object.entries(geoPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
+        let friendlyErrors = Object.entries(geoPipeline.error).map(([key, value]) =>
+            errors.push(`${key}: ${value}`),
+        )
         errors = errors.concat(friendlyErrors)
     }
-    
+
     if (bodyPipeline.error) {
-        let friendlyErrors = Object.entries(bodyPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
+        let friendlyErrors = Object.entries(bodyPipeline.error).map(([key, value]) =>
+            errors.push(`${key}: ${value}`),
+        )
         errors = errors.concat(friendlyErrors)
     }
 

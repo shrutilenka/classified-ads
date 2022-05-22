@@ -1,19 +1,15 @@
 const config = require('config')
 const path = require('path')
 const { format, promisify } = require('util')
-const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
+const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 const helpers = require('../services/helpers').ops
 const { Storage } = require('@google-cloud/storage')
-// const Joi = require('joi')
 
 const sharp = require('sharp')
 
 const storage = new Storage({ keyFilename: process.env.CREDS_PATH })
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
-const {
-    validationPipeLine,
-    stringTransformer,
-} = require('../services/pipeLine.js')
+const { validationPipeLine, stringTransformer } = require('../services/pipeLine.js')
 const { constraints } = require('../constraints/constraints')
 
 const queries = require('../services/mongo')
@@ -24,10 +20,10 @@ const tidyP = promisify(tidy)
 const formatNInsertListing = async (QInstance, req, blobNames) => {
     const { body } = req
     let publicUrl, publicUrlSmall
-    if(blobNames) {
-        const [blobName, blobNameSmall] = blobNames[0].small ? [
-            blobNames[1].name, blobNames[0].name
-        ] : [blobNames[0].name, blobNames[1].name]
+    if (blobNames) {
+        const [blobName, blobNameSmall] = blobNames[0].small
+            ? [blobNames[1].name, blobNames[0].name]
+            : [blobNames[0].name, blobNames[1].name]
         publicUrlSmall = format(`https://storage.googleapis.com/${bucket.name}/${blobNameSmall}`)
         publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
     } else {
@@ -58,18 +54,25 @@ module.exports = (fastify) => {
     return async (req, reply) => {
         const { body, method } = req
         const section = body.section
-        if(!section) {
+        if (!section) {
             req.log.error(`post/listings#postListingHandler: no section provided}`)
-            reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
+            reply.blabla([
+                { title: 'TODO: blaaaaaaaaaaa' },
+                'message',
+                'server error... Please try again later.',
+            ])
             return reply
         }
         let errors, tagsValid, geoValid, undrawValid
         try {
-            ({ errors, tagsValid, geoValid, undrawValid } =
-            validationPipeLine(req))
+            ;({ errors, tagsValid, geoValid, undrawValid } = validationPipeLine(req))
         } catch (error) {
             req.log.error(`post/listings#postListingHandler: ${error.message}`)
-            reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
+            reply.blabla([
+                { title: 'TODO: blaaaaaaaaaaa' },
+                'message',
+                'server error... Please try again later.',
+            ])
             return reply
         }
         const valid = !errors.length && tagsValid && geoValid && undrawValid
@@ -78,30 +81,52 @@ module.exports = (fastify) => {
             reply.blabla([{ errors, section }, 'listings', 'POST_ERR'], req)
             return reply
         } else {
-            const html = await tidyP(body.desc, opt)
-            body.desc = new stringTransformer(html)
-                .sanitizeHTML()
-                .cleanSensitive()
-                .valueOf()
-            body.lang = await helpers.getLanguage(body.desc)
+            let stripped
+            try {
+                body.desc = new stringTransformer(body.desc).sanitizeHTML().cleanSensitive().valueOf()
+                stripped = body.desc.replace(/<[^>]*>?/gm, '')
+                body.desc = await tidyP(body.desc, opt)
+            } catch (error) {
+                // TODO: stop request ?
+                req.log.error(
+                    `post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `,
+                )
+            }
+            try {
+                body.lang = stripped ? await helpers.getLanguage(stripped) : 'und'
+            } catch (error) {
+                body.lang = 'und'
+                req.log.error(
+                    `post/listings#postListingHandler: getLanguage:: ${stripped.slice(0, 20)} | ${
+                        error.message
+                    } `,
+                )
+            }
             const { upload } = constraints[process.env.NODE_ENV][method][section]
             if (upload && !req.file) {
                 req.log.error(`post/listings#postListingHandler: file not found`)
-                reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
+                reply.blabla([
+                    { title: 'TODO: blaaaaaaaaaaa' },
+                    'message',
+                    'server error... Please try again later.',
+                ])
                 return reply
             }
             if (!upload) {
-                formatNInsertListing(QInstance, req, null, false,)
-                    .then((data) =>  {
+                formatNInsertListing(QInstance, req, null, false)
+                    .then((data) => {
                         reply.blabla([data, 'listing', 'id'], req)
                         return reply
                     })
                     .catch((err) => {
                         req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
-                        reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
+                        reply.blabla([
+                            { title: 'TODO: blaaaaaaaaaaa' },
+                            'message',
+                            'server error... Please try again later.',
+                        ])
                         return reply
                     })
-               
             } else {
                 // Upload that damn pictures the original and the thumbnail
                 // Create a new blob in the bucket and upload the file data.
@@ -115,59 +140,74 @@ module.exports = (fastify) => {
                 try {
                     thumbnailBuffer = await sharp(originalBuffer)
                         .metadata()
-                        .then(({ width : originalWidth }) => {
-                            if(originalWidth > 400) {
+                        .then(({ width: originalWidth }) => {
+                            if (originalWidth > 400) {
                                 return sharp(originalBuffer)
-                                    .resize(Math.round(originalWidth * 0.5)).toBuffer()
+                                    .resize(Math.round(originalWidth * 0.5))
+                                    .toBuffer()
                             }
-                            if(originalWidth > 200){
-                                return sharp(originalBuffer)
-                                    .resize(width, { fit: 'inside' }).toBuffer()
+                            if (originalWidth > 200) {
+                                return sharp(originalBuffer).resize(width, { fit: 'inside' }).toBuffer()
                             }
                             return undefined
                         })
                 } catch (error) {
                     req.log.error(`post/listings#postListingHandler#sharp: ${error.message}`)
                 }
-                
+
                 if (thumbnailBuffer)
-                    uploadSmallImg =  new Promise((resolve, reject) => {
+                    uploadSmallImg = new Promise((resolve, reject) => {
                         blob.createWriteStream({
-                            resumable: false //Good for small files
-                        }).on('finish', () => {
-                            resolve({ name: blob.name, small: true })
-                        }).on('error', err => {
-                            reject('upload error: ', err)
-                        }).end(thumbnailBuffer)
+                            resumable: false, //Good for small files
+                        })
+                            .on('finish', () => {
+                                resolve({ name: blob.name, small: true })
+                            })
+                            .on('error', (err) => {
+                                reject('upload error: ', err)
+                            })
+                            .end(thumbnailBuffer)
                     })
-                else
-                    uploadSmallImg =  Promise.resolve({ name: config.get('IMG_THUMB').url, small: true })
-                uploadImg =  new Promise((resolve, reject) => {
+                else uploadSmallImg = Promise.resolve({ name: config.get('IMG_THUMB').url, small: true })
+                uploadImg = new Promise((resolve, reject) => {
                     blob.createWriteStream({
                         metadata: { contentType: req.file.mimetype },
-                        resumable: true
-                    }).on('finish', () => {
-                        resolve({ name: blob.name, small: false })
-                    }).on('error', err => {
-                        reject('upload error: ', err)
-                    }).end(originalBuffer)
-                })
-                Promise.all([uploadImg, uploadSmallImg]).then((blobNames) => {
-                    formatNInsertListing( QInstance, req, blobNames, true, )
-                        .then((data) =>  {
-                            reply.blabla([data, 'listing', 'id'], req)
-                            return reply
+                        resumable: true,
+                    })
+                        .on('finish', () => {
+                            resolve({ name: blob.name, small: false })
                         })
-                        .catch((err) => {
-                            req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
-                            reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
-                            return reply
+                        .on('error', (err) => {
+                            reject('upload error: ', err)
                         })
-                }).catch((err) => {
-                    req.log.error(`formatNInsertListing#upload: ${err.message}`)
-                    reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
-                    return reply
+                        .end(originalBuffer)
                 })
+                Promise.all([uploadImg, uploadSmallImg])
+                    .then((blobNames) => {
+                        formatNInsertListing(QInstance, req, blobNames, true)
+                            .then((data) => {
+                                reply.blabla([data, 'listing', 'id'], req)
+                                return reply
+                            })
+                            .catch((err) => {
+                                req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
+                                reply.blabla([
+                                    { title: 'TODO: blaaaaaaaaaaa' },
+                                    'message',
+                                    'server error... Please try again later.',
+                                ])
+                                return reply
+                            })
+                    })
+                    .catch((err) => {
+                        req.log.error(`formatNInsertListing#upload: ${err.message}`)
+                        reply.blabla([
+                            { title: 'TODO: blaaaaaaaaaaa' },
+                            'message',
+                            'server error... Please try again later.',
+                        ])
+                        return reply
+                    })
             }
         }
     }

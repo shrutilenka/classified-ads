@@ -5,7 +5,6 @@ const TAG_SIZE = config.get('TAG_SIZE')
 const S = require('fluent-json-schema')
 const { illustrations, fontFamilies } = require('./hallux.js')
 
-
 // TODO: one single format, w'll see how to deal with on client side
 const toDay = () => {
     const today = new Date()
@@ -157,10 +156,7 @@ const eventsSchema = () => {
     }
 }
 
-const comment = S.object().prop(
-    'message',
-    S.string().minLength(20).maxLength(200).required(),
-)
+const comment = S.object().prop('message', S.string().minLength(20).maxLength(200).required())
 const commentSchema = {
     body: comment,
 }

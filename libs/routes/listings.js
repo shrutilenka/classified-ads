@@ -1,16 +1,16 @@
 const config = require('config')
 const NODE_ENV = {
     api: -1,
-    'localhost': 0,
-    'development': 1,
-    'production': 2
+    localhost: 0,
+    development: 1,
+    production: 2,
 }[process.env.NODE_ENV]
 
 const helpers = require('../services/helpers').ops
 const crypto = require('../services/helpers').crypto
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 const authAdapter = require('../decorators/auth')
-const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
+const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options, next) {
@@ -21,13 +21,12 @@ async function routes(fastify, options, next) {
     const { db } = fastify.mongo
     const { redis } = fastify
     const QInstance = new queries(db, redis)
-    let { auth, adminAuth, softAuth } = authAdapter(fastify) 
+    let { auth, adminAuth, softAuth } = authAdapter(fastify)
 
     fastify.decorateReply('blabla', blabla)
 
     fastify.get('/', { preHandler: softAuth }, async function (req, reply) {
-        const [err, listings] = await to(QInstance.getListingsSince(
-            20, '', req.pagination))
+        const [err, listings] = await to(QInstance.getListingsSince(20, '', req.pagination))
         const { page, perPage } = req.pagination
         const data = {
             context: 'alllistings',
@@ -42,8 +41,7 @@ async function routes(fastify, options, next) {
 
     const getSectionHandler = async (req, reply) => {
         const section = req.url.split('/')[2].split('?')[0]
-        const [err, listings] = await to(QInstance.getListingsSince(
-            100, section, req.pagination))
+        const [err, listings] = await to(QInstance.getListingsSince(100, section, req.pagination))
         if (err) return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         const { page, perPage } = req.pagination
         const data = {
@@ -52,7 +50,7 @@ async function routes(fastify, options, next) {
             listings: listings.documents,
             current: page,
             pages: Math.ceil(listings.count / perPage),
-            addressPoints: []
+            addressPoints: [],
         }
         data.addressPoints = listings.documents.map((a) => {
             return [a.lat, a.lng, a.title, a._id]
@@ -64,12 +62,12 @@ async function routes(fastify, options, next) {
     fastify.get('/events', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/skills', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/blogs', { preHandler: softAuth }, getSectionHandler)
-    
+
     /* GET one listing; must not be deactivated. */
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
         const viewer = req.params.username
         const hex = /[0-9A-Fa-f]{6}/g
-        const [err, elem] = (hex.test(req.params.id))
+        const [err, elem] = hex.test(req.params.id)
             ? await to(QInstance.getListingById(req.params.id, false, viewer))
             : ['NOT_FOUND', undefined]
         if (err === 'NOT_FOUND' || !elem) return reply.blabla([{}, 'message', 'NOT_FOUND'], req)
@@ -78,11 +76,11 @@ async function routes(fastify, options, next) {
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         let data = {}
-        const author = elem.usr;
+        const author = elem.usr
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
 
         const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
-        // Todo: if author == viewer then the author could have multiple channels on one thread 
+        // Todo: if author == viewer then the author could have multiple channels on one thread
         data = { data: elem, section: elem.section, author, channel }
         reply.blabla([data, 'listing', 'id'], req)
         return reply
@@ -90,49 +88,51 @@ async function routes(fastify, options, next) {
 
     /* GET one new channel at least or all channels. */
     // TODO: cache later on Redis
-    const allChannels = [{
-        au: 'super_author', 
-        vi: 'logged_in_viewer',
-        th: 'LISTING0435232'
-    }]
+    const allChannels = [
+        {
+            au: 'super_author',
+            vi: 'logged_in_viewer',
+            th: 'LISTING0435232',
+        },
+    ]
     fastify.get('/id/:id/channels', { preHandler: auth }, async function (req, reply) {
         let channels = []
         const viewer = req.params.username
         const thread = req.params.id
         const hex = /[0-9A-Fa-f]{6}/g
         // replace getListingById by a quicker QInstance.listingExists()
-        const [err, elem] = (hex.test(thread))
+        const [err, elem] = hex.test(thread)
             ? await to(QInstance.getListingById(thread, false, viewer))
             : ['NOT_FOUND', undefined]
-        if (err === 'NOT_FOUND' || !elem) return reply.send({err: 'NOT_FOUND'})
+        if (err === 'NOT_FOUND' || !elem) return reply.send({ err: 'NOT_FOUND' })
         if (err) {
             req.log.error(`get/id#getListingById: ${err.message}`)
-            return reply.send({err: 'SERVER_ERROR'})
+            return reply.send({ err: 'SERVER_ERROR' })
         }
         const author = elem.usr
-        const newChannel = { au: author, vi: viewer, th: thread}
+        const newChannel = { au: author, vi: viewer, th: thread }
         // update allChannels with new channel if needed
-        if(!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
+        if (!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
             allChannels.push(newChannel)
         }
         // get channels convenient to this thread and viewer
-        if(author === viewer) {
+        if (author === viewer) {
             // get channels of all visitors (viewer) for the author
             channels = allChannels.filter((ch) => ch.au == author && ch.th == thread)
         } else {
-            // find the one channel for the current viewer 
+            // find the one channel for the current viewer
             channels = [allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)]
         }
         // encrypt channels names
-        channels = channels.map(ch => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
-        return reply.send({channels})
+        channels = channels.map((ch) => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
+        return reply.send({ channels })
     })
-    
+
     /* GET one listing; must not be deactivated. */
     const COOKIE_NAME = config.get('COOKIE_NAME')
     fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
-        const [err, elem] = (hex.test(req.params.id))
+        const [err, elem] = hex.test(req.params.id)
             ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
             : ['NOT_FOUND', undefined]
         if (err === 'NOT_FOUND' || !elem) return reply.send({ boom: ':(' })
@@ -141,38 +141,43 @@ async function routes(fastify, options, next) {
             return reply.send({ boom: ':(' })
         }
         if (elem) {
-            const peer2 = elem.usr;
+            const peer2 = elem.usr
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
             const user = {}
-            user['nickname'] = req.params.username ? req.params.username : req.cookies[COOKIE_NAME] ? '🏠' : ''
+            user['nickname'] = req.params.username
+                ? req.params.username
+                : req.cookies[COOKIE_NAME]
+                    ? '🏠'
+                    : ''
             let comments = []
             if (req.params.username) {
                 const peer1 = req.params.username
                 // console.log(`=====fetching comments=====\npeer1 ${peer1} & peer2 ${peer2} & thread ${req.params.id}\n`)
                 comments = await QInstance.getComments(peer1, peer2, req.params.id)
-                comments.forEach(comment => {
+                comments.forEach((comment) => {
                     comment.from = helpers.initials(comment.from)
                     comment.to = helpers.initials(comment.to)
-                });
+                })
             }
             reply.send({ comments: comments, user: user, author: peer2 })
             return reply
         }
         req.log.error(`get/comments#getComments: either no listing ${req.params.id} or an error`)
-        reply.send({boom: ':('})
+        reply.send({ boom: ':(' })
         return reply
     })
-
 
     const gwooglSchema = constraints[process.env.NODE_ENV].POST.queryGwoogl.schema
     /* Query listings not including deactivated */
     fastify.post(
-        '/gwoogl', { schema: gwooglSchema, preHandler: softAuth, preValidation: require('../decorators/preValidation') },
+        '/gwoogl',
+        { schema: gwooglSchema, preHandler: softAuth, preValidation: require('../decorators/preValidation') },
         async (req, reply) => {
             const { body } = req
             const lang = await helpers.getLanguage(body.title_desc)
-            let [err, listings] = await to(QInstance.gwoogl(body.title_desc,
-                body.exact, body.div_q, body.section, lang))
+            let [err, listings] = await to(
+                QInstance.gwoogl(body.title_desc, body.exact, body.div_q, body.section, lang),
+            )
             if (err) {
                 req.log.error(`gwoogl#gwoogl: ${err.message}`)
                 return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -186,16 +191,22 @@ async function routes(fastify, options, next) {
             }
             reply.blabla([data, 'listings', 'gwoogl'], req)
             return reply
-        }
-    );
+        },
+    )
     const geolocationSchema = constraints[process.env.NODE_ENV].POST.queryGeolocation.schema
     /* Query listings withing a geo-point and radius */
     fastify.post(
-        '/geolocation', { schema: geolocationSchema, preHandler: softAuth, preValidation: require('../decorators/preValidation') },
+        '/geolocation',
+        {
+            schema: geolocationSchema,
+            preHandler: softAuth,
+            preValidation: require('../decorators/preValidation'),
+        },
         async (req, reply) => {
             const { body } = req
-            let [err, listings] = await to(QInstance.getListingsByGeolocation(
-                body.lat, body.lng, body.section))
+            let [err, listings] = await to(
+                QInstance.getListingsByGeolocation(body.lat, body.lng, body.section),
+            )
             if (err) {
                 req.log.error(`geolocation#getListingsByGeolocation: ${err.message}`)
                 return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
@@ -208,8 +219,8 @@ async function routes(fastify, options, next) {
             }
             reply.blabla([data, 'listings', 'geolocation'], req)
             return reply
-        }
-    );
+        },
+    )
 
     const multer = require('fastify-multer')
     const postListingHandler = require('../decorators/postListingHandler')(fastify)
@@ -224,7 +235,7 @@ async function routes(fastify, options, next) {
     /* Contact poster one listing. */
     fastify.post('/id/:id/comment', { schema: commentSchema, preHandler: auth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
-        const [err, elem] = (hex.test(req.params.id))
+        const [err, elem] = hex.test(req.params.id)
             ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
             : ['NOT_FOUND', undefined]
         if (err) {
@@ -232,7 +243,7 @@ async function routes(fastify, options, next) {
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         if (!elem) {
-            reply.send({boom: ':('})
+            reply.send({ boom: ':(' })
             // reply.blabla([{}, 'message', 'not found'], req)
             return reply
         }
@@ -254,14 +265,16 @@ async function routes(fastify, options, next) {
             to: to,
             sent: new Date(),
             thread: req.params.id,
-            message: body.message
+            message: body.message,
         }
-        QInstance.insertComment(msg).then((acknowledged) => {
-            reply.send({boom: ':)'})
-            return reply
-        }).catch((err) => {
-            req.log.error(`post/comment#insertComment: ${err.message}`)
-        })
+        QInstance.insertComment(msg)
+            .then((acknowledged) => {
+                reply.send({ boom: ':)' })
+                return reply
+            })
+            .catch((err) => {
+                req.log.error(`post/comment#insertComment: ${err.message}`)
+            })
         // reply.blabla([{ data: elem }, 'listing', 'contact'], req)
         // return reply
     })
@@ -278,7 +291,7 @@ async function routes(fastify, options, next) {
             title: 'Your listings',
             intro: 'Classified advertising brought to the web',
             listings: listings,
-            success: 'Yep, we got some :)'
+            success: 'Yep, we got some :)',
         })
     })
 
@@ -300,7 +313,7 @@ async function routes(fastify, options, next) {
             intro: 'Classified advertising brought to the web',
             listings: listings,
             success: 'Yep, we got some :)',
-            toFocus: req.params.id
+            toFocus: req.params.id,
         })
     })
 }

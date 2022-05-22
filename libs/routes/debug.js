@@ -14,9 +14,9 @@ async function routes(fastify, options, next) {
             try {
                 console.log(`calling /${url} with parameters ${JSON.stringify(params)}`)
                 res = await QInstance[url](...params, pagination)
-                reply.send({ url: url, data: res})    
+                reply.send({ url: url, data: res })
             } catch (error) {
-                reply.send({ url: url, error: error}) 
+                reply.send({ url: url, error: error })
             }
         })
     })

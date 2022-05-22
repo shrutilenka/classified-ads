@@ -24,9 +24,9 @@ let models = {
 }
 
 const transTable = {
-    'en': ['fr', 'ar'],
-    'fr': ['en', 'ar'],
-    'ar': ['fr', 'en'],
+    en: ['fr', 'ar'],
+    fr: ['en', 'ar'],
+    ar: ['fr', 'en'],
 }
 const VECTOR_LEN = 300
 /** @param { Array } languages*/
@@ -39,10 +39,7 @@ module.exports = function (languages) {
     languages.forEach((language) => {
         if (!models[language].index) {
             models[language].index = new Annoy(VECTOR_LEN, 'Angular')
-            const cachePath = path.join(
-                __dirname,
-                `../../data/models/annoy.${language}.vec`,
-            )
+            const cachePath = path.join(__dirname, `../../data/models/annoy.${language}.vec`)
             models[language].index.load(cachePath)
             models[language].id2word = require(`../../data/models/id2word.${language}.json`)
             models[language].word2id = flip(models[language].id2word)
@@ -50,7 +47,7 @@ module.exports = function (languages) {
     })
 
     this.translate = function (word, from, count) {
-        if (from ==='und' || word.length < 3) return {}
+        if (from === 'und' || word.length < 3) return {}
         const to = transTable[from][0]
         const to_ = transTable[from][1]
         const wordId = models[from].word2id[word]
@@ -60,22 +57,22 @@ module.exports = function (languages) {
         let neighbors = models[to].index.getNNsByVector(vector, count, -1, true)
         let neighbors_ = models[to_].index.getNNsByVector(vector, count, -1, true)
         neighbors.distances.forEach((distance, idx) => {
-            if(distance > 0.9) indices.push(neighbors.neighbors[idx])
-        });
+            if (distance > 0.9) indices.push(neighbors.neighbors[idx])
+        })
         neighbors_.distances.forEach((distance, idx) => {
-            if(distance > 0.9) indices_.push(neighbors_.neighbors[idx])
-        });
+            if (distance > 0.9) indices_.push(neighbors_.neighbors[idx])
+        })
 
         const result = {}
-        result[to] = indices.map(idx => models[to].id2word[idx])
-        result[to_] = indices_.map(idx => models[to_].id2word[idx])
+        result[to] = indices.map((idx) => models[to].id2word[idx])
+        result[to_] = indices_.map((idx) => models[to_].id2word[idx])
         return result
     }
 
     this.getWordLang = function (word) {
-        if(models.en.word2id[word]) return 'en'
-        if(models.ar.word2id[word]) return 'ar'
-        if(models.fr.word2id[word]) return 'fr'
+        if (models.en.word2id[word]) return 'en'
+        if (models.ar.word2id[word]) return 'ar'
+        if (models.fr.word2id[word]) return 'fr'
         return 'und'
     }
 }

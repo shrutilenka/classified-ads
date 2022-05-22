@@ -14,17 +14,14 @@ async function cache(mongoDB, redisDB) {
     let collection
     // fill in listings
     collection = mongoDB.collection('listing')
-    const tmp = await collection
-        .find({})
-        .project({ _id: 1.0, usr: 1.0 })
-        .toArray()
+    const tmp = await collection.find({}).project({ _id: 1.0, usr: 1.0 }).toArray()
     listings = tmp.map((doc) => {
         return { id: doc._id.toHexString(), author: doc.usr }
     })
 }
 
 function isAuthor(id, author) {
-    return listings.find(l => l.id == id && l.author == author)
+    return listings.find((l) => l.id == id && l.author == author)
 }
 
 module.exports = { cache, isAuthor }

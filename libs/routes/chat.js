@@ -93,8 +93,7 @@ async function routes(fastify, options) {
 
     function addToChannel(channel, socket) {
         if (channels.has(channel)) {
-            if (channels.get(channel).length == 0)
-                channels.set(channel, [socket])
+            if (channels.get(channel).length == 0) channels.set(channel, [socket])
             else channels.get(channel).push(socket)
         } else {
             channels.set(channel, [socket])

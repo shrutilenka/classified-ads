@@ -91,14 +91,9 @@ module.exports = function (mongoDB, redisDB) {
         const forward = { $and: [{ from: peer1 }, { to: peer2 }] }
         const backward = { $and: [{ from: peer2 }, { to: peer1 }] }
         const whenAuthor = { $or: [{ from: peer1 }, { to: peer1 }] }
-        const bidirection =
-            peer1 !== peer2 ? { $or: [forward, backward] } : whenAuthor
+        const bidirection = peer1 !== peer2 ? { $or: [forward, backward] } : whenAuthor
         const query = { $and: [bidirection, { thread: thread }] }
-        return await mongoDB
-            .collection('comment')
-            .find(query)
-            .sort({ sent: -1 })
-            .toArray()
+        return await mongoDB.collection('comment').find(query).sort({ sent: -1 }).toArray()
     }
 
     /**
@@ -165,8 +160,8 @@ module.exports = function (mongoDB, redisDB) {
         const getListingById = new encoder.getListingById()
         const unique = `glid:${id}`
         const canView = (doc) => isAdmin || doc.usr === viewer || doc['a']
-        
-        const cached = await redisDB.exists(unique)// && false
+
+        const cached = await redisDB.exists(unique) // && false
         collection = mongoDB.collection('listing')
         // const query = isAdmin ? { a: false } : JSON.parse(JSON.stringify(baseQuery))
         const query = {}
@@ -221,9 +216,7 @@ module.exports = function (mongoDB, redisDB) {
      */
     this.getListingsSince = async function (days, section, pagination) {
         const getListingsSince = new encoder.getListingsSince()
-        const unique = `${section || 'index'}-${days}-${pagination.perPage}-${
-            pagination.page
-        }`
+        const unique = `${section || 'index'}-${days}-${pagination.perPage}-${pagination.page}`
         const cached = await redisDB.exists(`gls:${unique}`)
         collection = mongoDB.collection('listing')
         const objectId = getObjectId(days)
@@ -307,11 +300,7 @@ module.exports = function (mongoDB, redisDB) {
         const query = {}
         const projection = { geolocation: 0.0 /*d: 0.0, a: 0.0*/ }
         query.usr = user
-        const tmp = await collection
-            .find(query)
-            .project(projection)
-            .sort(baseSort)
-            .toArray()
+        const tmp = await collection.find(query).project(projection).sort(baseSort).toArray()
         tmp.forEach((l) => {
             l.a = l.a ? '' : 'nonapproved'
             l.d = l.d ? 'deactivated' : ''
@@ -347,11 +336,7 @@ module.exports = function (mongoDB, redisDB) {
     this.updateUser = async function (elem) {
         const result = await mongoDB
             .collection('users')
-            .updateOne(
-                { _id: ObjectId(elem._id) },
-                { $set: elem },
-                { upsert: false },
-            )
+            .updateOne({ _id: ObjectId(elem._id) }, { $set: elem }, { upsert: false })
         return result
     }
 
@@ -438,8 +423,7 @@ module.exports = function (mongoDB, redisDB) {
                     crossLangDocs.forEach((doc) => {
                         doc['crosslang'] = lang
                     })
-                    result.crossLangDocs =
-                        result.crossLangDocs.concat(crossLangDocs)
+                    result.crossLangDocs = result.crossLangDocs.concat(crossLangDocs)
                 }
             } catch (error) {
                 console.log(error.message)
@@ -515,11 +499,7 @@ module.exports = function (mongoDB, redisDB) {
      * @param {*} section
      * @return {Promise}
      */
-    this.getListingsByGeolocation = async function (
-        latitude,
-        longitude,
-        section,
-    ) {
+    this.getListingsByGeolocation = async function (latitude, longitude, section) {
         const daysBefore = 100
         collection = mongoDB.collection('listing')
         const ObjectId = getObjectId(daysBefore)
@@ -528,18 +508,10 @@ module.exports = function (mongoDB, redisDB) {
         if (section) query.section = section
         query.geolocation = {
             $geoWithin: {
-                $centerSphere: [
-                    [parseFloat(longitude), parseFloat(latitude)],
-                    10 / 3963.2,
-                ], // 10 miles = 16.09344 kilometers
+                $centerSphere: [[parseFloat(longitude), parseFloat(latitude)], 10 / 3963.2], // 10 miles = 16.09344 kilometers
             },
         }
-        const docs = await collection
-            .find(query)
-            .project(baseProjection)
-            .sort(baseSort)
-            .limit(21)
-            .toArray()
+        const docs = await collection.find(query).project(baseProjection).sort(baseSort).limit(21).toArray()
         const count = await collection.countDocuments(query)
         return { documents: docs, count: count }
     }
@@ -574,10 +546,7 @@ module.exports = function (mongoDB, redisDB) {
     this.autocomplete = async function (keyword) {
         collection = mongoDB.collection('words')
         const keywRgx = new RegExp('^' + keyword, 'i')
-        return await collection
-            .find({ _id: keywRgx })
-            .project({ _id: 1 })
-            .toArray()
+        return await collection.find({ _id: keywRgx }).project({ _id: 1 }).toArray()
     }
 
     // One day
@@ -589,7 +558,7 @@ module.exports = function (mongoDB, redisDB) {
         topSearches.reset()
         collection = mongoDB.collection('words')
         topSearches.data = await collection
-            .find({ })
+            .find({})
             .project({ _id: 1 })
             .sort(/* somehow */)
             .limit(10)
@@ -752,12 +721,7 @@ module.exports = function (mongoDB, redisDB) {
         }
         // TODO: find a solution to limit number of docs not to block UI
         const limit = approving ? 0 : 200
-        const docs = await collection
-            .find(query)
-            .project(projection)
-            .sort(baseSort)
-            .limit(limit)
-            .toArray()
+        const docs = await collection.find(query).project(projection).sort(baseSort).limit(limit).toArray()
         const count = await collection.countDocuments(query)
         return { documents: docs, count: count }
     }
@@ -773,11 +737,7 @@ module.exports = function (mongoDB, redisDB) {
         const release = await locks.get(id).acquire()
         const result = await mongoDB
             .collection(collName)
-            .updateOne(
-                { _id: ObjectId(elem._id) },
-                { $set: elem },
-                { upsert: false },
-            )
+            .updateOne({ _id: ObjectId(elem._id) }, { $set: elem }, { upsert: false })
         await redisDB.hset(`up-ids`, elem._id.toHexString(), '1')
         release()
         return result
@@ -789,9 +749,7 @@ module.exports = function (mongoDB, redisDB) {
      * @return {Promise}
      */
     this.removeDocument = async function (id, collName) {
-        const result = await mongoDB
-            .collection(collName)
-            .deleteOne({ _id: ObjectId(id) })
+        const result = await mongoDB.collection(collName).deleteOne({ _id: ObjectId(id) })
         return result
     }
 
