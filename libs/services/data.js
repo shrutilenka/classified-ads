@@ -1,11 +1,10 @@
 // Reads data from disk into memory
-
+const config = require('config')
 const fs = require('fs')
-const give = {}
 const path = require('path')
 const parse = require('csv').parse
-const config = require('config')
 
+const give = {}
 const TAG_SIZE = config.get('TAG_SIZE')
 const artsPath = path.join(__dirname, '../../data/raw/arts/')
 give.SVGs = fs

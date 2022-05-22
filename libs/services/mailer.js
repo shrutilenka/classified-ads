@@ -1,5 +1,5 @@
-const { MongoDBNamespace } = require('mongodb')
 const config = require('config')
+const { MongoDBNamespace } = require('mongodb')
 const MailTime = require('mail-time')
 const nodemailer = require('nodemailer')
 

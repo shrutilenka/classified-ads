@@ -1,11 +1,5 @@
 const config = require('config')
 
-const NODE_ENV = {
-    api: -1,
-    localhost: 0,
-    development: 1,
-    production: 2,
-}[process.env.NODE_ENV]
 const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {

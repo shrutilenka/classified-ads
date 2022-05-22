@@ -1,9 +1,11 @@
+const config = require('config')
+const path = require('path')
+const { format, promisify } = require('util')
 const to = (promise) => promise.then(data => [null, data]).catch(err => [err, null])
 const helpers = require('../services/helpers').ops
 const { Storage } = require('@google-cloud/storage')
 // const Joi = require('joi')
-const path = require('path')
-const { format, promisify } = require('util')
+
 const sharp = require('sharp')
 
 const storage = new Storage({ keyFilename: process.env.CREDS_PATH })
@@ -15,14 +17,11 @@ const {
 const { constraints } = require('../constraints/constraints')
 
 const queries = require('../services/mongo')
-// Require dependencies (fastify plugins and others)
-const config = require('config')
+
 var tidy = require('htmltidy2').tidy
 const tidyP = promisify(tidy)
-const crypto = require('../services/helpers').crypto
-const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 
-const formatInsertDocument = async (QInstance, req, blobNames) => {
+const formatNInsertListing = async (QInstance, req, blobNames) => {
     const { body } = req
     let publicUrl, publicUrlSmall
     if(blobNames) {
@@ -45,10 +44,7 @@ const formatInsertDocument = async (QInstance, req, blobNames) => {
     const [err, insertedId] = await to(QInstance.insertListing(listing))
     if (err) throw err
     listing['id'] = insertedId.toHexString()
-    // TODO: check id
-    const author = req.params.username
-    const channel = crypto.encrypt(key, `${author},${author},${listing['id']}`)
-    let data = { data: listing, section: listing.section, author, channel, messages: [] }
+    let data = { data: listing, section: listing.section, author }
     return data
 }
 
@@ -95,13 +91,13 @@ module.exports = (fastify) => {
                 return reply
             }
             if (!upload) {
-                formatInsertDocument(QInstance, req, null, false,)
+                formatNInsertListing(QInstance, req, null, false,)
                     .then((data) =>  {
                         reply.blabla([data, 'listing', 'id'], req)
                         return reply
                     })
                     .catch((err) => {
-                        req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
+                        req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
                         reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
                         return reply
                     })
@@ -157,18 +153,18 @@ module.exports = (fastify) => {
                     }).end(originalBuffer)
                 })
                 Promise.all([uploadImg, uploadSmallImg]).then((blobNames) => {
-                    formatInsertDocument( QInstance, req, blobNames, true, )
+                    formatNInsertListing( QInstance, req, blobNames, true, )
                         .then((data) =>  {
                             reply.blabla([data, 'listing', 'id'], req)
                             return reply
                         })
                         .catch((err) => {
-                            req.log.error(`formatInsertDocument#insertListing: ${err.message}`)
+                            req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
                             reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
                             return reply
                         })
                 }).catch((err) => {
-                    req.log.error(`formatInsertDocument#upload: ${err.message}`)
+                    req.log.error(`formatNInsertListing#upload: ${err.message}`)
                     reply.blabla([{title: 'TODO: blaaaaaaaaaaa'}, 'message', 'server error... Please try again later.'])
                     return reply
                 })

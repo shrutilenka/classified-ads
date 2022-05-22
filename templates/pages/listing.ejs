@@ -76,7 +76,9 @@
 
       </div>
       <%- include('../partials/conf/prepare_js'); %>
+      <% if(typeof channels !== 'undefined'){ %>
       <%- include('../partials/chat'); %>
+      <% } %>
       <%- include('../partials/shared/footer'); %>
     </div>
 
