@@ -1,4 +1,10 @@
 const config = require('config')
+const NODE_ENV = {
+    api: -1,
+    localhost: 0,
+    development: 1,
+    production: 2,
+}[process.env.NODE_ENV]
 const path = require('path')
 const { format, promisify } = require('util')
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
@@ -6,9 +12,12 @@ const helpers = require('../services/helpers').ops
 const { Storage } = require('@google-cloud/storage')
 
 const sharp = require('sharp')
+let storage, bucket
+if(NODE_ENV < 1) {
+    storage = new Storage({ keyFilename: process.env.CREDS_PATH })
+    bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
+}
 
-const storage = new Storage({ keyFilename: process.env.CREDS_PATH })
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
 const { validationPipeLine, stringTransformer } = require('../services/pipeLine.js')
 const { constraints } = require('../constraints/constraints')
 
@@ -28,6 +37,7 @@ const formatNInsertListing = async (QInstance, req, blobNames) => {
         publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
     } else {
         // TODO: config.get('IMG') & config.get('IMG_THUMB')
+        publicUrl = publicUrlSmall = `/cdn/${req.file.filename}`
     }
 
     const listing = Object.assign(body, {
@@ -40,7 +50,7 @@ const formatNInsertListing = async (QInstance, req, blobNames) => {
     const [err, insertedId] = await to(QInstance.insertListing(listing))
     if (err) throw err
     listing['id'] = insertedId.toHexString()
-    let data = { data: listing, section: listing.section, author }
+    let data = { data: listing, section: listing.section }
     return data
 }
 
