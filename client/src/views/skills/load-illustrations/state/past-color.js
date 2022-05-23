@@ -1,3 +1,3 @@
 export const pastColor = {
-  current: '#6c63ff'
+    current: '#6c63ff',
 }

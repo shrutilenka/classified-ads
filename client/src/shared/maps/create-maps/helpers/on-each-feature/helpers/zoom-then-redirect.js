@@ -5,8 +5,8 @@ import { map } from '../../../state'
  */
 // import { APIHost } from '../../../../../../consts'
 
-export function zoomThenRedirect (e) {
-  map.current.fitBounds(e.target.getBounds())
-  const division = e.target.feature.properties.name
-  window.location.href = `/division/${division}` //${APIHost[process.env.NODE_ENV]}
+export function zoomThenRedirect(e) {
+    map.current.fitBounds(e.target.getBounds())
+    const division = e.target.feature.properties.name
+    window.location.href = `/division/${division}` //${APIHost[process.env.NODE_ENV]}
 }

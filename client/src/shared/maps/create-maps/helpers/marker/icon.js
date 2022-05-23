@@ -14,17 +14,17 @@ const markerHtmlStyles = `
   border: 1px solid #FFFFFF`
 
 const icon = L.divIcon({
-  className: "my-custom-pin",
-  iconAnchor: [0, 24],
-  labelAnchor: [-6, 0],
-  popupAnchor: [0, -36],
-  html: `<span style="${markerHtmlStyles}" />`
+    className: 'my-custom-pin',
+    iconAnchor: [0, 24],
+    labelAnchor: [-6, 0],
+    popupAnchor: [0, -36],
+    html: `<span style="${markerHtmlStyles}" />`,
 })
 
 /**
  * TODO: generate marker color by section
- * @returns 
+ * @returns
  */
 export function getIcon() {
-  return icon
+    return icon
 }

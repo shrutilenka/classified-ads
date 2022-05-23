@@ -1,3 +1,3 @@
 export const refreshTrans = async (localize) => {
-  localize('body')
+    localize('body')
 }

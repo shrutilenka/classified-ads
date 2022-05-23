@@ -1,7 +1,7 @@
 {
   "name": "classified-ads-58-client",
   "version": "1.0.0",
-  "description": "not a standalone client (easier) It only generates client scripts and styles that are served publicly",
+  "description": "Not a standalone client. It only generates client scripts and styles that are served publicly",
   "main": "src/index.js",
   "scripts": {
     "dev:client": "webpack && sass src/style:../public/stylesheets",

@@ -1,3 +1,3 @@
 export const allPaths = {
-  current: undefined
+    current: undefined,
 }

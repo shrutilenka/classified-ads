@@ -4,6 +4,6 @@
  */
 import { geoJson } from '../../../state'
 
-export function resetHighlight (e) {
-  geoJson.current.resetStyle(e.target)
+export function resetHighlight(e) {
+    geoJson.current.resetStyle(e.target)
 }

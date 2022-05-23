@@ -5,6 +5,6 @@
  */
 const { LIS } = require('../../helpers/lis')
 export const loadFile = function (event) {
-  const image = LIS.id('output')
-  image.src = URL.createObjectURL(event.target.files[0])
+    const image = LIS.id('output')
+    image.src = URL.createObjectURL(event.target.files[0])
 }

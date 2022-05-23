@@ -1,3 +1,3 @@
 export const lightbox = {
-  current: undefined
+    current: undefined,
 }

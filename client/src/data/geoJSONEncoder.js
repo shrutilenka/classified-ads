@@ -18,6 +18,6 @@ export function getStates() {
 // If feature.properties.name_{lang} doesn't exist, it falls to feature.properties.name (English)
 export const getStateNames = (lang) => {
     return lang === 'en'
-      ? states.features.map((f) => f.properties.name)
-      : states.features.map((f) => f.properties[`name_${lang}`] || f.properties.name)
-  }
+        ? states.features.map((f) => f.properties.name)
+        : states.features.map((f) => f.properties[`name_${lang}`] || f.properties.name)
+}

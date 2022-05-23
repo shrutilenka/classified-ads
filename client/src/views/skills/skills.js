@@ -5,6 +5,6 @@ setupColorPicker()
 const selectElement = document.querySelector('#autoComplete-illu')
 
 selectElement.addEventListener('selection', (event) => {
-  const value = event.detail.selection.value
-  loadIllustrations(value)
+    const value = event.detail.selection.value
+    loadIllustrations(value)
 })

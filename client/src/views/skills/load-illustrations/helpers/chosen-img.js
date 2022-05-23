@@ -9,11 +9,11 @@ import { pastColor } from '../state/past-color'
  * chosen Img
  * @param {dom} radio
  */
-export function chosenImg (radio) {
-  const svgURL = lightbox.current.items[radio.id]
-  const chosen = svgURL.split('/')[4].split('.')[0]
-  if (chosen) {
-    const undrawInput = LIS.id('undraw')
-    undrawInput.value = chosen + pastColor.current
-  }
+export function chosenImg(radio) {
+    const svgURL = lightbox.current.items[radio.id]
+    const chosen = svgURL.split('/')[4].split('.')[0]
+    if (chosen) {
+        const undrawInput = LIS.id('undraw')
+        undrawInput.value = chosen + pastColor.current
+    }
 }
