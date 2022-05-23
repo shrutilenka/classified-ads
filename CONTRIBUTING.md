@@ -50,18 +50,18 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
    - HONEYPOT_KEY=
    - MONGODB_URI=mongodb+srv://### (optional for localhost env)
    - CREDS_PATH=./creds/##.json
-   - GCLOUD_STORAGE_BUCKET=
-   - JWT_SECRET=
-   - COOKIE_NAME=
-   - SECRET_PATH=
-   -
--  Fulfill environment variables on client
-   - NODE_ENV=localhost
-   - LATITUDE=
-   - LONGITUDE=
-   - BORDERS_FILE_URL=
-   - STATES_FILE_URL=
-   -
+   - GCLOUD_STORAGE_BUCKET=NameOfBucket
+   - JWT_SECRET=Just@Passw0rd
+   - COOKIE_NAME=Just@Name
+   - SECRET_PATH=Just@Passw0rd
+   - PASSWORD=Just@Passw0rd
+   - DEBUG=sws:*
+   - REDIS_URL=redis://localhost:6379
+   - ADMIN_PASS=PASSWORD
+   - ADMIN_EMAIL=some_outlook_email@outlook.com
+   - NO_CLUSTER=true
+   - DEFAULT_LANG=en-US
+   
 -  Preapare database
 MongoDB must be up with the following dbs and collections  
 `DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, userstemp, users, visitors-default-current, visitors-default}`
