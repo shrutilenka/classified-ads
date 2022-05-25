@@ -49,6 +49,7 @@ async function softVerifyJWT(request, reply) {
     jwt.verify(cookie, JWT_SECRET, verificationCallback)
 }
 
+// JWT verify websocket endoints. This one is synchronous and quick.
 function wsauth(request) {
     if (!request.cookies) return false
     const cookie = request.cookies[COOKIE_NAME]

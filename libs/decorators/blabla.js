@@ -1,6 +1,5 @@
 const config = require('config')
 
-const UXBlabla = require('../services/UX-blabla')
 const { constraints } = require('../constraints/constraints')
 const NODE_ENV = {
     api: -1,
