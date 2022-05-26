@@ -3,7 +3,7 @@ const request = require('request')
 const buildFastify = require('../app')
 
 tap.test('GET `/` route', async (t) => {
-    // t.plan(5)
+    t.plan(5)
 
     const fastify = await buildFastify(false)
     t.teardown(() => fastify.close())
@@ -13,12 +13,12 @@ tap.test('GET `/` route', async (t) => {
 
         request({
             method: 'GET',
-            url: 'http://localhost:' + fastify.server.address().port
+            url: 'http://localhost:' + fastify.server.address().port + '/'
         }, (err, response, body) => {
             t.error(err)
             t.equal(response.statusCode, 200)
             t.equal(response.headers['content-type'], 'application/json; charset=utf-8')
-            // t.same(JSON.parse(body), { hello: 'world' })
+            t.same(JSON.parse(body), { hello: 'world' })
         })
     })
 })

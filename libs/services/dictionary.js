@@ -36,6 +36,33 @@ module.exports = function (languages) {
         'language not supported',
     )
     // LOAD MODELS ONCE ! THEY ARE HUGE !
+    // DO NOT LOAD MODELS FOR API TEST ENV
+    if(process.env.NODE_ENV === 'api') {
+        languages.forEach((language) => {
+            if (!models[language].word2id) {
+                models[language].id2word = require(`../../data/models/id2word.${language}.json`)
+                models[language].word2id = flip(models[language].id2word)
+            }
+        })
+
+        this.translate = function (word, from, count) {
+            const to = transTable[from][0]
+            const to_ = transTable[from][1]
+            const result = {}
+            result[to] = [word, word, word]
+            result[to_] = [word, word, word]
+            return result
+        }
+
+        this.getWordLang = function (word) {
+            if (models.en.word2id[word]) return 'en'
+            if (models.ar.word2id[word]) return 'ar'
+            if (models.fr.word2id[word]) return 'fr'
+            return 'und'
+        }
+        return
+    }
+
     languages.forEach((language) => {
         if (!models[language].index) {
             models[language].index = new Annoy(VECTOR_LEN, 'Angular')

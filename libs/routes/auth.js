@@ -102,21 +102,26 @@ async function routes(fastify, options) {
                         reply.redirect('/')
                         return
                     }
-                    // mailer.sendMail({
-                    //     to: username,
-                    //     todo: 'signup',
-                    //     req: request,
-                    //     data: {
-                    //         token: tempUser.token,
-                    //         host: config.get('APIHost'),
-                    //     },
-                    // })
+                    Mailer.getInstance(mongoURL, dbName).then((mailer) => {
+                        mailer.sendMail({
+                            to: username,
+                            todo: 'signup',
+                            req: request,
+                            data: {
+                                token: tempUser.token,
+                                host: config.get('APIHost'),
+                            },
+                        })
+                    }).catch((err) => {
+                        req.log.error(`signup/Mailer: ${err.message}`)
+                    })
+
                     await QInstance.insertTmpUser(tempUser)
                     reply.blabla([{}, 'message', 'verification'], request)
                     return
                 }
             } catch (err) {
-                console.log(err)
+                req.log.error(`signup: ${err.message}`)
                 reply.blabla([{}, 'signup', 'SERVER_ERROR'], request)
                 return
             }

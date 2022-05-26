@@ -61,43 +61,45 @@ function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
 }
 
-for (let i = 0; i < 1000; i++) {
-    let email
-    if (i < 10) {
-        email = 'bacloud14@gmail.com'
-    }
-    if (i < 20 && i > 10) {
-        email = 'sracer2016@yahoo.com'
-    }
-    const randomLang = langs[Math.floor(Math.random() * langs.length)]
-    const item = langsFaker[randomLang].jsf.generate(schema)
-    item.tagsLang = item.lang = randomLang
-    item.title = langsFaker[randomLang].words(
-        5 + Math.floor(Math.random() * 10),
-    )
-    item.desc = langsFaker[randomLang].words(
-        10 + Math.floor(Math.random() * 30),
-    )
-    item.tags = [
-        langsFaker[randomLang].words(1),
-        langsFaker[randomLang].words(1),
-        langsFaker[randomLang].words(1),
-    ]
-    item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
-    item.div =
-        states[randomLang][
-            Math.floor(Math.random() * states[randomLang].length)
+function fakeItems(docsCount) {
+    for (let i = 0; i < docsCount; i++) {
+        let email
+        if (i < 10) {
+            email = 'bacloud14@gmail.com'
+        }
+        if (i < 20 && i > 10) {
+            email = 'sracer2016@yahoo.com'
+        }
+        const randomLang = langs[Math.floor(Math.random() * langs.length)]
+        const item = langsFaker[randomLang].jsf.generate(schema)
+        item.tagsLang = item.lang = randomLang
+        item.title = langsFaker[randomLang].words(
+            5 + Math.floor(Math.random() * 10),
+        )
+        item.desc = langsFaker[randomLang].words(
+            10 + Math.floor(Math.random() * 30),
+        )
+        item.tags = [
+            langsFaker[randomLang].words(1),
+            langsFaker[randomLang].words(1),
+            langsFaker[randomLang].words(1),
         ]
-    item.section = sections[Math.floor(Math.random() * sections.length)]
-    item.offer = Math.random() < 0.5
-    item.lat = getRandomInRange(minLat, maxLat, 3)
-    item.lng = getRandomInRange(minLng, maxLng, 3)
-    item.geolocation = {
-        type: 'Point',
-        coordinates: [item.lng, item.lat],
+        item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
+        item.div =
+            states[randomLang][
+                Math.floor(Math.random() * states[randomLang].length)
+            ]
+        item.section = sections[Math.floor(Math.random() * sections.length)]
+        item.offer = Math.random() < 0.5
+        item.lat = getRandomInRange(minLat, maxLat, 3)
+        item.lng = getRandomInRange(minLng, maxLng, 3)
+        item.geolocation = {
+            type: 'Point',
+            coordinates: [item.lng, item.lat],
+        }
+        item.usr = email || item.usr
+        items.push(item)
     }
-    item.usr = email || item.usr
-    items.push(item)
 }
 
 /*********************************************************************************************** */
@@ -180,11 +182,18 @@ ops.createIndexes = async function createIndexes(db) {
 
 /*********************************************************************************************** */
 // SEED DEVELOPMENT FAKE DATA
+const docsCount = {
+    api: 500,
+    localhost: 10000,
+    development: 10000,
+}[process.env.NODE_ENV]
 ops.seedDevelopmenetData = async function seedDevelopmenetData(db) {
+    fakeItems(docsCount)
     const options = { ordered: true }
     const collection = db.collection('listing')
     return new Promise(function (resolve, reject) {
         collection.insertMany(items, options, async function (err, reply) {
+            items = null
             // fastify.log.info('Inserted seed data into the collection')
             if (err) {
                 return reject(err)
