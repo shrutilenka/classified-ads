@@ -61,6 +61,7 @@ class MailerOps {
     }
 }
 
+const { MongoClient } = require('mongodb')
 class Mailer {
     constructor() {
         throw new Error('Use Mailer.getInstance()')
@@ -68,10 +69,12 @@ class Mailer {
     /**
      * Singleton Mailer instance
      * @param { MongoDBNamespace } db
-     * @returns { MailerOps }
+     * @returns { Promise <MailerOps> }
      */
-    static getInstance(db) {
+    static async getInstance(mongoURL, dbName) {
         if (!Mailer.instance) {
+            const client = await MongoClient.connect(mongoURL)
+            const db = client.db(dbName)
             Mailer.instance = new MailerOps(db)
         }
         return Mailer.instance

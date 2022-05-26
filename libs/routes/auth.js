@@ -17,7 +17,7 @@ async function routes(fastify, options) {
     const COOKIE_NAME = config.get('COOKIE_NAME')
     const loginSchema = constraints[process.env.NODE_ENV].POST.login.schema
     const Mailer = require('../services/mailer')
-    const mailer = Mailer.getInstance(null)
+    // const mailer = Mailer.getInstance(null)
     fastify.decorateReply('blabla', blabla)
     fastify.post('/login', { schema: loginSchema, attachValidation: true }, async function (request, reply) {
         if (request.validationError) {
@@ -102,15 +102,15 @@ async function routes(fastify, options) {
                         reply.redirect('/')
                         return
                     }
-                    mailer.sendMail({
-                        to: username,
-                        todo: 'signup',
-                        req: request,
-                        data: {
-                            token: tempUser.token,
-                            host: config.get('APIHost'),
-                        },
-                    })
+                    // mailer.sendMail({
+                    //     to: username,
+                    //     todo: 'signup',
+                    //     req: request,
+                    //     data: {
+                    //         token: tempUser.token,
+                    //         host: config.get('APIHost'),
+                    //     },
+                    // })
                     await QInstance.insertTmpUser(tempUser)
                     reply.blabla([{}, 'message', 'verification'], request)
                     return

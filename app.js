@@ -133,10 +133,15 @@ async function build(doRun) {
     fastify.decorate('softVerifyJWT', softVerifyJWT)
     fastify.decorate('wsauth', wsauth)
     const Mailer = require('./libs/services/mailer')
-    const { db } = fastify.mongo
-    const mailer = Mailer.getInstance(db)
+    // Same db instance all over the all over the app.
+    // never close !
+    // const { db } = fastify.mongo
 
-
+    const mongoURL = fastify.conf('DATABASE') || process.env.MONGODB_URI
+    const dbName =
+                process.env.NODE_ENV === 'development'
+                    ? 'listings_db_dev'
+                    : 'listings_db'
     // Run the server as soon as possible!
     const start = async () => {
         try {
@@ -147,6 +152,16 @@ async function build(doRun) {
             if (NODE_ENV === 0/*process.env.worker_id == '1'*/) {
                 fastify.swagger()
             }
+            Mailer.getInstance(mongoURL, dbName).then((mailer) => {
+                mailer.sendMail({
+                    to: process.env.ADMIN_EMAIL,
+                    subject:'app instance bootstrap',
+                    text:'app instance bootstrapped correctly',
+                    html:'app instance bootstrapped correctly'
+                })
+            }).catch((err) => {
+                console.error(err)
+            })
         } catch (err) {
             fastify.log.error(err)
             process.exit(1)
@@ -294,7 +309,7 @@ async function build(doRun) {
     if (process.env.worker_id == '1') {
         fastify.log.info('Checking environment data once')
         fastify.register(fastifySchedulePlugin)
-        bootstrap.checkEnvironmentData(fastify.conf('DATABASE') || process.env.MONGODB_URI)
+        bootstrap.checkEnvironmentData(mongoURL)
             .then(reply => {
                 prepareData()
             })
@@ -341,16 +356,6 @@ async function build(doRun) {
         //     fastify.log.error(error)
         //     // global.mongodb.disconnect()
         // })
-
-        setTimeout(() => {
-            mailer.sendMail({
-                to: process.env.ADMIN_EMAIL,
-                subject:'app instance bootstrap',
-                text:'app instance bootstrapped correctly',
-                html:'app instance bootstrapped correctly'
-            })
-        }, 2000);
-
     }
 
     /*********************************************************************************************** */

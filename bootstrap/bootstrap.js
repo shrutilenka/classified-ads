@@ -101,50 +101,40 @@ for (let i = 0; i < 1000; i++) {
 }
 
 /*********************************************************************************************** */
-// OPERATION TO SAFELY BOOTSRAT ENVIRONMENTS
+// OPERATION TO SAFELY BOOTSTRAP ENVIRONMENTS
 // PRESENCE OF DATABASES, COLLECTIONS, SETTING INDEXES
 const ops = {}
 ops.checkEnvironmentData = async function checkEnvironmentData(url) {
     // console.log({ level: 'info', message: 'Checking environment data' })
-    return new Promise(function (resolve, reject) {
-        MongoClient.connect(url, async function (err, client) {
-            // Use the admin database for the operation
-            if (!client) reject(new Error(`Check if MongoDB server is up`))
-            let adminDb = client.db().admin()
-            // List all the available databases
-            adminDb.listDatabases(async function (err, dbs) {
-                const databases = dbs.databases.map((n) => n.name)
-                const dbName =
-                    process.env.NODE_ENV === 'development'
-                        ? 'listings_db_dev'
-                        : 'listings_db'
-                const check = databases.indexOf(dbName) >= 0
-                if (!check) {
-                    reject(new Error('Not all databases are present.'))
-                }
-                await client.connect(async function (err) {
-                    const db = client.db(dbName)
-                    db.listCollections().toArray(function (err, collections) {
-                        const collectionNames = collections.map((n) => n.name)
-                        const check =
-                            collectionNames.indexOf('words') >= 0 &&
-                            collectionNames.indexOf('listing') >= 0 &&
-                            collectionNames.indexOf('users') >= 0 &&
-                            collectionNames.indexOf('userstemp') >= 0 &&
-                            collectionNames.indexOf('comment') >= 0
-                        if (!check) {
-                            reject(
-                                new Error('Not all collections are present.'),
-                            )
-                        }
-                    })
-                })
-                client.close()
-                // console.log({ level: 'info', message: 'Environment data seem to be fine' })
-                resolve()
-            })
-        })
-    })
+    const client = await MongoClient.connect(url)
+    // Use the admin database for the operation
+    if (!client) throw(new Error(`Check if MongoDB server is up`))
+    let adminDb = client.db().admin()
+    // List all the available databases
+    const dbs = await adminDb.listDatabases()
+    const databases = dbs.databases.map((n) => n.name)
+    const dbName =
+                process.env.NODE_ENV === 'development'
+                    ? 'listings_db_dev'
+                    : 'listings_db'
+    const checkDBs = databases.indexOf(dbName) >= 0
+    if (!checkDBs) {
+        throw(new Error('Not all databases are present.'))
+    }
+    const db = client.db(dbName)
+    const collections = await db.listCollections().toArray()
+    const collectionNames = collections.map((n) => n.name)
+    const checkColls =
+                collectionNames.indexOf('words') >= 0 &&
+                collectionNames.indexOf('listing') >= 0 &&
+                collectionNames.indexOf('users') >= 0 &&
+                collectionNames.indexOf('userstemp') >= 0 &&
+                collectionNames.indexOf('comment') >= 0
+    if (!checkColls) {
+        throw(new Error('Not all collections are present.'))
+    }
+    // client.close()
+    // console.log({ level: 'info', message: 'Environment data seem to be fine' })
 }
 
 ops.createIndexes = async function createIndexes(db) {
