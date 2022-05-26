@@ -19,9 +19,11 @@
 
 // Browser loggings to let hints for different environments
 // on important events and actions.
-import log from 'loglevel'
-import { APIHost, logLevel } from './consts'
-import { setupShared } from './shared/shared'
+import 'bootstrap';
+import log from 'loglevel';
+import { APIHost, logLevel } from './consts';
+import { setupShared } from './shared/shared';
+
 log.setDefaultLevel(logLevel[process.env.NODE_ENV])
 window.log = log
 if (['development', 'localhost'].includes(process.env.NODE_ENV)) {

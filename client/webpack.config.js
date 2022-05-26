@@ -12,6 +12,7 @@ const envKeys = dotenv.config()
 const paths = {
     dist: path.resolve(__dirname, 'dist'),
     public: path.resolve(__dirname, '..', 'public', 'javascripts'),
+    cssImages: path.resolve(__dirname, '..', 'public', 'stylesheets', 'images'),
 }
 const isDevEnv = ['development', 'localhost'].includes(process.env.NODE_ENV)
 const devConfig = {
@@ -95,6 +96,7 @@ module.exports = {
                         { source: 'dist', destination: paths.public },
                         { source: 'src/data/borders.json', destination: '../data/geo/borders.json' },
                         { source: 'src/data/states.json', destination: '../data/geo/states.json' },
+                        { source: 'node_modules/leaflet/dist/images', destination: paths.cssImages },
                     ],
                 },
             },

@@ -1,7 +1,5 @@
 
-// @import "../../node_modules/bootstrap/scss/bootstrap";
-@import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/bootstrap";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 @import "../../node_modules/pell/src/pell.scss";
 @import "../../node_modules/@yaireo/tagify/src/tagify.scss";
@@ -15,6 +13,7 @@
 @import "../../node_modules/leaflet/dist/leaflet";
 @import "../../node_modules/leaflet.fullscreen/Control.FullScreen";
 @import "../../node_modules/leaflet.markercluster/dist/MarkerCluster";
+@import "../../node_modules/leaflet.markercluster/dist/MarkerCluster.Default";
 // Doesn't provide scss
 @import '../../node_modules/tippy.js/dist/tippy';
 @import '../../node_modules/intro.js/introjs-rtl';
