@@ -62,7 +62,6 @@
     "dotenv": "^14.2.0",
     "ejs": "^3.1.6",
     "fastify": "^3.25.3",
-    "fastify-error-page": "^4.0.0",
     "fastify-metrics": "^8.0.0",
     "fastify-multer": "^2.0.2",
     "fastify-nodemailer": "^5.0.0",

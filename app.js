@@ -21,7 +21,6 @@ const fastify_ = require('fastify')
 const fastifyWebsocket = require('@fastify/websocket')
 const helmet = require('@fastify/helmet')
 const compressPlugin = require('@fastify/compress')
-const errorPlugin = require('fastify-error-page')
 const serve = require('@fastify/static')
 const mongodb = require('@fastify/mongodb')
 const mongoMem = require('./libs/services/mongo-mem')
@@ -67,7 +66,7 @@ const { verifyJWT, softVerifyJWT, wsauth } = require('./libs/decorators/jwt')
 /**
  * build a Fastify instance and run a server or not
  * @param { Boolean } doRun if true run the app on a server
- * @returns { import('fastify').FastifyInstance }
+ * @returns { Promise <import('fastify').FastifyInstance> }
  */
 async function build(doRun) {
     const fastify = fastify_({
@@ -79,11 +78,6 @@ async function build(doRun) {
     fastify.decorate('conf', (tag) => config.get(tag))
     fastify.register(formbody)
     fastify.register(fastifyWebsocket)
-    // For easy debugging (in Localhost) set ERROR_STACK= true
-    // Otherwise not useful and not secure,
-    if (config.get('ERROR_STACK')) {
-        fastify.register(errorPlugin)
-    }
 
     //  !!Run only on one node!!
     if (NODE_ENV === 0 /*&& process.env.worker_id == '1'*/) {
@@ -160,7 +154,7 @@ async function build(doRun) {
                     html:'app instance bootstrapped correctly'
                 })
             }).catch((err) => {
-                console.error(err)
+                fastify.log.error(err)
             })
         } catch (err) {
             fastify.log.error(err)
@@ -336,7 +330,7 @@ async function build(doRun) {
             bootstrap.seedDevelopmenetData(db).then(async (reply) => {
                 await bootstrap.createIndexes(db)
                 bootstrap.famousSearches()
-                await bootstrap.fastifyInjects(fastify)
+                // await bootstrap.fastifyInjects(fastify)
                 // not working on heroku for some reason
                 if (!fastify.conf('HEROKU'))
                     bootstrap.registerPipelines(db, fastify.scheduler, seconds)

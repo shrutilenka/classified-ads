@@ -3,7 +3,6 @@ const adminEmail = process.env.ADMIN_EMAIL
 module.exports = {
     NODE_PORT: 3000,
     HEROKU: false,
-    ERROR_STACK: false,
     PIPELINE_KEYWORDS_SECONDS: 60 * 5, // 5 minutes
     DATABASE: 'mongodb://localhost:27017/listings_db',
     APIHost: 'http://localhost:3000',

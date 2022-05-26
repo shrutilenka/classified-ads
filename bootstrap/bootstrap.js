@@ -44,7 +44,7 @@ const langsFaker = {
 }
 const sections = ['donations', 'skills', 'blogs', 'events']
 
-const items = []
+let items = []
 // Approximate algeria bounding box:
 const minLng = -0.19775390625
 const maxLng = 7.492675781249999
