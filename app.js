@@ -5,9 +5,9 @@ const config = require('config')
 // Incremental is better
 const NODE_ENV = {
     api: -1,
-    'localhost': 0,
-    'development': 1,
-    'production': 2
+    localhost: 0,
+    development: 1,
+    production: 2
 }[process.env.NODE_ENV]
 
 const dns = require('dns')

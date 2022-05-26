@@ -270,7 +270,50 @@ const constraints = {
     },
     // to change
     api: {
-        GET: {},
+        GET: {
+            login: {
+                doLogin: {
+                    requiredUXInputs: ['username', 'password'],
+                    minInputs: { username: 6, password: 6 },
+                },
+            },
+            signup: {
+                doSignup: {
+                    requiredUXInputs: ['username', 'password'],
+                    minInputs: { username: 6, password: 6 },
+                },
+            },
+            listings: {
+                queryGeolocation: {
+                    requiredUXInputs: [],
+                },
+                queryGwoogl: {
+                    requiredUXInputs: ['title_desc'],
+                    minInputs: { title_desc: 3 },
+                },
+                addSkill: {
+                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+                addDonation: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+                addBlog: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+                addEvent: {
+                    requiredUXInputs: ['title', 'desc', 'tags'],
+                    minInputs: { title: 10, desc: 10 },
+                },
+            },
+            listing: {
+                addComment: {
+                    requiredUXInputs: ['message'],
+                },
+            },
+        },
         POST: {
             login: {
                 schema: loginSchema,

@@ -6,13 +6,10 @@ module.exports = {
     DATABASE : 'mongodb://localhost:27017/listings_db',
     APIHost: 'http://localhost:3000',
     COOKIE_NAME: 'classified-ads-login',
-    SMTP: {
+    SMTP_MAILHOG: {
         host: '0.0.0.0',
-        port: 1025
-    },
-    PING_LIMITER: {
-        max: 100,
-        timeWindow: '1 minute'
+        port: 1025,
+        from: 'no-reply@example.com',
     },
     TAG_SIZE: 35
 }

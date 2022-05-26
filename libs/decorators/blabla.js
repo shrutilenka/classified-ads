@@ -27,25 +27,26 @@ module.exports = function blabla(context) {
         : this.request.cookies[COOKIE_NAME]
             ? '🏠'
             : ''
+    let formData = {}
+    // When user is entering data, Send back same data again
+    // to fill input forms (it helps when there was an error)
+    if (this.request.method === 'POST') {
+        formData = JSON.parse(JSON.stringify(this.request.body))
+        // TODO: remove passwords
+        Object.assign(context[0], { formData })
+    }
+    Object.assign(context[0], { user })
+    // localize uses i18next for more user friendly messages
+    const userFriendlyMsg = localize(...context, this.request, this)
+    const route = context[1]
+    const routeC = constraints[process.env.NODE_ENV].GET[route]
+    const UXConstraints = routeC ? { UXConstraints: routeC } : {}
+    const data = { ...userFriendlyMsg, ...UXConstraints }
+
     // Send JSON for API env
     if (NODE_ENV == -1) {
         this.send(context[0])
     } else {
-        let formData = {}
-        // When user is entering data, Send back same data again
-        // to fill input forms (it helps when there was an error)
-        if (this.request.method === 'POST') {
-            formData = JSON.parse(JSON.stringify(this.request.body))
-            // TODO: remove passwords
-            Object.assign(context[0], { formData })
-        }
-        Object.assign(context[0], { user })
-        // localize uses i18next for more user friendly messages
-        const userFriendlyMsg = localize(...context, this.request, this)
-        const route = context[1]
-        const routeC = constraints[process.env.NODE_ENV].GET[route]
-        const UXConstraints = routeC ? { UXConstraints: routeC } : {}
-        const data = { ...userFriendlyMsg, ...UXConstraints }
         this.view(`/templates/pages/${route}`, data)
     }
 }

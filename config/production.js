@@ -7,9 +7,6 @@ module.exports = {
     DATABASE : '',
     APIHost: 'https://The Internet',
     COOKIE_NAME: 'classified-ads-login',
-    SMTP: {
-        
-    },
     PING_LIMITER: {
         max: 100,
         timeWindow: '1 minute'

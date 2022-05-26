@@ -6,7 +6,7 @@ module.exports = {
     DATABASE : 'mongodb://localhost:27017/',
     APIHost: 'http://localhost:3000',
     COOKIE_NAME: 'classified-ads-login',
-    SMTP: {
+    SMTP_OUTLOOK: {
         
     },
     PING_LIMITER: {
