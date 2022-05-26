@@ -1,3 +1,4 @@
+console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
 // Require app configurations
 require('dotenv').config()
 process.title = 'classified-ads'
@@ -63,7 +64,12 @@ const { verifyJWT, softVerifyJWT, wsauth } = require('./libs/decorators/jwt')
  * Initialize the fastify app. It could be called many time
  * for NodeJS cluster case
  */
-async function instantiateApp() {
+/**
+ * build a Fastify instance and run a server or not
+ * @param { Boolean } doRun if true run the app on a server
+ * @returns { import('fastify').FastifyInstance }
+ */
+async function build(doRun) {
     const fastify = fastify_({
         logger: logger_,
         disableRequestLogging: false,
@@ -90,7 +96,7 @@ async function instantiateApp() {
     }
 
     // These routes must be required inside
-    // instantiateApp (= called as many as nodes in cluster)
+    // build (= called as many as nodes in cluster)
     // because I feel like it's safer 
     const authRouter = require('./libs/routes/auth.js')
     const indexRouter = require('./libs/routes/index.js')
@@ -146,7 +152,7 @@ async function instantiateApp() {
             process.exit(1)
         }
     }
-    start()
+    if(doRun) start()
 
     /*********************************************************************************************** */
     // Seeming heavy so use/register these after starting the app
@@ -369,25 +375,7 @@ async function instantiateApp() {
         // fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true })
     }
 
+    return fastify
 }
-/*********************************************************************************************** */
-// !!CLUSTER SETUP!!
-if(process.env.NO_CLUSTER) {
-    process.env.worker_id = '1'
-    instantiateApp()
-} else {
-    const os = require('os')
-    const cluster = require('cluster')
-    const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
-    
-    if (cluster.isMaster) {
-        for (let i = 0; i < CPUS; i++) {
-            cluster.fork({ worker_id: String(i) })
-        }
-        cluster.on('exit', (worker) => {
-            console.log(`worker ${worker.process.pid} died`)
-        })
-    } else {
-        instantiateApp()
-    }    
-}
+
+module.exports = build
