@@ -39,6 +39,7 @@ ops.localMulter = Multer({ dest: 'uploads/' }).single('avatar')
 
 const Dictionary = require('./dictionary')
 const dictionary = new Dictionary(['en', 'ar', 'fr'])
+
 const lid = new LanguageDetection()
 ops.getLanguage = async (text) => {
     const language = await lid.predict(text, 3)

@@ -63,6 +63,7 @@ module.exports = function (languages) {
         return
     }
 
+    // LOAD MODELS ONCE ! THEY ARE HUGE !
     languages.forEach((language) => {
         if (!models[language].index) {
             models[language].index = new Annoy(VECTOR_LEN, 'Angular')
