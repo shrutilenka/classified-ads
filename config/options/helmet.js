@@ -1,3 +1,6 @@
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
 const toBeReplaced = '42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com'
 export default () => {
     // TODO: remove "'unsafe-eval'" again. It is left for client side EJS rendering

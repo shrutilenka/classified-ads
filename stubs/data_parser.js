@@ -4,7 +4,9 @@ import { chain } from "stream-chain";
 import { ignore } from "stream-json/filters/Ignore";
 import pick from "stream-json/filters/Pick";
 import { streamValues } from "stream-json/streamers/StreamValues";
-
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const taxonomyPathEn = '../data/taxonomy/cptall-en-US.json'
 

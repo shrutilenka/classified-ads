@@ -1,8 +1,12 @@
-// Reads data from disk into memory
-import config from "config";
 import { parse } from "csv";
 import fs from "fs";
+import { createRequire } from "module";
 import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
+const config = require('config')
 
 const give = {}
 const TAG_SIZE = config.get('TAG_SIZE')

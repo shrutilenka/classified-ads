@@ -1,8 +1,10 @@
 // No auth
-import config from "config";
+import { createRequire } from "module";
 import url from "url";
 import visitorCounter from "visitor-counter";
 import visitorsHtml from "./visitors-html";
+const require = createRequire(import.meta.url);
+const config = require('config')
 const secretPath = process.env.SECRET_PATH
 
 const params = (req, param) => {

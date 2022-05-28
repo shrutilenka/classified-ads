@@ -1,12 +1,15 @@
 import Ajv from "ajv";
+import { createRequire } from "module";
 import sanitizeHtml from "sanitize-html";
 import nlp from "wink-nlp-utils";
-import geoEncoder from "../../data/geo/geoJSONEncoder";
-import constraints from "../constraints/constraints";
-import { html, reb, rew } from "../constraints/regex";
-import { give } from "./data";
+import { getBorders } from "../../data/geo/geoJSONEncoder.js";
+import constraints from "../constraints/constraints.js";
+import { html, reb, rew } from "../constraints/regex.js";
+import { give } from "./data.js";
 
-const coordinates = geoEncoder.getBorders()
+const require = createRequire(import.meta.url);
+
+const coordinates = getBorders()
 const localize = {
     en: require('ajv-i18n/localize/en'),
     'en-US': require('ajv-i18n/localize/en'),

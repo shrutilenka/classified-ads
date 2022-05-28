@@ -1,13 +1,15 @@
 import { Storage } from "@google-cloud/storage";
-import config from "config";
 import { tidy } from "htmltidy2";
+import { createRequire } from "module";
 import path from "path";
 import sharp from "sharp";
 import { format, promisify } from "util";
-import constraints from "../constraints/constraints";
-import { ops as helpers } from "../services/helpers";
-import queries from "../services/mongo";
+import constraints from "../constraints/constraints.js";
+import { ops as helpers } from "../services/helpers.js";
+import queries from "../services/mongo.js";
 import { stringTransformer, validationPipeLine } from "../services/pipeLine.js";
+const require = createRequire(import.meta.url);
+const config = require('config')
 const NODE_ENV = {
     api: -1,
     localhost: 0,

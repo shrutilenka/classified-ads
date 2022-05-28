@@ -1,6 +1,8 @@
 import path from "path";
 import ProtoBufJs from "protobufjs";
-
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const absPath = path.join(__dirname, './protos/getlistingssince.proto')
 const root = ProtoBufJs.loadSync(absPath)
 

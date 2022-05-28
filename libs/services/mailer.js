@@ -1,6 +1,8 @@
-import config from "config";
 import MailTime from "mail-time";
+import { createRequire } from "module";
 import nodemailer from "nodemailer";
+const require = createRequire(import.meta.url);
+const config = require('config')
 
 class MailerOps {
     constructor(db) {

@@ -1,5 +1,7 @@
-import config from "config";
+import { createRequire } from "module";
 import constraints from "../constraints/constraints.js";
+const require = createRequire(import.meta.url);
+const config = require('config')
 
 const NODE_ENV = {
     api: -1,

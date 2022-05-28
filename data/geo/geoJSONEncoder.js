@@ -1,3 +1,6 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 const borders = require("./borders.json");
 const states = require("./states.json");
 

@@ -1,11 +1,13 @@
 import bcrypt from "bcryptjs";
-import config from "config";
 import jwt from "jsonwebtoken";
+import { createRequire } from "module";
 import crypto from "node:crypto";
 import constraints from "../constraints/constraints.js";
 import blabla from "../decorators/blabla.js";
 import Mailer from "../services/mailer.js";
 import queries from "../services/mongo.js";
+const require = createRequire(import.meta.url);
+const config = require('config')
 
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 // Encapsulates routes: (Init shared variables and so)

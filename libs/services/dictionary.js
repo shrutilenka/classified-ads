@@ -1,6 +1,10 @@
 import assert from "assert";
+import { createRequire } from "module";
 import path from "path";
-
+import { fileURLToPath } from "url";
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 let Annoy
 try {
     Annoy = require('annoy')

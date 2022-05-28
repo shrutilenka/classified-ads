@@ -1,5 +1,7 @@
 import adt_1 from "@toreda/adt";
 import FuzzySet from "fuzzyset";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 const { TopK } = require("bloom-filters");
 
 // Arbitrary choice

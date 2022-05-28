@@ -1,13 +1,19 @@
 import fs from "fs";
+import { createRequire } from "module";
 import { MongoClient } from "mongodb";
 import path from "path";
 import { AsyncTask, SimpleIntervalJob } from "toad-scheduler";
+import { fileURLToPath } from 'url';
 import { schema } from "../config/options/bootstrap.js";
 import { getStateNames } from "../data/geo/geoJSONEncoder.js";
 import { refreshTopK } from "../libs/services/miner.js";
 /*********************************************************************************************** */
 // REGISTER REGULAR JOBS
 import scripts from "../libs/services/mongo-jobs.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
 
 var jsf_en, jsf_fr, jsf_ar
 jsf_en = jsf_fr = jsf_ar = require('json-schema-faker')

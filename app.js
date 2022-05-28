@@ -1,5 +1,4 @@
 console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
-// Require app configurations
 import fastifyAuth from "@fastify/auth";
 import compressPlugin from "@fastify/compress";
 import fastifyCookies from "@fastify/cookie";
@@ -12,26 +11,23 @@ import rateLimit from "@fastify/rate-limit";
 import redis from "@fastify/redis";
 import fastifySession from "@fastify/session";
 import serve from "@fastify/static";
-// TODO: looks heavy on memory
-// const metricsPlugin = require('fastify-metrics')
 import fastifySwagger from "@fastify/swagger";
 import fastifyWebsocket from "@fastify/websocket";
 import dns from "dns";
-import { config } from "dotenv";
-// Rendering systems and internationalization
+import { config as dotenv } from "dotenv";
 import ejs from "ejs";
 import fastify_ from "fastify";
 import i18next from "i18next";
 import Backend from "i18next-fs-backend";
 import i18nextMiddleware from "i18next-http-middleware";
+import { createRequire } from "module";
 import crypto from "node:crypto";
 import path from "path";
 import viewsPlugin from "point-of-view";
+import { fileURLToPath } from "url";
 import bootstrap from "./bootstrap/bootstrap.js";
 import helmet_ from "./config/options/helmet.js";
 import logger_ from "./config/options/logger.js";
-// Require plugins configurations
-// const miner = require('./libs/decorators/miner').miner
 import swagger_ from "./config/options/swagger.js";
 import { softVerifyJWT, verifyJWT, wsauth } from "./libs/decorators/jwt.js";
 import adminRouter from "./libs/routes/admin.js";
@@ -44,12 +40,13 @@ import listingsRouter from "./libs/routes/listings.js";
 import Mailer from "./libs/services/mailer.js";
 import { cache } from "./libs/services/mongo-mem.js";
 import RedisAPI from "./libs/services/redis.js";
-// Require dependencies
-// Fastify plugins
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
 const { fastifySchedulePlugin } = require("fastify-schedule");
+const config = require('config')
 
-
-config();
+dotenv();
 process.title = 'classified-ads'
 // Incremental is better
 const NODE_ENV = {

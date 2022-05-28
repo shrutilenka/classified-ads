@@ -1,7 +1,9 @@
-import config from "config";
 import Multer from "fastify-multer";
 import fs from "fs";
+import { createRequire } from "module";
 import Dictionary from "./dictionary.js";
+const require = createRequire(import.meta.url);
+const config = require('config')
 
 let LanguageDetection, lid
 try {

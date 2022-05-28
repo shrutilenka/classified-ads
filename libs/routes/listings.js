@@ -1,10 +1,15 @@
-import config from "config";
 import multer from "fastify-multer";
+import { createRequire } from "module";
 import constraints from "../constraints/constraints.js";
 import authAdapter from "../decorators/auth.js";
 import blabla from "../decorators/blabla.js";
+import postListingHandler from "../decorators/postListingHandler.js";
+import preValidation from "../decorators/preValidation.js";
 import { crypto, ops as helpers } from "../services/helpers.js";
 import queries from "../services/mongo.js";
+
+const require = createRequire(import.meta.url);
+const config = require('config')
 
 const NODE_ENV = {
     api: -1,
@@ -173,7 +178,7 @@ async function routes(fastify, options, next) {
     /* Query listings not including deactivated */
     fastify.post(
         '/gwoogl',
-        { schema: gwooglSchema, preHandler: softAuth, preValidation: require('../decorators/preValidation') },
+        { schema: gwooglSchema, preHandler: softAuth, preValidation: preValidation },
         async (req, reply) => {
             const { body } = req
             const lang = await helpers.getLanguage(body.title_desc)
@@ -202,7 +207,7 @@ async function routes(fastify, options, next) {
         {
             schema: geolocationSchema,
             preHandler: softAuth,
-            preValidation: require('../decorators/preValidation'),
+            preValidation: preValidation,
         },
         async (req, reply) => {
             const { body } = req
@@ -224,14 +229,14 @@ async function routes(fastify, options, next) {
         },
     )
 
-
-    const postListingHandler = require('../decorators/postListingHandler')(fastify)
+    
+    const handler = postListingHandler(fastify)
     fastify.register(multer.contentParser)
     const upload = NODE_ENV < 1 ? helpers.localMulter : helpers.cloudMulter
-    fastify.post('/donations', { preHandler: [auth, upload] }, postListingHandler)
-    fastify.post('/skills', { preHandler: [auth, upload] }, postListingHandler)
-    fastify.post('/blogs', { preHandler: auth }, postListingHandler)
-    fastify.post('/events', { preHandler: auth }, postListingHandler)
+    fastify.post('/donations', { preHandler: [auth, upload] }, handler)
+    fastify.post('/skills', { preHandler: [auth, upload] }, handler)
+    fastify.post('/blogs', { preHandler: auth }, handler)
+    fastify.post('/events', { preHandler: auth }, handler)
 
     const commentSchema = constraints[process.env.NODE_ENV].POST.comment
     /* Contact poster one listing. */
