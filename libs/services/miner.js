@@ -1,6 +1,6 @@
 import adt_1 from "@toreda/adt";
-import { TopK } from "bloom-filters";
 import FuzzySet from "fuzzyset";
+const { TopK } = require("bloom-filters");
 
 // Arbitrary choice
 const maxSize = 3000

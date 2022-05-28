@@ -1,10 +1,10 @@
 import config from "config";
 import multer from "fastify-multer";
-import constraints from "../constraints/constraints";
-import authAdapter from "../decorators/auth";
-import blabla from "../decorators/blabla";
-import { crypto, ops as helpers } from "../services/helpers";
-import queries from "../services/mongo";
+import constraints from "../constraints/constraints.js";
+import authAdapter from "../decorators/auth.js";
+import blabla from "../decorators/blabla.js";
+import { crypto, ops as helpers } from "../services/helpers.js";
+import queries from "../services/mongo.js";
 
 const NODE_ENV = {
     api: -1,

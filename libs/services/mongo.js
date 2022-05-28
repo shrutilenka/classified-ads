@@ -1,10 +1,10 @@
 import { ObjectId } from "@fastify/mongodb";
 import { Mutex } from "async-mutex";
-import { CollationOptions, Collection, Filter, MongoDBNamespace } from "mongodb";
-import { Blog, Comment, Donation, Skill, User } from "../constraints/models";
-import { refreshTopK } from "../services/miner";
-import { EphemeralData } from "./helpers";
-
+import { Blog, Comment, Donation, Skill, User } from "../constraints/models.js";
+import { refreshTopK } from "../services/miner.js";
+import Dictionary from "./dictionary.js";
+import { EphemeralData } from "./helpers.js";
+import { getListingById, getListingsSince } from "./mongo-protobuff.js";
 
 /**
  * This function returns an ObjectId embedded with a given datetime
@@ -26,7 +26,7 @@ function getObjectId(days) {
  * @param { MongoDBNamespace } mongoDB
  * @param { import('ioredis').Redis } redisDB
  */
-export function (mongoDB, redisDB) {
+export default function (mongoDB, redisDB) {
     /** @type { Map<string, Mutex> } */
     let locks = new Map()
     /** @type { Collection } */
@@ -157,7 +157,6 @@ export function (mongoDB, redisDB) {
     this.getListingById = async function (id, isAdmin, viewer) {
         if (!locks.has(id)) locks.set(id, new Mutex())
         const release = await locks.get(id).acquire()
-        const getListingById = new encoder.getListingById()
         const unique = `glid:${id}`
         const canView = (doc) => isAdmin || doc.usr === viewer || doc['a']
 
@@ -170,7 +169,7 @@ export function (mongoDB, redisDB) {
             const upLevel = (await redisDB.hget(`up-ids`, id)) || '1'
             if (upLevel === '1') {
                 const buffer = await redisDB.getBuffer(unique)
-                let cachedQResult = getListingById.decodeBuffer(buffer)
+                let cachedQResult = new getListingById().decodeBuffer(buffer)
                 if (canView(cachedQResult)) {
                     release()
                     return cachedQResult
@@ -206,7 +205,6 @@ export function (mongoDB, redisDB) {
         }
     }
 
-import encoder from "./mongo-protobuff";
     /**
      * Get documents created since number of days
      * @param {*} days number of days since document was created
@@ -215,7 +213,6 @@ import encoder from "./mongo-protobuff";
      * @return {Promise}
      */
     this.getListingsSince = async function (days, section, pagination) {
-        const getListingsSince = new encoder.getListingsSince()
         const unique = `${section || 'index'}-${days}-${pagination.perPage}-${pagination.page}`
         const cached = await redisDB.exists(`gls:${unique}`)
         collection = mongoDB.collection('listing')
@@ -248,9 +245,10 @@ import encoder from "./mongo-protobuff";
                     refreshed = true
                 }
             }
+            
             if (!refreshed) {
                 const buffer = await redisDB.getBuffer(`gls:${unique}`)
-                let cachedQResult = getListingsSince.decodeBuffer(buffer)
+                let cachedQResult = new getListingsSince().decodeBuffer(buffer)
                 return cachedQResult
             }
         }
@@ -365,7 +363,7 @@ import encoder from "./mongo-protobuff";
         return await collection.findOne(query)
     }
 
-import Dictionary from "./dictionary";
+
     const translator = new Dictionary(['en', 'ar', 'fr'])
 
     /**

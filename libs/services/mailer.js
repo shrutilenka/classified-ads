@@ -1,6 +1,5 @@
 import config from "config";
 import MailTime from "mail-time";
-import { MongoClient, MongoDBNamespace } from "mongodb";
 import nodemailer from "nodemailer";
 
 class MailerOps {

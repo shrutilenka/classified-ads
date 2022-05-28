@@ -31,12 +31,12 @@ import crypto from "node:crypto";
 import path from "path";
 import viewsPlugin from "point-of-view";
 import { ops as bootstrap } from "./bootstrap/bootstrap.js";
-import helmet_ from "./config/options/helmet";
-import logger_ from "./config/options/logger";
+import helmet_ from "./config/options/helmet.js";
+import logger_ from "./config/options/logger.js";
 // Require plugins configurations
 // const miner = require('./libs/decorators/miner').miner
-import swagger_ from "./config/options/swagger";
-import { softVerifyJWT, verifyJWT, wsauth } from "./libs/decorators/jwt";
+import swagger_ from "./config/options/swagger.js";
+import { softVerifyJWT, verifyJWT, wsauth } from "./libs/decorators/jwt.js";
 import adminRouter from "./libs/routes/admin.js";
 import authRouter from "./libs/routes/auth.js";
 import chatRouter from "./libs/routes/chat.js";
@@ -44,9 +44,9 @@ import dataRouter from "./libs/routes/data.js";
 import debugRouter from "./libs/routes/debug.js";
 import indexRouter from "./libs/routes/index.js";
 import listingsRouter from "./libs/routes/listings.js";
-import Mailer from "./libs/services/mailer";
-import mongoMem from "./libs/services/mongo-mem";
-import RedisAPI from "./libs/services/redis";
+import Mailer from "./libs/services/mailer.js";
+import { cache } from "./libs/services/mongo-mem.js";
+import RedisAPI from "./libs/services/redis.js";
 
 
 config();
@@ -332,7 +332,7 @@ async function build(doRun) {
                 // not working on heroku for some reason
                 if (!fastify.conf('HEROKU'))
                     bootstrap.registerPipelines(db, fastify.scheduler, seconds)
-                await mongoMem.cache(db, redis)
+                await cache(db, redis)
             }).catch((err) => {
                 fastify.log.error('Refusing to start because of ' + err)
                 process.exit()
@@ -341,7 +341,7 @@ async function build(doRun) {
             // TODO: deal with production indexes and map reduce functions
             await bootstrap.createIndexes(db)
             bootstrap.registerPipelines(db, fastify.scheduler, seconds)
-            await mongoMem.cache(db, redis)
+            await cache(db, redis)
         }
 
         // db.on('error', function (error) {

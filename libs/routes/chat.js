@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import { crypto } from "../services/helpers";
-import mongoMem from "../services/mongo-mem";
+import { crypto } from "../services/helpers.js";
+import { isAuthor } from "../services/mongo-mem.js";
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 async function routes(fastify, options) {
     const channels = new Map()
@@ -79,7 +79,7 @@ async function routes(fastify, options) {
 
     function validChannel(channel, user) {
         let [author, claimedUser, thread] = channel.split(',')
-        return user === claimedUser && mongoMem.isAuthor(thread, author)
+        return user === claimedUser && isAuthor(thread, author)
     }
 
     function refreshChannels(channels) {

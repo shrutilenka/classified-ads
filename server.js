@@ -2,7 +2,8 @@ import cluster from "cluster";
 // Require app configurations
 import { config } from "dotenv";
 import os from "os";
-import build from "./app";
+import build from "./app.js";
+
 config();
 process.title = 'classified-ads'
 // Incremental is better

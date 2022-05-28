@@ -1,7 +1,7 @@
 import config from "config";
 import Multer from "fastify-multer";
 import fs from "fs";
-import Dictionary from "./dictionary";
+import Dictionary from "./dictionary.js";
 
 let LanguageDetection, lid
 try {

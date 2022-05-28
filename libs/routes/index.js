@@ -1,12 +1,13 @@
-import authAdapter from "../decorators/auth";
-import { SVGs } from "../services/data";
+import authAdapter from "../decorators/auth.js";
+import blabla from "../decorators/blabla.js";
+import { SVGs } from "../services/data.js";
+import queries from "../services/mongo.js";
+
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options) {
-import blabla from "../decorators/blabla";
-import queries from "../services/mongo";
     const { db } = fastify.mongo
     /** @type { import('ioredis').Redis } redis */
     const redis = fastify.redis

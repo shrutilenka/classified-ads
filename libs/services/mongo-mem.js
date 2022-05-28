@@ -9,7 +9,7 @@ let listings
  * @param { MongoDBNamespace } mongoDB
  * @param { import('ioredis').Redis } redisDB
  */
-async function cache(mongoDB, redisDB) {
+export async function cache(mongoDB, redisDB) {
     console.log('Running MongoDB cache')
     let collection
     // fill in listings
@@ -20,8 +20,6 @@ async function cache(mongoDB, redisDB) {
     })
 }
 
-function isAuthor(id, author) {
+export function isAuthor(id, author) {
     return listings.find((l) => l.id == id && l.author == author)
 }
-
-export { cache, isAuthor }

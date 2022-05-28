@@ -1,5 +1,5 @@
-import authAdapter from "../decorators/auth";
-import queries from "../services/mongo";
+import authAdapter from "../decorators/auth.js";
+import queries from "../services/mongo.js";
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options) {

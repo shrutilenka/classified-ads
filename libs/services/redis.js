@@ -1,4 +1,3 @@
-import { Collection, MongoDBNamespace } from "mongodb";
 /**
  * 
  * @param {import("ioredis").Redis} redisDB 

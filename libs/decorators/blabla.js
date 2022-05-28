@@ -1,5 +1,5 @@
 import config from "config";
-import constraints from "../constraints/constraints";
+import constraints from "../constraints/constraints.js";
 
 const NODE_ENV = {
     api: -1,

@@ -1,4 +1,3 @@
-import { Collection, MongoDBNamespace } from "mongodb";
 //.replace(/(\b(\w{1,3})\b(\W|$))/g,'').split(/\s+/).join(' ')
 const routine = `function (text) {
     const stopwords = ['the', 'this', 'and', 'or', 'id']
