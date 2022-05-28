@@ -46,17 +46,14 @@
     "@fastify/swagger": "^6.0.1",
     "@fastify/websocket": "^5.0.0",
     "@google-cloud/storage": "^5.18.3",
-    "@smodin/fast-text-language-detection": "^0.2.3",
     "@toreda/adt": "^0.4.0",
     "@types/ioredis": "^4.28.10",
     "@types/ws": "^8.5.3",
     "ajv-i18n": "^4.2.0",
-    "annoy": "^3.0.3",
     "async-mutex": "^0.3.2",
     "bcryptjs": "^2.4.3",
     "big-json": "^3.1.0",
     "bloom-filters": "^2.0.0",
-    "bull": "^4.8.1",
     "config": "^3.3.7",
     "csv": "^6.0.5",
     "dotenv": "^14.2.0",
@@ -104,5 +101,10 @@
     "prettier": "^2.5.1",
     "request": "^2.88.2",
     "tap": "^16.2.0"
+  },
+  "optionalDependencies": {
+    "@smodin/fast-text-language-detection": "^0.2.3",
+    "annoy": "^3.0.3",
+    "bull": "^4.8.1"
   }
 }
