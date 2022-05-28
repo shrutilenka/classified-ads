@@ -1,9 +1,4 @@
-const {
-    MongoDBNamespace,
-    Collection,
-    Filter,
-    CollationOptions,
-} = require('mongodb')
+import { Collection, MongoDBNamespace } from "mongodb";
 /**
  * 
  * @param {import("ioredis").Redis} redisDB 

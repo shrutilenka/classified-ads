@@ -1,10 +1,10 @@
-const { ObjectId } = require('@fastify/mongodb')
-const { MongoDBNamespace, Collection, Filter, CollationOptions } = require('mongodb')
-const { Donation, Skill, Blog, Comment, User } = require('../constraints/models')
-const { refreshTopK } = require('../services/miner')
+import { ObjectId } from "@fastify/mongodb";
+import { Mutex } from "async-mutex";
+import { CollationOptions, Collection, Filter, MongoDBNamespace } from "mongodb";
+import { Blog, Comment, Donation, Skill, User } from "../constraints/models";
+import { refreshTopK } from "../services/miner";
+import { EphemeralData } from "./helpers";
 
-const EphemeralData = require('./helpers').EphemeralData
-var { Mutex } = require('async-mutex')
 
 /**
  * This function returns an ObjectId embedded with a given datetime
@@ -206,7 +206,7 @@ module.exports = function (mongoDB, redisDB) {
         }
     }
 
-    const encoder = require('./mongo-protobuff')
+import encoder from "./mongo-protobuff";
     /**
      * Get documents created since number of days
      * @param {*} days number of days since document was created
@@ -365,7 +365,7 @@ module.exports = function (mongoDB, redisDB) {
         return await collection.findOne(query)
     }
 
-    const Dictionary = require('./dictionary')
+import Dictionary from "./dictionary";
     const translator = new Dictionary(['en', 'ar', 'fr'])
 
     /**

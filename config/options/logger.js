@@ -1,5 +1,4 @@
-const config = require('config')
-const pino = require('pino')
+import config from "config";
 module.exports = () => {
     return config.get('HEROKU')
         ? true

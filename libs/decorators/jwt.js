@@ -1,6 +1,6 @@
-const config = require('config')
+import config from "config";
+import jwt from "jsonwebtoken";
 
-const jwt = require('jsonwebtoken')
 const JWT_SECRET = process.env.JWT_SECRET
 const COOKIE_NAME = config.get('COOKIE_NAME')
 

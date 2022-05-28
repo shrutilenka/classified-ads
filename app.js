@@ -1,8 +1,56 @@
 console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
 // Require app configurations
-require('dotenv').config()
+import fastifyAuth from "@fastify/auth";
+import compressPlugin from "@fastify/compress";
+import fastifyCookies from "@fastify/cookie";
+import fastifyFlash from "@fastify/flash";
+import formbody from "@fastify/formbody";
+import helmet from "@fastify/helmet";
+import fastifyJWT from "@fastify/jwt";
+import mongodb from "@fastify/mongodb";
+import rateLimit from "@fastify/rate-limit";
+import redis from "@fastify/redis";
+import fastifySession from "@fastify/session";
+import serve from "@fastify/static";
+// TODO: looks heavy on memory
+// const metricsPlugin = require('fastify-metrics')
+import fastifySwagger from "@fastify/swagger";
+import fastifyWebsocket from "@fastify/websocket";
+import dns from "dns";
+import { config } from "dotenv";
+// Rendering systems and internationalization
+import ejs from "ejs";
+import fastify_ from "fastify";
+// Require dependencies
+// Fastify plugins
+import { fastifySchedulePlugin } from "fastify-schedule";
+import i18next from "i18next";
+import Backend from "i18next-fs-backend";
+import i18nextMiddleware from "i18next-http-middleware";
+import crypto from "node:crypto";
+import path from "path";
+import viewsPlugin from "point-of-view";
+import { ops as bootstrap } from "./bootstrap/bootstrap.js";
+import helmet_ from "./config/options/helmet";
+import logger_ from "./config/options/logger";
+// Require plugins configurations
+// const miner = require('./libs/decorators/miner').miner
+import swagger_ from "./config/options/swagger";
+import { softVerifyJWT, verifyJWT, wsauth } from "./libs/decorators/jwt";
+import adminRouter from "./libs/routes/admin.js";
+import authRouter from "./libs/routes/auth.js";
+import chatRouter from "./libs/routes/chat.js";
+import dataRouter from "./libs/routes/data.js";
+import debugRouter from "./libs/routes/debug.js";
+import indexRouter from "./libs/routes/index.js";
+import listingsRouter from "./libs/routes/listings.js";
+import Mailer from "./libs/services/mailer";
+import mongoMem from "./libs/services/mongo-mem";
+import RedisAPI from "./libs/services/redis";
+
+
+config();
 process.title = 'classified-ads'
-const config = require('config')
 // Incremental is better
 const NODE_ENV = {
     api: -1,
@@ -11,46 +59,10 @@ const NODE_ENV = {
     production: 2
 }[process.env.NODE_ENV]
 
-const dns = require('dns')
-const path = require('path')
-// Require dependencies
-// Fastify plugins
 
-const { fastifySchedulePlugin } = require('fastify-schedule')
-const fastify_ = require('fastify')
-const fastifyWebsocket = require('@fastify/websocket')
-const helmet = require('@fastify/helmet')
-const compressPlugin = require('@fastify/compress')
-const serve = require('@fastify/static')
-const mongodb = require('@fastify/mongodb')
-const mongoMem = require('./libs/services/mongo-mem')
-const redis = require('@fastify/redis')
-const formbody = require('@fastify/formbody')
-const rateLimit = require('@fastify/rate-limit')
-// TODO: looks heavy on memory
-// const metricsPlugin = require('fastify-metrics')
-const fastifySwagger = require('@fastify/swagger')
 
-// Rendering systems and internationalization
-const ejs = require('ejs')
-const viewsPlugin = require('point-of-view')
-const i18next = require('i18next')
-const Backend = require('i18next-fs-backend')
-const i18nextMiddleware = require('i18next-http-middleware')
 
-// Require plugins configurations
-// const miner = require('./libs/decorators/miner').miner
-const swagger_ = require('./config/options/swagger')
-const logger_ = require('./config/options/logger')()
-const helmet_ = require('./config/options/helmet')()
 
-const crypto = require('node:crypto')
-const fastifyJWT = require('@fastify/jwt')
-const fastifyAuth = require('@fastify/auth')
-const fastifyCookies = require('@fastify/cookie')
-const fastifySession = require('@fastify/session')
-const fastifyFlash = require('@fastify/flash')
-const { verifyJWT, softVerifyJWT, wsauth } = require('./libs/decorators/jwt')
 // In case we add ElasticSearch we can benefit 'swagger-stats'
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 // const apiSpec = require('./swagger.json')
@@ -89,18 +101,6 @@ async function build(doRun) {
         // }, 10000)
     }
 
-    // These routes must be required inside
-    // build (= called as many as nodes in cluster)
-    // because I feel like it's safer 
-    const authRouter = require('./libs/routes/auth.js')
-    const indexRouter = require('./libs/routes/index.js')
-    const adminRouter = require('./libs/routes/admin.js')
-    const listingsRouter = require('./libs/routes/listings.js')
-    const dataRouter = require('./libs/routes/data.js')
-    const debugRouter = require('./libs/routes/debug.js')
-    const chatRouter = require('./libs/routes/chat.js')
-
-
     fastify.register(helmet, helmet_)
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
@@ -126,7 +126,7 @@ async function build(doRun) {
     fastify.decorate('verifyJWT', verifyJWT)
     fastify.decorate('softVerifyJWT', softVerifyJWT)
     fastify.decorate('wsauth', wsauth)
-    const Mailer = require('./libs/services/mailer')
+
     // Same db instance all over the all over the app.
     // never close !
     // const { db } = fastify.mongo
@@ -296,8 +296,6 @@ async function build(doRun) {
     fastify.register(serve, { root: path.join(__dirname, 'uploads'), prefix: '/cdn/', decorateReply: false })
     /*********************************************************************************************** */
     // !!BOOTSTRAP ENVIRONMENT AND DATA!!
-    const { ops: bootstrap } = require('./bootstrap/bootstrap.js')
-    const RedisAPI = require('./libs/services/redis')
 
     // Run only on one node
     if (process.env.worker_id == '1') {
@@ -363,7 +361,7 @@ async function build(doRun) {
         // const myMongoDatabase = fastify.mongo.client.db('dbname')
         // TODO: this has of async operations
         /*
-        const visitors = require('./libs/decorators/visitors-handler')
+        import visitors from "./libs/decorators/visitors-handler";
         fastify.addHook('preHandler', async (req, reply) => {
             let stats = await visitors.getStats()
             stats.record(req, reply)

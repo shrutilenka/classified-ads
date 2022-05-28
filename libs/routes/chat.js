@@ -1,6 +1,6 @@
-const { v4: uuidv4 } = require('uuid')
-const mongoMem = require('../services/mongo-mem')
-const crypto = require('../services/helpers').crypto
+import { v4 as uuidv4 } from "uuid";
+import { crypto } from "../services/helpers";
+import mongoMem from "../services/mongo-mem";
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 async function routes(fastify, options) {
     const channels = new Map()

@@ -1,10 +1,10 @@
 // No auth
-const config = require('config')
+import config from "config";
+import url from "url";
+import visitorCounter from "visitor-counter";
+import visitorsHtml from "./visitors-html";
 const secretPath = process.env.SECRET_PATH
 
-const visitorCounter = require('visitor-counter')
-const url = require('url')
-const visitorsHtml = require('./visitors-html')
 const params = (req, param) => {
     const query = url.parse(req.url, true).query
     return query[param] || typeof query[param] === 'string'

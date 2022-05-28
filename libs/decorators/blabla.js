@@ -1,6 +1,6 @@
-const config = require('config')
+import config from "config";
+import { constraints } from "../constraints/constraints";
 
-const { constraints } = require('../constraints/constraints')
 const NODE_ENV = {
     api: -1,
     localhost: 0,

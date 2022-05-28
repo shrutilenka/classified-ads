@@ -1,11 +1,11 @@
-const authAdapter = require('../decorators/auth')
-
+import authAdapter from "../decorators/auth";
+import queries from "../services/mongo";
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options) {
     const { db } = fastify.mongo
     const { redis } = fastify
-    const queries = require('../services/mongo')
+
     const QInstance = new queries(db, redis)
     let { adminAuth } = authAdapter(fastify)
     // CLONE BASE DATA LIST

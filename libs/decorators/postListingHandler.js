@@ -1,29 +1,29 @@
-const config = require('config')
+import { Storage } from "@google-cloud/storage";
+import config from "config";
+import { tidy } from "htmltidy2";
+import path from "path";
+import sharp from "sharp";
+import { format, promisify } from "util";
+import { constraints } from "../constraints/constraints";
+import { ops as helpers } from "../services/helpers";
+import queries from "../services/mongo";
+import { stringTransformer, validationPipeLine } from "../services/pipeLine.js";
 const NODE_ENV = {
     api: -1,
     localhost: 0,
     development: 1,
     production: 2,
 }[process.env.NODE_ENV]
-const path = require('path')
-const { format, promisify } = require('util')
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
-const helpers = require('../services/helpers').ops
-const { Storage } = require('@google-cloud/storage')
 
-const sharp = require('sharp')
 let storage, bucket
 if(NODE_ENV < 1) {
     storage = new Storage({ keyFilename: process.env.CREDS_PATH })
     bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
 }
 
-const { validationPipeLine, stringTransformer } = require('../services/pipeLine.js')
-const { constraints } = require('../constraints/constraints')
 
-const queries = require('../services/mongo')
 
-var tidy = require('htmltidy2').tidy
 const tidyP = promisify(tidy)
 
 const formatNInsertListing = async (QInstance, req, blobNames) => {

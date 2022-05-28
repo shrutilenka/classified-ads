@@ -1,6 +1,6 @@
 // TODO: catch errors on use of these models (in mongo.js and in routes)
-const { BasicModel, ObjectModel, ArrayModel } = require('objectmodel')
-const { ObjectId } = require('@fastify/mongodb')
+import { ObjectId } from "@fastify/mongodb";
+import { ArrayModel, BasicModel, ObjectModel } from "objectmodel";
 
 var URL =
     '^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?'

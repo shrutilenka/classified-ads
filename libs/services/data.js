@@ -1,8 +1,8 @@
 // Reads data from disk into memory
-const config = require('config')
-const fs = require('fs')
-const path = require('path')
-const parse = require('csv').parse
+import config from "config";
+import { parse } from "csv";
+import fs from "fs";
+import path from "path";
 
 const give = {}
 const TAG_SIZE = config.get('TAG_SIZE')

@@ -1,22 +1,24 @@
-const config = require('config')
+import bcrypt from "bcryptjs";
+import config from "config";
+import jwt from "jsonwebtoken";
+import crypto from "node:crypto";
+import { constraints } from "../constraints/constraints";
+import blabla from "../decorators/blabla";
+import Mailer from "../services/mailer";
+import queries from "../services/mongo";
 
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 // Encapsulates routes: (Init shared variables and so)
 async function routes(fastify, options) {
     const { db } = fastify.mongo
     const { redis } = fastify
-    const queries = require('../services/mongo')
-    const QInstance = new queries(db, redis)
-    const { constraints } = require('../constraints/constraints')
-    const blabla = require('../decorators/blabla')
 
-    const bcrypt = require('bcryptjs')
-    var crypto = require('node:crypto')
-    const jwt = require('jsonwebtoken')
+    const QInstance = new queries(db, redis)
+
     const JWT_SECRET = process.env.JWT_SECRET
     const COOKIE_NAME = config.get('COOKIE_NAME')
     const loginSchema = constraints[process.env.NODE_ENV].POST.login.schema
-    const Mailer = require('../services/mailer')
+
     // const mailer = Mailer.getInstance(null)
     fastify.decorateReply('blabla', blabla)
     fastify.post('/login', { schema: loginSchema, attachValidation: true }, async function (request, reply) {

@@ -1,4 +1,4 @@
-const queries = require('../services/mongo')
+import queries from "../services/mongo";
 
 async function routes(fastify, options, next) {
     const { db } = fastify.mongo

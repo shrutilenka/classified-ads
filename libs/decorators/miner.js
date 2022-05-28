@@ -1,4 +1,4 @@
-const { TopK, BloomFilter } = require('bloom-filters')
+import { BloomFilter, TopK } from "bloom-filters";
 const index = new BloomFilter(10, 4)
 
 const minerTree = {

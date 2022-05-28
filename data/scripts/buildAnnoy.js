@@ -3,15 +3,15 @@
 
 // READ EMBEDDINGS
 
-const path = require('path')
-const fs = require('fs')
+import Annoy from "annoy";
+import fs from "fs";
+import path from "path";
 process.argv.shift()
 process.argv.shift()
 const enFilePath = path.join(__dirname, `../wiki.multi.${process.argv[0]}.vec`)
 const enCachePath = path.join(__dirname, `../models/annoy.${process.argv[0]}.vec`)
 const enid2wordPath = path.join(__dirname, `../models/id2word.${process.argv[0]}.json`)
 
-var Annoy = require('annoy')
 
 function flip(obj) {
     return Object.keys(obj).reduce((ret, key) => {

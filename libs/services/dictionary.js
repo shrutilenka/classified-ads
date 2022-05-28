@@ -1,4 +1,5 @@
-const assert = require('assert')
+import assert from "assert";
+import path from "path";
 
 let Annoy
 try {
@@ -8,7 +9,6 @@ catch (e) {
     console.log('oh no no annoy module. I hope this is not production environment')
 }
 
-const path = require('path')
 
 let models = {
     en: {

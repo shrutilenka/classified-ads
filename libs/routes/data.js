@@ -1,4 +1,4 @@
-const { give } = require('../services/data.js')
+import { give } from "../services/data.js";
 
 async function routes(fastify, options, next) {
     ;[

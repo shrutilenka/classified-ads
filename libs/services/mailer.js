@@ -1,7 +1,7 @@
-const config = require('config')
-const { MongoDBNamespace } = require('mongodb')
-const MailTime = require('mail-time')
-const nodemailer = require('nodemailer')
+import config from "config";
+import MailTime from "mail-time";
+import { MongoClient, MongoDBNamespace } from "mongodb";
+import nodemailer from "nodemailer";
 
 class MailerOps {
     constructor(db) {
@@ -61,7 +61,6 @@ class MailerOps {
     }
 }
 
-const { MongoClient } = require('mongodb')
 class Mailer {
     constructor() {
         throw new Error('Use Mailer.getInstance()')

@@ -1,5 +1,5 @@
-const borders = require('./borders.json')
-const states = require('./states.json')
+import borders from "./borders.json";
+import states from "./states.json";
 
 // TODO: DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA

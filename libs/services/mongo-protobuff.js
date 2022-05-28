@@ -1,5 +1,5 @@
-const path = require('path')
-const ProtoBufJs = require('protobufjs')
+import path from "path";
+import ProtoBufJs from "protobufjs";
 
 const absPath = path.join(__dirname, './protos/getlistingssince.proto')
 const root = ProtoBufJs.loadSync(absPath)

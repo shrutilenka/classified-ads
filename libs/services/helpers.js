@@ -1,7 +1,8 @@
-const config = require('config')
-const fs = require('fs')
+import config from "config";
+import Multer from "fastify-multer";
+import fs from "fs";
+import Dictionary from "./dictionary";
 
-const Multer = require('fastify-multer')
 let LanguageDetection, lid
 try {
     LanguageDetection = require('@smodin/fast-text-language-detection')
@@ -45,7 +46,6 @@ ops.cloudMulter = Multer({
 
 ops.localMulter = Multer({ dest: 'uploads/' }).single('avatar')
 
-const Dictionary = require('./dictionary')
 const dictionary = new Dictionary(['en', 'ar', 'fr'])
 
 ops.getLanguage = async (text) => {

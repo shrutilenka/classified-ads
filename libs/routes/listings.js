@@ -1,4 +1,11 @@
-const config = require('config')
+import config from "config";
+import multer from "fastify-multer";
+import { constraints } from "../constraints/constraints";
+import authAdapter from "../decorators/auth";
+import blabla from "../decorators/blabla";
+import { crypto, ops as helpers } from "../services/helpers";
+import queries from "../services/mongo";
+
 const NODE_ENV = {
     api: -1,
     localhost: 0,
@@ -6,17 +13,12 @@ const NODE_ENV = {
     production: 2,
 }[process.env.NODE_ENV]
 
-const helpers = require('../services/helpers').ops
-const crypto = require('../services/helpers').crypto
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
-const authAdapter = require('../decorators/auth')
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options, next) {
-    const { constraints } = require('../constraints/constraints')
-    const blabla = require('../decorators/blabla')
-    const queries = require('../services/mongo')
+
 
     const { db } = fastify.mongo
     const { redis } = fastify
@@ -222,7 +224,7 @@ async function routes(fastify, options, next) {
         },
     )
 
-    const multer = require('fastify-multer')
+
     const postListingHandler = require('../decorators/postListingHandler')(fastify)
     fastify.register(multer.contentParser)
     const upload = NODE_ENV < 1 ? helpers.localMulter : helpers.cloudMulter

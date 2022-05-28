@@ -1,8 +1,11 @@
-const geoEncoder = require('../../data/geo/geoJSONEncoder')
-const { constraints } = require('../constraints/constraints')
-const { html, reb, rew } = require('../constraints/regex')
-const sanitizeHtml = require('sanitize-html')
-const nlp = require('wink-nlp-utils')
+import Ajv from "ajv";
+import sanitizeHtml from "sanitize-html";
+import nlp from "wink-nlp-utils";
+import geoEncoder from "../../data/geo/geoJSONEncoder";
+import { constraints } from "../constraints/constraints";
+import { html, reb, rew } from "../constraints/regex";
+import { give } from "./data";
+
 const coordinates = geoEncoder.getBorders()
 const localize = {
     en: require('ajv-i18n/localize/en'),
@@ -119,8 +122,6 @@ function getAscendants(keyword, lang) {
     const granpa = getKey(parent, leveled[lang].level1)
     return [parent, granpa]
 }
-// TODO: could be much cleaner
-const give = require('./data').give
 const { googleTagsEn, googleTagsFr, googleTagsAr } = give
 const { googleTagsEnLite, googleTagsFrLite, googleTagsArLite } = give
 const leveled = { en: {}, fr: {}, ar: {} }
@@ -240,7 +241,6 @@ PipeLine.prototype = {
         return { isTrue: this.value, data: this.data, error: this.error }
     },
 }
-const Ajv = require('ajv')
 const ajv = new Ajv({ allErrors: true, coerceTypes: 'number' })
 function validationPipeLine(req) {
     const { body, method } = req

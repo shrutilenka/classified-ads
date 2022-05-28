@@ -16,8 +16,9 @@
     "tools:mlmodels:en": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec --output wiki.multi.en.vec",
     "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
     "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",
-    "test": "NODE_ENV=api tap --reporter=list --no-coverage"
+    "test": "NODE_ENV=api tap --no-coverage"
   },
+  "type": "module",
   "keywords": [
     "Node.js",
     "JavaScript",
@@ -97,9 +98,9 @@
     "@types/node": "^17.0.24",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
+    "got": "^12.1.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
-    "request": "^2.88.2",
     "tap": "^16.2.0"
   },
   "optionalDependencies": {
