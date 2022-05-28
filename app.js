@@ -21,16 +21,13 @@ import { config } from "dotenv";
 // Rendering systems and internationalization
 import ejs from "ejs";
 import fastify_ from "fastify";
-// Require dependencies
-// Fastify plugins
-import { fastifySchedulePlugin } from "fastify-schedule";
 import i18next from "i18next";
 import Backend from "i18next-fs-backend";
 import i18nextMiddleware from "i18next-http-middleware";
 import crypto from "node:crypto";
 import path from "path";
 import viewsPlugin from "point-of-view";
-import { ops as bootstrap } from "./bootstrap/bootstrap.js";
+import bootstrap from "./bootstrap/bootstrap.js";
 import helmet_ from "./config/options/helmet.js";
 import logger_ from "./config/options/logger.js";
 // Require plugins configurations
@@ -47,6 +44,9 @@ import listingsRouter from "./libs/routes/listings.js";
 import Mailer from "./libs/services/mailer.js";
 import { cache } from "./libs/services/mongo-mem.js";
 import RedisAPI from "./libs/services/redis.js";
+// Require dependencies
+// Fastify plugins
+const { fastifySchedulePlugin } = require("fastify-schedule");
 
 
 config();

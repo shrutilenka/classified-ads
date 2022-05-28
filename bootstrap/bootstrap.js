@@ -1,5 +1,13 @@
-const fs = require('fs')
-const path = require('path')
+import fs from "fs";
+import { MongoClient } from "mongodb";
+import path from "path";
+import { AsyncTask, SimpleIntervalJob } from "toad-scheduler";
+import { schema } from "../config/options/bootstrap.js";
+import { getStateNames } from "../data/geo/geoJSONEncoder.js";
+import { refreshTopK } from "../libs/services/miner.js";
+/*********************************************************************************************** */
+// REGISTER REGULAR JOBS
+import scripts from "../libs/services/mongo-jobs.js";
 
 var jsf_en, jsf_fr, jsf_ar
 jsf_en = jsf_fr = jsf_ar = require('json-schema-faker')
@@ -8,18 +16,14 @@ jsf_en.extend('faker', () => require('@faker-js/faker/locale/en'))
 jsf_fr.extend('faker', () => require('@faker-js/faker/locale/fr'))
 jsf_ar.extend('faker', () => require('@faker-js/faker/locale/ar'))
 
-const { MongoClient } = require('mongodb')
-const { schema } = require('../config/options/bootstrap')
-const { SimpleIntervalJob, AsyncTask } = require('toad-scheduler')
-const geoJSONEncoder = require('../data/geo/geoJSONEncoder')
 
 /*********************************************************************************************** */
 // FAKE DEVELOPMENT ENVIRONMENTS DATA
 // ONLY FOR CURRENT CONFIGURATION OF CLASSIFIED-ADS (THREE SECTION, THREE LANGUAGES ...)
 const states = {
-    en: geoJSONEncoder.getStateNames('en'),
-    fr: geoJSONEncoder.getStateNames('fr'),
-    ar: geoJSONEncoder.getStateNames('ar'),
+    en: getStateNames('en'),
+    fr: getStateNames('fr'),
+    ar: getStateNames('ar'),
 }
 const readDictionary = (lang) =>
     fs
@@ -205,7 +209,6 @@ ops.seedDevelopmenetData = async function seedDevelopmenetData(db) {
     })
 }
 
-const { refreshTopK, topk } = require('../libs/services/miner')
 ops.famousSearches = function famousSearches() {
     const splitBy = (sep) => (str) => str.split(sep).map((x) => x.trim())
     const splitLine = splitBy('-')
@@ -270,9 +273,6 @@ ops.fastifyInjects = async function fastifyInjects(app) {
     logRequest(response, app)
 }
 
-/*********************************************************************************************** */
-// REGISTER REGULAR JOBS
-const scripts = require('../libs/services/mongo-jobs')
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
     const QInstance = new scripts(db)
     const task = new AsyncTask(

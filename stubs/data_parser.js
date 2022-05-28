@@ -1,9 +1,9 @@
-const fs = require('fs')
-const path = require('path')
-const { chain } = require('stream-chain')
-const pick = require('stream-json/filters/Pick')
-const { streamValues } = require('stream-json/streamers/StreamValues')
-const { ignore } = require('stream-json/filters/Ignore')
+import fs from "fs";
+import path from "path";
+import { chain } from "stream-chain";
+import { ignore } from "stream-json/filters/Ignore";
+import pick from "stream-json/filters/Pick";
+import { streamValues } from "stream-json/streamers/StreamValues";
 
 
 const taxonomyPathEn = '../data/taxonomy/cptall-en-US.json'

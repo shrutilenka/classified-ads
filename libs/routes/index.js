@@ -1,6 +1,6 @@
 import authAdapter from "../decorators/auth.js";
 import blabla from "../decorators/blabla.js";
-import { SVGs } from "../services/data.js";
+import { give } from "../services/data.js";
 import queries from "../services/mongo.js";
 
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
@@ -247,7 +247,7 @@ async function routes(fastify, options) {
     fastify.get('/fennec-fox', function (req, reply) {
         const idx = Math.floor(Math.random() * 4) + 1
         reply.view('/templates/pages/easter-egg', {
-            svg: SVGs[idx - 1],
+            svg: give.SVGs[idx - 1],
             style: `easter-egg-${idx}.css`,
         })
     })
