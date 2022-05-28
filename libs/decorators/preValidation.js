@@ -23,4 +23,4 @@ function preValidation(request, reply, done) {
     done()
 }
 
-module.exports = preValidation
+export default preValidation

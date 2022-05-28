@@ -5,7 +5,7 @@ const NODE_ENV = {
     production: 2,
 }[process.env.NODE_ENV]
 
-module.exports = function authAdapter(fastify) {
+export default function authAdapter(fastify) {
     let auth, adminAuth, softAuth
     if (fastify.auth && NODE_ENV > -1) {
         auth = fastify.auth([fastify.verifyJWT('regular')])

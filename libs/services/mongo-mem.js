@@ -24,4 +24,4 @@ function isAuthor(id, author) {
     return listings.find((l) => l.id == id && l.author == author)
 }
 
-module.exports = { cache, isAuthor }
+export { cache, isAuthor }

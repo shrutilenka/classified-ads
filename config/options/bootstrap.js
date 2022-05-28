@@ -171,6 +171,6 @@ const schema = {
     additionalProperties: true
 }
 
-module.exports = {
+export {
     schema
 }

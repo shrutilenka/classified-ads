@@ -375,4 +375,4 @@ async function build(doRun) {
     return fastify
 }
 
-module.exports = build
+export default build

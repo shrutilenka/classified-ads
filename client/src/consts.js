@@ -13,4 +13,4 @@ const consts = {
         localhost: 0,
     },
 }
-module.exports = consts
+export default consts

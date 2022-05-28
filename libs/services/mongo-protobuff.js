@@ -37,4 +37,5 @@ function getListingById() {
     }
 }
 
-module.exports = { getListingsSince, getListingById }
+export { getListingsSince, getListingById };
+

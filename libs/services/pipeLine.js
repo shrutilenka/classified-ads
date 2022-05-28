@@ -2,7 +2,7 @@ import Ajv from "ajv";
 import sanitizeHtml from "sanitize-html";
 import nlp from "wink-nlp-utils";
 import geoEncoder from "../../data/geo/geoJSONEncoder";
-import { constraints } from "../constraints/constraints";
+import constraints from "../constraints/constraints";
 import { html, reb, rew } from "../constraints/regex";
 import { give } from "./data";
 
@@ -285,4 +285,5 @@ function validationPipeLine(req) {
     return { errors, tagsValid, geoValid, undrawValid }
 }
 
-module.exports = { validationPipeLine, stringTransformer }
+export { validationPipeLine, stringTransformer };
+

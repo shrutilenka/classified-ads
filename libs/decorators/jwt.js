@@ -63,4 +63,5 @@ function wsauth(request) {
     }
 }
 
-module.exports = { verifyJWT, softVerifyJWT, wsauth }
+export { verifyJWT, softVerifyJWT, wsauth };
+

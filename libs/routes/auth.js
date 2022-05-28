@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import config from "config";
 import jwt from "jsonwebtoken";
 import crypto from "node:crypto";
-import { constraints } from "../constraints/constraints";
+import constraints from "../constraints/constraints";
 import blabla from "../decorators/blabla";
 import Mailer from "../services/mailer";
 import queries from "../services/mongo";
@@ -161,4 +161,4 @@ async function routes(fastify, options) {
     })
 }
 
-module.exports = routes
+export default routes

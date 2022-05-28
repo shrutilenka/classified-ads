@@ -1,5 +1,5 @@
 import config from "config";
-import { constraints } from "../constraints/constraints";
+import constraints from "../constraints/constraints";
 
 const NODE_ENV = {
     api: -1,
@@ -16,7 +16,7 @@ const COOKIE_NAME = config.get('COOKIE_NAME')
  * Note: `this` is a Fastify object in the context of calling this
  * It's a function inside a request handler so this.request is simply the request object
  */
-module.exports = function blabla(context) {
+export default function blabla(context) {
     // get prior user info somehow
     const user = {}
     // safe add cookies object when not present, for debugging purposes

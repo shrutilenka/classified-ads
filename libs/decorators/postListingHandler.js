@@ -4,7 +4,7 @@ import { tidy } from "htmltidy2";
 import path from "path";
 import sharp from "sharp";
 import { format, promisify } from "util";
-import { constraints } from "../constraints/constraints";
+import constraints from "../constraints/constraints";
 import { ops as helpers } from "../services/helpers";
 import queries from "../services/mongo";
 import { stringTransformer, validationPipeLine } from "../services/pipeLine.js";
@@ -57,7 +57,7 @@ const formatNInsertListing = async (QInstance, req, blobNames) => {
 // options http://api.html-tidy.org/tidy/tidylib_api_5.6.0/tidy_quickref.html
 const opt = { 'show-body-only': 'yes' }
 
-module.exports = (fastify) => {
+export default (fastify) => {
     const { db } = fastify.mongo
     const { redis } = fastify
     const QInstance = new queries(db, redis)

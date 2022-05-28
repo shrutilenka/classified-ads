@@ -19,4 +19,4 @@ async function routes(fastify, options, next) {
     })
 }
 
-module.exports = routes
+export default routes

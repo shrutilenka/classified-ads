@@ -34,4 +34,5 @@ function miner(request, reply, done) {
     done()
 }
 
-module.exports = { miner, minerTree }
+export { miner, minerTree };
+

@@ -141,4 +141,5 @@ give.cptallTagsAr = require('../../data/taxonomy/cptall-ar.json')
 // }
 // Wrapping give object breaks some IDR links but,,,
 // module.exports.give = new Proxy(give, handler);
-module.exports = { give }
+export { give };
+

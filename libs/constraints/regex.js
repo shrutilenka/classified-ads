@@ -45,4 +45,4 @@ const rew = {
     phone: /\b(?:(?:\(\d{3}\)?)|(?:\d{3}))[ -./\\]?\d{3}[ -./\\]?\d{4}\b/g,
 }
 
-module.exports = { html, reb, rew }
+export { html, reb, rew }

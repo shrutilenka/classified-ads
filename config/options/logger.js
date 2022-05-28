@@ -1,5 +1,5 @@
 import config from "config";
-module.exports = () => {
+export default () => {
     return config.get('HEROKU')
         ? true
         : {

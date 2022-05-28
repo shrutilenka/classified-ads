@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     NODE_PORT: 8080,
     HEROKU: false,
     PIPELINE_KEYWORDS_SECONDS: 86400, //seconds in a day

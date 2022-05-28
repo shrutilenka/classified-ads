@@ -3,6 +3,6 @@ const mailProcess = async (job) => {
     console.log(job.data)
 }
 
-module.exports = {
+export {
     mailProcess,
 };

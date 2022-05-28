@@ -1,6 +1,6 @@
 const adminPass = process.env.ADMIN_PASS
 const adminEmail = process.env.ADMIN_EMAIL
-module.exports = {
+export default {
     NODE_PORT: 3000, // TODO: 8080 http port
     HEROKU: false,
     PIPELINE_KEYWORDS_SECONDS: 86400, // 86400 seconds in a day

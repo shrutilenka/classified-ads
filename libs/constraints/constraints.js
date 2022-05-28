@@ -517,4 +517,4 @@ const constraints = {
     },
 }
 
-module.exports = { constraints }
+export default constraints

@@ -20,4 +20,4 @@ const getStateNames = (lang) => {
         : states.features.map((f) => f.properties[`name_${lang}`] || f.properties.name)
 }
 
-module.exports = { getBorders, getStates, getStateNames }
+export { getBorders, getStates, getStateNames };

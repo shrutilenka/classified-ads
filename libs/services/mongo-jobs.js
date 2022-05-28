@@ -97,7 +97,7 @@ const agg = [
  *
  * @param { MongoDBNamespace } db
  */
-module.exports = function (db) {
+export default function (db) {
     /** @type { Collection } */
     let collection
     /**

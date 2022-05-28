@@ -1,7 +1,7 @@
 // No auth
 const secretPath = process.env.SECRET_PATH
 
-module.exports = `<!DOCTYPE html>
+export default `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />

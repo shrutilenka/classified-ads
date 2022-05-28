@@ -213,4 +213,5 @@ function hash(str) {
     return h.toString(36);
 }
 
-module.exports = { ops, crypto, EphemeralData }
+export { ops, crypto, EphemeralData };
+

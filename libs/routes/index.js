@@ -252,4 +252,4 @@ import queries from "../services/mongo";
     })
 }
 
-module.exports = routes
+export default routes

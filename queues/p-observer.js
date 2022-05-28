@@ -6,6 +6,6 @@ const observeProcess = async (job) => {
     console.log(job.data)
 }
 
-module.exports = {
+export {
     observeProcess,
 };

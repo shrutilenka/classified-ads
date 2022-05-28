@@ -79,4 +79,4 @@ class Mailer {
         return Mailer.instance
     }
 }
-module.exports = Mailer
+export default Mailer

@@ -13,7 +13,7 @@ let stats
 
 const dbName = process.env.NODE_ENV === 'development' ? 'listings_db_dev' : 'listings_db'
 
-module.exports.getStats = async function getStats() {
+export const getStats = async function getStats() {
     stats =
         stats ||
         (await visitorCounter({
@@ -22,7 +22,7 @@ module.exports.getStats = async function getStats() {
         }))
     return stats
 }
-module.exports.handler = async (req, reply) => {
+export const handler = async (req, reply) => {
     if (params(req, 'all')) {
         const response = await stats.get()
         reply.send(JSON.stringify(response, null, 2))

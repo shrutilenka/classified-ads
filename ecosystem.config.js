@@ -1,7 +1,7 @@
 // TODO: revise paths
 const path = require('path');
 
-module.exports = {
+export default {
     apps: [{
         script: 'app.js',
         error_file: path.join(__dirname, '/logs/pm2/err.log'),

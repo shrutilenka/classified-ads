@@ -1,5 +1,5 @@
 // processor.js
-module.exports = function (job) {
+export default function (job) {
     // Do some heavy work
     
     return Promise.resolve(1);

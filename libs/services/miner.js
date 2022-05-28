@@ -82,4 +82,4 @@ const refreshTopK = (keyword) => {
 }
 
 // init() must be called once
-module.exports = { refreshTopK, topk }
+export { refreshTopK, topk };

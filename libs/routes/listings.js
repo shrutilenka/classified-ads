@@ -1,6 +1,6 @@
 import config from "config";
 import multer from "fastify-multer";
-import { constraints } from "../constraints/constraints";
+import constraints from "../constraints/constraints";
 import authAdapter from "../decorators/auth";
 import blabla from "../decorators/blabla";
 import { crypto, ops as helpers } from "../services/helpers";
@@ -320,4 +320,4 @@ async function routes(fastify, options, next) {
     })
 }
 
-module.exports = routes
+export default routes

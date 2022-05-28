@@ -299,4 +299,4 @@ ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
     scheduler.addSimpleIntervalJob(job)
 }
 
-module.exports.ops = ops
+export default ops

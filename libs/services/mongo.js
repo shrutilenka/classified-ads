@@ -26,7 +26,7 @@ function getObjectId(days) {
  * @param { MongoDBNamespace } mongoDB
  * @param { import('ioredis').Redis } redisDB
  */
-module.exports = function (mongoDB, redisDB) {
+export function (mongoDB, redisDB) {
     /** @type { Map<string, Mutex> } */
     let locks = new Map()
     /** @type { Collection } */

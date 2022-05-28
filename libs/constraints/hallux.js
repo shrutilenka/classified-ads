@@ -456,4 +456,4 @@ const illustrations = [
     'pcsocial_16rw',
     'credit_card_df1m'
 ]
-module.exports = { illustrations, fontFamilies }
+export { illustrations, fontFamilies }

@@ -24,7 +24,7 @@ function purgeKeys(redisDB) {
  * @param {import("ioredis").Redis} redisDB 
  * @param { MongoDBNamespace } mongoDB
  */
-module.exports = function (redisDB, mongoDB) {
+export default function (redisDB, mongoDB) {
     this.cacheIds = async function () {
 
         const getIds = async function (collName) {

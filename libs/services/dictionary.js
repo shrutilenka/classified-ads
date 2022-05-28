@@ -38,7 +38,7 @@ const transTable = {
 }
 const VECTOR_LEN = 300
 /** @param { Array } languages*/
-module.exports = function (languages) {
+export default function (languages) {
     assert(
         languages.every((lang) => ['en', 'ar', 'fr'].indexOf(lang) > -1),
         'language not supported',

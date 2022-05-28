@@ -39,7 +39,7 @@ const downloadFile = async (url, path) => {
     }
 }
 
-module.exports = {
+export default {
     entry: {
         main: './src/main.js',
         skills: './src/views/skills/skills.js',

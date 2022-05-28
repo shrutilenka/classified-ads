@@ -93,4 +93,5 @@ const User = new ObjectModel({
 
 // TODO: assert only when password exists !
 
-module.exports = { Donation, Skill, Blog, Comment, User, Event }
+export { Donation, Skill, Blog, Comment, User, Event };
+
