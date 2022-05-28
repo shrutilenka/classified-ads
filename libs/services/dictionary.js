@@ -1,5 +1,13 @@
 const assert = require('assert')
-const Annoy = require('annoy')
+
+let Annoy
+try {
+    Annoy = require('annoy')
+}
+catch (e) {
+    console.log('oh no no annoy module. I hope this is not production environment')
+}
+
 const path = require('path')
 
 let models = {
@@ -36,8 +44,8 @@ module.exports = function (languages) {
         'language not supported',
     )
     // LOAD MODELS ONCE ! THEY ARE HUGE !
-    // DO NOT LOAD MODELS FOR API TEST ENV
-    if(process.env.NODE_ENV === 'api') {
+    // Do not load models when Annoy is not instantiated (for test environments)
+    if(!Annoy) {
         languages.forEach((language) => {
             if (!models[language].word2id) {
                 models[language].id2word = require(`../../data/models/id2word.${language}.json`)
