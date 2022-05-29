@@ -17,7 +17,7 @@ export const getStats = async function getStats() {
     stats =
         stats ||
         (await visitorCounter({
-            mongourl: config('DATABASE') || process.env.MONGODB_URI,
+            mongourl: config('DATABASE', { dbName }) || process.env.MONGODB_URI,
             dbName: dbName,
         }))
     return stats

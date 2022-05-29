@@ -56,7 +56,10 @@ const NODE_ENV = {
     development: 1,
     production: 2
 }[process.env.NODE_ENV]
-
+const dbName =
+process.env.NODE_ENV === 'development'
+    ? 'listings_db_dev'
+    : 'listings_db'
 // In case we add ElasticSearch we can benefit 'swagger-stats'
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 // const apiSpec = require('./swagger.json')
@@ -76,7 +79,7 @@ const NODE_ENV = {
  */
 async function build(doRun) {
     const fastify = fastify_({
-        logger: logger_,
+        logger: logger_(),
         disableRequestLogging: false,
         keepAliveTimeout: 10000,
         requestTimeout: 5000,
@@ -87,17 +90,17 @@ async function build(doRun) {
 
     //  !!Run only on one node!!
     if (NODE_ENV === 0 /*&& process.env.worker_id == '1'*/) {
-        fastify.register(fastifySwagger, swagger_.options)
+        fastify.register(fastifySwagger, swagger_)
         console.log(`Please check localhost:${process.env.PORT || fastify.conf('NODE_PORT')}/documentation it's a nice start`)
         // fastify.register(setSwaggerStats)
         // setTimeout(() => {
         //     console.log(swStats.getCoreStats())
         // }, 10000)
     }
-    fastify.register(helmet, helmet_)
+    fastify.register(helmet, helmet_())
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
-    fastify.register(mongodb, { forceClose: true, url: config('DATABASE') || process.env.MONGODB_URI })
+    fastify.register(mongodb, { forceClose: true, url: config('DATABASE', { dbName }) || process.env.MONGODB_URI })
     fastify.register(redis, { host: '127.0.0.1' })
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
@@ -124,11 +127,8 @@ async function build(doRun) {
     // never close !
     // const { db } = fastify.mongo
 
-    const mongoURL = fastify.conf('DATABASE') || process.env.MONGODB_URI
-    const dbName =
-                process.env.NODE_ENV === 'development'
-                    ? 'listings_db_dev'
-                    : 'listings_db'
+    const mongoURL = config('DATABASE', { dbName }) || process.env.MONGODB_URI
+
     // Run the server as soon as possible!
     const start = async () => {
         try {

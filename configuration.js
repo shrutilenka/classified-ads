@@ -13,9 +13,11 @@ process.env['NODE_CONFIG_DIR'] = __dirname + '/config/'
 console.log(`Loading configuration from ${process.env['NODE_CONFIG_DIR']}`)
 console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
 
-export default function config(key) {
+export default function config(key, secretValues) {
     const stringRes = JSON.stringify(nodeConfig.get(key))
-    const objRes = JSON.parse(pupa(stringRes, process.env))
+    if (!secretValues) secretValues = {}
+    Object.assign(secretValues, process.env)
+    const objRes = JSON.parse(pupa(stringRes, secretValues))
     // console.log(`got key ${key} with value ${stringRes}`)
     return objRes
 }
