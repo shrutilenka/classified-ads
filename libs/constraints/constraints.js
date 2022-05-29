@@ -1,10 +1,8 @@
 // Constraints to ease code complexity. These constraints reflect
 // which operations to run on any endpoint on any environment
 import S from "fluent-json-schema";
-import { createRequire } from "module";
+import config from '../../configuration.js';
 import { fontFamilies, illustrations } from "./hallux.js";
-const require = createRequire(import.meta.url);
-const config = require('config')
 const TAG_SIZE = config.get('TAG_SIZE')
 
 // TODO: one single format, w'll see how to deal with on client side

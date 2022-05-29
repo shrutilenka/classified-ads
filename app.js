@@ -1,4 +1,3 @@
-console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
 import fastifyAuth from "@fastify/auth";
 import compressPlugin from "@fastify/compress";
 import fastifyCookies from "@fastify/cookie";
@@ -13,6 +12,7 @@ import fastifySession from "@fastify/session";
 import serve from "@fastify/static";
 import fastifySwagger from "@fastify/swagger";
 import fastifyWebsocket from "@fastify/websocket";
+import assert from "assert";
 import dns from "dns";
 import { config as dotenv } from "dotenv";
 import ejs from "ejs";
@@ -29,6 +29,7 @@ import bootstrap from "./bootstrap/bootstrap.js";
 import helmet_ from "./config/options/helmet.js";
 import logger_ from "./config/options/logger.js";
 import swagger_ from "./config/options/swagger.js";
+import config from "./configuration.js";
 import { softVerifyJWT, verifyJWT, wsauth } from "./libs/decorators/jwt.js";
 import adminRouter from "./libs/routes/admin.js";
 import authRouter from "./libs/routes/auth.js";
@@ -44,9 +45,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const require = createRequire(import.meta.url);
 const { fastifySchedulePlugin } = require("fastify-schedule");
-const config = require('config')
 
 dotenv();
+console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
 process.title = 'classified-ads'
 // Incremental is better
 const NODE_ENV = {
@@ -55,10 +56,6 @@ const NODE_ENV = {
     development: 1,
     production: 2
 }[process.env.NODE_ENV]
-
-
-
-
 
 // In case we add ElasticSearch we can benefit 'swagger-stats'
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
@@ -97,7 +94,6 @@ async function build(doRun) {
         //     console.log(swStats.getCoreStats())
         // }, 10000)
     }
-
     fastify.register(helmet, helmet_)
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
@@ -297,12 +293,15 @@ async function build(doRun) {
     // Run only on one node
     if (process.env.worker_id == '1') {
         fastify.log.info('Checking environment data once')
+        assert(fastify.mongo.db, 'MongoDB connection error')
+        assert(fastify.redis, 'Redis DB connection error')
         fastify.register(fastifySchedulePlugin)
         bootstrap.checkEnvironmentData(mongoURL)
             .then(reply => {
                 prepareData()
             })
             .catch((err) => {
+                throw(err)
                 fastify.log.error('Refusing to start because of ' + err)
                 process.exit()
             })
@@ -310,7 +309,7 @@ async function build(doRun) {
     const seconds = fastify.conf('PIPELINE_KEYWORDS_SECONDS') // a day
     // Use connect method to connect to the Server
     const prepareData = async () => {
-        const { db } = fastify.mongo
+        const db = fastify.mongo.db
         const redis = fastify.redis
         const redisAPI = new RedisAPI(redis, db)
         redisAPI.purgeKeys()

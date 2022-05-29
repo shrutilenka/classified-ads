@@ -1,5 +1,5 @@
 import multer from "fastify-multer";
-import { createRequire } from "module";
+import config from '../../configuration.js';
 import constraints from "../constraints/constraints.js";
 import authAdapter from "../decorators/auth.js";
 import blabla from "../decorators/blabla.js";
@@ -8,8 +8,6 @@ import preValidation from "../decorators/preValidation.js";
 import { crypto, ops as helpers } from "../services/helpers.js";
 import queries from "../services/mongo.js";
 
-const require = createRequire(import.meta.url);
-const config = require('config')
 
 const NODE_ENV = {
     api: -1,

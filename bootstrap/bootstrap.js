@@ -1,3 +1,4 @@
+import { config as dotenv } from "dotenv";
 import fs from "fs";
 import { createRequire } from "module";
 import { MongoClient } from "mongodb";
@@ -14,6 +15,7 @@ import scripts from "../libs/services/mongo-jobs.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const require = createRequire(import.meta.url);
+dotenv();
 
 var jsf_en, jsf_fr, jsf_ar
 jsf_en = jsf_fr = jsf_ar = require('json-schema-faker')

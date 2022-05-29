@@ -1,6 +1,4 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const config = require('config')
+import config from "../../configuration.js"
 export default () => {
     return config.get('HEROKU')
         ? true

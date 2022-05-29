@@ -1,8 +1,7 @@
 import MailTime from "mail-time";
-import { createRequire } from "module";
+import { MongoClient } from 'mongodb';
 import nodemailer from "nodemailer";
-const require = createRequire(import.meta.url);
-const config = require('config')
+import config from "../../configuration.js";
 
 class MailerOps {
     constructor(db) {
@@ -68,7 +67,8 @@ class Mailer {
     }
     /**
      * Singleton Mailer instance
-     * @param { MongoDBNamespace } db
+     * @param { String } mongoURL
+     * @param { String } dbName
      * @returns { Promise <MailerOps> }
      */
     static async getInstance(mongoURL, dbName) {

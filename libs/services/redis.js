@@ -21,11 +21,10 @@ function purgeKeys(redisDB) {
 /**
  * 
  * @param {import("ioredis").Redis} redisDB 
- * @param { MongoDBNamespace } mongoDB
+ * @param { any } mongoDB
  */
 export default function (redisDB, mongoDB) {
     this.cacheIds = async function () {
-
         const getIds = async function (collName) {
             /** @type { Collection } */
             let collection = mongoDB.collection(collName)

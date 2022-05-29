@@ -275,7 +275,7 @@ export default function (mongoDB, redisDB) {
         let newQResult = { documents: docs, count: count }
         if (section !== '') return newQResult
         try {
-            const buffer = getListingsSince.getBuffer(newQResult)
+            const buffer = new getListingsSince().getBuffer(newQResult)
             redisDB.setBuffer(`gls:${unique}`, buffer)
             await redisDB.sadd(
                 `gls-ids:${unique}`,
