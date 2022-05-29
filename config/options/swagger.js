@@ -1,6 +1,4 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const config = require('config')
+import config from '../../configuration.js';
 
 export default {
     routePrefix: '/documentation',
@@ -15,7 +13,7 @@ export default {
             url: 'https://swagger.io',
             description: 'Find more info here'
         },
-        host: `localhost:${process.env.PORT || config.get('NODE_PORT')}`,
+        host: `localhost:${process.env.PORT || config('NODE_PORT')}`,
         schemes: ['http'],
         consumes: ['application/json'],
         produces: ['application/json']

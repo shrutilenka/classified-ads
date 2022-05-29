@@ -3,7 +3,7 @@
 import S from "fluent-json-schema";
 import config from '../../configuration.js';
 import { fontFamilies, illustrations } from "./hallux.js";
-const TAG_SIZE = config.get('TAG_SIZE')
+const TAG_SIZE = config('TAG_SIZE')
 
 // TODO: one single format, w'll see how to deal with on client side
 const toDay = () => {

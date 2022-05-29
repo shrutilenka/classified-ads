@@ -1,0 +1,39 @@
+{
+    "NODE_PORT":3000,
+    "HEROKU":false,
+    "PIPELINE_KEYWORDS_SECONDS":86400,
+    "DATABASE":"mongodb://localhost:27017/listings_db_dev",
+    "APIHost":"http://localhost:3000",
+    "COOKIE_NAME":"classified-ads-login",
+    "SMTP_MAILHOG":{
+       "host":"0.0.0.0",
+       "port":1025,
+       "from":"no-reply@example.com"
+    },
+    "SMTP_OUTLOOK":{
+       "host":"smtp.office365.com",
+       "from":"no-reply@classified-ads.com",
+       "port":587,
+       "tls":{
+          "ciphers":"SSLv3"
+       },
+       "secure":false,
+       "auth":{
+          "user":"{ADMIN_EMAIL}",
+          "pass":"{ADMIN_PASS}"
+       }
+    },
+    "PING_LIMITER":{
+       "max":100,
+       "timeWindow":"1 minute"
+    },
+    "TAG_SIZE":35,
+    "IMG":{
+       "size":3145728
+    },
+    "IMG_THUMB":{
+       "url":"https://via.placeholder.com/200x170.png?text=No image",
+       "height":170,
+       "width":200
+    }
+ }

@@ -1,13 +1,11 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { createRequire } from "module";
 import crypto from "node:crypto";
+import config from "../../configuration.js";
 import constraints from "../constraints/constraints.js";
 import blabla from "../decorators/blabla.js";
 import Mailer from "../services/mailer.js";
 import queries from "../services/mongo.js";
-const require = createRequire(import.meta.url);
-const config = require('config')
 
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 // Encapsulates routes: (Init shared variables and so)
@@ -18,7 +16,7 @@ async function routes(fastify, options) {
     const QInstance = new queries(db, redis)
 
     const JWT_SECRET = process.env.JWT_SECRET
-    const COOKIE_NAME = config.get('COOKIE_NAME')
+    const COOKIE_NAME = config('COOKIE_NAME')
     const loginSchema = constraints[process.env.NODE_ENV].POST.login.schema
 
     // const mailer = Mailer.getInstance(null)
@@ -113,7 +111,7 @@ async function routes(fastify, options) {
                             req: request,
                             data: {
                                 token: tempUser.token,
-                                host: config.get('APIHost'),
+                                host: config('APIHost'),
                             },
                         })
                     }).catch((err) => {

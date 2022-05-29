@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import config from '../../configuration.js';
 
 const JWT_SECRET = process.env.JWT_SECRET
-const COOKIE_NAME = config.get('COOKIE_NAME')
+const COOKIE_NAME = config('COOKIE_NAME')
 
 function verifyJWT(roles = []) {
     if (typeof roles === 'string') {

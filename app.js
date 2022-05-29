@@ -47,8 +47,8 @@ const require = createRequire(import.meta.url);
 const { fastifySchedulePlugin } = require("fastify-schedule");
 
 dotenv();
-console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
-process.title = 'classified-ads'
+console.log(`test ${JSON.stringify(config('SMTP_OUTLOOK'))}`)
+
 // Incremental is better
 const NODE_ENV = {
     api: -1,
@@ -81,7 +81,7 @@ async function build(doRun) {
         keepAliveTimeout: 10000,
         requestTimeout: 5000,
     })
-    fastify.decorate('conf', (tag) => config.get(tag))
+    fastify.decorate('conf', (tag) => config(tag))
     fastify.register(formbody)
     fastify.register(fastifyWebsocket)
 
@@ -97,7 +97,7 @@ async function build(doRun) {
     fastify.register(helmet, helmet_)
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
-    fastify.register(mongodb, { forceClose: true, url: config.get('DATABASE') || process.env.MONGODB_URI })
+    fastify.register(mongodb, { forceClose: true, url: config('DATABASE') || process.env.MONGODB_URI })
     fastify.register(redis, { host: '127.0.0.1' })
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
@@ -214,7 +214,7 @@ async function build(doRun) {
     /*********************************************************************************************** */
     // !!SPAM ASSASSIN !!
     if (NODE_ENV > 1) {
-        fastify.register(rateLimit, config.get('PING_LIMITER'))
+        fastify.register(rateLimit, config('PING_LIMITER'))
     }
     
     // against 404 endoint ddos

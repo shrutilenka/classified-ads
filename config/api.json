@@ -5,10 +5,23 @@
     "DATABASE":"mongodb://localhost:27017/listings_db",
     "APIHost":"http://localhost:3000",
     "COOKIE_NAME":"classified-ads-login",
-    "SMTP_MAILHOG":{
-       "host":"0.0.0.0",
-       "port":1025,
-       "from":"no-reply@example.com"
-    },
-    "TAG_SIZE":35
+    "SMTP_OUTLOOK":{
+      "host":"smtp.office365.com",
+      "from":"no-reply@classified-ads.com",
+      "port":587,
+      "tls":{
+         "ciphers":"SSLv3"
+      },
+      "secure":false,
+      "auth":{
+         "user":"{ADMIN_EMAIL}",
+         "pass":"{ADMIN_PASS}"
+      }
+   },
+   "SMTP_MAILHOG":{
+      "host":"0.0.0.0",
+      "port":1025,
+      "from":"no-reply@example.com"
+   },
+   "TAG_SIZE":35
  }

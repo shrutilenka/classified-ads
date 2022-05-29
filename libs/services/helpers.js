@@ -23,7 +23,7 @@ const crypto = {}
 ops.cloudMulter = Multer({
     storage: Multer.memoryStorage(),
     limits: {
-        fileSize: config.get('IMG').size, // no larger than 3mb.
+        fileSize: config('IMG').size, // no larger than 3mb.
     },
     // Makes req.file undefined in request if not a valid image file.
     fileFilter: (req, file, cb) => {

@@ -7,9 +7,9 @@ class MailerOps {
     constructor(db) {
         const transports = []
         // Mailhog SMTP
-        transports.push(nodemailer.createTransport(config.get('SMTP_MAILHOG')))
+        transports.push(nodemailer.createTransport(config('SMTP_MAILHOG')))
         // Outlook Apps SMTP
-        transports.push(nodemailer.createTransport(config.get('SMTP_OUTLOOK')))
+        transports.push(nodemailer.createTransport(config('SMTP_OUTLOOK')))
 
         const mailQueue = new MailTime({
             db, // MongoDB

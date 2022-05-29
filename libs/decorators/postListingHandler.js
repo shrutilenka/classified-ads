@@ -1,15 +1,14 @@
 import { Storage } from "@google-cloud/storage";
 import { tidy } from "htmltidy2";
-import { createRequire } from "module";
 import path from "path";
 import sharp from "sharp";
 import { format, promisify } from "util";
+import config from "../../configuration.js";
 import constraints from "../constraints/constraints.js";
 import { ops as helpers } from "../services/helpers.js";
 import queries from "../services/mongo.js";
 import { stringTransformer, validationPipeLine } from "../services/pipeLine.js";
-const require = createRequire(import.meta.url);
-const config = require('config')
+
 const NODE_ENV = {
     api: -1,
     localhost: 0,
@@ -38,7 +37,7 @@ const formatNInsertListing = async (QInstance, req, blobNames) => {
         publicUrlSmall = format(`https://storage.googleapis.com/${bucket.name}/${blobNameSmall}`)
         publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
     } else {
-        // TODO: config.get('IMG') & config.get('IMG_THUMB')
+        // TODO: config('IMG') & config('IMG_THUMB')
         publicUrl = publicUrlSmall = `/cdn/${req.file.filename}`
     }
 
@@ -145,7 +144,7 @@ export default (fastify) => {
                 let uploadSmallImg, uploadImg
                 let thumbnailBuffer, originalBuffer
                 originalBuffer = req.file.buffer
-                const { width } = config.get('IMG_THUMB')
+                const { width } = config('IMG_THUMB')
                 const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
                 const filename = suffix + path.extname(req.file.originalname)
                 const blob = bucket.file(filename)
@@ -180,7 +179,7 @@ export default (fastify) => {
                             })
                             .end(thumbnailBuffer)
                     })
-                else uploadSmallImg = Promise.resolve({ name: config.get('IMG_THUMB').url, small: true })
+                else uploadSmallImg = Promise.resolve({ name: config('IMG_THUMB').url, small: true })
                 uploadImg = new Promise((resolve, reject) => {
                     blob.createWriteStream({
                         metadata: { contentType: req.file.mimetype },

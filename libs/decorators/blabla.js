@@ -1,7 +1,4 @@
-import { createRequire } from "module";
-import constraints from "../constraints/constraints.js";
-const require = createRequire(import.meta.url);
-const config = require('config')
+import config from '../../configuration.js'
 
 const NODE_ENV = {
     api: -1,
@@ -9,7 +6,7 @@ const NODE_ENV = {
     development: 1,
     production: 2,
 }[process.env.NODE_ENV]
-const COOKIE_NAME = config.get('COOKIE_NAME')
+const COOKIE_NAME = config('COOKIE_NAME')
 
 /**
  * `blabla` is a reply decorator ie: It is a customization of `request.view`

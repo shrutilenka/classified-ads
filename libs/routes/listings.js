@@ -134,7 +134,7 @@ async function routes(fastify, options, next) {
     })
 
     /* GET one listing; must not be deactivated. */
-    const COOKIE_NAME = config.get('COOKIE_NAME')
+    const COOKIE_NAME = config('COOKIE_NAME')
     fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const [err, elem] = hex.test(req.params.id)

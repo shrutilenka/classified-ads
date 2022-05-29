@@ -1,6 +1,6 @@
 import config from "../../configuration.js"
 export default () => {
-    return config.get('HEROKU')
+    return config('HEROKU')
         ? true
         : {
               file: './logs/all.log',
