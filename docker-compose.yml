@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/classified-ads
     ports:
-      - 8000:3000
+      - 3000:3000
     build:
       context: ./
     restart: unless-stopped
@@ -19,19 +19,31 @@ services:
       container_name: mongodb-service
       image: mongo
       volumes:
-        - ./data:/data/db
+        - ./host-db/data:/data/db
       ports:
         - '27017:27017'
       restart: unless-stopped
 
   redis:
       container_name: redis-service
-      image: redis/caddy:7.0.0-alpine
+      image: redis:7.0.0-alpine
       restart: unless-stopped
       ports:
         - '6379:6379'
 
-  # caddy:
-  #     container_name: proxy
-  #     image: caddy/caddy:2.5.1-alpine
-  #     restart: unless-stopped
+  caddy:
+      container_name: caddy-service
+      image: caddy/caddy:2.5.1-alpine
+      restart: unless-stopped
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - ./Caddyfile:/etc/caddy/Caddyfile
+        - './:/srv'
+        - caddy_data:/data
+        - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

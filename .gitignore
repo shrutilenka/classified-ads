@@ -163,3 +163,5 @@ data/wiki.multi.en.vec
 
 /build/*
 build/config.gypi
+host-db/data/
+host-db/data/*
