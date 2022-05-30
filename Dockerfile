@@ -9,3 +9,6 @@ WORKDIR /classified-ads/client
 COPY client/package.json /classified-ads/client
 RUN npm install
 RUN npm run dev:client
+
+WORKDIR /classified-ads
+CMD [ "npm", "run", "start" ]

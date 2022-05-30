@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  classified-ads:
+    container_name: classified-ads
+    # environment:
+    #   - NODE_ENV=localhost
+    build:
+      context: /classified-ads
+    restart: unless-stopped
+
+  mongo:
+      container_name: mongodb-service
+      image: mongo
+      volumes:
+        - ./data:/data/db
+      ports:
+        - '27017:27017'
+      restart: unless-stopped
+
+  redis:
+      container_name: redis-service
+      image: redis/caddy:7.0.0-alpine
+      restart: unless-stopped
+
+  caddy:
+      container_name: proxy
+      image: caddy/caddy:2.5.1-alpine
+      restart: unless-stopped
