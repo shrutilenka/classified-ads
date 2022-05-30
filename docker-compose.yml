@@ -7,6 +7,10 @@ services:
       - mongo
     # environment:
     #   - NODE_ENV=localhost
+    volumes:
+      - .:/classified-ads
+    ports:
+      - 8000:3000
     build:
       context: ./
     restart: unless-stopped
