@@ -2,8 +2,8 @@
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ TAGIFY @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // The DOM element you wish to replace with Tagify
-import { stringToColor } from '../../maps/create-maps/helpers/string-to-color'
-import { lightenDarkenColor } from './colors/lighten-color'
+import { stringToColor } from '../../maps/create-maps/helpers/string-to-color.js'
+import { lightenDarkenColor } from './colors/lighten-color.js'
 
 /**
  *

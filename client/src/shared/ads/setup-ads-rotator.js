@@ -2,7 +2,7 @@
  * This setup Ads
  */
 import rotator from 'ad-rotator';
-import { LIS } from '../../helpers/lis';
+import { LIS } from '../../helpers/lis.js';
 
 export const setupAdsRotator = async () => {
     return new Promise(function (resolve, reject) {

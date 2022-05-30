@@ -1,8 +1,8 @@
 // eslint-disable-next-line max-len
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Sync data @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-import { markRequiredInputs, updatePostPostInputs } from './ReactiveUI/constraints'
-import { renderComments, renderTopByDiv, renderTopSearches, renderTopTags } from './renderers/renderer'
+import { markRequiredInputs, updatePostPostInputs } from './ReactiveUI/constraints.js'
+import { renderComments, renderTopByDiv, renderTopSearches, renderTopTags } from './renderers/renderer.js'
 export const renderShared = async () => {
     return new Promise(function (resolve, reject) {
         try {

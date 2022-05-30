@@ -1,9 +1,9 @@
 // Each ID in LIS.id('comments') must be uniq
-import { LIS } from '../../../helpers/lis'
-import { commentsTemplate } from './templates/comments-template'
-import { topDivsTemplate } from './templates/top-divs-template'
-import { topSearchesTemplate } from './templates/top-searches-template'
-import { topTagsTemplate } from './templates/top-tags-template'
+import { LIS } from '../../../helpers/lis.js'
+import { commentsTemplate } from './templates/comments-template.js'
+import { topDivsTemplate } from './templates/top-divs-template.js'
+import { topSearchesTemplate } from './templates/top-searches-template.js'
+import { topTagsTemplate } from './templates/top-tags-template.js'
 
 export function renderTopSearches() {
     const topSearches = LIS.id('sync-top-searches')

@@ -1,3 +1,3 @@
 import * as ClipboardJS from 'clipboard'
-import './datatable/datatable'
+import './datatable/datatable.js'
 new ClipboardJS('.copybtn')

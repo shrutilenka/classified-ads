@@ -1,4 +1,4 @@
-// import { LIS } from '../../helpers/lis'
+// import { LIS } from '../../helpers/lis.js'
 import mixitup from 'mixitup'
 const __context__ = window.__context__
 

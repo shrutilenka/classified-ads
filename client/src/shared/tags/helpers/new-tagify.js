@@ -1,5 +1,5 @@
 import Tagify from '@yaireo/tagify'
-import { transformTag } from './transform-tag'
+import { transformTag } from './transform-tag.js'
 // consts.js' is not under 'rootDir' but whatever
 // import { TAG_SIZE } from '../../../../../consts.js'
 // TODO: use config variables

@@ -1,3 +1,3 @@
 
-import { setupMixitup } from './mixitup/setup-mixitup'
+import { setupMixitup } from './mixitup/setup-mixitup.js'
 setupMixitup()

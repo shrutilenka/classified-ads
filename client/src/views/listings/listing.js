@@ -1,7 +1,7 @@
-import { LIS } from '../../helpers/lis'
-import { setupGravatar } from './gravatar/setup-gravatar'
-import { setupImageModal } from './modals/setup-image-modal'
-import { undrawOutput } from './undraw-output/undraw-output'
+import { LIS } from '../../helpers/lis.js'
+import { setupGravatar } from './gravatar/setup-gravatar.js'
+import { setupImageModal } from './modals/setup-image-modal.js'
+import { undrawOutput } from './undraw-output/undraw-output.js'
 
 setupGravatar()
 setupImageModal()

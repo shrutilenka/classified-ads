@@ -2,8 +2,8 @@
  * This style Cards in a way or another
  */
 import tippy from 'tippy.js';
-import { LIS } from '../../helpers/lis';
-import { share } from './share';
+import { LIS } from '../../helpers/lis.js';
+import { share } from './share.js';
 export const setupInteractiveCards = async () => {
     return new Promise(function (resolve, reject) {
         if (!LIS.classExists(['card', 'card-body'])) {

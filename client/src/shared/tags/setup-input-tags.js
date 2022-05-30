@@ -1,5 +1,5 @@
-import { getCookies } from '../../helpers/get-cookies'
-import { newTagify } from './helpers/new-tagify'
+import { getCookies } from '../../helpers/get-cookies.js'
+import { newTagify } from './helpers/new-tagify.js'
 
 const inputElm =
     document.querySelector('#donations') ||

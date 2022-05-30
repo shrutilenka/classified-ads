@@ -4,7 +4,7 @@
  *    input id="autoComplete"
  */
 import autoComplete from '@tarekraafat/autocomplete.js'
-import { APIHost } from '../../consts'
+import consts from '../../consts.js'
 export const setupAutoComplete = async () => {
     return new Promise(function (resolve, reject) {
         if (!document.querySelector('input#autoComplete')) {
@@ -19,7 +19,7 @@ export const setupAutoComplete = async () => {
                         try {
                             // Fetch Data from external Source
                             const source = await fetch(
-                                `${APIHost[process.env.NODE_ENV]}/autocomplete/${query}`,
+                                `${consts.APIHost[process.env.NODE_ENV]}/autocomplete/${query}`,
                             )
                             // Data is array of `Objects` | `Strings`
                             const data = await source.json()

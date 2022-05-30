@@ -1,5 +1,5 @@
 import FontPicker from 'font-picker'
-import { LIS } from '../../helpers/lis'
+import { LIS } from '../../helpers/lis.js'
 const __font__ = window.__font__
 
 // Two much braces and indentation

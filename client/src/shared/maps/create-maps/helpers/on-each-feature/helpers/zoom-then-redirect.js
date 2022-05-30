@@ -1,9 +1,9 @@
-import { map } from '../../../state'
+import { map } from '../../../state.js'
 /**
  * zoom To Feature
  * @param {*} e
  */
-// import { APIHost } from '../../../../../../consts'
+// import { APIHost } from '../../../../../../consts.js'
 
 export function zoomThenRedirect(e) {
     map.current.fitBounds(e.target.getBounds())

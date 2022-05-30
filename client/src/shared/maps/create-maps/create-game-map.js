@@ -1,9 +1,9 @@
 import * as L from 'leaflet'
 import 'leaflet.fullscreen'
 import { io } from 'socket.io-client'
-import { onEachFeature } from './helpers/on-each-feature/on-each-feature'
-import { styleStatesClosure } from './helpers/style-states'
-import { geoJson, map } from './state'
+import { onEachFeature } from './helpers/on-each-feature/on-each-feature.js'
+import { styleStatesClosure } from './helpers/style-states.js'
+import { geoJson, map } from './state.js'
 
 const geoJSON = require('../../../data/geoJSONEncoder')
 const coordinates = geoJSON.getBorders()

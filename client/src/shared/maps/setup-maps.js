@@ -1,14 +1,14 @@
-import L from 'leaflet'
-import { MarkerClusterGroup } from 'leaflet.markercluster/src'
-import { APIHost } from '../../consts'
-import { LIS } from '../../helpers/lis'
-import { delimitationsMap } from './create-maps/create-delimitations-map'
-import { gameMap } from './create-maps/create-game-map'
-import { geoSearchMap } from './create-maps/create-geo-search-map'
-import { listingMap } from './create-maps/create-listing-map'
-import { listingsMap } from './create-maps/create-listings-map'
-import { getIcon } from './create-maps/helpers/marker/icon'
-import { tweakLeaflet } from './tweak-leaflet'
+import L, { MarkerClusterGroup } from 'leaflet'
+import consts from '../../consts.js'
+import { LIS } from '../../helpers/lis.js'
+import { delimitationsMap } from './create-maps/create-delimitations-map.js'
+import { gameMap } from './create-maps/create-game-map.js'
+import { geoSearchMap } from './create-maps/create-geo-search-map.js'
+import { listingMap } from './create-maps/create-listing-map.js'
+import { listingsMap } from './create-maps/create-listings-map.js'
+import { getIcon } from './create-maps/helpers/marker/icon.js'
+import { tweakLeaflet } from './tweak-leaflet.js'
+
 const __lat__ = window.__lat__
 const __lng__ = window.__lng__
 const __section__ = window.__section__
@@ -57,7 +57,7 @@ export const setupMaps = () => {
         const markers = new MarkerClusterGroup()
         for (let i = 0; i < addressPoints.length; i++) {
             const a = addressPoints[i]
-            const title = `<a href='${APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}</a>`
+            const title = `<a href='${consts.APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}</a>`
             let marker
             if (a[4]) {
                 const icon = getIcon()

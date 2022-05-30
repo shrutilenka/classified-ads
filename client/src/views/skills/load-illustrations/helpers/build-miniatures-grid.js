@@ -1,7 +1,7 @@
 import SVGInjector from 'svg-injector'
-import { allPaths } from '../state/all-paths'
-import { lightbox } from '../state/lightbox'
-import { chosenImg } from './chosen-img'
+import { allPaths } from '../state/all-paths.js'
+import { lightbox } from '../state/lightbox.js'
+import { chosenImg } from './chosen-img.js'
 /**
  * build Miniatures Grid with undraw illustrations
  * @param {String} urls

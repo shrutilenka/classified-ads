@@ -1,4 +1,4 @@
-import { stringToColor } from './string-to-color'
+import { stringToColor } from './string-to-color.js'
 /**
  * Gets style from name of state
  * @param {json} feature

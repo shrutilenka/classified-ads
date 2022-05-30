@@ -2,9 +2,9 @@ import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import HttpApi from 'i18next-http-backend'
 import locI18next from 'loc-i18next'
-import { getCookies } from '../../helpers/get-cookies'
-import { refreshTrans } from './helpers/refresh-translations'
-import { langSelect } from './lang-select'
+import { getCookies } from '../../helpers/get-cookies.js'
+import { refreshTrans } from './helpers/refresh-translations.js'
+import { langSelect } from './lang-select.js'
 
 export const setupI18n = async () => {
     const selectElement = document.querySelector('#langSelect')

@@ -1,4 +1,4 @@
-import { LIS } from '../../helpers/lis'
+import { LIS } from '../../helpers/lis.js'
 
 export const setupScrollBlink = async () => {
     const id = window.__toFocus__

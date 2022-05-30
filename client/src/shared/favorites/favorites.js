@@ -1,5 +1,5 @@
 // Define the modal (for the image onclick) behavior
-import { LIS } from '../../helpers/lis'
+import { LIS } from '../../helpers/lis.js'
 
 export const setupFavorites = async () => {
     return new Promise(function (resolve, reject) {

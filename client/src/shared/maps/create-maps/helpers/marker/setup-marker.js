@@ -1,6 +1,6 @@
-import { getStateNames } from '../../../../../helpers/get-state-names'
-import { LIS } from '../../../../../helpers/lis'
-import { isMarkerInsidePolygon } from './is-marker-inside-polygon'
+import { getStateNames } from '../../../../../helpers/get-state-names.js'
+import { LIS } from '../../../../../helpers/lis.js'
+import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js'
 const states = require('../../../../../data/states.json')
 const MobileDetect = require('mobile-detect')
 const polygon = states.features.map((a) => a.geometry.coordinates[0])

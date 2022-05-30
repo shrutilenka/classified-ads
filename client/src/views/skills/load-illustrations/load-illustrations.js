@@ -4,10 +4,10 @@
  */
 
 import SimpleLightbox from 'simple-lightbox'
-import { undrawGallery } from '../../../data/undraw'
-import { buildMiniaturesGrid } from './helpers/build-miniatures-grid'
-import { getAllIndexes } from './helpers/get-all-indexes'
-import { lightbox } from './state/lightbox'
+import { undrawGallery } from '../../../data/undraw.js'
+import { buildMiniaturesGrid } from './helpers/build-miniatures-grid.js'
+import { getAllIndexes } from './helpers/get-all-indexes.js'
+import { lightbox } from './state/lightbox.js'
 let corpus = []
 if (typeof undrawGallery !== 'undefined') {
     corpus = undrawGallery.map((a) => a.tags.split(', '))

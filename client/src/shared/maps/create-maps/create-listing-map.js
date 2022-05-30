@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import { moveableMarker } from './helpers/marker/setup-marker'
+import { moveableMarker } from './helpers/marker/setup-marker.js'
 const coordinates = require('../../../data/geoJSONEncoder').getBorders()
 let map
 let circle

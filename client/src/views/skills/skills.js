@@ -1,5 +1,5 @@
-import { setupColorPicker } from './color-picker/setup-color-picker'
-import { loadIllustrations } from './load-illustrations/load-illustrations'
+import { setupColorPicker } from './color-picker/setup-color-picker.js'
+import { loadIllustrations } from './load-illustrations/load-illustrations.js'
 
 setupColorPicker()
 const selectElement = document.querySelector('#autoComplete-illu')

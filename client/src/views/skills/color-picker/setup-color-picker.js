@@ -1,8 +1,8 @@
 // eslint-disable-next-line max-len
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Color picker @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 import Picker from 'vanilla-picker'
-import { allPaths } from '../load-illustrations/state/all-paths'
-import { pastColor } from '../load-illustrations/state/past-color'
+import { allPaths } from '../load-illustrations/state/all-paths.js'
+import { pastColor } from '../load-illustrations/state/past-color.js'
 let newColor
 export const setupColorPicker = () => {
     const parent = document.querySelector('#parent')

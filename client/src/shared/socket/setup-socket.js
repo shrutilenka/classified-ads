@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client'
-import { LIS } from '../../helpers/lis'
+import { LIS } from '../../helpers/lis.js'
 const polygon = L.polygon([
     [-0.9008789062499999, 32.02670629333614],
     [7.09716796875, 32.02670629333614],

@@ -1,5 +1,5 @@
 import autoComplete from '@tarekraafat/autocomplete.js'
-import { undrawGallery } from '../../data/undraw'
+import { undrawGallery } from '../../data/undraw.js'
 
 export const setupUndrawKeywords = async () => {
     return new Promise(function (resolve, reject) {

@@ -1,5 +1,5 @@
 import SVGInjector from 'svg-injector'
-import { LIS } from '../../../helpers/lis'
+import { LIS } from '../../../helpers/lis.js'
 const __undrawURL__ = window.__undrawURL__
 // eslint-disable-next-line max-len
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Undraw output @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

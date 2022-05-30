@@ -1,6 +1,6 @@
 import * as L from 'leaflet'
 import 'leaflet.fullscreen'
-import { moveableMarker } from './helpers/marker/setup-marker'
+import { moveableMarker } from './helpers/marker/setup-marker.js'
 
 const coordinates = require('../../../data/geoJSONEncoder').getBorders()
 
