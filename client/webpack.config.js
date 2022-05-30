@@ -7,7 +7,7 @@ import gjv from "geojson-validation";
 import fetch from "node-fetch";
 import path from "path";
 import { fileURLToPath } from "url";
-import WebpackFavicons from "webpack-favicons";
+// import WebpackFavicons from "webpack-favicons";
 
 const envKeys = dotenv.config()
 const __filename = fileURLToPath(import.meta.url);
@@ -98,15 +98,15 @@ export default {
             runOnceInWatchMode: false,
         }),
         new Dotenv(),
-        new WebpackFavicons({
-            src: 'assets/favicon.svg',
-            path: 'img',
-            background: '#000',
-            theme_color: '#000',
-            icons: {
-                favicons: true,
-            },
-        }),
+        // new WebpackFavicons({
+        //     src: 'assets/favicon.svg',
+        //     path: 'img',
+        //     background: '#000',
+        //     theme_color: '#000',
+        //     icons: {
+        //         favicons: true,
+        //     },
+        // }),
     ],
 }
 
