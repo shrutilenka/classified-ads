@@ -160,3 +160,6 @@ logs/all.log.pos
 data/wiki.multi.ar.vec
 data/wiki.multi.fr.vec
 data/wiki.multi.en.vec
+
+/build/*
+build/config.gypi

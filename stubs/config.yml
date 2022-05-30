@@ -60,7 +60,6 @@
 # sudo chmod ugo+rwx /var/lib/db0/
 # mongod --port 27017 --dbpath /var/lib/db0 --replSet rs0 --bind_ip localhost
 
-# NODE-GYP problems
 
 # Redis
 # sudo systemctl enable redis-server
@@ -84,6 +83,8 @@
 # sudo apt-get update
 # sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-# sudo docker build -t classified-ads .
+# sudo docker build -t classified-ads --network=host . 
 # sudo docker images
 # sudo docker run -it -p 9000:3000 classified-ads
+
+# Docker errors: https://robinwinslow.uk/fix-docker-networking-dns -- sudo service docker restart

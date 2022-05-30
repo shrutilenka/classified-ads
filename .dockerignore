@@ -145,11 +145,10 @@ dist
 logs/all.log.*
 logs/all.log.pos
 .clinic
-/data/models/*
-!/data/models/.gitkeep
-!/data/models/id2word.ar.json
-!/data/models/id2word.fr.json
-!/data/models/id2word.en.json
+
 data/wiki.multi.ar.vec
 data/wiki.multi.fr.vec
 data/wiki.multi.en.vec
+
+/build/*
+build/config.gypi
