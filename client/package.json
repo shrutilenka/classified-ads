@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Not a standalone client. It only generates client scripts and styles that are served publicly",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "dev:client": "webpack && sass src/style:../public/stylesheets",
     "build:client": "webpack",

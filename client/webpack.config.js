@@ -1,13 +1,17 @@
-// TODO: remove __dirname for later ESM support
-// TODO: /client could benefit ESM but needs to change script tags to <script type="module" src>
-const path = require('path')
-const FileManagerPlugin = require('filemanager-webpack-plugin')
-const Dotenv = require('dotenv-webpack')
-const WebpackBeforeBuildPlugin = require('before-build-webpack')
-const WebpackFavicons = require('webpack-favicons')
+import WebpackBeforeBuildPlugin from "before-build-webpack";
+import dotenv from "dotenv";
+import Dotenv from "dotenv-webpack";
+import FileManagerPlugin from "filemanager-webpack-plugin";
+import fs from "fs";
+import gjv from "geojson-validation";
+import fetch from "node-fetch";
+import path from "path";
+import { fileURLToPath } from "url";
+import WebpackFavicons from "webpack-favicons";
 
-const dotenv = require('dotenv')
 const envKeys = dotenv.config()
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const paths = {
     dist: path.resolve(__dirname, 'dist'),
@@ -20,9 +24,6 @@ const devConfig = {
     devtool: 'source-map',
 }
 
-const fetch = require('node-fetch')
-const fs = require('fs')
-const gjv = require('geojson-validation')
 
 const downloadFile = async (url, path) => {
     const res = await fetch(url)
@@ -52,13 +53,6 @@ export default {
         filename: '[name].js',
         path: paths.dist,
     },
-    // module: {
-    //   // for earlier webpack versions
-    //   rules: [{
-    //     test: /\.json$/,
-    //     loader: 'json-loader'
-    //    }],
-    // },
     module: {
         rules: [
             {

@@ -4,7 +4,8 @@
   "description": "A performant classified-ads website with maps and tags",
   "main": "index.js",
   "scripts": {
-    "build": "sudo apt-get install -y build-essential && npm install && sudo chmod -R a+rwx node_modules && cd client && npm install && npm run dev:client && cd ..",
+    "build": "sudo apt-get install -y build-essential golang-go && go install github.com/mailhog/MailHog@v1.0.1 && npm install && sudo chmod -R a+rwx node_modules && cd client && npm install && npm run dev:client && cd ..",
+    "docker:build": "apk add build-base alpine-sdk go && go install github.com/mailhog/MailHog@v1.0.1",
     "start": "node server",
     "dev:start": "~/go/bin/MailHog > '/dev/null' 2>&1 & node server.js",
     "dev:stop": "pkill --signal SIGINT classified-ads && kill -9 `pidof ~/go/bin/MailHog`",
@@ -12,7 +13,7 @@
     "dev:beautiful:inspect": "NO_CLUSTER=true clinic doctor -- node server.js",
     "dev:beautiful:inspect:2": "NO_CLUSTER=true clinic doctor --on-port 'autocannon localhost:3000' -- node server.js",
     "dev:beautiful:inspect:3": "NO_CLUSTER=true clinic bubbleprof --on-port 'autocannon -c 5 -a 500 localhost:3000' -- node server.js",
-    "build:tools": "sudo apt-get -y install golang-go && go get github.com/mailhog/MailHog && cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip",
+    "dev:tools": "cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip",
     "tools:mlmodels:en": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec --output wiki.multi.en.vec",
     "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
     "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",

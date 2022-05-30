@@ -1,5 +1,5 @@
-import autoComplete from '@tarekraafat/autocomplete.js'
-import { getStateNames } from '../../helpers/get-state-names'
+import autoComplete from '@tarekraafat/autocomplete.js';
+import { getStateNames } from '../../helpers/get-state-names';
 
 export const setupDelimitationsKeywords = async () => {
     return new Promise(function (resolve, reject) {

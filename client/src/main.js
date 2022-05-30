@@ -21,10 +21,10 @@
 // on important events and actions.
 import 'bootstrap';
 import log from 'loglevel';
-import { APIHost, logLevel } from './consts';
-import { setupShared } from './shared/shared';
+import consts from './consts.js';
+import { setupShared } from './shared/shared.js';
 
-log.setDefaultLevel(logLevel[process.env.NODE_ENV])
+log.setDefaultLevel(consts.logLevel[process.env.NODE_ENV])
 window.log = log
 if (['development', 'localhost'].includes(process.env.NODE_ENV)) {
     console.log(`Successes: ${window.__successes__}`)
@@ -42,7 +42,7 @@ console.log(
     process.env.NODE_ENV,
     '\n',
     'compiled for domain:',
-    APIHost[process.env.NODE_ENV],
+    consts.APIHost[process.env.NODE_ENV],
     '\n',
 )
 

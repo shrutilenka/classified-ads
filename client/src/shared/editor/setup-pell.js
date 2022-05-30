@@ -6,9 +6,9 @@
  *    #characters-left
  *    .add#description
  */
-import pell from 'pell'
-import { LIS } from '../../helpers/lis'
-import { stripHtml } from './helpers/stripe-html'
+import pell from 'pell';
+import { LIS } from '../../helpers/lis';
+import { stripHtml } from './helpers/stripe-html';
 export const setupPell = async () => {
     return new Promise(function (resolve, reject) {
         if (!LIS.id('editor')) {
