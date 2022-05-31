@@ -13,7 +13,7 @@ services:
       - 3000:3000
     build:
       context: ./
-    restart: unless-stopped
+    # restart: unless-stopped
 
   mongo:
       container_name: mongodb-service
@@ -27,14 +27,14 @@ services:
   redis:
       container_name: redis-service
       image: redis:7.0.0-alpine
-      restart: unless-stopped
+      # restart: unless-stopped
       ports:
         - '6379:6379'
 
   caddy:
       container_name: caddy-service
       image: caddy/caddy:2.5.1-alpine
-      restart: unless-stopped
+      # restart: unless-stopped
       ports:
         - "80:80"
         - "443:443"

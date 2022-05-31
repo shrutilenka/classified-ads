@@ -165,3 +165,4 @@ data/wiki.multi.en.vec
 build/config.gypi
 host-db/data/
 host-db/data/*
+client/node_modules

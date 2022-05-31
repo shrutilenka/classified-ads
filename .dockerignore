@@ -155,3 +155,8 @@ build/config.gypi
 
 host-db/data/
 host-db/data/*
+
+Dockerfile
+.dockerignore
+.git
+.gitignore

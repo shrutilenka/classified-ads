@@ -1,13 +1,22 @@
 import { Storage } from "@google-cloud/storage";
 import { tidy } from "htmltidy2";
+import { createRequire } from 'module';
 import path from "path";
-import sharp from "sharp";
 import { format, promisify } from "util";
 import config from "../../configuration.js";
 import constraints from "../constraints/constraints.js";
 import { ops as helpers } from "../services/helpers.js";
 import queries from "../services/mongo.js";
 import { stringTransformer, validationPipeLine } from "../services/pipeLine.js";
+
+
+const require = createRequire(import.meta.url)
+let sharp
+try {
+    sharp = require('sharp') 
+} catch (error) {
+    console.log('oh no no sharp module. I hope this is not production environment')
+}
 
 const NODE_ENV = {
     api: -1,
@@ -149,19 +158,20 @@ export default (fastify) => {
                 const filename = suffix + path.extname(req.file.originalname)
                 const blob = bucket.file(filename)
                 try {
-                    thumbnailBuffer = await sharp(originalBuffer)
-                        .metadata()
-                        .then(({ width: originalWidth }) => {
-                            if (originalWidth > 400) {
-                                return sharp(originalBuffer)
-                                    .resize(Math.round(originalWidth * 0.5))
-                                    .toBuffer()
-                            }
-                            if (originalWidth > 200) {
-                                return sharp(originalBuffer).resize(width, { fit: 'inside' }).toBuffer()
-                            }
-                            return undefined
-                        })
+                    if(sharp)
+                        thumbnailBuffer = await sharp(originalBuffer)
+                            .metadata()
+                            .then(({ width: originalWidth }) => {
+                                if (originalWidth > 400) {
+                                    return sharp(originalBuffer)
+                                        .resize(Math.round(originalWidth * 0.5))
+                                        .toBuffer()
+                                }
+                                if (originalWidth > 200) {
+                                    return sharp(originalBuffer).resize(width, { fit: 'inside' }).toBuffer()
+                                }
+                                return undefined
+                            })
                 } catch (error) {
                     req.log.error(`post/listings#postListingHandler#sharp: ${error.message}`)
                 }

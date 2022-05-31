@@ -4,16 +4,19 @@ WORKDIR /classified-ads
 COPY package.json ./
 RUN npm i -g npm
 RUN rm -rf /node_modules
-RUN rm package-lock.json
-RUN apk add --no-cache --update --virtual .gyp \
-    build-base vips-dev python3 go git && npm i @smodin/fast-text-language-detection annoy && apk del .gyp
 
+RUN apk add --no-cache --update --virtual .gyp \
+    build-base vips-dev python3 go git && npm i @smodin/fast-text-language-detection annoy && \
+    apk del .gyp
+
+# Couldn't install Sharp, moving on with the project without Sharp !
+# RUN npm install -g node-gyp
 # vips-dev has moved from to edge/community, and updated to version 8.8.0-r0.
-RUN npm config set ignore-scripts false
-RUN apk add --update --no-cache \
-    --repository http://dl-3.alpinelinux.org/alpine/edge/community \
-    --repository http://dl-3.alpinelinux.org/alpine/edge/main \
-    vips-dev build-base && npm i sharp --verbose
+# RUN apk add --update --no-cache \
+#     --repository http://dl-3.alpinelinux.org/alpine/edge/community \
+#     --repository http://dl-3.alpinelinux.org/alpine/edge/main \
+#     build-base vips-dev && npm i --verbose --unsafe-perm --ignore-scripts false sharp@0.28.3
+
 
 # RUN npm run docker:build
 RUN apk add git
@@ -22,9 +25,9 @@ RUN npm i
 COPY . ./
 
 WORKDIR /classified-ads/client
-COPY package.json ./
+COPY /client/package.json ./
 RUN rm -rf /node_modules
-RUN rm package-lock.json
+
 
 RUN npm i
 RUN npm run dev:client
