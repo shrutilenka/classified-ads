@@ -3,8 +3,9 @@ services:
   classified-ads:
     container_name: classified-ads
     depends_on:
-      - redis
       - mongo
+      - redis
+      - caddy
     # environment:
     #   - NODE_ENV=localhost
     volumes:
@@ -14,12 +15,19 @@ services:
     build:
       context: ./
     # restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=listings_db
+      - MONGODB_URI=mongodb://admin:admin@mongo:27017/listings_db
+      - REDIS_URI=redis://redis:6379
 
   mongo:
       container_name: mongodb-service
       image: mongo
       volumes:
         - ./host-db/data:/data/db
+        - ./bootstrap/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       ports:
         - '27017:27017'
       restart: unless-stopped

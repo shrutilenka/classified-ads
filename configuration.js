@@ -14,6 +14,8 @@ console.log(`Loading configuration from ${process.env['NODE_CONFIG_DIR']}`)
 console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
 
 export default function config(key, secretValues) {
+    console.log(`attempting to access key: ${key}. We are having value: ${process.env[key]}`)
+    if (process.env[key]) return process.env[key]
     const stringRes = JSON.stringify(nodeConfig.get(key))
     if (!secretValues) secretValues = {}
     Object.assign(secretValues, process.env)

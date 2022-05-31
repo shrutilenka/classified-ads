@@ -100,8 +100,8 @@ async function build(doRun) {
     fastify.register(helmet, helmet_())
     // fastify.register(cors, require('./config/options/cors'))
     fastify.register(compressPlugin) // Compress all possible types > 1024o
-    fastify.register(mongodb, { forceClose: true, url: config('DATABASE', { dbName }) || process.env.MONGODB_URI })
-    fastify.register(redis, { host: '127.0.0.1' })
+    fastify.register(mongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
+    fastify.register(redis, { host: config('REDIS_URI') })
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)
@@ -127,7 +127,7 @@ async function build(doRun) {
     // never close !
     // const { db } = fastify.mongo
 
-    const mongoURL = config('DATABASE', { dbName }) || process.env.MONGODB_URI
+    const mongoURL = config('MONGODB_URI', { dbName })
 
     // Run the server as soon as possible!
     const start = async () => {

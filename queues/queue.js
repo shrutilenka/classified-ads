@@ -3,7 +3,7 @@
 
 // // Our job queue
 // const mailsQueue = new Queue("mails", {
-//     redis: process.env.REDIS_URL,
+//     redis: process.env.REDIS_URI,
 // })
 
 // mailsQueue.process(mailProcess)
