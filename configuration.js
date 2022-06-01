@@ -14,7 +14,6 @@ console.log(`Loading configuration from ${process.env['NODE_CONFIG_DIR']}`)
 console.log(`Running on Node environment ?: ${process.env.NODE_ENV}`)
 
 export default function config(key, secretValues) {
-    
     if (process.env[key]) {
         console.log(`Attempting to access key: ${key}. We are having value: ${process.env[key]}`)
         return process.env[key]

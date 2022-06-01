@@ -1,7 +1,7 @@
 /**
  * This style Cards in a way or another
  */
-import { LIS } from '../../helpers/lis.js';
+import { LIS } from '../../helpers/lis.js'
 export const tweakBootstrap = async () => {
     return new Promise(function (resolve, reject) {
         if (LIS.elements('collapse').length == 0 || LIS.elements('map').length == 0) {

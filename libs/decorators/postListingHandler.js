@@ -1,19 +1,18 @@
-import { Storage } from "@google-cloud/storage";
-import { tidy } from "htmltidy2";
-import { createRequire } from 'module';
-import path from "path";
-import { format, promisify } from "util";
-import config from "../../configuration.js";
-import constraints from "../constraints/constraints.js";
-import { ops as helpers } from "../services/helpers.js";
-import queries from "../services/mongo.js";
-import { stringTransformer, validationPipeLine } from "../services/pipeLine.js";
-
+import { Storage } from '@google-cloud/storage'
+import { tidy } from 'htmltidy2'
+import { createRequire } from 'module'
+import path from 'path'
+import { format, promisify } from 'util'
+import config from '../../configuration.js'
+import constraints from '../constraints/constraints.js'
+import { ops as helpers } from '../services/helpers.js'
+import queries from '../services/mongo.js'
+import { stringTransformer, validationPipeLine } from '../services/pipeLine.js'
 
 const require = createRequire(import.meta.url)
 let sharp
 try {
-    sharp = require('sharp') 
+    sharp = require('sharp')
 } catch (error) {
     console.log('oh no no sharp module. I hope this is not production environment')
 }
@@ -27,12 +26,10 @@ const NODE_ENV = {
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 
 let storage, bucket
-if(NODE_ENV < 1) {
+if (NODE_ENV < 1) {
     storage = new Storage({ keyFilename: process.env.CREDS_PATH })
     bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
 }
-
-
 
 const tidyP = promisify(tidy)
 
@@ -158,7 +155,7 @@ export default (fastify) => {
                 const filename = suffix + path.extname(req.file.originalname)
                 const blob = bucket.file(filename)
                 try {
-                    if(sharp)
+                    if (sharp)
                         thumbnailBuffer = await sharp(originalBuffer)
                             .metadata()
                             .then(({ width: originalWidth }) => {

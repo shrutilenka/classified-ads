@@ -1,18 +1,16 @@
-import assert from "assert";
-import { createRequire } from "module";
-import path from "path";
-import { fileURLToPath } from "url";
-const require = createRequire(import.meta.url);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import assert from 'assert'
+import { createRequire } from 'module'
+import path from 'path'
+import { fileURLToPath } from 'url'
+const require = createRequire(import.meta.url)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 let Annoy
 try {
     Annoy = require('annoy')
-}
-catch (e) {
+} catch (e) {
     console.log('oh no no annoy module. I hope this is not production environment')
 }
-
 
 let models = {
     en: {
@@ -49,7 +47,7 @@ export default function (languages) {
     )
     // LOAD MODELS ONCE ! THEY ARE HUGE !
     // Do not load models when Annoy is not instantiated (for test environments)
-    if(!Annoy) {
+    if (!Annoy) {
         languages.forEach((language) => {
             if (!models[language].word2id) {
                 models[language].id2word = require(`../../data/models/id2word.${language}.json`)

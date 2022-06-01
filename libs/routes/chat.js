@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
-import { crypto } from "../services/helpers.js";
-import { isAuthor } from "../services/mongo-mem.js";
+import { v4 as uuidv4 } from 'uuid'
+import { crypto } from '../services/helpers.js'
+import { isAuthor } from '../services/mongo-mem.js'
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 async function routes(fastify, options) {
     const channels = new Map()

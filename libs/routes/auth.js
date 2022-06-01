@@ -1,11 +1,11 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import crypto from "node:crypto";
-import config from "../../configuration.js";
-import constraints from "../constraints/constraints.js";
-import blabla from "../decorators/blabla.js";
-import Mailer from "../services/mailer.js";
-import queries from "../services/mongo.js";
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import crypto from 'node:crypto'
+import config from '../../configuration.js'
+import constraints from '../constraints/constraints.js'
+import blabla from '../decorators/blabla.js'
+import Mailer from '../services/mailer.js'
+import queries from '../services/mongo.js'
 
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 // Encapsulates routes: (Init shared variables and so)
@@ -104,19 +104,21 @@ async function routes(fastify, options) {
                         reply.redirect('/')
                         return
                     }
-                    Mailer.getInstance(mongoURL, dbName).then((mailer) => {
-                        mailer.sendMail({
-                            to: username,
-                            todo: 'signup',
-                            req: request,
-                            data: {
-                                token: tempUser.token,
-                                host: config('APIHost'),
-                            },
+                    Mailer.getInstance(mongoURL, dbName)
+                        .then((mailer) => {
+                            mailer.sendMail({
+                                to: username,
+                                todo: 'signup',
+                                req: request,
+                                data: {
+                                    token: tempUser.token,
+                                    host: config('APIHost'),
+                                },
+                            })
                         })
-                    }).catch((err) => {
-                        req.log.error(`signup/Mailer: ${err.message}`)
-                    })
+                        .catch((err) => {
+                            req.log.error(`signup/Mailer: ${err.message}`)
+                        })
 
                     await QInstance.insertTmpUser(tempUser)
                     reply.blabla([{}, 'message', 'verification'], request)

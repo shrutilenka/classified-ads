@@ -1,19 +1,17 @@
-import Multer from "fastify-multer";
-import fs from "fs";
-import { createRequire } from "module";
-import config from '../../configuration.js';
-import Dictionary from "./dictionary.js";
-const require = createRequire(import.meta.url);
+import Multer from 'fastify-multer'
+import fs from 'fs'
+import { createRequire } from 'module'
+import config from '../../configuration.js'
+import Dictionary from './dictionary.js'
+const require = createRequire(import.meta.url)
 
 let LanguageDetection, lid
 try {
     LanguageDetection = require('@smodin/fast-text-language-detection')
     lid = new LanguageDetection()
-}
-catch (e) {
+} catch (e) {
     console.log('oh no no fast-text module. I hope this is not production environment')
 }
-
 
 const ops = {}
 const crypto = {}
@@ -29,19 +27,11 @@ ops.cloudMulter = Multer({
     fileFilter: (req, file, cb) => {
         // console.log('fileFilter')
         // console.log(req.body)
-        if (
-            file.mimetype == 'image/png' ||
-            file.mimetype == 'image/jpg' ||
-            file.mimetype == 'image/jpeg'
-        ) {
+        if (file.mimetype == 'image/png' || file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
             cb(null, true)
         } else {
             req.error = 'Only .png, .jpg and .jpeg allowed'
-            cb(
-                null,
-                false,
-                new Error('Only .png, .jpg and .jpeg format allowed!'),
-            )
+            cb(null, false, new Error('Only .png, .jpg and .jpeg format allowed!'))
         }
     },
 }).single('avatar')
@@ -52,15 +42,11 @@ const dictionary = new Dictionary(['en', 'ar', 'fr'])
 
 ops.getLanguage = async (text) => {
     // Wrong detection here when fast-text not present (for test environments)
-    if(!lid) {
+    if (!lid) {
         return dictionary.getWordLang(text.split(' ')[0])
     }
     const language = await lid.predict(text, 3)
-    if (
-        language[0].prob > 0.5 &&
-        ['en', 'ar', 'fr'].indexOf(language[0].lang) > -1
-    )
-        return language[0].lang
+    if (language[0].prob > 0.5 && ['en', 'ar', 'fr'].indexOf(language[0].lang) > -1) return language[0].lang
     else if (text.indexOf(' ') < 0) return dictionary.getWordLang(text)
     else return 'und'
 }
@@ -135,85 +121,97 @@ ops.initials = function initials(email) {
  */
 // Super simple XOR encrypt function
 crypto.encrypt = function encrypt(key, plaintext) {
-    let cypherText = [];
+    let cypherText = []
     // Convert to hex to properly handle UTF8
-    plaintext = Array.from(plaintext).map(function(c) {
-        if(c.charCodeAt(0) < 128) return c.charCodeAt(0).toString(16).padStart(2, '0');
-        else return encodeURIComponent(c).replace(/\%/g,'').toLowerCase();
-    }).join('');
+    plaintext = Array.from(plaintext)
+        .map(function (c) {
+            if (c.charCodeAt(0) < 128) return c.charCodeAt(0).toString(16).padStart(2, '0')
+            else return encodeURIComponent(c).replace(/\%/g, '').toLowerCase()
+        })
+        .join('')
     // Convert each hex to decimal
-    plaintext = plaintext.match(/.{1,2}/g).map(x => parseInt(x, 16));
+    plaintext = plaintext.match(/.{1,2}/g).map((x) => parseInt(x, 16))
     // Perform xor operation
     for (let i = 0; i < plaintext.length; i++) {
-        cypherText.push(plaintext[i] ^ key.charCodeAt(Math.floor(i % key.length)));
+        cypherText.push(plaintext[i] ^ key.charCodeAt(Math.floor(i % key.length)))
     }
     // Convert to hex
-    cypherText = cypherText.map(function(x) {
-        return x.toString(16).padStart(2, '0');
-    });
-    return cypherText.join('');
+    cypherText = cypherText.map(function (x) {
+        return x.toString(16).padStart(2, '0')
+    })
+    return cypherText.join('')
 }
 
 // Super simple XOR decrypt function
 crypto.decrypt = function decrypt(key, cypherText) {
     try {
-        cypherText = cypherText.match(/.{1,2}/g).map(x => parseInt(x, 16));
-        let plaintext = [];
+        cypherText = cypherText.match(/.{1,2}/g).map((x) => parseInt(x, 16))
+        let plaintext = []
         for (let i = 0; i < cypherText.length; i++) {
-            plaintext.push((cypherText[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'));
+            plaintext.push(
+                (cypherText[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'),
+            )
         }
-        return decodeURIComponent('%' + plaintext.join('').match(/.{1,2}/g).join('%'));
-    }
-    catch(e) {
-        return false;
+        return decodeURIComponent(
+            '%' +
+                plaintext
+                    .join('')
+                    .match(/.{1,2}/g)
+                    .join('%'),
+        )
+    } catch (e) {
+        return false
     }
 }
 
 // Super simple password to 256-bit key function
 crypto.passwordDerivedKey = function passwordDerivedKey(password, salt, iterations, len) {
-    if(!password) password = randomStr();
-    if(!salt) salt = '80ymb4oZ';
-    if(!iterations) iterations = 8;
-    if(!len) len = 256;
-    len = Math.ceil(len / 8);
-    var key = '';
+    if (!password) password = randomStr()
+    if (!salt) salt = '80ymb4oZ'
+    if (!iterations) iterations = 8
+    if (!len) len = 256
+    len = Math.ceil(len / 8)
+    var key = ''
 
-    while(key.length < len) {
-        var i = 0;
-        var intSalt = salt;
-        var intKey = '';
-        while(i < iterations) {
-            intKey = hash(password + intSalt);
-            var newSalt = '';
-            for(let j = 0; j < intSalt.length; j++) {
-                newSalt += (intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % intKey.length))).toString(36);
+    while (key.length < len) {
+        var i = 0
+        var intSalt = salt
+        var intKey = ''
+        while (i < iterations) {
+            intKey = hash(password + intSalt)
+            var newSalt = ''
+            for (let j = 0; j < intSalt.length; j++) {
+                newSalt += (
+                    intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % intKey.length))
+                ).toString(36)
             }
-            intSalt = newSalt;
-            i++;
+            intSalt = newSalt
+            i++
         }
-        key += intKey;
+        key += intKey
     }
-    return key.substring(0, len);
+    return key.substring(0, len)
 }
 
 // Generates a random string of the specified length
 function randomStr(len) {
-    var str = parseInt(Math.random()*10e16).toString(36);
-    if(typeof len == 'undefined') return str;
+    var str = parseInt(Math.random() * 10e16).toString(36)
+    if (typeof len == 'undefined') return str
     else {
-        while(str.length < len) {
-            str += parseInt(Math.random()*10e16).toString(36);
+        while (str.length < len) {
+            str += parseInt(Math.random() * 10e16).toString(36)
         }
-        return str.substring(str.length - len);
+        return str.substring(str.length - len)
     }
 }
 
 // Super simple hash function
 function hash(str) {
-    for(var i = 0, h = 4641154056; i < str.length; i++) h = Math.imul(h + str.charCodeAt(i) | 0, 2654435761);
-    h = (h ^ h >>> 17) >>> 0;
-    return h.toString(36);
+    for (var i = 0, h = 4641154056; i < str.length; i++)
+        h = Math.imul((h + str.charCodeAt(i)) | 0, 2654435761)
+    h = (h ^ (h >>> 17)) >>> 0
+    return h.toString(36)
 }
 
-export { ops, crypto, EphemeralData };
+export { ops, crypto, EphemeralData }
 

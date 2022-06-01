@@ -1,4 +1,4 @@
-import queries from "../services/mongo.js";
+import queries from '../services/mongo.js'
 
 async function routes(fastify, options, next) {
     const { db } = fastify.mongo

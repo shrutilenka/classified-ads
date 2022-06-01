@@ -1,13 +1,12 @@
-import multer from "fastify-multer";
-import config from '../../configuration.js';
-import constraints from "../constraints/constraints.js";
-import authAdapter from "../decorators/auth.js";
-import blabla from "../decorators/blabla.js";
-import postListingHandler from "../decorators/postListingHandler.js";
-import preValidation from "../decorators/preValidation.js";
-import { crypto, ops as helpers } from "../services/helpers.js";
-import queries from "../services/mongo.js";
-
+import multer from 'fastify-multer'
+import config from '../../configuration.js'
+import constraints from '../constraints/constraints.js'
+import authAdapter from '../decorators/auth.js'
+import blabla from '../decorators/blabla.js'
+import postListingHandler from '../decorators/postListingHandler.js'
+import preValidation from '../decorators/preValidation.js'
+import { crypto, ops as helpers } from '../services/helpers.js'
+import queries from '../services/mongo.js'
 
 const NODE_ENV = {
     api: -1,
@@ -21,8 +20,6 @@ const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options, next) {
-
-
     const { db } = fastify.mongo
     const { redis } = fastify
     const QInstance = new queries(db, redis)
@@ -152,8 +149,8 @@ async function routes(fastify, options, next) {
             user['nickname'] = req.params.username
                 ? req.params.username
                 : req.cookies[COOKIE_NAME]
-                    ? '🏠'
-                    : ''
+                ? '🏠'
+                : ''
             let comments = []
             if (req.params.username) {
                 const peer1 = req.params.username
@@ -227,7 +224,6 @@ async function routes(fastify, options, next) {
         },
     )
 
-    
     const handler = postListingHandler(fastify)
     fastify.register(multer.contentParser)
     const upload = NODE_ENV < 1 ? helpers.localMulter : helpers.cloudMulter

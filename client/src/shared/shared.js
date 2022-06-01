@@ -19,7 +19,6 @@ import { renderShared } from './syncing/render-json.js'
 import { setupInputTags } from './tags/setup-input-tags.js'
 import { runToasts } from './toasts/toasts.js'
 
-
 /**
  * Fulfill promises on phone all other devices
  * Also crushes if one or all fail depending on environment

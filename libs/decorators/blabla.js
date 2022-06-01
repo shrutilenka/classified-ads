@@ -25,8 +25,8 @@ export default function blabla(context) {
     user['nickname'] = this.request.params.username
         ? this.request.params.username
         : this.request.cookies[COOKIE_NAME]
-            ? '🏠'
-            : ''
+        ? '🏠'
+        : ''
     let formData = {}
     // When user is entering data, Send back same data again
     // to fill input forms (it helps when there was an error)

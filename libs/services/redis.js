@@ -1,6 +1,6 @@
 /**
- * 
- * @param {import("ioredis").Redis} redisDB 
+ *
+ * @param {import("ioredis").Redis} redisDB
  */
 function purgeKeys(redisDB) {
     console.log('Redis purge is running')
@@ -19,8 +19,8 @@ function purgeKeys(redisDB) {
 }
 
 /**
- * 
- * @param {import("ioredis").Redis} redisDB 
+ *
+ * @param {import("ioredis").Redis} redisDB
  * @param { any } mongoDB
  */
 export default function (redisDB, mongoDB) {
@@ -30,9 +30,9 @@ export default function (redisDB, mongoDB) {
             let collection = mongoDB.collection(collName)
             let result = []
             const aggCursor = collection.aggregate([
-                {$match: {} },
-                {$sort: {_id: 1}},
-                {$group: {_id:null, ids: {$addToSet: "$_id"}}}
+                { $match: {} },
+                { $sort: { _id: 1 } },
+                { $group: { _id: null, ids: { $addToSet: '$_id' } } },
             ])
             for await (const doc of aggCursor) {
                 result = result.concat(doc.ids.map((d) => d.toHexString()))
@@ -42,19 +42,19 @@ export default function (redisDB, mongoDB) {
         const listingIds = await getIds('listing')
         const usersIds = await getIds('users')
         const tmpUsersIds = await getIds('userstemp')
-        listingIds.forEach(id => {
+        listingIds.forEach((id) => {
             redisDB.hset(`cacheIds:listing`, id, '1')
         })
-        usersIds.forEach(id => {
+        usersIds.forEach((id) => {
             redisDB.hset(`cacheIds:users`, id, '1')
         })
-        tmpUsersIds.forEach(id => {
+        tmpUsersIds.forEach((id) => {
             redisDB.hset(`cacheIds:userstemp`, id, '1')
         })
     }
 
     this.purgeKeys = function () {
-    // Run once on startup
+        // Run once on startup
         purgeKeys(redisDB)
         // Run every 3 hours
         if (process.env.worker_id == '1') setInterval(purgeKeys, 3 * 1000 * 60 * 60, redisDB)

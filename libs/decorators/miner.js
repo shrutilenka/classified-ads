@@ -1,4 +1,4 @@
-import { BloomFilter, TopK } from "bloom-filters";
+import { BloomFilter, TopK } from 'bloom-filters'
 const index = new BloomFilter(10, 4)
 
 const minerTree = {
@@ -34,5 +34,5 @@ function miner(request, reply, done) {
     done()
 }
 
-export { miner, minerTree };
+export { miner, minerTree }
 

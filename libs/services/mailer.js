@@ -1,7 +1,7 @@
-import MailTime from "mail-time";
-import { MongoClient } from 'mongodb';
-import nodemailer from "nodemailer";
-import config from "../../configuration.js";
+import MailTime from 'mail-time'
+import { MongoClient } from 'mongodb'
+import nodemailer from 'nodemailer'
+import config from '../../configuration.js'
 
 class MailerOps {
     constructor(db) {
@@ -40,15 +40,7 @@ class MailerOps {
          * @param {import('fastify').FastifyRequest} [req] request object to derive i18next translations
          * @param {JSON} [data] key-values to inject to i18next
          */
-        this.sendMail = function ({
-            to,
-            todo,
-            subject,
-            text,
-            html,
-            req,
-            data,
-        }) {
+        this.sendMail = function ({ to, todo, subject, text, html, req, data }) {
             // If req is provided we assume here that
             // a multilingual version exists and data is provided
             if (req) {

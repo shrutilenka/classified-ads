@@ -1,8 +1,8 @@
-import adt_1 from "@toreda/adt";
-import FuzzySet from "fuzzyset";
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const { TopK } = require("bloom-filters");
+import adt_1 from '@toreda/adt'
+import FuzzySet from 'fuzzyset'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const { TopK } = require('bloom-filters')
 
 // Arbitrary choice
 const maxSize = 3000
@@ -15,14 +15,14 @@ function init() {
     fuzzySet = FuzzySet()
     circularBuffer = new adt_1.CircularQueue({
         maxSize: maxSize,
-        overwrite: true
+        overwrite: true,
     })
     topk = new TopK(10, 0.001, 0.99)
 }
 init()
 
 let pushCount = 0
-const isRound = () => ((pushCount++) % maxSize) === maxSize / 2
+const isRound = () => pushCount++ % maxSize === maxSize / 2
 /**
  * Purges old elements from the bag
  */
@@ -37,13 +37,13 @@ const purgeOld = () => {
 }
 
 /**
- * 'Hello' and 'Helo' are assumed equal, this is a bijective function 
- * @param {*} keyword 
+ * 'Hello' and 'Helo' are assumed equal, this is a bijective function
+ * @param {*} keyword
  * @returns {string}
  */
 const checkSimilarity = (keyword) => {
     const similar = fuzzySet.get(keyword)
-    if (!similar || (similar[0][0] < 0.8)) {
+    if (!similar || similar[0][0] < 0.8) {
         fuzzySet.add(keyword)
         return false
     } else {
@@ -53,22 +53,20 @@ const checkSimilarity = (keyword) => {
 
 /**
  * Refreshes TOPK adding a string to the bloom filter
- * @param {string} keyword 
+ * @param {string} keyword
  */
 const refreshTopK = (keyword) => {
     // split a phrase into words
     if (keyword.split(' ').length > 1) {
-        keyword.split(' ').forEach(word => {
-            if (word.length > 2)
-                refreshTopK(word)
+        keyword.split(' ').forEach((word) => {
+            if (word.length > 2) refreshTopK(word)
         })
         return
     }
     // prepare the bag (circular buffer)
     purgeOld()
     const similar = checkSimilarity(keyword)
-    if (similar)
-        keyword = similar
+    if (similar) keyword = similar
     circularBuffer.push([new Date().getTime(), keyword])
     topk.add(keyword)
 
@@ -84,4 +82,5 @@ const refreshTopK = (keyword) => {
 }
 
 // init() must be called once
-export { refreshTopK, topk };
+export { refreshTopK, topk }
+

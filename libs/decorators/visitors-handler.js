@@ -1,8 +1,8 @@
 // No auth
-import url from "url";
-import visitorCounter from "visitor-counter";
-import config from '../../configuration.js';
-import visitorsHtml from "./visitors-html";
+import url from 'url'
+import visitorCounter from 'visitor-counter'
+import config from '../../configuration.js'
+import visitorsHtml from './visitors-html'
 const secretPath = process.env.SECRET_PATH
 
 const params = (req, param) => {

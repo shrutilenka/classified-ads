@@ -1,10 +1,10 @@
-import { ObjectId } from "@fastify/mongodb";
-import { Mutex } from "async-mutex";
-import { Blog, Comment, Donation, Skill, User } from "../constraints/models.js";
-import { refreshTopK } from "../services/miner.js";
-import Dictionary from "./dictionary.js";
-import { EphemeralData } from "./helpers.js";
-import { getListingById, getListingsSince } from "./mongo-protobuff.js";
+import { ObjectId } from '@fastify/mongodb'
+import { Mutex } from 'async-mutex'
+import { Blog, Comment, Donation, Skill, User } from '../constraints/models.js'
+import { refreshTopK } from '../services/miner.js'
+import Dictionary from './dictionary.js'
+import { EphemeralData } from './helpers.js'
+import { getListingById, getListingsSince } from './mongo-protobuff.js'
 
 /**
  * This function returns an ObjectId embedded with a given datetime
@@ -51,17 +51,17 @@ export default function (mongoDB, redisDB) {
             coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)],
         }
         switch (elem.section) {
-        case 'donations':
-            listing = new Donation(elem)
-            break
-        case 'skills':
-            listing = new Skill(elem)
-            break
-        case 'blogs':
-            listing = new Blog(elem)
-            break
-        default:
-            break
+            case 'donations':
+                listing = new Donation(elem)
+                break
+            case 'skills':
+                listing = new Skill(elem)
+                break
+            case 'blogs':
+                listing = new Blog(elem)
+                break
+            default:
+                break
         }
         const res = await collection.insertOne(listing)
         return res.insertedId
@@ -245,7 +245,7 @@ export default function (mongoDB, redisDB) {
                     refreshed = true
                 }
             }
-            
+
             if (!refreshed) {
                 const buffer = await redisDB.getBuffer(`gls:${unique}`)
                 let cachedQResult = new getListingsSince().decodeBuffer(buffer)
@@ -363,7 +363,6 @@ export default function (mongoDB, redisDB) {
         return await collection.findOne(query)
     }
 
-
     const translator = new Dictionary(['en', 'ar', 'fr'])
 
     /**
@@ -443,17 +442,17 @@ export default function (mongoDB, redisDB) {
         const query = JSON.parse(JSON.stringify(baseQuery))
         query._id = { $gt: ObjectId }
         switch (level) {
-        case 'origin':
-            query.tags = tag
-            break
-        case 'parent':
-            query.parent = tag
-            break
-        case 'granpa':
-            query.granpa = tag
-            break
-        default:
-            break
+            case 'origin':
+                query.tags = tag
+                break
+            case 'parent':
+                query.parent = tag
+                break
+            case 'granpa':
+                query.granpa = tag
+                break
+            default:
+                break
         }
         const docs = await collection
             .find(query)

@@ -1,13 +1,13 @@
-import Ajv from "ajv";
-import { createRequire } from "module";
-import sanitizeHtml from "sanitize-html";
-import nlp from "wink-nlp-utils";
-import { getBorders } from "../../data/geo/geoJSONEncoder.js";
-import constraints from "../constraints/constraints.js";
-import { html, reb, rew } from "../constraints/regex.js";
-import { give } from "./data.js";
+import Ajv from 'ajv'
+import { createRequire } from 'module'
+import sanitizeHtml from 'sanitize-html'
+import nlp from 'wink-nlp-utils'
+import { getBorders } from '../../data/geo/geoJSONEncoder.js'
+import constraints from '../constraints/constraints.js'
+import { html, reb, rew } from '../constraints/regex.js'
+import { give } from './data.js'
 
-const require = createRequire(import.meta.url);
+const require = createRequire(import.meta.url)
 
 const coordinates = getBorders()
 const localize = {
@@ -288,5 +288,5 @@ function validationPipeLine(req) {
     return { errors, tagsValid, geoValid, undrawValid }
 }
 
-export { validationPipeLine, stringTransformer };
+export { validationPipeLine, stringTransformer }
 

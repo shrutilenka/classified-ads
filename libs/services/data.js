@@ -1,12 +1,12 @@
-import { parse } from "csv";
-import fs from "fs";
-import { createRequire } from "module";
-import path from "path";
-import { fileURLToPath } from "url";
-import config from "../../configuration.js";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const require = createRequire(import.meta.url);
+import { parse } from 'csv'
+import fs from 'fs'
+import { createRequire } from 'module'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import config from '../../configuration.js'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const require = createRequire(import.meta.url)
 
 const give = {}
 const TAG_SIZE = config('TAG_SIZE')
@@ -145,5 +145,5 @@ give.cptallTagsAr = require('../../data/taxonomy/cptall-ar.json')
 // }
 // Wrapping give object breaks some IDR links but,,,
 // module.exports.give = new Proxy(give, handler);
-export { give };
+export { give }
 

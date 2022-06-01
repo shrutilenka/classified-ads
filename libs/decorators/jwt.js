@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import config from '../../configuration.js';
+import jwt from 'jsonwebtoken'
+import config from '../../configuration.js'
 
 const JWT_SECRET = process.env.JWT_SECRET
 const COOKIE_NAME = config('COOKIE_NAME')
@@ -63,5 +63,5 @@ function wsauth(request) {
     }
 }
 
-export { verifyJWT, softVerifyJWT, wsauth };
+export { verifyJWT, softVerifyJWT, wsauth }
 
