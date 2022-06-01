@@ -3,9 +3,8 @@ services:
   classified-ads:
     container_name: classified-ads
     depends_on:
-      - mongo
-      - redis
-      - caddy
+      - mongodb-service
+      - redis-service
     # environment:
     #   - NODE_ENV=localhost
     volumes:
@@ -28,7 +27,7 @@ services:
       image: mongo
       volumes:
         - ./host-db/data:/data/db
-        - ./bootstrap/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+        - ./bootstrap/init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
       ports:
         - '27017:27017'
       restart: unless-stopped

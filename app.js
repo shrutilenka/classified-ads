@@ -47,7 +47,6 @@ const require = createRequire(import.meta.url);
 const { fastifySchedulePlugin } = require("fastify-schedule");
 
 dotenv();
-console.log(`test ${JSON.stringify(config('SMTP_OUTLOOK'))}`)
 
 // Incremental is better
 const NODE_ENV = {
@@ -134,6 +133,7 @@ async function build(doRun) {
         try {
             // whatever the env (like heroku)  wants
             const port = process.env.PORT || fastify.conf('NODE_PORT')
+            console.log('The app is accessible on port: '+port)
             await fastify.listen(port, '0.0.0.0')
             //  Run only on one node
             if (NODE_ENV === 0/*process.env.worker_id == '1'*/) {
@@ -301,7 +301,6 @@ async function build(doRun) {
                 prepareData()
             })
             .catch((err) => {
-                throw(err)
                 fastify.log.error('Refusing to start because of ' + err)
                 process.exit()
             })
