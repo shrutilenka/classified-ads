@@ -9,7 +9,7 @@ let Annoy
 try {
     Annoy = require('annoy')
 } catch (e) {
-    console.log('oh no no annoy module. I hope this is not production environment')
+    console.warn('oh no no annoy module. I hope this is not production environment')
 }
 
 let models = {

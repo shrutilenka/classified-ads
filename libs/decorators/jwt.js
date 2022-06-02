@@ -58,7 +58,7 @@ function wsauth(request) {
         const decoded = jwt.verify(cookie, JWT_SECRET)
         return decoded.username
     } catch (ex) {
-        console.log(ex.message)
+        console.error(ex.message)
         return false
     }
 }

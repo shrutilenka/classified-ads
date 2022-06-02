@@ -21,6 +21,7 @@ services:
       - MONGODB_URI=mongodb://mongo:27017/listings_db
       - MONGODB_CLIENT_EXTRA_FLAGS=--authenticationDatabase=admin
       - REDIS_URI=redis
+      - INSIDE_DOCKER=wahoo
 
   mongo:
       container_name: mongodb-service

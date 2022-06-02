@@ -283,7 +283,7 @@ export default function (mongoDB, redisDB) {
             )
             // docs.forEach((doc) => redisDB.lpush('gls-ids', doc._id))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
         return newQResult
     }
@@ -423,7 +423,7 @@ export default function (mongoDB, redisDB) {
                     result.crossLangDocs = result.crossLangDocs.concat(crossLangDocs)
                 }
             } catch (error) {
-                console.log(error.message)
+                console.error(error.message)
             }
         }
         return result

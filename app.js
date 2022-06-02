@@ -12,6 +12,7 @@ import fastifySession from '@fastify/session'
 import serve from '@fastify/static'
 import fastifySwagger from '@fastify/swagger'
 import fastifyWebsocket from '@fastify/websocket'
+import GracefulServer from '@gquittet/graceful-server'
 import assert from 'assert'
 import dns from 'dns'
 import { config as dotenv } from 'dotenv'
@@ -129,6 +130,24 @@ async function build(doRun) {
 
     const mongoURL = config('MONGODB_URI', { dbName })
 
+    // TODO: manage open resources
+    const gracefulServer = GracefulServer(fastify.server)
+
+    gracefulServer.on(GracefulServer.READY, () => {
+        console.log('Server is ready')
+        if (config(INSIDE_DOCKER)) {
+            console.warn('Server running inside Docker container\n' + 'keep an eye on resources !')
+        }
+    })
+
+    gracefulServer.on(GracefulServer.SHUTTING_DOWN, () => {
+        console.error('Server is shutting down')
+    })
+
+    gracefulServer.on(GracefulServer.SHUTDOWN, (error) => {
+        console.error('Server is down because of', error.message)
+    })
+
     // Run the server as soon as possible!
     const start = async () => {
         try {
@@ -144,14 +163,15 @@ async function build(doRun) {
                 .then((mailer) => {
                     mailer.sendMail({
                         to: process.env.ADMIN_EMAIL,
-                        subject: 'app instance bootstrap',
-                        text: 'app instance bootstrapped correctly',
-                        html: 'app instance bootstrapped correctly',
+                        subject: 'App instance bootstrap',
+                        text: 'App instance bootstrapped correctly',
+                        html: 'App instance bootstrapped correctly',
                     })
                 })
                 .catch((err) => {
                     fastify.log.error(err)
                 })
+            gracefulServer.setReady()
         } catch (err) {
             fastify.log.error(err)
             process.exit(1)
