@@ -145,8 +145,16 @@ export default (fastify) => {
                         return reply
                     })
             } else {
-                // Upload that damn pictures the original and the thumbnail
+                // Upload that damn pictures the original (req.file) and the thumbnail
                 // Create a new blob in the bucket and upload the file data.
+                // req.file       | Image {
+                // req.file       |   fieldname: 'file',
+                // req.file       |   originalname: 'cruise.jpg',
+                // req.file       |   encoding: '7bit',
+                // req.file       |   mimetype: 'image/jpeg',
+                // req.file       |   buffer: <Buffer ff d8 ff e1 3d 1e 45 78 69 66 00... 15755535 more bytes>,
+                // req.file       |   size: 15755585
+                // req.file       | }
                 let uploadSmallImg, uploadImg
                 let thumbnailBuffer, originalBuffer
                 originalBuffer = req.file.buffer
@@ -169,8 +177,22 @@ export default (fastify) => {
                                 }
                                 return undefined
                             })
+                            .catch((err) => {
+                                req.log.error(`post/listings#postListingHandler#sharp: ${err.message}`)
+                            })
+                    else {
+                        thumbnailBuffer = await Jimp.read(originalBuffer)
+                            .then(async (image) => {
+                                image.quality(80)
+                                image.resize(width, Jimp.AUTO)
+                                return await image.getBufferAsync(Jimp.AUTO)
+                            })
+                            .catch((err) => {
+                                req.log.error(`post/listings#postListingHandler#Jimp: ${err.message}`)
+                            })
+                    }
                 } catch (error) {
-                    req.log.error(`post/listings#postListingHandler#sharp: ${error.message}`)
+                    req.log.error(`post/listings#postListingHandler#Image compression: ${error.message}`)
                 }
 
                 if (thumbnailBuffer)
