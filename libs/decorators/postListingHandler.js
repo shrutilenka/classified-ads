@@ -32,7 +32,14 @@ if (NODE_ENV < 1) {
 }
 
 const tidyP = promisify(tidy)
-
+/**
+ * 
+ * @param {*} QInstance 
+ * @param {*} req 
+ * @param {*} blobNames 
+ * @param {*} upload 
+ * @returns 
+ */
 const formatNInsertListing = async (QInstance, req, blobNames) => {
     const { body } = req
     let publicUrl, publicUrlSmall
@@ -130,7 +137,7 @@ export default (fastify) => {
                 return reply
             }
             if (!upload) {
-                formatNInsertListing(QInstance, req, null, false)
+                formatNInsertListing(QInstance, req, null)
                     .then((data) => {
                         reply.blabla([data, 'listing', 'id'], req)
                         return reply
@@ -224,7 +231,7 @@ export default (fastify) => {
                 })
                 Promise.all([uploadImg, uploadSmallImg])
                     .then((blobNames) => {
-                        formatNInsertListing(QInstance, req, blobNames, true)
+                        formatNInsertListing(QInstance, req, blobNames)
                             .then((data) => {
                                 reply.blabla([data, 'listing', 'id'], req)
                                 return reply
