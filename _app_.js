@@ -10,7 +10,6 @@ import rateLimit from '@fastify/rate-limit'
 import redis from '@fastify/redis'
 import fastifySession from '@fastify/session'
 import serve from '@fastify/static'
-import fastifySwagger from '@fastify/swagger'
 import fastifyWebsocket from '@fastify/websocket'
 // import GracefulServer from '@gquittet/graceful-server'
 import { createRequire } from 'module'
@@ -34,5 +33,5 @@ const plugins = {
     redis,
     serve
 }
-
 export { plugins }
+

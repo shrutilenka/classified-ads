@@ -20,8 +20,9 @@ import { softVerifyJWT, verifyJWT, wsauth } from './libs/decorators/jwt.js'
 import Mailer from './libs/services/mailer.js'
 import { cache } from './libs/services/mongo-mem.js'
 import RedisAPI from './libs/services/redis.js'
-import { plugins } from ('./_app_')
-import { routes } from ('./libs/routes/_routes_')
+import { plugins } from './_app_.js'
+import { routes } from ('./libs/routes/_routes_.js')
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -78,17 +79,17 @@ async function build(doRun) {
         //     console.log(swStats.getCoreStats())
         // }, 10000)
     }
-    fastify.register(helmet, helmet_())
+    fastify.register(plugins.helmet, helmet_())
     // fastify.register(cors, require('./config/options/cors'))
-    fastify.register(compressPlugin) // Compress all possible types > 1024o
-    fastify.register(mongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
-    fastify.register(redis, { host: config('REDIS_URI') })
+    fastify.register(plugins.compressPlugin) // Compress all possible types > 1024o
+    fastify.register(plugins.mongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
+    fastify.register(plugins.redis, { host: config('REDIS_URI') })
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)
     // TODO: fastify.after(routes)
-    fastify.register(fastifyCookies)
-    fastify.register(fastifySession, {
+    fastify.register(plugins.fastifyCookies)
+    fastify.register(plugins.fastifySession, {
         cookieName: 'session',
         secret: crypto.randomBytes(16).toString('hex'),
         cookie: {
@@ -96,7 +97,7 @@ async function build(doRun) {
             maxAge: 2592000000,
         },
     })
-    fastify.register(fastifyFlash)
+    fastify.register(plugins.fastifyFlash)
 
     // Set authentication as soon as possible
     // after necessary plugins have been loaded
