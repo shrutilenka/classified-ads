@@ -138,7 +138,7 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
     const db = client.db(dbName)
     const collections = await db.listCollections().toArray()
     const collectionNames = collections.map((n) => n.name)
-    console.log(`discovered collections ${JSON.stringify(collectionNames)}`)
+    // console.log(`discovered collections ${JSON.stringify(collectionNames)}`)
     const checkColls =
                 collectionNames.indexOf('words') >= 0 &&
                 collectionNames.indexOf('listing') >= 0 &&

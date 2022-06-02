@@ -85,7 +85,7 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
    - SECRET_PATH=Just@Passw0rd
    - PASSWORD=Just@Passw0rd
    - DEBUG=sws:*
-   - REDIS_URI=redis://localhost:6379
+   - REDIS_URI=127.0.0.1
    - ADMIN_PASS=PASSWORD
    - ADMIN_EMAIL=some_outlook_email@outlook.com
    - NO_CLUSTER=true

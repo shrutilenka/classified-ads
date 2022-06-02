@@ -30,6 +30,7 @@
   "author": "bacloud22",
   "license": "ISC",
   "dependencies": {
+    "@smodin/fast-text-language-detection": "^0.2.3",
     "@faker-js/faker": "^6.1.1",
     "@fastify/auth": "^2.0.0",
     "@fastify/compress": "^5.0.0",
@@ -57,7 +58,6 @@
     "bcryptjs": "^2.4.3",
     "big-json": "^3.1.0",
     "bloom-filters": "^2.0.0",
-    "bull": "^4.8.1",
     "config": "^3.3.7",
     "csv": "^6.0.5",
     "dotenv": "^14.2.0",
@@ -107,6 +107,9 @@
     "tap": "^16.2.0"
   },
   "optionalDependencies": {
-    "sharp": "^0.30.3"
+    "sharp": "^0.30.3",
+    "@smodin/fast-text-language-detection": "^0.2.3",
+    "annoy": "^3.0.3",
+    "bull": "^4.8.1"
   }
 }

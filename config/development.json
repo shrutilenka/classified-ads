@@ -2,7 +2,8 @@
    "NODE_PORT": 3000,
    "HEROKU": false,
    "PIPELINE_KEYWORDS_SECONDS": 86400,
-   "DATABASE_URI": "mongodb://localhost:27017/listings_db_dev",
+   "MONGODB_URI": "mongodb://localhost:27017/listings_db_dev",
+   "REDIS_URI": "127.0.0.1",
    "APIHost": "http://localhost:3000",
    "COOKIE_NAME": "classified-ads-login",
    "SMTP_MAILHOG": {
