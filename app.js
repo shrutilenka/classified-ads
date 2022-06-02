@@ -1,18 +1,3 @@
-import fastifyAuth from '@fastify/auth'
-import compressPlugin from '@fastify/compress'
-import fastifyCookies from '@fastify/cookie'
-import fastifyFlash from '@fastify/flash'
-import formbody from '@fastify/formbody'
-import helmet from '@fastify/helmet'
-import fastifyJWT from '@fastify/jwt'
-import mongodb from '@fastify/mongodb'
-import rateLimit from '@fastify/rate-limit'
-import redis from '@fastify/redis'
-import fastifySession from '@fastify/session'
-import serve from '@fastify/static'
-import fastifySwagger from '@fastify/swagger'
-import fastifyWebsocket from '@fastify/websocket'
-// import GracefulServer from '@gquittet/graceful-server'
 import assert from 'assert'
 import dns from 'dns'
 import { config as dotenv } from 'dotenv'
@@ -32,20 +17,15 @@ import logger_ from './config/options/logger.js'
 import swagger_ from './config/options/swagger.js'
 import config from './configuration.js'
 import { softVerifyJWT, verifyJWT, wsauth } from './libs/decorators/jwt.js'
-import adminRouter from './libs/routes/admin.js'
-import authRouter from './libs/routes/auth.js'
-import chatRouter from './libs/routes/chat.js'
-import dataRouter from './libs/routes/data.js'
-import debugRouter from './libs/routes/debug.js'
-import indexRouter from './libs/routes/index.js'
-import listingsRouter from './libs/routes/listings.js'
 import Mailer from './libs/services/mailer.js'
 import { cache } from './libs/services/mongo-mem.js'
 import RedisAPI from './libs/services/redis.js'
+import { plugins } from ('./_app_')
+import { routes } from ('./libs/routes/_routes_')
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const require = createRequire(import.meta.url)
-const { fastifySchedulePlugin } = require('fastify-schedule')
 
 dotenv()
 
