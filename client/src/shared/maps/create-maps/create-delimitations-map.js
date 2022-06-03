@@ -1,9 +1,9 @@
 import L from 'leaflet'
 import 'leaflet.fullscreen'
+import states from '../../../data/states.json'
 import { onEachFeature } from './helpers/on-each-feature/on-each-feature.js'
 import { styleStatesClosure } from './helpers/style-states.js'
 import { geoJson, map } from './state.js'
-const states = require('../../../data/states.json')
 /**
  * create delimitations's Map
  */

@@ -1,8 +1,8 @@
-import * as L from 'leaflet'
-import 'leaflet.fullscreen'
+import * as L from 'leaflet';
+import 'leaflet.fullscreen';
+import { getBorders } from "../../../data/geoJSONEncoder.js";
 
-const coordinates = require('../../../data/geoJSONEncoder').getBorders()
-
+const coordinates = getBorders()
 let map
 let circle
 let lastValid

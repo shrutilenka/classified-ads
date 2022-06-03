@@ -1,9 +1,9 @@
-import * as L from 'leaflet'
-import 'leaflet.fullscreen'
-import { moveableMarker } from './helpers/marker/setup-marker.js'
+import * as L from 'leaflet';
+import 'leaflet.fullscreen';
+import { getBorders } from "../../../data/geoJSONEncoder.js";
+import { moveableMarker } from './helpers/marker/setup-marker.js';
 
-const coordinates = require('../../../data/geoJSONEncoder').getBorders()
-
+const coordinates = getBorders()
 let map
 let circle
 let lastValid

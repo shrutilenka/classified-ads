@@ -1,8 +1,10 @@
-import { getStateNames } from '../../../../../helpers/get-state-names.js'
-import { LIS } from '../../../../../helpers/lis.js'
-import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js'
-const states = require('../../../../../data/states.json')
-const MobileDetect = require('mobile-detect')
+import { MobileDetect } from 'mobile-detect';
+import states from '../../../../../data/states.json';
+import { getStateNames } from '../../../../../helpers/get-state-names.js';
+import { LIS } from '../../../../../helpers/lis.js';
+import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js';
+
+
 const polygon = states.features.map((a) => a.geometry.coordinates[0])
 /**
  * Attach one marker to map with constraints (marker is draggble but cannot go out of )

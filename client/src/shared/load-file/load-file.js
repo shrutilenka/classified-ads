@@ -3,7 +3,7 @@
  * side effect: LIS.id('output')
  * @param {event} event
  */
-const { LIS } = require('../../helpers/lis.js')
+import { LIS } from "../../helpers/lis.js";
 export const loadFile = function (event) {
     const image = LIS.id('output')
     image.src = URL.createObjectURL(event.target.files[0])

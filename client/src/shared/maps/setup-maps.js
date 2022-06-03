@@ -1,4 +1,5 @@
-import L, { MarkerClusterGroup } from 'leaflet'
+import L from 'leaflet'
+import { MarkerClusterGroup } from "leaflet.markercluster"
 import consts from '../../consts.js'
 import { LIS } from '../../helpers/lis.js'
 import { delimitationsMap } from './create-maps/create-delimitations-map.js'
@@ -54,6 +55,7 @@ export const setupMaps = () => {
         return osm
     }
     function clusterFactory() {
+        
         const markers = new MarkerClusterGroup()
         for (let i = 0; i < addressPoints.length; i++) {
             const a = addressPoints[i]

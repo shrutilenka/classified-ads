@@ -1,13 +1,13 @@
 import * as L from 'leaflet'
 import 'leaflet.fullscreen'
 import { io } from 'socket.io-client'
+import { getBorders, getStates } from "../../../data/geoJSONEncoder.js"
 import { onEachFeature } from './helpers/on-each-feature/on-each-feature.js'
 import { styleStatesClosure } from './helpers/style-states.js'
 import { geoJson, map } from './state.js'
 
-const geoJSON = require('../../../data/geoJSONEncoder')
-const coordinates = geoJSON.getBorders()
-const states = geoJSON.getStates()
+const coordinates = getBorders()
+const states = getStates()
 
 const latLngs = []
 const someColor = (idx) => {
