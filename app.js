@@ -15,6 +15,7 @@ import logger_ from './config/options/logger.js'
 import swagger_ from './config/options/swagger.js'
 import config from './configuration.js'
 import { softVerifyJWT, verifyJWT, wsauth } from './libs/decorators/jwt.js'
+import isBot from './libs/decorators/visitorsFilter.js'
 import { routes } from './libs/routes/_routes_.js'
 import Mailer from './libs/services/mailer.js'
 import { cache } from './libs/services/mongo-mem.js'
@@ -206,13 +207,13 @@ async function build(doRun) {
     })
     /*********************************************************************************************** */
     // !!PREHANDERS AND HOOKS !!
-    fastify.addHook('preHandler', (req, reply, done) => {
+    fastify.addHook('onRequest', (req, reply, done) => {
         const perPage = 12
         const page = req.query.p || 1
         req.pagination = { perPage: perPage, page: page }
         done()
     })
-
+    fastify.addHook('onRequest', isBot)
     // Mine topK events
     // fastify.addHook('preHandler', miner)
 
@@ -236,7 +237,7 @@ async function build(doRun) {
     // })
 
     // TODO: Rate limiter && honeyPot except in process.env === "api"
-    fastify.addHook('preHandler', (req, reply, done) => {
+    fastify.addHook('onRequest', (req, reply, done) => {
         // TODO: req.socket ? does it work ?
         let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
         if (ip.substr(0, 7) === '::ffff:') {
