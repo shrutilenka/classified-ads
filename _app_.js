@@ -1,15 +1,15 @@
 import fastifyAuth from '@fastify/auth'
-import compressPlugin from '@fastify/compress'
+import fastifyCompress from '@fastify/compress'
 import fastifyCookies from '@fastify/cookie'
 import fastifyFlash from '@fastify/flash'
-import formbody from '@fastify/formbody'
-import helmet from '@fastify/helmet'
+import fastifyFormbody from '@fastify/formbody'
+import fastifyHelmet from '@fastify/helmet'
 import fastifyJWT from '@fastify/jwt'
-import mongodb from '@fastify/mongodb'
-import rateLimit from '@fastify/rate-limit'
-import redis from '@fastify/redis'
+import fastifyMongodb from '@fastify/mongodb'
+import fastifyRateLimit from '@fastify/rate-limit'
+import fastifyRedis from '@fastify/redis'
 import fastifySession from '@fastify/session'
-import serve from '@fastify/static'
+import fastifyServe from '@fastify/static'
 import fastifySwagger from '@fastify/swagger'
 import fastifyWebsocket from '@fastify/websocket'
 import i18nextMiddleware from 'i18next-http-middleware'
@@ -17,12 +17,12 @@ import i18nextMiddleware from 'i18next-http-middleware'
 import { createRequire } from 'module'
 import viewsPlugin from 'point-of-view'
 const require = createRequire(import.meta.url)
-const { fastifySchedulePlugin } = require('fastify-schedule')
+const { fastifySchedule } = require('fastify-schedule')
 
 const plugins = {
-    fastifySchedulePlugin,
+    fastifySchedule,
     i18nextMiddleware,
-    compressPlugin,
+    fastifyCompress,
     fastifyAuth,
     fastifyCookies,
     fastifyFlash,
@@ -31,12 +31,11 @@ const plugins = {
     fastifySwagger,
     fastifyWebsocket,
     viewsPlugin,
-    formbody,
-    helmet,
-    mongodb,
-    rateLimit,
-    redis,
-    serve
+    fastifyFormbody,
+    fastifyHelmet,
+    fastifyMongodb,
+    fastifyRateLimit,
+    fastifyRedis,
+    fastifyServe,
 }
 export { plugins }
-

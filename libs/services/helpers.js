@@ -148,9 +148,7 @@ crypto.decrypt = function decrypt(key, cypherText) {
         cypherText = cypherText.match(/.{1,2}/g).map((x) => parseInt(x, 16))
         let plaintext = []
         for (let i = 0; i < cypherText.length; i++) {
-            plaintext.push(
-                (cypherText[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'),
-            )
+            plaintext.push((cypherText[i] ^ key.charCodeAt(Math.floor(i % key.length))).toString(16).padStart(2, '0'))
         }
         return decodeURIComponent(
             '%' +
@@ -181,9 +179,7 @@ crypto.passwordDerivedKey = function passwordDerivedKey(password, salt, iteratio
             intKey = hash(password + intSalt)
             var newSalt = ''
             for (let j = 0; j < intSalt.length; j++) {
-                newSalt += (
-                    intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % intKey.length))
-                ).toString(36)
+                newSalt += (intSalt.charCodeAt(j) ^ intKey.charCodeAt(Math.floor(j % intKey.length))).toString(36)
             }
             intSalt = newSalt
             i++
@@ -207,11 +203,9 @@ function randomStr(len) {
 
 // Super simple hash function
 function hash(str) {
-    for (var i = 0, h = 4641154056; i < str.length; i++)
-        h = Math.imul((h + str.charCodeAt(i)) | 0, 2654435761)
+    for (var i = 0, h = 4641154056; i < str.length; i++) h = Math.imul((h + str.charCodeAt(i)) | 0, 2654435761)
     h = (h ^ (h >>> 17)) >>> 0
     return h.toString(36)
 }
 
 export { ops, crypto, EphemeralData }
-

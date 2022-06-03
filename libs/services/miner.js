@@ -83,4 +83,3 @@ const refreshTopK = (keyword) => {
 
 // init() must be called once
 export { refreshTopK, topk }
-

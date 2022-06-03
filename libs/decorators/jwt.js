@@ -64,4 +64,3 @@ function wsauth(request) {
 }
 
 export { verifyJWT, softVerifyJWT, wsauth }
-

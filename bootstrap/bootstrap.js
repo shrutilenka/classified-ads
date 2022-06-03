@@ -1,21 +1,21 @@
-import { config as dotenv } from "dotenv";
-import fs from "fs";
-import { createRequire } from "module";
-import { MongoClient } from "mongodb";
-import path from "path";
-import { AsyncTask, SimpleIntervalJob } from "toad-scheduler";
-import { fileURLToPath } from 'url';
-import { schema } from "../config/options/bootstrap.js";
-import { getStateNames } from "../data/geo/geoJSONEncoder.js";
-import { refreshTopK } from "../libs/services/miner.js";
+import { config as dotenv } from 'dotenv'
+import fs from 'fs'
+import { createRequire } from 'module'
+import { MongoClient } from 'mongodb'
+import path from 'path'
+import { AsyncTask, SimpleIntervalJob } from 'toad-scheduler'
+import { fileURLToPath } from 'url'
+import { getStateNames } from '../data/geo/geoJSONEncoder.js'
+import { refreshTopK } from '../libs/services/miner.js'
 /*********************************************************************************************** */
 // REGISTER REGULAR JOBS
-import scripts from "../libs/services/mongo-jobs.js";
+import scripts from '../libs/services/mongo-jobs.js'
+import { schema } from './schema.js'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const require = createRequire(import.meta.url);
-dotenv();
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const require = createRequire(import.meta.url)
+dotenv()
 
 var jsf_en, jsf_fr, jsf_ar
 jsf_en = jsf_fr = jsf_ar = require('json-schema-faker')
@@ -23,7 +23,6 @@ jsf_en = jsf_fr = jsf_ar = require('json-schema-faker')
 jsf_en.extend('faker', () => require('@faker-js/faker/locale/en'))
 jsf_fr.extend('faker', () => require('@faker-js/faker/locale/fr'))
 jsf_ar.extend('faker', () => require('@faker-js/faker/locale/ar'))
-
 
 /*********************************************************************************************** */
 // FAKE DEVELOPMENT ENVIRONMENTS DATA
@@ -85,22 +84,15 @@ function fakeItems(docsCount) {
         const randomLang = langs[Math.floor(Math.random() * langs.length)]
         const item = langsFaker[randomLang].jsf.generate(schema)
         item.tagsLang = item.lang = randomLang
-        item.title = langsFaker[randomLang].words(
-            5 + Math.floor(Math.random() * 10),
-        )
-        item.desc = langsFaker[randomLang].words(
-            10 + Math.floor(Math.random() * 30),
-        )
+        item.title = langsFaker[randomLang].words(5 + Math.floor(Math.random() * 10))
+        item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30))
         item.tags = [
             langsFaker[randomLang].words(1),
             langsFaker[randomLang].words(1),
             langsFaker[randomLang].words(1),
         ]
         item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
-        item.div =
-            states[randomLang][
-                Math.floor(Math.random() * states[randomLang].length)
-            ]
+        item.div = states[randomLang][Math.floor(Math.random() * states[randomLang].length)]
         item.section = sections[Math.floor(Math.random() * sections.length)]
         item.offer = Math.random() < 0.5
         item.lat = getRandomInRange(minLat, maxLat, 3)
@@ -122,31 +114,28 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
     // console.log({ level: 'info', message: 'Checking environment data' })
     const client = await MongoClient.connect(url)
     // Use the admin database for the operation
-    if (!client) throw(new Error(`Check if MongoDB server is up`))
+    if (!client) throw new Error(`Check if MongoDB server is up`)
     let adminDb = client.db().admin()
     // List all the available databases
     const dbs = await adminDb.listDatabases()
     const databases = dbs.databases.map((n) => n.name)
-    const dbName =
-                process.env.NODE_ENV === 'development'
-                    ? 'listings_db_dev'
-                    : 'listings_db'
+    const dbName = process.env.NODE_ENV === 'development' ? 'listings_db_dev' : 'listings_db'
     const checkDBs = databases.indexOf(dbName) >= 0
     if (!checkDBs) {
-        throw(new Error('Not all databases are present.'))
+        throw new Error('Not all databases are present.')
     }
     const db = client.db(dbName)
     const collections = await db.listCollections().toArray()
     const collectionNames = collections.map((n) => n.name)
     // console.log(`discovered collections ${JSON.stringify(collectionNames)}`)
     const checkColls =
-                collectionNames.indexOf('words') >= 0 &&
-                collectionNames.indexOf('listing') >= 0 &&
-                collectionNames.indexOf('users') >= 0 &&
-                collectionNames.indexOf('userstemp') >= 0 &&
-                collectionNames.indexOf('comment') >= 0
+        collectionNames.indexOf('words') >= 0 &&
+        collectionNames.indexOf('listing') >= 0 &&
+        collectionNames.indexOf('users') >= 0 &&
+        collectionNames.indexOf('userstemp') >= 0 &&
+        collectionNames.indexOf('comment') >= 0
     if (!checkColls) {
-        throw(new Error('Not all collections are present.'))
+        throw new Error('Not all collections are present.')
     }
     // client.close()
     // console.log({ level: 'info', message: 'Environment data seem to be fine' })
@@ -154,10 +143,7 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
 
 ops.createIndexes = async function createIndexes(db) {
     const listingCollection = db.collection('listing')
-    await listingCollection.createIndex(
-        { title: 'text', desc: 'text' },
-        { weights: { title: 3, desc: 1 } },
-    )
+    await listingCollection.createIndex({ title: 'text', desc: 'text' }, { weights: { title: 3, desc: 1 } })
     // doesn't support indexing one key based on value
     // await listingCollection.createIndex(
     //     { lang: 'fr' },
@@ -179,10 +165,7 @@ ops.createIndexes = async function createIndexes(db) {
     const usersCollection = db.collection('users')
     const tmpUsersCollection = db.collection('userstemp')
     await usersCollection.createIndex({ username: 1 }, { unique: true })
-    await tmpUsersCollection.createIndex(
-        { createdAt: 1 },
-        { expireAfterSeconds: 60 * 10, unique: true },
-    )
+    await tmpUsersCollection.createIndex({ createdAt: 1 }, { expireAfterSeconds: 60 * 10, unique: true })
     // TODO: change a standalone mongodb to a replica set
     // // open a Change Stream on the "listings" collection
     // let changeStream = listingCollection.watch()
@@ -229,19 +212,12 @@ ops.famousSearches = function famousSearches() {
             .pop()
 
     const taxonomyPathEn = '../data/taxonomy/taxonomy-with-ids.en-US.txt'
-    const fileSyncEn = fs
-        .readFileSync(path.join(__dirname, taxonomyPathEn))
-        .toString()
-    const fileContentEn = fileSyncEn
-        .replace(',', '_')
-        .split('\n')
-        .filter(Boolean)
+    const fileSyncEn = fs.readFileSync(path.join(__dirname, taxonomyPathEn)).toString()
+    const fileContentEn = fileSyncEn.replace(',', '_').split('\n').filter(Boolean)
 
     const googleTagsEn = [
         ...new Set(
-            load(fileContentEn).filter(
-                (arr) => arr.length == 3 && arr[2].length < 30,
-            ),
+            load(fileContentEn).filter((arr) => arr.length == 3 && arr[2].length < 30),
             (x) => x.join(''),
         ),
     ]

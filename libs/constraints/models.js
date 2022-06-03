@@ -1,6 +1,6 @@
 // TODO: catch errors on use of these models (in mongo.js and in routes)
-import { ObjectId } from "@fastify/mongodb";
-import { ArrayModel, BasicModel, ObjectModel } from "objectmodel";
+import { ObjectId } from '@fastify/mongodb'
+import { ArrayModel, BasicModel, ObjectModel } from 'objectmodel'
 
 var URL =
     '^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?'
@@ -85,13 +85,9 @@ const User = new ObjectModel({
     isVerified: Boolean,
     role: ['admin', 'regular'],
 })
-    .assert(
-        (u) => typeof u.password == 'undefined' || u.username !== u.password,
-        'username and password must differ',
-    )
+    .assert((u) => typeof u.password == 'undefined' || u.username !== u.password, 'username and password must differ')
     .assert((u) => typeof u.password == 'undefined' || u.password.length >= 8, 'password is too weak')
 
 // TODO: assert only when password exists !
 
-export { Donation, Skill, Blog, Comment, User, Event };
-
+export { Donation, Skill, Blog, Comment, User, Event }

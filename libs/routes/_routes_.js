@@ -6,14 +6,6 @@ import debugRouter from './debug.js'
 import indexRouter from './index.js'
 import listingsRouter from './listings.js'
 
-const routes = {
-    adminRouter,
-    authRouter,
-    chatRouter,
-    dataRouter,
-    debugRouter,
-    indexRouter,
-    listingsRouter
-}
+const routes = { adminRouter, authRouter, chatRouter, dataRouter, debugRouter, indexRouter, listingsRouter }
 
 export { routes }

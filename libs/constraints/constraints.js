@@ -1,8 +1,8 @@
 // Constraints to ease code complexity. These constraints reflect
 // which operations to run on any endpoint on any environment
-import S from "fluent-json-schema";
-import config from '../../configuration.js';
-import { fontFamilies, illustrations } from "./hallux.js";
+import S from 'fluent-json-schema'
+import config from '../../configuration.js'
+import { fontFamilies, illustrations } from './hallux.js'
 const TAG_SIZE = config('TAG_SIZE')
 
 // TODO: one single format, w'll see how to deal with on client side
@@ -59,11 +59,7 @@ const donationsSchema = () => {
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
-                S.array()
-                    .minItems(1)
-                    .maxItems(3)
-                    .items(S.string().minLength(3).maxLength(TAG_SIZE))
-                    .required(),
+                S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
             )
             .prop('offer', S.boolean().default(false))
             .prop('lat', S.number().maximum(90).minimum(-90))
@@ -81,11 +77,7 @@ const skillsSchema = () => {
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
-                S.array()
-                    .minItems(1)
-                    .maxItems(3)
-                    .items(S.string().minLength(3).maxLength(TAG_SIZE))
-                    .required(),
+                S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
             )
             .prop('offer', S.boolean().default(false))
             .prop('section', S.string().enum(['skills']).required())
@@ -105,11 +97,7 @@ const blogsSchema = () => {
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
-                S.array()
-                    .minItems(1)
-                    .maxItems(3)
-                    .items(S.string().minLength(3).maxLength(TAG_SIZE))
-                    .required(),
+                S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
             )
             .prop('offer', S.boolean().default(false))
             .prop('lat', S.number().maximum(90).minimum(-90))
@@ -127,11 +115,7 @@ const eventsSchema = () => {
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
-                S.array()
-                    .minItems(1)
-                    .maxItems(3)
-                    .items(S.string().minLength(3).maxLength(TAG_SIZE))
-                    .required(),
+                S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
             )
             .prop('lat', S.number().maximum(90).minimum(-90))
             .prop('lng', S.number().maximum(180).minimum(-180))

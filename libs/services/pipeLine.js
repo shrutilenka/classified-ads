@@ -272,16 +272,12 @@ function validationPipeLine(req) {
         errors = validate.errors.map((err) => `${err.dataPath.substring(1)} - ${err.message}`)
     }
     if (geoPipeline.error) {
-        let friendlyErrors = Object.entries(geoPipeline.error).map(([key, value]) =>
-            errors.push(`${key}: ${value}`),
-        )
+        let friendlyErrors = Object.entries(geoPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
         errors = errors.concat(friendlyErrors)
     }
 
     if (bodyPipeline.error) {
-        let friendlyErrors = Object.entries(bodyPipeline.error).map(([key, value]) =>
-            errors.push(`${key}: ${value}`),
-        )
+        let friendlyErrors = Object.entries(bodyPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
         errors = errors.concat(friendlyErrors)
     }
 
@@ -289,4 +285,3 @@ function validationPipeLine(req) {
 }
 
 export { validationPipeLine, stringTransformer }
-

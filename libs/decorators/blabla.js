@@ -32,7 +32,12 @@ export default function blabla(context) {
     // to fill input forms (it helps when there was an error)
     if (this.request.method === 'POST') {
         formData = JSON.parse(JSON.stringify(this.request.body))
-        // TODO: remove passwords
+        // Removing password keys
+        for (var key in formData) {
+            if (object.hasOwnProperty(key)) {
+                if (key.indexOf('pass') > -1) delete object[key]
+            }
+        }
         Object.assign(context[0], { formData })
     }
     Object.assign(context[0], { user })

@@ -146,11 +146,7 @@ async function routes(fastify, options, next) {
             const peer2 = elem.usr
             elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
             const user = {}
-            user['nickname'] = req.params.username
-                ? req.params.username
-                : req.cookies[COOKIE_NAME]
-                ? '🏠'
-                : ''
+            user['nickname'] = req.params.username ? req.params.username : req.cookies[COOKIE_NAME] ? '🏠' : ''
             let comments = []
             if (req.params.username) {
                 const peer1 = req.params.username
@@ -206,9 +202,7 @@ async function routes(fastify, options, next) {
         },
         async (req, reply) => {
             const { body } = req
-            let [err, listings] = await to(
-                QInstance.getListingsByGeolocation(body.lat, body.lng, body.section),
-            )
+            let [err, listings] = await to(QInstance.getListingsByGeolocation(body.lat, body.lng, body.section))
             if (err) {
                 req.log.error(`geolocation#getListingsByGeolocation: ${err.message}`)
                 return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)

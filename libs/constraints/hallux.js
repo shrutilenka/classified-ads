@@ -34,7 +34,7 @@ const fontFamilies = [
     'Work Sans',
     'Nunito Sans',
     'PT Serif',
-    'Fira Sans'
+    'Fira Sans',
 ]
 
 const illustrations = [
@@ -454,6 +454,6 @@ const illustrations = [
     'search_2dfv',
     'mail_cg1t',
     'pcsocial_16rw',
-    'credit_card_df1m'
+    'credit_card_df1m',
 ]
 export { illustrations, fontFamilies }

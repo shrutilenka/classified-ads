@@ -60,77 +60,70 @@ async function routes(fastify, options) {
     })
 
     const signupSchema = constraints[process.env.NODE_ENV].POST.signup.schema
-    fastify.post(
-        '/signup',
-        { schema: signupSchema, attachValidation: true },
-        async function (request, reply) {
-            if (request.validationError) {
-                reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
+    fastify.post('/signup', { schema: signupSchema, attachValidation: true }, async function (request, reply) {
+        if (request.validationError) {
+            reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
+            return
+        }
+        const { username, password } = request.body
+        // Always 'regular' by default (except user@mail.com for tests)
+        const role = username === 'bacloud14@gmail.com' || username === 'sracer2016@yahoo.com' ? 'admin' : 'regular'
+        const isVerified = role === 'admin' ? true : false
+        try {
+            const user = await QInstance.getUserById(username)
+            if (user) {
+                reply.blabla([{}, 'signup', 'EMAIL_TAKEN'], request)
                 return
-            }
-            const { username, password } = request.body
-            // Always 'regular' by default (except user@mail.com for tests)
-            const role =
-                username === 'bacloud14@gmail.com' || username === 'sracer2016@yahoo.com'
-                    ? 'admin'
-                    : 'regular'
-            const isVerified = role === 'admin' ? true : false
-            try {
-                const user = await QInstance.getUserById(username)
-                if (user) {
-                    reply.blabla([{}, 'signup', 'EMAIL_TAKEN'], request)
-                    return
-                    // throw { statusCode: 400, message: 'EMAIL_TAKEN' }
-                } else {
-                    let passhash = await bcrypt.hash(password, 10)
-                    // Temporary user to be able to verify property of identity (email)
-                    var tempUser = {
-                        username: username,
-                        token: crypto.randomBytes(16).toString('hex'),
-                    }
-                    // Actual user but unverified
-                    const [err, acknowledged] = await to(
-                        QInstance.insertUser({
-                            username,
-                            password,
-                            passhash,
-                            isVerified,
-                            role,
-                        }),
-                    )
-                    if (err) return reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
+                // throw { statusCode: 400, message: 'EMAIL_TAKEN' }
+            } else {
+                let passhash = await bcrypt.hash(password, 10)
+                // Temporary user to be able to verify property of identity (email)
+                var tempUser = {
+                    username: username,
+                    token: crypto.randomBytes(16).toString('hex'),
+                }
+                // Actual user but unverified
+                const [err, acknowledged] = await to(
+                    QInstance.insertUser({
+                        username,
+                        password,
+                        passhash,
+                        isVerified,
+                        role,
+                    }),
+                )
+                if (err) return reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
 
-                    if (role === 'admin') {
-                        reply.redirect('/')
-                        return
-                    }
-                    Mailer.getInstance(mongoURL, dbName)
-                        .then((mailer) => {
-                            mailer.sendMail({
-                                to: username,
-                                todo: 'signup',
-                                req: request,
-                                data: {
-                                    token: tempUser.token,
-                                    host: config('APIHost'),
-                                },
-                            })
-                        })
-                        .catch((err) => {
-                            req.log.error(`signup/Mailer: ${err.message}`)
-                        })
-
-                    await QInstance.insertTmpUser(tempUser)
-                    reply.blabla([{}, 'message', 'verification'], request)
+                if (role === 'admin') {
+                    reply.redirect('/')
                     return
                 }
-            } catch (err) {
-                req.log.error(`signup: ${err.message}`)
-                reply.blabla([{}, 'signup', 'SERVER_ERROR'], request)
+                Mailer.getInstance(mongoURL, dbName)
+                    .then((mailer) => {
+                        mailer.sendMail({
+                            to: username,
+                            todo: 'signup',
+                            req: request,
+                            data: {
+                                token: tempUser.token,
+                                host: config('APIHost'),
+                            },
+                        })
+                    })
+                    .catch((err) => {
+                        req.log.error(`signup/Mailer: ${err.message}`)
+                    })
+
+                await QInstance.insertTmpUser(tempUser)
+                reply.blabla([{}, 'message', 'verification'], request)
                 return
             }
-        },
-    )
+        } catch (err) {
+            req.log.error(`signup: ${err.message}`)
+            reply.blabla([{}, 'signup', 'SERVER_ERROR'], request)
+            return
+        }
+    })
 
     /* Confirmation of email identity. */
     fastify.get('/confirmation/:token', async function (request, reply) {

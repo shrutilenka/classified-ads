@@ -554,12 +554,7 @@ export default function (mongoDB, redisDB) {
         }
         topSearches.reset()
         collection = mongoDB.collection('words')
-        topSearches.data = await collection
-            .find({})
-            .project({ _id: 1 })
-            .sort(/* somehow */)
-            .limit(10)
-            .toArray()
+        topSearches.data = await collection.find({}).project({ _id: 1 }).sort(/* somehow */).limit(10).toArray()
         return topSearches.data
     }
 

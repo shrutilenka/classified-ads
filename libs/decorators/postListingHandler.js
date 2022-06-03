@@ -33,12 +33,12 @@ if (NODE_ENV < 1) {
 
 const tidyP = promisify(tidy)
 /**
- * 
- * @param {*} QInstance 
- * @param {*} req 
- * @param {*} blobNames 
- * @param {*} upload 
- * @returns 
+ *
+ * @param {*} QInstance
+ * @param {*} req
+ * @param {*} blobNames
+ * @param {*} upload
+ * @returns
  */
 const formatNInsertListing = async (QInstance, req, blobNames) => {
     const { body } = req
@@ -80,11 +80,7 @@ export default (fastify) => {
         const section = body.section
         if (!section) {
             req.log.error(`post/listings#postListingHandler: no section provided}`)
-            reply.blabla([
-                { title: 'TODO: blaaaaaaaaaaa' },
-                'message',
-                'server error... Please try again later.',
-            ])
+            reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'server error... Please try again later.'])
             return reply
         }
         let errors, tagsValid, geoValid, undrawValid
@@ -92,11 +88,7 @@ export default (fastify) => {
             ;({ errors, tagsValid, geoValid, undrawValid } = validationPipeLine(req))
         } catch (error) {
             req.log.error(`post/listings#postListingHandler: ${error.message}`)
-            reply.blabla([
-                { title: 'TODO: blaaaaaaaaaaa' },
-                'message',
-                'server error... Please try again later.',
-            ])
+            reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'server error... Please try again later.'])
             return reply
         }
         const valid = !errors.length && tagsValid && geoValid && undrawValid
@@ -112,28 +104,20 @@ export default (fastify) => {
                 body.desc = await tidyP(body.desc, opt)
             } catch (error) {
                 // TODO: stop request ?
-                req.log.error(
-                    `post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `,
-                )
+                req.log.error(`post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `)
             }
             try {
                 body.lang = stripped ? await helpers.getLanguage(stripped) : 'und'
             } catch (error) {
                 body.lang = 'und'
                 req.log.error(
-                    `post/listings#postListingHandler: getLanguage:: ${stripped.slice(0, 20)} | ${
-                        error.message
-                    } `,
+                    `post/listings#postListingHandler: getLanguage:: ${stripped.slice(0, 20)} | ${error.message} `,
                 )
             }
             const { upload } = constraints[process.env.NODE_ENV][method][section]
             if (upload && !req.file) {
                 req.log.error(`post/listings#postListingHandler: file not found`)
-                reply.blabla([
-                    { title: 'TODO: blaaaaaaaaaaa' },
-                    'message',
-                    'server error... Please try again later.',
-                ])
+                reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'server error... Please try again later.'])
                 return reply
             }
             if (!upload) {
