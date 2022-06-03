@@ -5,11 +5,9 @@ import ejs from 'ejs'
 import fastify_ from 'fastify'
 import i18next from 'i18next'
 import Backend from 'i18next-fs-backend'
-import i18nextMiddleware from 'i18next-http-middleware'
 import { createRequire } from 'module'
 import crypto from 'node:crypto'
 import path from 'path'
-import viewsPlugin from 'point-of-view'
 import { fileURLToPath } from 'url'
 import bootstrap from './bootstrap/bootstrap.js'
 import helmet_ from './config/options/helmet.js'
@@ -17,11 +15,11 @@ import logger_ from './config/options/logger.js'
 import swagger_ from './config/options/swagger.js'
 import config from './configuration.js'
 import { softVerifyJWT, verifyJWT, wsauth } from './libs/decorators/jwt.js'
+import { routes } from './libs/routes/_routes_.js'
 import Mailer from './libs/services/mailer.js'
 import { cache } from './libs/services/mongo-mem.js'
 import RedisAPI from './libs/services/redis.js'
 import { plugins } from './_app_.js'
-import { routes } from ('./libs/routes/_routes_.js')
 
 
 const __filename = fileURLToPath(import.meta.url)
@@ -63,12 +61,12 @@ async function build(doRun) {
         requestTimeout: 5000,
     })
     fastify.decorate('conf', (tag) => config(tag))
-    fastify.register(formbody)
-    fastify.register(fastifyWebsocket)
+    fastify.register(plugins.formbody)
+    fastify.register(plugins.fastifyWebsocket)
 
     //  !!Run only on one node!!
     if (NODE_ENV === 0 /*&& process.env.worker_id == '1'*/) {
-        fastify.register(fastifySwagger, swagger_)
+        fastify.register(plugins.fastifySwagger, swagger_)
         console.log(
             `Please check localhost:${
                 process.env.PORT || fastify.conf('NODE_PORT')
@@ -85,8 +83,8 @@ async function build(doRun) {
     fastify.register(plugins.mongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
     fastify.register(plugins.redis, { host: config('REDIS_URI') })
 
-    await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
-    await fastify.register(fastifyAuth)
+    await fastify.register(plugins.fastifyJWT, { secret: process.env.JWT_SECRET })
+    await fastify.register(plugins.fastifyAuth)
     // TODO: fastify.after(routes)
     fastify.register(plugins.fastifyCookies)
     fastify.register(plugins.fastifySession, {
@@ -165,7 +163,7 @@ async function build(doRun) {
     // !!TRANSLATIONS !!
     i18next
         .use(Backend)
-        .use(i18nextMiddleware.LanguageDetector)
+        .use(plugins.i18nextMiddleware.LanguageDetector)
         .init({
             backend: {
                 loadPath: __dirname + '/data/locales/{{lng}}/common.json',
@@ -185,7 +183,7 @@ async function build(doRun) {
             // TODO: what's going on with en and en-US!!
             // debug: NODE_ENV < 1,
         })
-    fastify.register(i18nextMiddleware.plugin, {
+    fastify.register(plugins.i18nextMiddleware.plugin, {
         i18next,
         ignoreRoutes: ['/data/', '/admin/'],
     })
@@ -198,7 +196,7 @@ async function build(doRun) {
     })
     /*********************************************************************************************** */
     // TODO: find a way to strip very long ejs logging errors
-    fastify.register(viewsPlugin, {
+    fastify.register(plugins.viewsPlugin, {
         engine: {
             ejs: ejs,
             defaultContext: {
@@ -221,7 +219,7 @@ async function build(doRun) {
     /*********************************************************************************************** */
     // !!SPAM ASSASSIN !!
     if (NODE_ENV > 1) {
-        fastify.register(rateLimit, config('PING_LIMITER'))
+        fastify.register(plugins.rateLimit, config('PING_LIMITER'))
     }
 
     // against 404 endoint ddos
@@ -285,17 +283,17 @@ async function build(doRun) {
     })
     /*********************************************************************************************** */
     // !!REGISTER ROUTES !!
-    fastify.register(authRouter)
-    fastify.register(indexRouter)
-    fastify.register(adminRouter, { prefix: 'admin' })
-    fastify.register(listingsRouter, { prefix: 'listings' })
-    fastify.register(dataRouter, { prefix: 'data' })
+    fastify.register(routes.authRouter)
+    fastify.register(routes.indexRouter)
+    fastify.register(routes.adminRouter, { prefix: 'admin' })
+    fastify.register(routes.listingsRouter, { prefix: 'listings' })
+    fastify.register(routes.dataRouter, { prefix: 'data' })
     if (NODE_ENV < 1) {
-        fastify.register(debugRouter, { prefix: 'debug' })
+        fastify.register(routes.debugRouter, { prefix: 'debug' })
     }
-    fastify.register(chatRouter, { prefix: 'chat' })
-    fastify.register(serve, { root: path.join(__dirname, 'public') })
-    fastify.register(serve, { root: path.join(__dirname, 'uploads'), prefix: '/cdn/', decorateReply: false })
+    fastify.register(routes.chatRouter, { prefix: 'chat' })
+    fastify.register(plugins.serve, { root: path.join(__dirname, 'public') })
+    fastify.register(plugins.serve, { root: path.join(__dirname, 'uploads'), prefix: '/cdn/', decorateReply: false })
     /*********************************************************************************************** */
     // !!BOOTSTRAP ENVIRONMENT AND DATA!!
 
@@ -304,7 +302,7 @@ async function build(doRun) {
         fastify.log.info('Checking environment data once')
         assert(fastify.mongo.db, 'MongoDB connection error')
         assert(fastify.redis, 'Redis DB connection error')
-        fastify.register(fastifySchedulePlugin)
+        fastify.register(plugins.fastifySchedulePlugin)
         bootstrap
             .checkEnvironmentData(mongoURL)
             .then((reply) => {
