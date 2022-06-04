@@ -46,6 +46,14 @@ Notes:
 - Maps integration is quite good, you need to check that by yourself !
 - A pretty rich UI using dozens of lightweight JS browser libraries (all are very carefully picked !).
 
+## Captures
+
+__             |  __
+:-------------------------:|:-------------------------:
+![Today_s listings](/.github/Screenshot%202022-06-04%20at%2010-08-30%20Classified-ads%20-%20events.png "Today_s listings")  |  ![Donations](/.github/Screenshot%202022-06-04%20at%2010-08-01%20Classified-ads%20-%20donations.png "Donations")
+![Events](/.github/Screenshot%202022-06-04%20at%2010-08-30%20Classified-ads%20-%20events.png "Events")  |  ![Skills](/.github/Screenshot%202022-06-04%20at%2010-09-13%20Classified-ads%20-%20skills.png "Skills")
+![Back and front search](/.github/Screenshot%202022-06-04%20at%2010-10-02%20Classified-ads%20-%20donations.png "Back and front search")  |  ![Clustered listings](/.github/Screenshot%202022-06-04%20at%2010-20-00%20Classified-ads%20-%20Today_s%20listings.png "Clustered listings")
+
 ## Notes
 
 - The project would like to be *minimal* for it's use case, minimal in functionalities and also in technical tools it relies on, and also *simplistic* in all aspects of design (code, patterns, UI).
@@ -59,7 +67,6 @@ Notes:
 
 ## Deployment
 
-First, no captures are attached here, follow with installation and see the beauty (minimal & clean) of the delimited map and the clean layout!!!.  
 `.env` files hold secret keys and configurations which you want to hide
 All other configurations should live in `/config/{NODE_env}.json` file.
 
@@ -167,6 +174,7 @@ On the occasion, I would like to thank the following contributors:
 - Merging the same code with different indentations is hell, so it is important to keep one coding style between forks. I suggest to install [VSCode ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) (Prettier also) that connects automatically with `./eslintrc.js` and `./client/./eslintrc.js`. 
     - "dbaeumer.vscode-eslint"
     - "esbenp.prettier-vscode"
+
 
 ---
 
