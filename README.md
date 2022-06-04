@@ -50,7 +50,7 @@ Notes:
 
 __             |  __
 :-------------------------:|:-------------------------:
-![Today_s listings](/.github/Screenshot%202022-06-04%20at%2010-08-30%20Classified-ads%20-%20events.png "Today_s listings")  |  ![Donations](/.github/Screenshot%202022-06-04%20at%2010-08-01%20Classified-ads%20-%20donations.png "Donations")
+![Today_s listings](/.github/Screenshot%202022-06-04%20at%2010-07-06%20Classified-ads%20-%20Today_s%20listings.png "Today_s listings")  |  ![Donations](/.github/Screenshot%202022-06-04%20at%2010-08-01%20Classified-ads%20-%20donations.png "Donations")
 ![Events](/.github/Screenshot%202022-06-04%20at%2010-08-30%20Classified-ads%20-%20events.png "Events")  |  ![Skills](/.github/Screenshot%202022-06-04%20at%2010-09-13%20Classified-ads%20-%20skills.png "Skills")
 ![Back and front search](/.github/Screenshot%202022-06-04%20at%2010-10-02%20Classified-ads%20-%20donations.png "Back and front search")  |  ![Clustered listings](/.github/Screenshot%202022-06-04%20at%2010-20-00%20Classified-ads%20-%20Today_s%20listings.png "Clustered listings")
 
