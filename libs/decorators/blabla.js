@@ -34,8 +34,8 @@ export default function blabla(context) {
         formData = JSON.parse(JSON.stringify(this.request.body))
         // Removing password keys
         for (var key in formData) {
-            if (object.hasOwnProperty(key)) {
-                if (key.indexOf('pass') > -1) delete object[key]
+            if (formData.hasOwnProperty(key)) {
+                if (key.indexOf('pass') > -1) delete formData[key]
             }
         }
         Object.assign(context[0], { formData })

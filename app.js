@@ -336,7 +336,7 @@ async function build(doRun) {
                 .then(async (reply) => {
                     await bootstrap.createIndexes(db)
                     bootstrap.famousSearches()
-                    // await bootstrap.fastifyInjects(fastify)
+                    await bootstrap.fastifyInjects(fastify)
                     // not working on heroku for some reason
                     if (!fastify.conf('HEROKU')) bootstrap.registerPipelines(db, fastify.scheduler, seconds)
                     await cache(db, redis)

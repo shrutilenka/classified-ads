@@ -54,6 +54,10 @@ __             |  __
 ![Events](/.github/Screenshot%202022-06-04%20at%2010-08-30%20Classified-ads%20-%20events.png "Events")  |  ![Skills](/.github/Screenshot%202022-06-04%20at%2010-09-13%20Classified-ads%20-%20skills.png "Skills")
 ![Back and front search](/.github/Screenshot%202022-06-04%20at%2010-10-02%20Classified-ads%20-%20donations.png "Back and front search")  |  ![Clustered listings](/.github/Screenshot%202022-06-04%20at%2010-20-00%20Classified-ads%20-%20Today_s%20listings.png "Clustered listings")
 
+__             |  __
+:-------------------------:|:-------------------------:
+![User management page](/.github/Screenshot%202022-06-04%20at%2013-37-06%20Your%20listings.png "User management page")  |  ![Admin moderation page](/.github/Screenshot%202022-06-04%20at%2013-39-45%20admin.png "Admin moderation page")
+
 ## Notes
 
 - The project would like to be *minimal* for it's use case, minimal in functionalities and also in technical tools it relies on, and also *simplistic* in all aspects of design (code, patterns, UI).
