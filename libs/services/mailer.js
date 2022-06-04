@@ -3,6 +3,13 @@ import { MongoClient } from 'mongodb'
 import nodemailer from 'nodemailer'
 import config from '../../configuration.js'
 
+const NODE_ENV = {
+    api: -1,
+    localhost: 0,
+    development: 1,
+    production: 2,
+}[process.env.NODE_ENV]
+
 class MailerOps {
     constructor(db) {
         const transports = []
@@ -10,7 +17,6 @@ class MailerOps {
         transports.push(nodemailer.createTransport(config('SMTP_MAILHOG')))
         // Outlook Apps SMTP
         transports.push(nodemailer.createTransport(config('SMTP_OUTLOOK')))
-
         const mailQueue = new MailTime({
             db, // MongoDB
             type: 'server',
@@ -24,6 +30,7 @@ class MailerOps {
             concatEmails: true, // Concatenate emails to the same addressee
             concatDelimiter: '<h1>{{{subject}}}</h1>', // Start each concatenated email with it's own subject
             template: MailTime.Template, // Use default template
+            debug: NODE_ENV < 2 
         })
 
         /**

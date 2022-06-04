@@ -8,7 +8,7 @@
    "COOKIE_NAME": "classified-ads-login",
    "SMTP_OUTLOOK": {
       "host": "smtp.office365.com",
-      "from": "no-reply@classified-ads.com",
+      "from": "{ADMIN_EMAIL}",
       "port": 587,
       "tls": {
          "ciphers": "SSLv3"
