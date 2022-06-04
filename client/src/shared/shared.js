@@ -1,4 +1,3 @@
-import MobileDetect from 'mobile-detect'
 import { setupTour } from './accessibility/setupTour.js'
 import { setupAdsRotator } from './ads/setup-ads-rotator.js'
 import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords.js'
@@ -18,7 +17,8 @@ import { setupHolmes } from './search/setup-holmes.js'
 import { renderShared } from './syncing/render-json.js'
 import { setupInputTags } from './tags/setup-input-tags.js'
 import { runToasts } from './toasts/toasts.js'
-
+// TODO: requirejs (or use import InApp from 'detect-inapp';)
+// var MobileDetect = require('mobile-detect')
 /**
  * Fulfill promises on phone all other devices
  * Also crushes if one or all fail depending on environment
@@ -28,7 +28,7 @@ export const setupShared = () => {
     const log = window.log
     log.info('Logging setup shared')
     const toArray = (a) => (Array.isArray(a) ? a : [a])
-    const md = new MobileDetect(window.navigator.userAgent)
+    // const md = new MobileDetect(window.navigator.userAgent)
     // functions to be run everywhere, and others to be run only on big screens
     let functions = [
         [setupI18n, true],
@@ -50,7 +50,7 @@ export const setupShared = () => {
         [renderShared, true],
         // [tweakBootstrap, true]
     ]
-    if (md.mobile()) {
+    if (false /* md.mobile() */) {
         log.info('RUNNING ON A MOBILE DEVICE')
         functions = functions.filter((p) => p[1])
     }

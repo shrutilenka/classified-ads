@@ -1,13 +1,13 @@
-import { MobileDetect } from 'mobile-detect';
 import states from '../../../../../data/states.json';
 import { getStateNames } from '../../../../../helpers/get-state-names.js';
 import { LIS } from '../../../../../helpers/lis.js';
 import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js';
-
+// TODO: requirejs (or use import InApp from 'detect-inapp';)
+// var MobileDetect = require('mobile-detect')
 
 const polygon = states.features.map((a) => a.geometry.coordinates[0])
 /**
- * Attach one marker to map with constraints (marker is draggble but cannot go out of )
+ * Attach one marker to map with constraints (marker is draggable but cannot go out of )
  * Based on __borders and __states (country borders and Wilayas delimitations)
  * @param {map} map
  * @param {marker} marker
@@ -16,7 +16,7 @@ const polygon = states.features.map((a) => a.geometry.coordinates[0])
  */
 export function moveableMarker(map, marker, coordinates) {
     const names = getStateNames()
-    const md = new MobileDetect(window.navigator.userAgent)
+    // const md = new MobileDetect(window.navigator.userAgent)
     let lastValid = []
     /**
      * blablabla (0_o)
@@ -28,7 +28,7 @@ export function moveableMarker(map, marker, coordinates) {
 
     marker.on('mousedown', (event) => {
         map.dragging.disable()
-        if (md.mobile()) {
+        if (false /*md.mobile()*/) {
             const { lat: circleStartingLat, lng: circleStartingLng } = marker._latlng
             const { lat: mouseStartingLat, lng: mouseStartingLng } = event.latlng
             map.on('mousemove', (event) => {

@@ -122,6 +122,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+#####################################################################################################################
 # /Client build code
 
 /package-lock.json
@@ -131,7 +132,23 @@ dist
 /public/javascripts
 /public/stylesheets/style.css
 /public/stylesheets/style.css.map
-/authdb
+
+/public/stylesheets/custom_2.css
+/public/stylesheets/custom_2.css.map
+/public/stylesheets/style_2.css
+/public/stylesheets/style_2.css.map
+
+/public/stylesheets/custom_3.css
+/public/stylesheets/custom_3.css.map
+/public/stylesheets/style_3.css
+/public/stylesheets/style_3.css.map
+
+/public/stylesheets/custom_4.css
+/public/stylesheets/custom_4.css.map
+/public/stylesheets/style_4.css
+/public/stylesheets/style_4.css.map
+
+
 /creds
 
 # Heroku

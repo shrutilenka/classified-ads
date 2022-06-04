@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- TODO: replace font-awasome with a newer version, maybe cloud based https://fontawesome.com/ -->
+<!-- TODO: replace font-awesome with a newer version, maybe cloud based https://fontawesome.com/ -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
@@ -12,7 +12,17 @@
   <title>Classified-ads</title>
 <% } %>
 </title>
-<link rel="stylesheet" href="/stylesheets/style.css">
+
+<% if (typeof section != 'undefined' && section == 'donations') { %>
+  <link rel="stylesheet" href="/stylesheets/style_2.css">
+<% } else if (typeof section != 'undefined' && section == 'skills') { %>
+  <link rel="stylesheet" href="/stylesheets/style_3.css">
+<% } else if (typeof section != 'undefined' && section == 'events') { %>
+  <link rel="stylesheet" href="/stylesheets/style_4.css">
+<% } else { %>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+<% } %>
+
 
 <!-- <link rel="stylesheet" href='/stylesheets/Control.FullScreen.css'> -->
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=News+Cycle" />
