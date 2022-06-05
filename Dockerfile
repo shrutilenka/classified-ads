@@ -22,6 +22,7 @@ RUN apk add --no-cache --update --virtual .gyp \
 RUN apk add git
 
 RUN npm i
+RUN chmod -R a+rwx node_modules
 COPY . ./
 
 WORKDIR /classified-ads/client
@@ -30,6 +31,7 @@ RUN rm -rf /node_modules
 
 
 RUN npm i
+RUN chmod -R a+rwx node_modules
 RUN npm run dev:client
 
 WORKDIR /classified-ads

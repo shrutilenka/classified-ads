@@ -1,6 +1,6 @@
 # Classified-ads
 
-**Stubs folder is not really part of the application !**  
+**Gists folder is not really part of the application !**  
 
 I use it just for storing gists. Therfore you will find experimental self contained code (dependant only on project dependencies).  
 I have a coding habit that many developers have and probably just deny it x) I commit a lot (which is fine in itself) but also commits are really undependant as a functionally.  

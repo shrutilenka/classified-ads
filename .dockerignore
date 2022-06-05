@@ -177,3 +177,6 @@ Dockerfile
 .dockerignore
 .git
 .gitignore
+
+/uploads/*
+!/uploads/.gitkeep

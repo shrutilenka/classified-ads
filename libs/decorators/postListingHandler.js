@@ -222,22 +222,12 @@ export default (fastify) => {
                             })
                             .catch((err) => {
                                 req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
-                                reply.blabla([
-                                    { title: 'TODO: blaaaaaaaaaaa' },
-                                    'message',
-                                    'server error... Please try again later.',
-                                ])
-                                return reply
+                                return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                             })
                     })
                     .catch((err) => {
                         req.log.error(`formatNInsertListing#upload: ${err.message}`)
-                        reply.blabla([
-                            { title: 'TODO: blaaaaaaaaaaa' },
-                            'message',
-                            'server error... Please try again later.',
-                        ])
-                        return reply
+                        return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                     })
             }
         }

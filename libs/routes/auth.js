@@ -61,7 +61,6 @@ async function routes(fastify, options) {
 
     const signupSchema = constraints[process.env.NODE_ENV].POST.signup.schema
     fastify.post('/signup', { schema: signupSchema, attachValidation: true }, async function (request, reply) {
-        console.log('signUPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP')
         if (request.validationError) {
             reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
             return
@@ -70,7 +69,6 @@ async function routes(fastify, options) {
         // Always 'regular' by default (except user@mail.com for tests)
         const role = username === 'bacloud14@gmail.com' || username === 'sracer2016@yahoo.com' ? 'admin' : 'regular'
         const isVerified = role === 'admin' ? true : false
-        console.log('signUJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ')
         try {
             const user = await QInstance.getUserById(username)
             if (user) {

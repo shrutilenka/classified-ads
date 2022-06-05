@@ -247,6 +247,7 @@ PipeLine.prototype = {
 const ajv = new Ajv({ allErrors: true, coerceTypes: 'number' })
 function validationPipeLine(req) {
     const { body, method } = req
+    console.log(body)
     const section = body.section
     const { upload, geolocation, illustrations, schema } = constraints[process.env.NODE_ENV][method][section]
     const singletonSchema = schema()
