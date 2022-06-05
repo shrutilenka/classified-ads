@@ -1,9 +1,8 @@
+import InApp from 'detect-inapp';
 import states from '../../../../../data/states.json';
 import { getStateNames } from '../../../../../helpers/get-state-names.js';
 import { LIS } from '../../../../../helpers/lis.js';
 import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js';
-// TODO: requirejs (or use import InApp from 'detect-inapp';)
-// var MobileDetect = require('mobile-detect')
 
 const polygon = states.features.map((a) => a.geometry.coordinates[0])
 /**
@@ -16,7 +15,7 @@ const polygon = states.features.map((a) => a.geometry.coordinates[0])
  */
 export function moveableMarker(map, marker, coordinates) {
     const names = getStateNames()
-    // const md = new MobileDetect(window.navigator.userAgent)
+    const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera);
     let lastValid = []
     /**
      * blablabla (0_o)
@@ -28,7 +27,7 @@ export function moveableMarker(map, marker, coordinates) {
 
     marker.on('mousedown', (event) => {
         map.dragging.disable()
-        if (false /*md.mobile()*/) {
+        if (inapp.isMobile) {
             const { lat: circleStartingLat, lng: circleStartingLng } = marker._latlng
             const { lat: mouseStartingLat, lng: mouseStartingLng } = event.latlng
             map.on('mousemove', (event) => {
