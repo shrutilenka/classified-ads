@@ -49,6 +49,13 @@ async function softVerifyJWT(request, reply) {
     jwt.verify(cookie, JWT_SECRET, verificationCallback)
 }
 
+const emails = ['user', 'user2', 'user3', 'user4']
+// Test verification does not block the page from viewing if user is not logged in !!!!
+// Test verification attaches a random testing user to the current session
+async function testVerifyJWT(request, reply) {
+    request.params.username = `${emails[Math.floor(Math.random() * langs.length)]}@example.com`
+}
+
 // JWT verify websocket endoints. This one is synchronous and quick.
 function wsauth(request) {
     if (!request.cookies) return false
@@ -63,4 +70,4 @@ function wsauth(request) {
     }
 }
 
-export { verifyJWT, softVerifyJWT, wsauth }
+export { verifyJWT, softVerifyJWT, testVerifyJWT, wsauth }

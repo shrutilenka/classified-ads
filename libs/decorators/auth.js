@@ -11,10 +11,8 @@ export default function authAdapter(fastify) {
         auth = fastify.auth([fastify.verifyJWT('regular')])
         adminAuth = fastify.auth([fastify.verifyJWT('admin')])
         softAuth = fastify.auth([fastify.softVerifyJWT])
-    } else if (NODE_ENV < 0) {
-        auth = softAuth = (fastify, opts, done) => {
-            done()
-        }
+    } else if (NODE_ENV === -1) {
+        auth = softAuth = fastify.auth([fastify.testVerifyJWT])
     } else {
         auth = softAuth = (fastify, opts, done) => {
             done(new Error('fastify.auth must be present !'))

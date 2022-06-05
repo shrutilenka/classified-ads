@@ -12,10 +12,9 @@ import { fileURLToPath } from 'url'
 import bootstrap from './bootstrap/bootstrap.js'
 import { options } from './config/options/_options_.js'
 import config from './configuration.js'
-import { softVerifyJWT, verifyJWT, wsauth } from './libs/decorators/jwt.js'
+import { softVerifyJWT, testVerifyJWT, verifyJWT, wsauth } from './libs/decorators/jwt.js'
 import isBot from './libs/decorators/visitorsFilter.js'
 import { routes } from './libs/routes/_routes_.js'
-import Mailer from './libs/services/mailer.js'
 import { cache } from './libs/services/mongo-mem.js'
 import RedisAPI from './libs/services/redis.js'
 import { plugins } from './_app_.js'
@@ -65,6 +64,7 @@ async function build(doRun) {
         requestTimeout: 5000,
     })
     fastify.decorate('conf', (tag) => config(tag))
+    fastify.register(fastifySchedule)
     fastify.register(fastifyFormbody)
     fastify.register(fastifyWebsocket)
 
@@ -103,6 +103,7 @@ async function build(doRun) {
     // after necessary plugins have been loaded
     fastify.decorate('verifyJWT', verifyJWT)
     fastify.decorate('softVerifyJWT', softVerifyJWT)
+    fastify.decorate('testVerifyJWT', testVerifyJWT)
     fastify.decorate('wsauth', wsauth)
 
     // Same db instance all over the all over the app.
@@ -128,37 +129,6 @@ async function build(doRun) {
     // gracefulServer.on(GracefulServer.SHUTDOWN, (error) => {
     //     console.error('Server is down because of', error.message)
     // })
-
-    // Run the server as soon as possible!
-    const start = async () => {
-        try {
-            // whatever the env (like heroku)  wants
-            const port = process.env.PORT || fastify.conf('NODE_PORT')
-            console.log('The app is accessible on port: ' + port)
-            await fastify.listen(port, '0.0.0.0')
-            //  Run only on one node
-            if (NODE_ENV === 0 /*process.env.worker_id == '1'*/) {
-                fastify.swagger()
-            }
-            Mailer.getInstance(mongoURL, dbName)
-                .then((mailer) => {
-                    mailer.sendMail({
-                        to: process.env.ADMIN_EMAIL,
-                        subject: 'App instance bootstrap',
-                        text: 'App instance bootstrapped correctly',
-                        html: 'App instance bootstrapped correctly',
-                    })
-                })
-                .catch((err) => {
-                    fastify.log.error(err)
-                })
-            // gracefulServer.setReady()
-        } catch (err) {
-            fastify.log.error(err)
-            process.exit(1)
-        }
-    }
-    if (doRun) start()
 
     /*********************************************************************************************** */
     // Seeming heavy so use/register these after starting the app
@@ -297,6 +267,38 @@ async function build(doRun) {
         prefix: '/cdn/',
         decorateReply: false,
     })
+
+    
+    const start = async () => {
+        try {
+            // whatever the env (like heroku)  wants
+            const port = process.env.PORT || fastify.conf('NODE_PORT')
+            console.log('The app is accessible on port: ' + port)
+            await fastify.listen(port, '0.0.0.0')
+            //  Run only on one node
+            if (NODE_ENV === 0 /*process.env.worker_id == '1'*/) {
+                fastify.swagger()
+            }
+            // Mailer.getInstance(mongoURL, dbName)
+            //     .then((mailer) => {
+            //         mailer.sendMail({
+            //             to: process.env.ADMIN_EMAIL,
+            //             subject: 'App instance bootstrap',
+            //             text: 'App instance bootstrapped correctly',
+            //             html: 'App instance bootstrapped correctly',
+            //         })
+            //     })
+            //     .catch((err) => {
+            //         fastify.log.error(err)
+            //     })
+            // gracefulServer.setReady()
+        } catch (err) {
+            fastify.log.error(err)
+            process.exit(1)
+        }
+    }
+    if (doRun) await start()
+
     /*********************************************************************************************** */
     // !!BOOTSTRAP ENVIRONMENT AND DATA!!
 
@@ -305,7 +307,6 @@ async function build(doRun) {
         fastify.log.info('Checking environment data once')
         assert(fastify.mongo.db, 'MongoDB connection error')
         assert(fastify.redis, 'Redis DB connection error')
-        fastify.register(fastifySchedule)
         bootstrap
             .checkEnvironmentData(mongoURL)
             .then((reply) => {

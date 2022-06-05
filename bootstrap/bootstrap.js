@@ -3,6 +3,7 @@ import fs from 'fs'
 import { createRequire } from 'module'
 import { MongoClient } from 'mongodb'
 import path from 'path'
+import request from 'request'
 import { AsyncTask, SimpleIntervalJob } from 'toad-scheduler'
 import { fileURLToPath } from 'url'
 import { getStateNames } from '../data/geo/geoJSONEncoder.js'
@@ -86,11 +87,7 @@ function fakeItems(docsCount) {
         item.tagsLang = item.lang = randomLang
         item.title = langsFaker[randomLang].words(5 + Math.floor(Math.random() * 10))
         item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30))
-        item.tags = [
-            langsFaker[randomLang].words(1),
-            langsFaker[randomLang].words(1),
-            langsFaker[randomLang].words(1),
-        ]
+        item.tags = [langsFaker[randomLang].words(1), langsFaker[randomLang].words(1), langsFaker[randomLang].words(1)]
         item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
         item.div = states[randomLang][Math.floor(Math.random() * states[randomLang].length)]
         item.section = sections[Math.floor(Math.random() * sections.length)]
@@ -238,24 +235,45 @@ const logRequest = (response, app) => {
     app.log.info('body: ', response.body)
 }
 ops.fastifyInjects = async function fastifyInjects(app) {
-    let response = await app.inject({
-        method: 'POST',
-        url: '/signup',
-        payload: {
-            username: 'bacloud14@gmail.com',
-            password: 'blablabla111SSS.',
+    console.log('Injecting Fastify requests')
+    // Fastify inject doesn't work anymore for some reason !
+    // let response = await app.inject({
+    //     method: 'POST',
+    //     url: '/signup',
+    //     remoteAddress: '0.0.0.0',
+    //     payload: {
+    //     username: 'bacloud14@gmail.com',
+    //     password: 'blablabla111SSS.',
+    //     },
+    // })
+    // logRequest(response, app)
+    // response = await app.inject({
+    //     method: 'POST',
+    //     url: '/signup',
+    //     remoteAddress: '0.0.0.0',
+    //     payload: {
+    //         username: 'sracer2016@yahoo.com',
+    //         password: 'blablabla111SSS.',
+    //     },
+    // })
+    // logRequest(response, app)
+    const post = (email) => request(
+        {
+            method: 'POST',
+            url: 'http://0.0.0.0:' + app.server.address().port + '/signup',
+            form: {
+                username: email,
+                password: 'blablabla111SSS.',
+            },
         },
-    })
-    logRequest(response, app)
-    response = await app.inject({
-        method: 'POST',
-        url: '/signup',
-        payload: {
-            username: 'sracer2016@yahoo.com',
-            password: 'blablabla111SSS.',
+        (err, response, body) => {
+            if (err) console.error(err)
+            console.log(response.statusCode)
+            if (process.env.NODE_ENV === -1) console.log(JSON.parse(body))
         },
-    })
-    logRequest(response, app)
+    )
+    post('bacloud14@gmail.com')
+    post('sracer2016@yahoo.com')
 }
 
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
