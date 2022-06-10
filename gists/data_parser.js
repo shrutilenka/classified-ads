@@ -8,17 +8,19 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const taxonomyPathEn = '../data/taxonomy/hobbies_en.txt'
+const taxonomyPathEn = '../data/taxonomy/hobbies_ar.txt'
 const buffer = fs.readFileSync(path.join(__dirname, taxonomyPathEn))
 const fileContent = buffer.toString();
-const splits = fileContent.split('\r\n\r\n')
+const splitter = '\r\n'
+const splits = fileContent.split(`${splitter}${splitter}`)
 const result = {}
 splits.forEach(split => {
-    const elem = split.split('\r\n')
+    const elem = split.split(splitter)
     const head = elem.pop()
     result[head] = elem
 });
-console.log(result)
+fs.writeFileSync(path.join(__dirname, 'hobbies_ar.json'), JSON.stringify(result));
+console.log()
 // const taxonomyPathEn = '../data/taxonomy/cptall-en-US.json'
 
 // const pipeline = chain([
