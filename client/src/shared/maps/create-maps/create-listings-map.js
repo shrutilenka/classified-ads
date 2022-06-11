@@ -36,7 +36,7 @@ export function listingsMap({ lat, lng, layerFactory, clusterFactory, zoom }) {
         latLngs.push(new L.LatLng(coordinates[i][1], coordinates[i][0]))
     }
     L.mask(latLngs).addTo(map)
-    map.addLayer(clusterFactory('all'))
+    map.addLayer(clusterFactory())
     // Refresh tiles after some time
     // because it doesn't load properly at first
     setTimeout(() => {

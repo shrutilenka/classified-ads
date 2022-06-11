@@ -55,12 +55,7 @@ export const setupMaps = () => {
         return osm
     }
 
-    /**
-     *
-     * @param {String} section ['donations', 'skills', 'events', 'blogs', 'hobbies', 'geolocation!!!', 'all!!!', ...]
-     * @returns
-     */
-    function clusterFactory(section) {
+    function clusterFactory() {
         const colors = {
             donations: '#bd5912',
             skills: '#ec496f',
@@ -73,7 +68,7 @@ export const setupMaps = () => {
             const a = addressPoints[i]
             const title = `<a href='${consts.APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}</a>`
             let marker
-            if (section === 'all' /*&& a[4]*/) {
+            if (a[4]) {
                 const icon = getIcon(colors[a[4]])
                 marker = L.marker(new L.LatLng(a[0], a[1]), { title, icon })
             } else {
