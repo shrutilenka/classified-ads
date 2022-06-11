@@ -9,8 +9,10 @@ const Coordinate = new BasicModel(Number)
 const Listing = new ObjectModel({
     title: String,
     tags: ArrayModel(String),
+    parent: String,
+    granpa: String,
     desc: String,
-    section: ['donations', 'skills', 'blogs'],
+    section: ['donations', 'skills', 'blogs', 'events', 'hobbies'],
     d: Boolean,
     a: Boolean,
     usr: String,
@@ -67,6 +69,7 @@ const Skill = Listing.extend({
 })
 
 const Blog = Listing
+const Hobby = Listing
 
 const Comment = new ObjectModel({
     from: String,
@@ -90,4 +93,4 @@ const User = new ObjectModel({
 
 // TODO: assert only when password exists !
 
-export { Donation, Skill, Blog, Comment, User, Event }
+export { Donation, Skill, Blog, Event, Hobby, Comment, User, }

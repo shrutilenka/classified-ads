@@ -120,20 +120,50 @@ function getKey(value, level) {
     }
 }
 
-function getAscendants(keyword, lang) {
-    const parent = getKey(keyword, leveled[lang].level2)
-    const granpa = getKey(parent, leveled[lang].level1)
+function getAscendants(keyword, lang, section) {
+    var parent = granpa
+    try {
+        if (section === 'donations') {
+            const parent = getKey(keyword, donLeveled[lang].level2)
+            const granpa = getKey(parent, donLeveled[lang].level1)
+            return [parent, granpa]
+        }
+        if (section === 'hobbies') {
+            [parent = granpa] = getKey(keyword, allTags.hobbies[lang])
+            return [parent, granpa]
+        }
+    } catch (error) {
+        [parent = granpa] = keyword
+        return [parent, granpa]
+    }
+    // TODO: other sections
+    [parent = granpa] = keyword
     return [parent, granpa]
 }
-const { googleTagsEn, googleTagsFr, googleTagsAr } = give
+
 const { googleTagsEnLite, googleTagsFrLite, googleTagsArLite } = give
-const leveled = { en: {}, fr: {}, ar: {} }
-leveled.en['level1'] = groupOneLevel(googleTagsEn, 0, 1)
-leveled.en['level2'] = groupOneLevel(googleTagsEn, 1, 2)
-leveled.fr['level1'] = groupOneLevel(googleTagsFr, 0, 1)
-leveled.fr['level2'] = groupOneLevel(googleTagsFr, 1, 2)
-leveled.ar['level1'] = groupOneLevel(googleTagsAr, 0, 1)
-leveled.ar['level2'] = groupOneLevel(googleTagsAr, 1, 2)
+const allTags = {
+    donations: {
+        en: googleTagsEnLite,
+        fr: googleTagsFrLite,
+        ar: googleTagsArLite,
+    },
+    hobbies: {
+        en: require('../../data/taxonomy/hobbies_en.json'),
+        fr: require('../../data/taxonomy/hobbies_fr.json'),
+        ar: require('../../data/taxonomy/hobbies_ar.json'),
+    },
+}
+
+const { googleTagsEn, googleTagsFr, googleTagsAr } = give
+const donLeveled = { en: {}, fr: {}, ar: {} }
+donLeveled.en['level1'] = groupOneLevel(googleTagsEn, 0, 1)
+donLeveled.en['level2'] = groupOneLevel(googleTagsEn, 1, 2)
+donLeveled.fr['level1'] = groupOneLevel(googleTagsFr, 0, 1)
+donLeveled.fr['level2'] = groupOneLevel(googleTagsFr, 1, 2)
+donLeveled.ar['level1'] = groupOneLevel(googleTagsAr, 0, 1)
+donLeveled.ar['level2'] = groupOneLevel(googleTagsAr, 1, 2)
+
 // Example getting parent of 'Dresses'
 // var parent = getKey('Dresses', googleTagsEnLevel2)
 // var granpa = getKey(parent, googleTagsEnLevel1)
@@ -172,7 +202,7 @@ PipeLine.prototype = {
         ChainBool.call(this, solution, op)
         return this
     },
-    // Example: Expects this.data to be body.tags
+    // Expects this.data to be body.tags
     isTagsValid: function (op) {
         const predicate = () => {
             try {
@@ -217,21 +247,27 @@ PipeLine.prototype = {
     },
     // Expects this.data to be body having body.tags
     // only if for the first tag !!!
-    deriveTagsParents: function () {
-        const english = googleTagsEnLite.indexOf(this.data.tags[0]) > -1
-        const french = english ? false : googleTagsFrLite.indexOf(this.data.tags[0]) > -1
-        const arabic = english ? false : french ? false : googleTagsArLite.indexOf(this.data.tags[0]) > -1
+    deriveTagsParents: function (section) {
+        if (section !== 'donations' && section !== 'hobbies') {
+            // TODO: no real hierarchy now
+            var parent, granpa
+            parent = granpa = this.data.tags[0]
+            return this
+        }
+        const english = allTags[section]['en'].indexOf(this.data.tags[0]) > -1
+        const french = english ? false : allTags[section]['fr'].indexOf(this.data.tags[0]) > -1
+        const arabic = english ? false : french ? false : allTags[section]['ar'].indexOf(this.data.tags[0]) > -1
         try {
             if (!english && !french && !arabic) throw new Error('Tags should be chosen from list')
             var parent, granpa
             if (english) {
-                ;[parent, granpa] = getAscendants(this.data.tags[0], 'en')
+                [parent, granpa] = getAscendants(this.data.tags[0], 'en')
             }
             if (french) {
-                ;[parent, granpa] = getAscendants(this.data.tags[0], 'fr')
+                [parent, granpa] = getAscendants(this.data.tags[0], 'fr')
             }
             if (arabic) {
-                ;[parent, granpa] = getAscendants(this.data.tags[0], 'ar')
+                [parent, granpa] = getAscendants(this.data.tags[0], 'ar')
             }
             this.data.parent = parent
             this.data.granpa = granpa
@@ -260,7 +296,7 @@ function validationPipeLine(req) {
     const undrawValid = !illustrations
         ? true
         : bodyPipeline.undrawSplit().isValidBetween(singletonSchema).undrawPostValidate().isTrue
-    const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents().evaluate().isTrue
+    const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents(section).evaluate().isTrue
 
     ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////
     // Final validation according to schema / if not yet validated

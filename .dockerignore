@@ -133,20 +133,20 @@ dist
 /public/stylesheets/style.css
 /public/stylesheets/style.css.map
 
-/public/stylesheets/custom_2.css
-/public/stylesheets/custom_2.css.map
-/public/stylesheets/style_2.css
-/public/stylesheets/style_2.css.map
+/public/stylesheets/custom_donations.css
+/public/stylesheets/custom_donations.css.map
+/public/stylesheets/style_donations.css
+/public/stylesheets/style_donations.css.map
 
-/public/stylesheets/custom_3.css
-/public/stylesheets/custom_3.css.map
-/public/stylesheets/style_3.css
-/public/stylesheets/style_3.css.map
+/public/stylesheets/custom_skills.css
+/public/stylesheets/custom_skills.css.map
+/public/stylesheets/style_skills.css
+/public/stylesheets/style_skills.css.map
 
-/public/stylesheets/custom_4.css
-/public/stylesheets/custom_4.css.map
-/public/stylesheets/style_4.css
-/public/stylesheets/style_4.css.map
+/public/stylesheets/custom_events.css
+/public/stylesheets/custom_events.css.map
+/public/stylesheets/style_events.css
+/public/stylesheets/style_events.css.map
 
 
 /creds
