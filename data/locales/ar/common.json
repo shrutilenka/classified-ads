@@ -33,6 +33,12 @@
          "success":"We got some skills :)",
          "error":""
       },
+      "hobbies":{
+         "title":"Classified-ads - {{section}}",
+         "intro":"Talk freely about your hobbies",
+         "success":"We got some hobbies :)",
+         "error":""
+      },
       "blogs":{
          "title":"Classified-ads - {{section}}",
          "intro":"Creative passions, hobbies and passtimes!",

@@ -72,6 +72,8 @@ function localize(data, route, kind, req, reply) {
         subtitle: subtitle,
         returnObjects: true,
     }
+    // TODO: handle errors here !!!!
+    // a translation could easily be missing !!!!
     const userFriendlyMsg = req.t(`${route}.${kind}`, sharedData)
     // the following get's back flashed success or failor messages
     // added in the current request lifecycle (here for ex in `pipeline#validationPipeLine`)
@@ -87,6 +89,7 @@ function localize(data, route, kind, req, reply) {
         errors = req.validationError.validation.map((err) => err.message)
         errors.push(userFriendlyMsg.error)
     }
+    
     // When there are `errors` (generated in `pipeline#validationPipeLine` for example)
     if (data.errors) {
         errors = [...errors, ...data.errors]
