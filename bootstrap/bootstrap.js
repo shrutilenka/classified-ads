@@ -1,6 +1,9 @@
+import { default as fakerAr } from '@faker-js/faker/locale/ar'
+import { default as fakerEn } from '@faker-js/faker/locale/en'
+import { default as fakerFr } from '@faker-js/faker/locale/fr'
 import { config as dotenv } from 'dotenv'
 import fs from 'fs'
-import { createRequire } from 'module'
+import jsf from 'json-schema-faker'
 import { MongoClient } from 'mongodb'
 import path from 'path'
 import request from 'request'
@@ -15,15 +18,14 @@ import { schema } from './schema.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const require = createRequire(import.meta.url)
 dotenv()
 
 var jsf_en, jsf_fr, jsf_ar
-jsf_en = jsf_fr = jsf_ar = require('json-schema-faker')
+jsf_en = jsf_fr = jsf_ar = jsf
 
-jsf_en.extend('faker', () => require('@faker-js/faker/locale/en'))
-jsf_fr.extend('faker', () => require('@faker-js/faker/locale/fr'))
-jsf_ar.extend('faker', () => require('@faker-js/faker/locale/ar'))
+jsf_en.extend('faker', () => fakerEn)
+jsf_fr.extend('faker', () => fakerFr)
+jsf_ar.extend('faker', () => fakerAr)
 
 /*********************************************************************************************** */
 // FAKE DEVELOPMENT ENVIRONMENTS DATA
@@ -257,21 +259,22 @@ ops.fastifyInjects = async function fastifyInjects(app) {
     //     },
     // })
     // logRequest(response, app)
-    const post = (email) => request(
-        {
-            method: 'POST',
-            url: 'http://0.0.0.0:' + app.server.address().port + '/signup',
-            form: {
-                username: email,
-                password: 'blablabla111SSS.',
+    const post = (email) =>
+        request(
+            {
+                method: 'POST',
+                url: 'http://0.0.0.0:' + app.server.address().port + '/signup',
+                form: {
+                    username: email,
+                    password: 'blablabla111SSS.',
+                },
             },
-        },
-        (err, response, body) => {
-            if (err) console.error(err)
-            console.log(response.statusCode)
-            if (process.env.NODE_ENV === -1) console.log(JSON.parse(body))
-        },
-    )
+            (err, response, body) => {
+                if (err) console.error(err)
+                console.log(response.statusCode)
+                if (process.env.NODE_ENV === -1) console.log(JSON.parse(body))
+            },
+        )
     post('bacloud14@gmail.com')
     post('sracer2016@yahoo.com')
 }
