@@ -11,20 +11,20 @@
    "listings": {
       "listings": {
          "title": "Classified-ads - All sections",
-         "intro": "Classified advertising brought to the web. Here you can enjoy non-commercial listings for free",
-         "success": "We got latest listings from all sections :)",
+         "intro": "لقد صدرنا الإعلانات المبوبة على شبكة الإنترنت. هنا يمكنك الاستمتاع بالقوائم غير التجارية مجانًا",
+         "success": "حصلنا على أحدث القوائم من جميع الأقسام :)",
          "error": ""
       },
       "donations": {
          "title": "Classified-ads - {{section}}",
-         "intro": "Share or look for used items nextdoor. Give a second life to your old clothes, furniture, electronics etc.",
-         "success": "We got some of the latest donations :)",
+         "intro": "شارك أو ابحث عن السلع المستخدمة بجوارك. امنح حياة ثانية لملابسك القديمة ، والأثاث ، والإلكترونيات ، إلخ.",
+         "success": "حصلنا على بعض القوائم من أحدث التبرعات :)",
          "error": ""
       },
       "events": {
          "title": "Classified-ads - {{section}}",
-         "intro": "Call for cultural or hobbies meetups. Today you are no longer disconnected. Get in touch with organizers and socialize easily.",
-         "success": "We got some of the latest events :)",
+         "intro": "دعوة للقاءات ثقافية أو ترفيهية. اليوم لن تبقى منعزلا . اتصل بالمنظمين وتواصل اجتماعيًا بسهولة.",
+         "success": "حصلنا على بعض القوائم من آخر الأحداث :)",
          "error": ""
       },
       "skills": {
