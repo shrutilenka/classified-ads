@@ -43,14 +43,14 @@ async function routes(fastify, options) {
         return reply
     })
 
-    fastify.get('/tags', function (req, reply) {
+    fastify.get('/tags', { preHandler: softAuth }, function (req, reply) {
         reply.blabla([{}, 'tags', 'tags'], req)
         return reply
     })
 
     // TODO: three repetitive methods but fine,
     // maybe they evolve differently in future
-    fastify.get('/tag/:tag', async function (req, reply) {
+    fastify.get('/tag/:tag', { preHandler: softAuth }, async function (req, reply) {
         const tag = req.params.tag
         const [err, listings] = await to(QInstance.getListingsByTag(tag, 'origin', req.pagination))
         if (err) {
@@ -68,7 +68,7 @@ async function routes(fastify, options) {
         return reply
     })
 
-    fastify.get('/tag/parent/:tag', async function (req, reply) {
+    fastify.get('/tag/parent/:tag', { preHandler: softAuth }, async function (req, reply) {
         const tag = req.params.tag
         const [err, listings] = await to(QInstance.getListingsByTag(tag, 'parent', req.pagination))
         if (err) {
@@ -86,7 +86,7 @@ async function routes(fastify, options) {
         return reply
     })
 
-    fastify.get('/tag/granpa/:tag', async function (req, reply) {
+    fastify.get('/tag/granpa/:tag', { preHandler: softAuth }, async function (req, reply) {
         const tag = req.params.tag
         const [err, listings] = await to(QInstance.getListingsByTag(tag, 'granpa', req.pagination))
         if (err) {
@@ -104,7 +104,7 @@ async function routes(fastify, options) {
         return reply
     })
 
-    fastify.get('/division/:division', async function (req, reply) {
+    fastify.get('/division/:division', { preHandler: softAuth }, async function (req, reply) {
         const division = req.params.division
         const [err, listings] = await to(QInstance.getListingsByDivision(division, req.pagination))
         if (err) {
@@ -122,7 +122,7 @@ async function routes(fastify, options) {
         return reply
     })
 
-    fastify.get('/keyword/:keyword', async function (req, reply) {
+    fastify.get('/keyword/:keyword', { preHandler: softAuth }, async function (req, reply) {
         const keyword = req.params.keyword.trim()
         const [err, listings] = await to(QInstance.getListingsByKeyword(keyword, req.pagination))
         if (err) {
@@ -193,14 +193,14 @@ async function routes(fastify, options) {
     })
 
     /* GET Top listings by tag. */
-    fastify.get('/explore/tags', async function (req, reply) {
+    fastify.get('/explore/tags', { preHandler: softAuth }, async function (req, reply) {
         reply.view('/templates/pages/tags', {
             title: 'Explore all tags!',
         })
     })
 
     // Blog pages are pages with little server processing
-    fastify.get('/categories', function (req, reply) {
+    fastify.get('/categories', { preHandler: softAuth }, function (req, reply) {
         reply.view('/templates/pages/blog', {
             title: 'Categories',
             sections: [
@@ -211,7 +211,7 @@ async function routes(fastify, options) {
         })
     })
 
-    fastify.get('/about', function (req, reply) {
+    fastify.get('/about', { preHandler: softAuth }, function (req, reply) {
         reply.view('/templates/pages/blog', {
             title: 'What is Classified-ads-48',
             sections: [
@@ -221,7 +221,7 @@ async function routes(fastify, options) {
         })
     })
 
-    fastify.get('/how-to', function (req, reply) {
+    fastify.get('/how-to', { preHandler: softAuth }, function (req, reply) {
         reply.view('/templates/pages/blog', {
             title: 'How to post on Listings',
             sections: [
@@ -232,7 +232,7 @@ async function routes(fastify, options) {
         })
     })
 
-    fastify.get('/policy', function (req, reply) {
+    fastify.get('/policy', { preHandler: softAuth }, function (req, reply) {
         reply.view('/templates/pages/blog', {
             title: 'Terms of usage',
             sections: [
