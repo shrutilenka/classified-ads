@@ -10,56 +10,56 @@
    },
    "listings":{
       "listings":{
-         "title":"Classified-ads - All sections",
-         "intro":"Classified advertising brought to the web. Here you can enjoy non-commercial listings for free",
+         "title":"Petites annonces - Toutes les rubriques",
+         "intro":"Petites annonces reprises sur le web. Ici, vous pouvez profiter gratuitement des annonces non commerciales.",
          "success":"We got latest listings from all sections :)",
          "error":""
       },
       "donations":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Share or look for used items nextdoor. Give a second life to your old clothes, furniture, electronics etc.",
+         "intro":"Partagez ou recherchez des objets d'occasion misent à côté. Donnez une seconde vie à vos vieux vêtements, meubles, appareils électroniques, etc.",
          "success":"We got some of the latest donations :)",
          "error":""
       },
       "events":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Call for cultural or hobbies meetups. Today you are no longer disconnected. Get in touch with orgnizers and socialize easily.",
+         "intro":"Faites un appel pour des rencontres culturelles ou de loisirs. Vous n'êtes plus déconnecté! Entrez en contact avec les organisateurs et socialisez plus facilement.",
          "success":"We got some of the latest events :)",
          "error":""
       },
       "skills":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Let people know about your skills and grow your business. You can also join others, skillsharing is a cost-effective way to learn professional skills. Even more, your special car is scratched ? You can ask for help.",
+         "intro":"Partager vos compétences et développez votre business. Vous pouvez également rejoindre d'autres personnes. Le partage de compétences est un moyen  avantageux d'acquérir des compétences professionnelles. Votre voiture spéciale est rayée ? Vous pouvez demander de l'aide!",
          "success":"We got some of the latest skills :)",
          "error":""
       },
       "hobbies":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Talk freely about your hobbies. Find friends with similar hobbies by talking about it.",
+         "intro":"Parlez librement de vos loisirs ou trouvez des amis avec des passe-temps similaires en en parlant.",
          "success":"We got some hobbies :)",
          "error":""
       },
       "blogs":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Creative passions, hobbies and passtimes! Any topic could fall here so feel free to share your thoughts.",
+         "intro":"Passions créatives, loisirs et passe-temps! N'importe quel sujet pourrait tomber ici, alors n'hésitez pas à partager vos pensées.",
          "success":"We got some blogs :)",
          "error":""
       },
       "gwoogl":{
          "title":"Classified-ads - Search results",
-         "intro":"Classified advertising brought to the web. Use our search to find the best results even in different languages !",
+         "intro":"Petites annonces reprises sur le web. Utilisez notre moteur de recherche pour trouver les meilleurs résultats même en différentes langues !",
          "success":"We got some listings for your search :)",
          "error":""
       },
       "geolocation":{
          "title":"Classified-ads - Geolocated results",
-         "intro":"Classified advertising brought to the web. Use geo-location search to find listings nearby !",
+         "intro":"Petites annonces reprises sur le web. Utilisez la recherche géolocalisée pour trouver des annonces à proximité !",
          "success":"We got some listings nearby :)",
          "error":""
       },
       "POST_ERR": {
          "title":"Classified-ads - Error",
-         "intro":"Classified advertising brought to the web. Unfortunately, your new listing was not posted because of an error. Please try again.",
+         "intro":"Petites annonces reprises sur le web. Malheureusement, votre nouvelle annonce n'a pas été publiée en raison d'une erreur. Veuillez réessayer.",
          "success":"",
          "error":""
       }
@@ -67,26 +67,26 @@
    "index":{
       "listings":{
          "title":"Classified-ads - Today's listings",
-         "intro":"Classified advertising brought to the web.",
+         "intro":"Petites annonces reprises sur le web.",
          "success":"",
          "error":""
       },
       "tags":{
-         "title":"Classified-ads - Tag: {{subtitle}}",
-         "intro":"Classified advertising brought to the web.",
-         "success":"We got listings from all sections which are related to the tag :)",
+         "title":"Classified-ads - Catégorie: {{subtitle}}",
+         "intro":"Petites annonces reprises sur le web.",
+         "success":"Nous avons quelques annonces de toutes les sections qui sont liées à cette catégorie :)",
          "error":""
       },
       "division":{
-         "title":"Classified-ads - Division: {{subtitle}}",
+         "title":"Classified-ads - Département: {{subtitle}}",
          "intro":"",
-         "success":"We got listings from all sections which are located in this division :)",
+         "success":"Nous avons quelques annonces de toutes les sections qui se situe dans ce département :)",
          "error":""
       },
       "keyword":{
-         "title":"Classified-ads - Keyword: {{subtitle}}",
+         "title":"Classified-ads - Mot-clé: {{subtitle}}",
          "intro":"",
-         "success":"We got listings from all sections for this keyword :)",
+         "success":"Nous avons quelques annonces de toutes les sections pour ce mot clé :)",
          "error":""
       }
    },
@@ -106,32 +106,32 @@
       },
       "donations":{
          "title":"Classified-ads - {{section}}",
-         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
-         "error":"Image will be loaded shortly!"
+         "success":"Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
+         "error":"L'image sera chargée sous peu!"
       },
       "events":{
          "title":"Classified-ads - {{section}}",
-         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
-         "error":"Image will be loaded shortly!"
+         "success":"Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
+         "error":"L'image sera chargée sous peu!"
       },
       "skills":{
          "title":"Classified-ads - {{section}}",
-         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
-         "error":"Image will be loaded shortly!"
+         "success":"Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
+         "error":"L'image sera chargée sous peu!"
       },
       "hobbies":{
          "title":"Classified-ads - {{section}}",
-         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
-         "error":"Image will be loaded shortly!"
+         "success":"Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
+         "error":"L'image sera chargée sous peu!"
       },
       "blogs":{
          "title":"Classified-ads - {{section}}",
-         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
+         "success":"Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
          "error":""
       },
       "contact":{
          "title":"Classified-ads - Contact",
-         "success":"Email successfully sent to publisher",
+         "success":"E-mail envoyé avec succès à l'annonceur",
          "error":""
       }
    },

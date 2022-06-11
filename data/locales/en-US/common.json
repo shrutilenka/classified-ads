@@ -23,7 +23,7 @@
       },
       "events":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Call for cultural or hobbies meetups. Today you are no longer disconnected. Get in touch with orgnizers and socialize easily.",
+         "intro":"Call for cultural or hobbies meetups. Today you are no longer disconnected. Get in touch with organizers and socialize easily.",
          "success":"We got some of the latest events :)",
          "error":""
       },
@@ -41,7 +41,7 @@
       },
       "blogs":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Creative passions, hobbies and passtimes! Any topic could fall here so feel free to share your thoughts.",
+         "intro":"Creative passions, hobbies and pastimes! Any topic could fall here so feel free to share your thoughts.",
          "success":"We got some blogs :)",
          "error":""
       },
