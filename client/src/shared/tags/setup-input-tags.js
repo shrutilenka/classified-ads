@@ -4,7 +4,9 @@ import { newTagify } from './helpers/new-tagify.js'
 const inputElm =
     document.querySelector('#donations') ||
     document.querySelector('#skills') ||
-    document.querySelector('#events')
+    document.querySelector('#events') ||
+    document.querySelector('#blogs') ||
+    document.querySelector('#hobbies')
 let tagifyObj
 let tags = {}
 const choices = document.getElementsByClassName('tags-lang')

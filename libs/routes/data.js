@@ -14,6 +14,9 @@ async function routes(fastify, options, next) {
         ['/get_events_tags_en', give.cptallTagsEn],
         ['/get_events_tags_ar', give.cptallTagsAr],
         ['/get_events_tags_fr', give.cptallTagsFr],
+        ['/get_hobbies_tags_en', give.wikiHobbiesEn],
+        ['/get_hobbies_tags_fr', give.wikiHobbiesFr],
+        ['/get_hobbies_tags_ar', give.wikiHobbiesAr],
     ].forEach(([url, tags]) => {
         fastify.get(url, async (request, reply) => reply.send({ tags }))
     })

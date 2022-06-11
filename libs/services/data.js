@@ -103,39 +103,19 @@ getTags('../../data/taxonomy/occupations_en.csv', give.ESCOTagsEn)
  */
 const toKeep = ['01000000', '05000000', '06000000', '08000000', '10000000', '15000000']
 const toKeep_ = (s) => toKeep.some((mediatopic) => s.indexOf(mediatopic) >= 0)
-give.cptallTagsEn = require('../../data/taxonomy/cptall-en-US.json')
+give.cptallTagsEn = require('../../data/taxonomy/cptall_en.json')
     .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['en-US'])
-give.cptallTagsFr = require('../../data/taxonomy/cptall-fr.json')
+give.cptallTagsFr = require('../../data/taxonomy/cptall_fr.json')
     .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['fr'])
-give.cptallTagsAr = require('../../data/taxonomy/cptall-ar.json')
+give.cptallTagsAr = require('../../data/taxonomy/cptall_ar.json')
     .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['ar'])
 
-// const pipeline = chain([
-//     fs.createReadStream(path.join(__dirname, taxonomyPathEn)),
-//     pick.withParser({ filter: 'conceptSet' }),
-//     streamValues(),
-//     ignore({ filter: /\b_meta\b/i }),
-//     (data) => {
-//         const values = data.value
-//         let stacked = []
-//         values.forEach((val) => {
-//             const { prefLabel, definition } = val
-//             stacked.push({ prefLabel, definition })
-//         })
-//         return stacked
-//     },
-// ])
-
-// let counter = 0
-// pipeline.on('data', (data) => {
-//     ++counter
-//     console.log(data)
-// })
-
-// pipeline.on('end', () => console.log(`The media data has ${counter} types.`))
+give.wikiHobbiesEn = require('../../data/taxonomy/hobbies_en.json')
+give.wikiHobbiesFr = require('../../data/taxonomy/hobbies_fr.json')
+give.wikiHobbiesAr = require('../../data/taxonomy/hobbies_ar.json')
 
 // const handler = {
 //     get(target, property) {

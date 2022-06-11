@@ -29,6 +29,8 @@
     <%- include('../partials/sections/add_donation'); %>
     <%- include('../partials/sections/add_skill'); %>
     <%- include('../partials/sections/add_event'); %>
+    <%- include('../partials/sections/add_blog'); %>
+    <%- include('../partials/sections/add_hobby'); %>
 
     <%- include('../partials/conf/prepare_js'); %>
     <%- include('../partials/shared/footer'); %>
@@ -36,10 +38,11 @@
   <%- include('../partials/conf/beforebodyclose'); %>
   <script>
     {
-      const scriptElement = document.createElement("script")
-      scriptElement.src = "/javascripts/biglistings.js"
-      document.body.appendChild(scriptElement)
-
+      if(__context__ == 'alllistings') {
+        const scriptElement = document.createElement("script")
+        scriptElement.src = "/javascripts/biglistings.js"
+        document.body.appendChild(scriptElement)
+      }
     }
   </script>
 </body>

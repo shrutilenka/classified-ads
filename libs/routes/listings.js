@@ -64,6 +64,7 @@ async function routes(fastify, options, next) {
     fastify.get('/events', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/skills', { preHandler: softAuth }, getSectionHandler)
     fastify.get('/blogs', { preHandler: softAuth }, getSectionHandler)
+    fastify.get('/hobbies', { preHandler: softAuth }, getSectionHandler)
 
     /* GET one listing; must not be deactivated. */
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
@@ -225,6 +226,7 @@ async function routes(fastify, options, next) {
     fastify.post('/skills', { preHandler: [auth, upload] }, handler)
     fastify.post('/blogs', { preHandler: auth }, handler)
     fastify.post('/events', { preHandler: auth }, handler)
+    fastify.post('/hobbies', { preHandler: [auth, upload] }, handler)
 
     const commentSchema = constraints[process.env.NODE_ENV].POST.comment
     /* Contact poster one listing. */
