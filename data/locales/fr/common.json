@@ -137,60 +137,60 @@
    },
    "message": {
       "NOT_FOUND": {
-         "title": "Classified-ads - Error",
-         "message": "No listing found, it can be deactivated or not approved yet :(",
+         "title": "Classified-ads - Erreur",
+         "message": "Aucune annonce trouvée, L'annonce peut être désactivée ou pas encore approuvée :(",
          "success": "",
          "error": "Listing not found"
       },
       "SERVER_ERROR": {
-         "title": "Classified-ads - Error",
-         "message": "Oops, an internal error accured :( Please try again"
+         "title": "Classified-ads - Erreur",
+         "message": "Oups, une erreur interne s'est produite :( Veuillez réessayer"
       },
       "contact": {
          "title": "",
          "message": ""
       },
       "verification": {
-         "title": "Classified-ads - signup",
-         "message": "You now need to verify your subscription. Just go to your email inbox and click on activation link"
+         "title": "Classified-ads - inscription",
+         "message": "Vous devez maintenant vérifier votre inscription. Accédez simplement à votre boîte e-mail et cliquez sur le lien d'activation"
       }
    },
    "signup": {
       "signup": {
-         "title": "Classified-ads - signup"
+         "title": "Classified-ads - inscription"
       },
       "EMAIL_TAKEN": {
-         "title": "Classified-ads - signup error",
-         "error": "Email has been taken"
+         "title": "Classified-ads - erreur d'inscription",
+         "error": "L'e-mail a été pris"
       },
       "SERVER_ERROR": {
-         "title": "Classified-ads - signup error",
-         "error": "Oops, an internal error accured :( Please try again"
+         "title": "Classified-ads - erreur d'inscription",
+         "error": "Oups, une erreur interne s'est produite :( Veuillez réessayer"
       },
       "VALIDATION_ERROR": {
-         "title": "Classified-ads - signup error",
-         "error": "Please verify the provided information"
+         "title": "Classified-ads - erreur d'inscription",
+         "error": "Veuillez vérifier les informations fournies"
       }
    },
    "login": {
       "login": {
-         "title": "Classified-ads - login"
+         "title": "Classified-ads - authentification"
       },
       "INCORRECT_CREDENTIALS": {
-         "title": "Classified-ads - login error",
-         "error": "Please verify email and password and try again"
+         "title": "Classified-ads - erreur d'authentification",
+         "error": "Veuillez vérifier l'adresse e-mail et le mot de passe et réessayer"
       },
       "USER_UNVERIFIED": {
-         "title": "Classified-ads - login error",
-         "error": "Please check your email inbox to activate your account"
+         "title": "Classified-ads - erreur d'authentification",
+         "error": "Veuillez vérifier votre e-mail pour activer votre compte"
       },
       "SERVER_ERROR": {
-         "title": "Classified-ads - login error",
-         "error": "Oops, an internal error accured :( Please try again"
+         "title": "Classified-ads - erreur d'authentification",
+         "error": "Oups, une erreur interne s'est produite :( Veuillez réessayer"
       },
       "VALIDATION_ERROR": {
          "title": "Classified-ads - signup error",
-         "error": "Please verify the provided information"
+         "error": "Veuillez vérifier les informations fournies"
       }
    },
    "mail": {

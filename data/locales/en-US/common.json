@@ -144,7 +144,7 @@
       },
       "SERVER_ERROR": {
          "title": "Classified-ads - Error",
-         "message": "Oops, an internal error accured :( Please try again"
+         "message": "Oops, an internal error occurred :( Please try again"
       },
       "contact": {
          "title": "",
@@ -165,7 +165,7 @@
       },
       "SERVER_ERROR": {
          "title": "Classified-ads - signup error",
-         "error": "Oops, an internal error accured :( Please try again"
+         "error": "Oops, an internal error occurred :( Please try again"
       },
       "VALIDATION_ERROR": {
          "title": "Classified-ads - signup error",
@@ -186,7 +186,7 @@
       },
       "SERVER_ERROR": {
          "title": "Classified-ads - login error",
-         "error": "Oops, an internal error accured :( Please try again"
+         "error": "Oops, an internal error occurred :( Please try again"
       },
       "VALIDATION_ERROR": {
          "title": "Classified-ads - signup error",

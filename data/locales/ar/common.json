@@ -23,7 +23,7 @@
       },
       "events": {
          "title": "Classified-ads - {{section}}",
-         "intro": "Call for cultural or hobbies meetups. Today you are no longer disconnected. Get in touch with orgnizers and socialize easily.",
+         "intro": "Call for cultural or hobbies meetups. Today you are no longer disconnected. Get in touch with organizers and socialize easily.",
          "success": "We got some of the latest events :)",
          "error": ""
       },
@@ -41,7 +41,7 @@
       },
       "blogs": {
          "title": "Classified-ads - {{section}}",
-         "intro": "Creative passions, hobbies and passtimes! Any topic could fall here so feel free to share your thoughts.",
+         "intro": "Creative passions, hobbies and pastimes! Any topic could fall here so feel free to share your thoughts.",
          "success": "We got some blogs :)",
          "error": ""
       },
@@ -144,7 +144,7 @@
       },
       "SERVER_ERROR": {
          "title": "Classified-ads - Error",
-         "message": "Oops, an internal error accured :( Please try again"
+         "message": "Oops, an internal error occurred :( Please try again"
       },
       "contact": {
          "title": "",
@@ -165,7 +165,7 @@
       },
       "SERVER_ERROR": {
          "title": "Classified-ads - signup error",
-         "error": "Oops, an internal error accured :( Please try again"
+         "error": "Oops, an internal error occurred :( Please try again"
       },
       "VALIDATION_ERROR": {
          "title": "Classified-ads - signup error",
@@ -186,7 +186,7 @@
       },
       "SERVER_ERROR": {
          "title": "Classified-ads - login error",
-         "error": "Oops, an internal error accured :( Please try again"
+         "error": "Oops, an internal error occurred :( Please try again"
       },
       "VALIDATION_ERROR": {
          "title": "Classified-ads - signup error",
