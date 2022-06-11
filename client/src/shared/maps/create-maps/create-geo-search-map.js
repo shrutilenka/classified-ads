@@ -41,7 +41,7 @@ export function geoSearchMap({ lat, lng, layerFactory, clusterFactory, zoom }) {
     circle = L.circle([lat, lng], 6000 * 4).addTo(map)
     lastValid = [lat, lng]
     ;[moveable, lastValid] = moveableMarker(map, circle, coordinates)
-    map.addLayer(clusterFactory())
+    map.addLayer(clusterFactory('geolocation'))
     // Refresh tiles after some time
     // because it doesn't load properly at first
     setTimeout(() => {

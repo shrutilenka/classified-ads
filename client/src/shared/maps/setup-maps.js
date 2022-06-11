@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import { MarkerClusterGroup } from "leaflet.markercluster"
+import { MarkerClusterGroup } from 'leaflet.markercluster'
 import consts from '../../consts.js'
 import { LIS } from '../../helpers/lis.js'
 import { delimitationsMap } from './create-maps/create-delimitations-map.js'
@@ -54,15 +54,27 @@ export const setupMaps = () => {
         const osm = new L.TileLayer(osmUrl, tilesOptions)
         return osm
     }
-    function clusterFactory() {
-        
+
+    /**
+     *
+     * @param {String} section ['donations', 'skills', 'events', 'blogs', 'hobbies', 'geolocation!!!', 'all!!!', ...]
+     * @returns
+     */
+    function clusterFactory(section) {
+        const colors = {
+            donations: '#bd5912',
+            skills: '#ec496f',
+            events: '#934fe9',
+            blogs: '#f5eabf',
+            hobbies: '#b2bd12',
+        }
         const markers = new MarkerClusterGroup()
         for (let i = 0; i < addressPoints.length; i++) {
             const a = addressPoints[i]
             const title = `<a href='${consts.APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}</a>`
             let marker
-            if (a[4]) {
-                const icon = getIcon()
+            if (section === 'all' /*&& a[4]*/) {
+                const icon = getIcon(colors[a[4]])
                 marker = L.marker(new L.LatLng(a[0], a[1]), { title, icon })
             } else {
                 marker = L.marker(new L.LatLng(a[0], a[1]), { title })
