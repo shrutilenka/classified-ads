@@ -56,7 +56,7 @@ const langsFaker = {
     fr: { jsf: jsf_fr, words: (n) => getWords(french, n) },
     ar: { jsf: jsf_ar, words: (n) => getWords(arabic, n) },
 }
-const sections = ['donations', 'skills', 'blogs', 'events']
+const sections = ['donations', 'skills', 'blogs', 'events', 'hobbies']
 
 let items = []
 // Approximate algeria bounding box:
