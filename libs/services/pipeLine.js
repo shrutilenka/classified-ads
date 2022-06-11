@@ -129,15 +129,15 @@ function getAscendants(keyword, lang, section) {
             return [parent, granpa]
         }
         if (section === 'hobbies') {
-            [parent = granpa] = getKey(keyword, allTags.hobbies[lang])
+            ;[parent = granpa] = getKey(keyword, allTags.hobbies[lang])
             return [parent, granpa]
         }
     } catch (error) {
-        [parent = granpa] = keyword
+        ;[parent = granpa] = keyword
         return [parent, granpa]
     }
     // TODO: other sections
-    [parent = granpa] = keyword
+    ;[parent = granpa] = keyword
     return [parent, granpa]
 }
 
@@ -261,13 +261,13 @@ PipeLine.prototype = {
             if (!english && !french && !arabic) throw new Error('Tags should be chosen from list')
             var parent, granpa
             if (english) {
-                [parent, granpa] = getAscendants(this.data.tags[0], 'en')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'en')
             }
             if (french) {
-                [parent, granpa] = getAscendants(this.data.tags[0], 'fr')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'fr')
             }
             if (arabic) {
-                [parent, granpa] = getAscendants(this.data.tags[0], 'ar')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'ar')
             }
             this.data.parent = parent
             this.data.granpa = granpa
@@ -322,3 +322,4 @@ function validationPipeLine(req) {
 }
 
 export { validationPipeLine, stringTransformer }
+

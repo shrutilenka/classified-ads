@@ -30,7 +30,7 @@ class MailerOps {
             concatEmails: true, // Concatenate emails to the same addressee
             concatDelimiter: '<h1>{{{subject}}}</h1>', // Start each concatenated email with it's own subject
             template: MailTime.Template, // Use default template
-            debug: NODE_ENV < 2 
+            debug: NODE_ENV < 2,
         })
 
         /**
@@ -59,7 +59,7 @@ class MailerOps {
             console.log(`subject ${subject}`)
             console.log(`text ${text}`)
             console.log(`html ${html}`)
-            
+
             mailQueue.sendMail({ to, subject, text, html }, function (err, info) {
                 if (err) {
                     console.log(err.message)

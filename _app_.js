@@ -39,3 +39,4 @@ const plugins = {
     fastifyServe,
 }
 export { plugins }
+

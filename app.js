@@ -268,7 +268,6 @@ async function build(doRun) {
         decorateReply: false,
     })
 
-    
     const start = async () => {
         try {
             // whatever the env (like heroku)  wants
