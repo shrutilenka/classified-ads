@@ -11,55 +11,55 @@
    "listings":{
       "listings":{
          "title":"Classified-ads - All sections",
-         "intro":"Classified advertising brought to the web",
-         "success":"We got listings from all sections :)",
+         "intro":"Classified advertising brought to the web. Here you can enjoy non-commercial listings for free",
+         "success":"We got latest listings from all sections :)",
          "error":""
       },
       "donations":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Share or look for used items nextdoor",
-         "success":"We got some donations :)",
+         "intro":"Share or look for used items nextdoor. Give a second life to your old clothes, furniture, electronics etc.",
+         "success":"We got some of the latest donations :)",
          "error":""
       },
       "events":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Call for cultural or hobbies meetups",
-         "success":"We got some events :)",
+         "intro":"Call for cultural or hobbies meetups. Today you are no longer disconnected. Get in touch with orgnizers and socialize easily.",
+         "success":"We got some of the latest events :)",
          "error":""
       },
       "skills":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Share skills",
-         "success":"We got some skills :)",
+         "intro":"Let people know about your skills and grow your business. You can also join others, skillsharing is a cost-effective way to learn professional skills. Even more, your special car is scratched ? You can ask for help.",
+         "success":"We got some of the latest skills :)",
          "error":""
       },
       "hobbies":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Talk freely about your hobbies",
+         "intro":"Talk freely about your hobbies. Find friends with similar hobbies by talking about it.",
          "success":"We got some hobbies :)",
          "error":""
       },
       "blogs":{
          "title":"Classified-ads - {{section}}",
-         "intro":"Creative passions, hobbies and passtimes!",
+         "intro":"Creative passions, hobbies and passtimes! Any topic could fall here so feel free to share your thoughts.",
          "success":"We got some blogs :)",
          "error":""
       },
       "gwoogl":{
          "title":"Classified-ads - Search results",
-         "intro":"Classified advertising brought to the web",
+         "intro":"Classified advertising brought to the web. Use our search to find the best results even in different languages !",
          "success":"We got some listings for your search :)",
          "error":""
       },
       "geolocation":{
          "title":"Classified-ads - Geolocated results",
-         "intro":"Classified advertising brought to the web",
+         "intro":"Classified advertising brought to the web. Use geo-location search to find listings nearby !",
          "success":"We got some listings nearby :)",
          "error":""
       },
       "POST_ERR": {
          "title":"Classified-ads - Error",
-         "intro":"Classified advertising brought to the web",
+         "intro":"Classified advertising brought to the web. Unfortunately, your new listing was not posted because of an error. Please try again.",
          "success":"",
          "error":""
       }
@@ -67,13 +67,13 @@
    "index":{
       "listings":{
          "title":"Classified-ads - Today's listings",
-         "intro":"Classified advertising brought to the web",
+         "intro":"Classified advertising brought to the web.",
          "success":"",
          "error":""
       },
       "tags":{
          "title":"Classified-ads - Tag: {{subtitle}}",
-         "intro":"Classified advertising brought to the web",
+         "intro":"Classified advertising brought to the web.",
          "success":"We got listings from all sections which are related to the tag :)",
          "error":""
       },
@@ -106,23 +106,28 @@
       },
       "donations":{
          "title":"Classified-ads - {{section}}",
-         "success":"Listing will be visible after moderation. You can also deactivate the listing for a while :)",
+         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
          "error":"Image will be loaded shortly!"
       },
       "events":{
          "title":"Classified-ads - {{section}}",
-         "success":"Listing will be visible after moderation. You can also deactivate the listing for a while :)",
+         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
          "error":"Image will be loaded shortly!"
       },
       "skills":{
          "title":"Classified-ads - {{section}}",
-         "success":"Listing will be visible after moderation. You can also deactivate the listing for a while :)",
+         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
+         "error":"Image will be loaded shortly!"
+      },
+      "hobbies":{
+         "title":"Classified-ads - {{section}}",
+         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
          "error":"Image will be loaded shortly!"
       },
       "blogs":{
          "title":"Classified-ads - {{section}}",
-         "success":"Listing will be visible after moderation. You can also deactivate the listing for a while :)",
-         "error":"Image will be loaded shortly!"
+         "success":"Thank you for posting a new listing. It will be visible after moderation. You can also deactivate the listing for a while :)",
+         "error":""
       },
       "contact":{
          "title":"Classified-ads - Contact",
