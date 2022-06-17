@@ -29,8 +29,8 @@
       },
       "skills": {
          "title": "Classified-ads - {{section}}",
-         "intro": "Let people know about your skills and grow your business. You can also join others, skillsharing is a cost-effective way to learn professional skills. Even more, your special car is scratched ? You can ask for help.",
-         "success": "We got some of the latest skills :)",
+         "intro": "عرف الناس بمهاراتك واعمل على تنمية مهنتك . يمكنك أيضًا الانضمام إلى زملائك، ان مشاركة المهارات و قليلة التكلفة لتنمية مهارات جديدة، أضف إلى ذلك ،هل سيارتك الخاصة معطوبة ؟ يمكنك طلب المساعدة.",
+         "success": "حصلنا على بعض القوائم من آخر الحرف :)",
          "error": ""
       },
       "hobbies": {
