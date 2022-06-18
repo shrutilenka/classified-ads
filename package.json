@@ -17,7 +17,8 @@
     "tools:mlmodels:en": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec --output wiki.multi.en.vec",
     "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
     "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",
-    "test": "NODE_ENV=api tap --no-coverage"
+    "test": "NODE_ENV=api tap --no-coverage",
+    "update_static": "license-report --only=prod --output=html --department.value= --relatedTo.value=  | tee  static/pages/FR/third_parties.html static/pages/DZ/third_parties.html static/pages/XX/third_parties.html > /dev/null"
   },
   "type": "module",
   "keywords": [
@@ -76,6 +77,7 @@
     "jimp": "^0.16.1",
     "json-schema-faker": "^0.5.0-rcv.42",
     "jsonwebtoken": "^8.5.1",
+    "license-report": "^5.0.2",
     "line-by-line": "^0.1.6",
     "lorem-ipsum": "^2.0.4",
     "mail-time": "^1.3.0",
