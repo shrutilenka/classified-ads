@@ -36,7 +36,7 @@ ops.cloudMulter = Multer({
     },
 }).single('avatar')
 
-ops.localMulter = Multer({ dest: 'uploads/' }).single('avatar')
+ops.localMulter = Multer({ dest: 'static/images/' }).single('avatar')
 
 const dictionary = new Dictionary(['en', 'ar', 'fr'])
 

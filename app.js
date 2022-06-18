@@ -194,7 +194,7 @@ async function build(doRun) {
         fastify.register(fastifyRateLimit, config('PING_LIMITER'))
     }
 
-    // against 404 endoint ddos
+    // against 404 endpoint ddos
     // fastify.setNotFoundHandler({
     //     preHandler: fastify.rateLimit()
     // }, function (request, reply) {
@@ -263,8 +263,13 @@ async function build(doRun) {
     fastify.register(chatRouter, { prefix: 'chat' })
     fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
     fastify.register(fastifyServe, {
-        root: path.join(__dirname, 'uploads'),
-        prefix: '/cdn/',
+        root: path.join(__dirname, 'static/images/'),
+        prefix: '/static/images/',
+        decorateReply: false,
+    })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, `static/pages/${ config('DEPLOYMENT_NAME') }`),
+        prefix: '/static/pages/',
         decorateReply: false,
     })
 

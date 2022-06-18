@@ -51,7 +51,7 @@ const formatNInsertListing = async (QInstance, req, blobNames) => {
         publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
     } else {
         // TODO: config('IMG') & config('IMG_THUMB')
-        publicUrl = publicUrlSmall = `/cdn/${req.file.filename}`
+        publicUrl = publicUrlSmall = `/static/images/${req.file.filename}`
     }
 
     const listing = Object.assign(body, {
