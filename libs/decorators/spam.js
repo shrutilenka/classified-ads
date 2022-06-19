@@ -10,39 +10,42 @@ const NODE_ENV = {
     development: 1,
     production: 2,
 }[process.env.NODE_ENV]
-const filePath = '../../data/raw/blacklist.rsc'
+const filePath = '../../data/raw/ipsum.txt'
 const textContent = fs.readFileSync(path.join(__dirname, filePath)).toString()
-const ips = textContent.split('\n').slice(2).map(line => line.split('address=')[1])
+let ips = textContent.split('\n')
 ips.pop()
+let i = 0
+while (ips.shift().indexOf('#') > -1) ips = ips.map((line) => line.split('\t')[0])
+
 // ips = ["100.1.108.246", "101.0.80.218", "101.108.122.200", "101.108.122.253", "101.108.208.235", "101.109.243.205", "101.109.253.90", "101.127.251.2", "101.13.0.15", "101.13.0.30"]
-// Parse each line is like: 'add list=pwlgrzs-blacklist address=100.1.108.246'
-let bucket = {}
+// Parse each line is like: '83.97.20.84\t3'
+let blackBucket = {}
+let whiteBucket = {}
 function isIn(bucket, ip) {
-    const intIp = ip.split(".").map(Number)
+    const intIp = ip.split('.').map(Number)
     var part1, part2, part3, part4
-    [part1,part2,part3,part4] = intIp
+    ;[part1, part2, part3, part4] = intIp
     const thirdDeep = bucket[part1]?.[part2]?.[part3]
-    if(!thirdDeep) return false
+    if (!thirdDeep) return false
     return thirdDeep.indexOf(part4) > -1
 }
-for (let ip of ips) {
-    console.log(ip)
-    const intIp = ip.split(".").map(Number)
+function pushToBucket(bucket, ip) {
+    const intIp = ip.split('.').map(Number)
     var part1, part2, part3, part4
-    [part1,part2,part3,part4] = intIp
+    ;[part1, part2, part3, part4] = intIp
 
-    if (!bucket[part1])
-        bucket[part1] = {}
-    if (!bucket[part1][part2])
-        bucket[part1][part2] = {}
-    if (!bucket[part1][part2][part3])
-        bucket[part1][part2][part3] = []
-    if (bucket[part1][part2][part3].indexOf(part4) < 0)
-        bucket[part1][part2][part3].push(part4)
+    if (!bucket[part1]) bucket[part1] = {}
+    if (!bucket[part1][part2]) bucket[part1][part2] = {}
+    if (!bucket[part1][part2][part3]) bucket[part1][part2][part3] = []
+    if (bucket[part1][part2][part3].indexOf(part4) < 0) bucket[part1][part2][part3].push(part4)
+}
+// Fill in blackBucket at startup
+for (let ip of ips) {
+    pushToBucket(blackBucket, ip)
 }
 
-// const test1 = isIn(bucket, "100.1.108.246")
-// const test2 = isIn(bucket, "100.1.108.240")
+// const test1 = isIn(blackBucket, "100.1.108.246")
+// const test2 = isIn(blackBucket, "100.1.108.240")
 // console.log(`test1: ${test1}, test2: ${test2}`)
 
 // Two checks are performed, one is ultra-fast IP lookup against a local blacklist
@@ -57,8 +60,12 @@ function spamFilter(req, reply, done) {
         done()
         return
     }
+    if (isIn(whiteBucket, ip)) {
+        done()
+        return
+    }
     // Fast in-memory black list lookup
-    if (isIn(bucket, ip)) {
+    if (isIn(blackBucket, ip)) {
         reply.send({ msg: 'site is under maintenance' })
         return
     }
@@ -73,8 +80,10 @@ function spamFilter(req, reply, done) {
             // https://www.projecthoneypot.org/threat_info.php
             const test = _response[0] === 127 && _response[2] > 50
             if (test) {
-                reply.send({ msg: 'we hate spam to begin with!' })
+                reply.send({ msg: 'site is under maintenance' })
+                return
             }
+            pushToBucket(whiteBucket, ip)
             done()
             return
         }
@@ -83,7 +92,3 @@ function spamFilter(req, reply, done) {
 }
 
 export default spamFilter
-
-
-        
-
