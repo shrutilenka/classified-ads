@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url'
 import bootstrap from './bootstrap/bootstrap.js'
 import { options } from './config/options/_options_.js'
 import config from './configuration.js'
+import inputsValueMapping from './libs/decorators/inputsValueMapping.js'
 import { softVerifyJWT, testVerifyJWT, verifyJWT, wsauth } from './libs/decorators/jwt.js'
 import isSpam from './libs/decorators/spam.js'
 import isBot from './libs/decorators/visitorsFilter.js'
@@ -185,6 +186,7 @@ async function build(doRun) {
         done()
     })
     fastify.addHook('onRequest', isBot)
+    fastify.addHook('preValidation', inputsValueMapping)
     // Mine topK events
     // fastify.addHook('preHandler', miner)
 

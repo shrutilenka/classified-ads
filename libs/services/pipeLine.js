@@ -218,6 +218,21 @@ PipeLine.prototype = {
         return this
     },
     // Expects this.data to be body
+    mapInputValues: function (inputs) {
+        const keyValues = Object.keys(this.data)
+            .map((key) => {
+                if (inputs.indexOf(key) > -1) {
+                    const isTrue = this.data[key] == 'on' ? true : false
+                    return [key, isTrue]
+                } else {
+                    return [key, this.data[key]]
+                }
+            })
+            .filter(Boolean)
+        this.data = Object.fromEntries(keyValues)
+        return this
+    },
+    // Expects this.data to be body
     isValidBetween: function (schema, op) {
         const predicate = (schema) => {
             if (schema.called) {
@@ -283,7 +298,6 @@ PipeLine.prototype = {
 const ajv = new Ajv({ allErrors: true, coerceTypes: 'number' })
 function validationPipeLine(req) {
     const { body, method } = req
-    console.log(body)
     const section = body.section
     const { upload, geolocation, illustrations, schema } = constraints[process.env.NODE_ENV][method][section]
     const singletonSchema = schema()
@@ -292,12 +306,13 @@ function validationPipeLine(req) {
     const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng })
     const bodyPipeline = new PipeLine(body)
     const bodyPipeline2 = new PipeLine(body)
+    const bodyPipeline3 = new PipeLine(body)
     const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
     const undrawValid = !illustrations
         ? true
         : bodyPipeline.undrawSplit().isValidBetween(singletonSchema).undrawPostValidate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents(section).evaluate().isTrue
-
+    bodyPipeline3.mapInputValues(['exact', 'offer'])
     ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
@@ -322,4 +337,3 @@ function validationPipeLine(req) {
 }
 
 export { validationPipeLine, stringTransformer }
-

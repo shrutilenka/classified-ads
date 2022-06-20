@@ -3,8 +3,8 @@ import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
 import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
+import inputsValueMapping from '../decorators/inputsValueMapping.js'
 import postListingHandler from '../decorators/postListingHandler.js'
-import preValidation from '../decorators/preValidation.js'
 import { crypto, ops as helpers } from '../services/helpers.js'
 import queries from '../services/mongo.js'
 
@@ -170,7 +170,7 @@ async function routes(fastify, options, next) {
     /* Query listings not including deactivated */
     fastify.post(
         '/gwoogl',
-        { schema: gwooglSchema, preHandler: softAuth, preValidation: preValidation },
+        { schema: gwooglSchema, preHandler: softAuth, preValidation: inputsValueMapping },
         async (req, reply) => {
             const { body } = req
             const lang = await helpers.getLanguage(body.title_desc)
@@ -199,7 +199,7 @@ async function routes(fastify, options, next) {
         {
             schema: geolocationSchema,
             preHandler: softAuth,
-            preValidation: preValidation,
+            preValidation: inputsValueMapping,
         },
         async (req, reply) => {
             const { body } = req
