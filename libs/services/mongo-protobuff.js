@@ -9,8 +9,8 @@ const root = ProtoBufJs.loadSync(absPath)
 const GetListingsSince = root.lookupType('MongoQueries.GetListingsSince')
 const Listing = root.lookupType('MongoQueries.Listing')
 
-function getListingsSince() {
-    this.getBuffer = (QResult) => {
+class getListingsSince {
+    getBuffer(QResult) {
         var err = GetListingsSince.verify(QResult)
         if (err) throw Error(err)
         const getListingsSinceObj = GetListingsSince.create(QResult)
@@ -18,14 +18,14 @@ function getListingsSince() {
         return buffer
     }
 
-    this.decodeBuffer = (buffer) => {
+    decodeBuffer(buffer) {
         var decodedMessage = GetListingsSince.decode(buffer)
         return decodedMessage.toJSON()
     }
 }
 
-function getListingById() {
-    this.getBuffer = (QResult) => {
+class getListingById {
+    getBuffer(QResult) {
         var err = Listing.verify(QResult)
         if (err) throw Error(err)
         const listingObj = Listing.create(QResult)
@@ -33,7 +33,7 @@ function getListingById() {
         return buffer
     }
 
-    this.decodeBuffer = (buffer) => {
+    decodeBuffer(buffer) {
         var decodedMessage = Listing.decode(buffer)
         return decodedMessage.toJSON()
     }

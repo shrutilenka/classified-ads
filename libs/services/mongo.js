@@ -170,18 +170,16 @@ export default function (mongoDB, redisDB) {
             if (upLevel === '1') {
                 const buffer = await redisDB.getBuffer(unique)
                 let cachedQResult = new getListingById().decodeBuffer(buffer)
-                if (canView(cachedQResult)) {
-                    release()
-                    return cachedQResult
-                } else {
-                    release()
-                    return
-                }
+                // console.log(cachedQResult)
+                release()
+                if (canView(cachedQResult)) return cachedQResult
+                else return
             }
             if (upLevel === '2' || upLevel === '3') await redisDB.del(unique)
         }
         query._id = new ObjectId(id)
         const doc = await collection.findOne(query, { projection: projection })
+        // console.log(doc)
         // document has been removed from DB or doesn't exist at all
         if (!doc) {
             await redisDB.hdel(`up-ids`, id)
@@ -191,7 +189,7 @@ export default function (mongoDB, redisDB) {
         }
         if (canView(doc)) {
             doc._id = doc._id.toHexString()
-            const buffer = getListingById.getBuffer(doc)
+            const buffer = new getListingById().getBuffer(doc)
             redisDB.setBuffer(unique, buffer)
             const upLevel = (await redisDB.hget(`up-ids`, id)) || '1'
             // console.log(`current document level ${upLevel}`)
@@ -402,9 +400,9 @@ export default function (mongoDB, redisDB) {
         if (count < 6 && phrase.indexOf(' ') < 0) {
             let translations
             try {
-                console.log(`---------${lang}--------`)
+                // console.log(`---------${lang}--------`)
                 translations = translator.translate(phrase, lang, 3)
-                console.log(translations)
+                // console.log(translations)
                 for (const [lang, keywords] of Object.entries(translations)) {
                     collation = { locale: lang }
                     phrase = keywords.join(' ')
@@ -416,7 +414,7 @@ export default function (mongoDB, redisDB) {
                         .sort({ score: { $meta: 'textScore' } })
                         .limit(3)
                         .toArray()
-                    console.log(crossLangDocs)
+                    // console.log(crossLangDocs)
                     crossLangDocs.forEach((doc) => {
                         doc['crosslang'] = lang
                     })
