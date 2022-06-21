@@ -30,16 +30,29 @@ function isIn(bucket, ip) {
     if (!thirdDeep) return false
     return thirdDeep.indexOf(part4) > -1
 }
-for (let ip of ips) {
+// From node 15.14
+// function pushToBucket(bucket, ip) {
+//     const intIp = ip.split('.').map(Number)
+//     var part1, part2, part3, part4
+//     ;[part1, part2, part3, part4] = intIp
+
+//     bucket[part1] ??= {}
+//     bucket[part1][part2] ??= {}
+//     const deep3 ??= bucket[part1][part2][part3] ??= []
+//     if (deep3.indexOf(part4) < 0)
+//         deep3.push(part4)
+// }
+function pushToBucket(bucket, ip) {
     const intIp = ip.split('.').map(Number)
     var part1, part2, part3, part4
     ;[part1, part2, part3, part4] = intIp
 
-    bucket[part1] ??= {}
-    bucket[part1][part2] ??= {}
-    bucket[part1][part2][part3] ??= []
+    if (!bucket[part1]) bucket[part1] = {}
+    if (!bucket[part1][part2]) bucket[part1][part2] = {}
+    if (!bucket[part1][part2][part3]) bucket[part1][part2][part3] = []
     if (bucket[part1][part2][part3].indexOf(part4) < 0) bucket[part1][part2][part3].push(part4)
 }
+
 // Fill in blackBucket at startup
 for (let ip of ips) {
     pushToBucket(blackBucket, ip)
