@@ -60,6 +60,12 @@ async function routes(fastify, options) {
         }
     })
 
+    fastify.get('/logout', (request, reply) => {
+        reply.setCookie(COOKIE_NAME, {})
+        request.flash('success', 'Successfully logged out')
+        reply.redirect('/')
+    })
+
     const signupSchema = constraints[process.env.NODE_ENV].POST.signup.schema
     fastify.post('/signup', { schema: signupSchema, attachValidation: true }, async function (request, reply) {
         if (request.validationError) {
@@ -76,7 +82,7 @@ async function routes(fastify, options) {
                 reply.blabla([{}, 'signup', 'EMAIL_TAKEN'], request)
                 return
                 // throw { statusCode: 400, message: 'EMAIL_TAKEN' }
-            } else if(helpers.isBadEmail(username)) {
+            } else if (helpers.isBadEmail(username)) {
                 reply.blabla([{}, 'signup', 'BAD_EMAIL'], request)
                 return
             } else {
