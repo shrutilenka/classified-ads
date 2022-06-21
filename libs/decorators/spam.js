@@ -15,7 +15,8 @@ const textContent = fs.readFileSync(path.join(__dirname, filePath)).toString()
 let ips = textContent.split('\n')
 ips.pop()
 let i = 0
-while (ips.shift().indexOf('#') > -1) ips = ips.map((line) => line.split('\t')[0])
+while (ips.shift().indexOf('#') > -1) {}
+ips = ips.map((line) => line.split('\t')[0])
 
 // ips = ["100.1.108.246", "101.0.80.218", "101.108.122.200", "101.108.122.253", "101.108.208.235", "101.109.243.205", "101.109.253.90", "101.127.251.2", "101.13.0.15", "101.13.0.30"]
 // Parse each line is like: '83.97.20.84\t3'
@@ -29,14 +30,14 @@ function isIn(bucket, ip) {
     if (!thirdDeep) return false
     return thirdDeep.indexOf(part4) > -1
 }
-function pushToBucket(bucket, ip) {
+for (let ip of ips) {
     const intIp = ip.split('.').map(Number)
     var part1, part2, part3, part4
     ;[part1, part2, part3, part4] = intIp
 
-    if (!bucket[part1]) bucket[part1] = {}
-    if (!bucket[part1][part2]) bucket[part1][part2] = {}
-    if (!bucket[part1][part2][part3]) bucket[part1][part2][part3] = []
+    bucket[part1] ??= {}
+    bucket[part1][part2] ??= {}
+    bucket[part1][part2][part3] ??= []
     if (bucket[part1][part2][part3].indexOf(part4) < 0) bucket[part1][part2][part3].push(part4)
 }
 // Fill in blackBucket at startup
@@ -49,7 +50,7 @@ for (let ip of ips) {
 // console.log(`test1: ${test1}, test2: ${test2}`)
 
 // Two checks are performed, one is ultra-fast IP lookup against a local blacklist
-// The second hits projecthoneypot.org API
+// The second hits 'projecthoneypot.org' API
 function spamFilter(req, reply, done) {
     // TODO: req.socket ? does it work ?
     let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
