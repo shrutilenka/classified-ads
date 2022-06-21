@@ -4,6 +4,7 @@ import crypto from 'node:crypto'
 import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
 import blabla from '../decorators/blabla.js'
+import { ops as helpers } from '../services/helpers.js'
 import Mailer from '../services/mailer.js'
 import queries from '../services/mongo.js'
 
@@ -75,6 +76,9 @@ async function routes(fastify, options) {
                 reply.blabla([{}, 'signup', 'EMAIL_TAKEN'], request)
                 return
                 // throw { statusCode: 400, message: 'EMAIL_TAKEN' }
+            } else if(helpers.isBadEmail(username)) {
+                reply.blabla([{}, 'signup', 'BAD_EMAIL'], request)
+                return
             } else {
                 let passhash = await bcrypt.hash(password, 10)
                 // Temporary user to be able to verify property of identity (email)

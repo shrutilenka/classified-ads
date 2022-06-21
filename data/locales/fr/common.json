@@ -163,6 +163,10 @@
          "title": "Classified-ads - erreur d'inscription",
          "error": "L'e-mail a été pris"
       },
+      "BAD_EMAIL": {
+         "title": "Classified-ads - signup error",
+         "error": "Merci d'utiliser votre Email personnel"
+      },
       "SERVER_ERROR": {
          "title": "Classified-ads - erreur d'inscription",
          "error": "Oups, une erreur interne s'est produite :( Veuillez réessayer"

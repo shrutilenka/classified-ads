@@ -1,6 +1,8 @@
 import Multer from 'fastify-multer'
 import fs from 'fs'
 import { createRequire } from 'module'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import config from '../../configuration.js'
 import Dictionary from './dictionary.js'
 const require = createRequire(import.meta.url)
@@ -107,6 +109,16 @@ ops.initials = function initials(email) {
     }
     email = ((email.shift()[0] || '') + (email.pop()[0] || '')).toUpperCase()
     return email
+}
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const filePath = '../../data/raw/disposable_email_blocklist.txt'
+const textContent = fs.readFileSync(path.join(__dirname, filePath)).toString()
+let disposableEmails = textContent.split('\n')
+
+ops.isBadEmail = function isBadEmail(email) {
+    return disposableEmails.indexOf(email.split('@')[1]) > -1
 }
 
 /**

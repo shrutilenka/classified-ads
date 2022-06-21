@@ -60,6 +60,7 @@
     "bloom-filters": "^2.0.0",
     "config": "^3.3.7",
     "csv": "^6.0.5",
+    "decancer": "^1.2.3",
     "dotenv": "^14.2.0",
     "ejs": "^3.1.8",
     "fastify": "^3.25.3",

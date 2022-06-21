@@ -163,6 +163,10 @@
          "title": "Classified-ads - signup error",
          "error": "Email has been taken"
       },
+      "BAD_EMAIL": {
+         "title": "Classified-ads - signup error",
+         "error": "Please use your personal Email"
+      },
       "SERVER_ERROR": {
          "title": "Classified-ads - signup error",
          "error": "Oops, an internal error occurred :( Please try again"
