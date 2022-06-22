@@ -1,3 +1,4 @@
+// TODO: add defaults to all optional keys !!!
 // Constraints to ease code complexity. These constraints reflect
 // which operations to run on any endpoint on any environment
 import S from 'fluent-json-schema'
@@ -34,9 +35,9 @@ const signupSchema = {
 const gwoogl = S.object()
     .prop('title_desc', S.string().minLength(3).maxLength(100))
     .prop('exact', S.boolean().default(false))
-    .prop('div_q', S.string().minLength(3).maxLength(40))
+    .prop('div_q', S.string().minLength(3).maxLength(40).default(''))
     .prop('since', S.string().format(S.FORMATS.DATE))
-    .prop('section', S.string().enum(['donations', 'skills']))
+    .prop('section', S.string().enum(['donations', 'skills', 'hobbies', 'events', 'blogs']))
     .required(['title_desc', 'section'])
 const gwooglSchema = {
     body: gwoogl,
