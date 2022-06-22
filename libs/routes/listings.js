@@ -31,7 +31,7 @@ async function routes(fastify, options, next) {
         const [err, listings] = await to(QInstance.getListingsSince(20, '', req.pagination))
         const { page, perPage } = req.pagination
         const data = {
-            section: 'alllistings',
+            section: '',
             context: 'alllistings',
             listings: listings.documents,
             addressPoints: [],

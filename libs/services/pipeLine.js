@@ -121,7 +121,7 @@ function getKey(value, level) {
 }
 
 function getAscendants(keyword, lang, section) {
-    var parent = granpa
+    var parent, granpa
     try {
         if (section === 'donations') {
             const parent = getKey(keyword, donLeveled[lang].level2)
@@ -219,17 +219,19 @@ PipeLine.prototype = {
     },
     // Expects this.data to be body
     mapInputValues: function (inputs) {
-        const keyValues = Object.keys(this.data)
-            .map((key) => {
-                if (inputs.indexOf(key) > -1) {
-                    const isTrue = this.data[key] == 'on' ? true : false
-                    return [key, isTrue]
-                } else {
-                    return [key, this.data[key]]
-                }
-            })
-            .filter(Boolean)
-        this.data = Object.fromEntries(keyValues)
+        const keyValues = Object.keys(this.data).map((key) => {
+            if (inputs.indexOf(key) > -1) {
+                const isTrue = this.data[key] == 'on' ? true : false
+                return [key, isTrue]
+            } else {
+                return [key, this.data[key]]
+            }
+        })
+        const dictionary = Object.fromEntries(keyValues)
+        inputs.forEach((key) => {
+            dictionary[key] = dictionary[key] ? dictionary[key] : false
+        })
+        this.data = dictionary
         return this
     },
     // Expects this.data to be body
@@ -269,20 +271,22 @@ PipeLine.prototype = {
             parent = granpa = this.data.tags[0]
             return this
         }
+        console.log(`this.data.tags[0] ${this.data.tags[0]}`)
         const english = allTags[section]['en'].indexOf(this.data.tags[0]) > -1
         const french = english ? false : allTags[section]['fr'].indexOf(this.data.tags[0]) > -1
         const arabic = english ? false : french ? false : allTags[section]['ar'].indexOf(this.data.tags[0]) > -1
+        console.log(`english ${english}`)
         try {
             if (!english && !french && !arabic) throw new Error('Tags should be chosen from list')
             var parent, granpa
             if (english) {
-                ;[parent, granpa] = getAscendants(this.data.tags[0], 'en')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'en', section)
             }
             if (french) {
-                ;[parent, granpa] = getAscendants(this.data.tags[0], 'fr')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'fr', section)
             }
             if (arabic) {
-                ;[parent, granpa] = getAscendants(this.data.tags[0], 'ar')
+                ;[parent, granpa] = getAscendants(this.data.tags[0], 'ar', section)
             }
             this.data.parent = parent
             this.data.granpa = granpa
@@ -312,7 +316,7 @@ function validationPipeLine(req) {
         ? true
         : bodyPipeline.undrawSplit().isValidBetween(singletonSchema).undrawPostValidate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents(section).evaluate().isTrue
-    bodyPipeline3.mapInputValues(['exact', 'offer'])
+    bodyPipeline3.mapInputValues(['offer'])
     ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
