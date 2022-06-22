@@ -13,6 +13,7 @@ import { options } from './config/options/_options_.js'
 import config from './configuration.js'
 import { softVerifyJWT, testVerifyJWT, verifyJWT, wsauth } from './libs/decorators/jwt.js'
 import isSpam from './libs/decorators/spam.js'
+import valuesMapping from './libs/decorators/valuesMapping'
 import isBot from './libs/decorators/visitorsFilter.js'
 import { routes } from './libs/routes/_routes_.js'
 import { cache } from './libs/services/mongo-mem.js'
@@ -185,6 +186,7 @@ async function build(doRun) {
         done()
     })
     fastify.addHook('onRequest', isBot)
+    fastify.addHook('preValidation', valuesMapping)
     // Mine topK events
     // fastify.addHook('preHandler', miner)
 
