@@ -1,5 +1,5 @@
 FROM node:14.19.3-alpine3.14
-
+# ADD https://raw.githubusercontent.com/Stevie-Ray/referrer-spam-blocker/master/referral-spam.caddy /etc/caddy/
 WORKDIR /classified-ads
 COPY package.json ./
 RUN npm i -g npm
@@ -22,16 +22,15 @@ RUN apk add --no-cache --update --virtual .gyp \
 RUN apk add git
 
 RUN npm i
-RUN chmod -R a+rwx node_modules
+RUN chmod -R a+rwx node_modules/@msgpackr-extract
 COPY . ./
 
 WORKDIR /classified-ads/client
 COPY /client/package.json ./
 RUN rm -rf /node_modules
 
-
 RUN npm i
-RUN chmod -R a+rwx node_modules
+# RUN chmod -R a+rwx node_modules
 RUN npm run dev:client
 
 WORKDIR /classified-ads

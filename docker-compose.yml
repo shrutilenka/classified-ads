@@ -5,6 +5,7 @@ services:
     depends_on:
       - mongodb-service
       - redis-service
+      - caddy-service
     # environment:
     #   - NODE_ENV=localhost
     volumes:
@@ -50,6 +51,7 @@ services:
         - "80:80"
         - "443:443"
       volumes:
+        - ./referral-spam.caddy:/etc/caddy/referral-spam.caddy
         - ./Caddyfile:/etc/caddy/Caddyfile
         - './:/srv'
         - caddy_data:/data
