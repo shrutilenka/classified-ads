@@ -1,9 +1,18 @@
 // A pre-validation helper particularly for user POST requests
 
-const checkboxes = ['exact', 'offer']
+
 function inputsValueMapping(request, reply, done) {
     // This hook will always be executed after the shared `preValidation` hooks
     if (request.method === 'GET' || !request.body) {
+        done()
+        return
+    }
+    // TODO: check constraints per route
+    let inputs = []
+    if(request.url.indexOf('gwoogl') > -1)
+        inputs = ['exact']
+
+    if(inputs.length === 0) {
         done()
         return
     }
@@ -14,9 +23,10 @@ function inputsValueMapping(request, reply, done) {
         //     return
         // }
         // RULE 2: map { on: true, off: false }
-        console.log(key)
-        if (checkboxes.indexOf(key) > -1) {
-            console.log(request.body[key])
+        // console.log('inputsValueMapping')
+        // console.log(key)
+        if (inputs.indexOf(key) > -1) {
+            // console.log(request.body[key])
             const isTrue = request.body[key] == 'on' ? true : false
             return [key, isTrue]
         } else {
@@ -24,10 +34,6 @@ function inputsValueMapping(request, reply, done) {
         }
     })
     const dictionary = Object.fromEntries(keyValues)
-    checkboxes.forEach((key) => {
-        dictionary[key] = dictionary[key] ? dictionary[key] : false
-    })
-    console.log(dictionary)
     request.body = dictionary
     done()
 }

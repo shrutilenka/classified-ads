@@ -271,11 +271,11 @@ PipeLine.prototype = {
             parent = granpa = this.data.tags[0]
             return this
         }
-        console.log(`this.data.tags[0] ${this.data.tags[0]}`)
+        // console.log(`this.data.tags[0] ${this.data.tags[0]}`)
         const english = allTags[section]['en'].indexOf(this.data.tags[0]) > -1
         const french = english ? false : allTags[section]['fr'].indexOf(this.data.tags[0]) > -1
         const arabic = english ? false : french ? false : allTags[section]['ar'].indexOf(this.data.tags[0]) > -1
-        console.log(`english ${english}`)
+        // console.log(`english ${english}`)
         try {
             if (!english && !french && !arabic) throw new Error('Tags should be chosen from list')
             var parent, granpa
@@ -316,7 +316,9 @@ function validationPipeLine(req) {
         ? true
         : bodyPipeline.undrawSplit().isValidBetween(singletonSchema).undrawPostValidate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents(section).evaluate().isTrue
-    bodyPipeline3.mapInputValues(['offer'])
+    // value mapping is to deal with HTML input types, like the weird behavior of Checkboxes (https://stackoverflow.com/q/11424037/1951298)
+    // Other value mappings (for the whole app are in ../decorators/valueMapping.js)
+    if (['skills', 'blogs', 'donations'].indexOf(section) > -1) bodyPipeline3.mapInputValues(['offer'])
     ///////////////////////////////////THE REST IS REFORMATING OF RESULTS////////////////////////////////////////////////////////////////////////////////////
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())

@@ -3,8 +3,8 @@ import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
 import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
-import inputsValueMapping from '../decorators/inputsValueMapping.js'
 import postListingHandler from '../decorators/postListingHandler.js'
+import inputsValueMapping from '../decorators/valuesMapping.js'
 import { crypto, ops as helpers } from '../services/helpers.js'
 import queries from '../services/mongo.js'
 
@@ -200,7 +200,6 @@ async function routes(fastify, options, next) {
         {
             schema: geolocationSchema,
             preHandler: softAuth,
-            preValidation: inputsValueMapping,
         },
         async (req, reply) => {
             const { body } = req
