@@ -197,6 +197,19 @@
          "error": "Veuillez vérifier les informations fournies"
       }
    },
+   "reset": {
+      "reset": {
+         "title": "Classified-ads - reset"
+      },
+      "SERVER_ERROR": {
+         "title": "Classified-ads - reset error",
+         "error": "Oops, an internal error occurred :( Please try again"
+      },
+      "VALIDATION_ERROR": {
+         "title": "Classified-ads - reset error",
+         "error": "Please verify the provided information"
+      }
+   },
    "mail": {
       "bootstrap": "app instance bootstrapped correctly",
       "signup": {

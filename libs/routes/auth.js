@@ -108,7 +108,6 @@ async function routes(fastify, options) {
                     reply.redirect('/')
                     return
                 }
-                console.log('signing in')
                 Mailer.getInstance(mongoURL, dbName)
                     .then((mailer) => {
                         mailer.sendMail({
@@ -156,6 +155,39 @@ async function routes(fastify, options) {
         return
     })
 
+    const resetSchema = constraints[process.env.NODE_ENV].POST.reset.schema
+    fastify.post(
+        '/reset',
+        { schema: resetSchema, preHandler: auth, attachValidation: true },
+        async function (request, reply) {
+            if (request.validationError) {
+                reply.blabla([{}, 'reset', 'VALIDATION_ERROR'], request)
+                return
+            }
+            const currentUser = req.params.username
+            const { password } = request.body
+            const user = await QInstance.getUserById(currentUser)
+            // This must never happen really
+            if (!user) {
+                reply.blabla([{}, 'reset', 'SERVER_ERROR'], request)
+                return
+            }
+            try {
+                let passhash = await bcrypt.hash(password, 10)
+                user.passhash = passhash
+                const [err, acknowledged] = await to(QInstance.updateUser(user))
+                if (err) return reply.blabla([{}, 'reset', 'VALIDATION_ERROR'], request)
+                request.flash('success', 'Successfully updated password')
+                reply.redirect('/')
+                return
+            } catch (err) {
+                req.log.error(`reset: ${err.message}`)
+                reply.blabla([{}, 'reset', 'SERVER_ERROR'], request)
+                return
+            }
+        },
+    )
+
     /* GET login page. */
     fastify.get('/login', async function (req, reply) {
         reply.blabla([{}, 'login', 'login'], req)
@@ -164,6 +196,11 @@ async function routes(fastify, options) {
     /* GET subscribe page. */
     fastify.get('/signup', async function (req, reply) {
         reply.blabla([{}, 'signup', 'signup'], req)
+    })
+
+    /* GET reset page. */
+    fastify.get('/reset', async function (req, reply) {
+        reply.blabla([{}, 'reset', 'reset'], req)
     })
 }
 

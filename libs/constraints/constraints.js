@@ -32,6 +32,14 @@ const signupSchema = {
     body: signup,
 }
 
+const reset = S.object()
+    .prop('password', S.string().minLength(8).maxLength(40))
+    .required(['username', 'password'])
+const resetSchema = {
+    body: reset,
+}
+
+
 const gwoogl = S.object()
     .prop('title_desc', S.string().minLength(3).maxLength(100))
     .prop('exact', S.boolean().default(false))
@@ -175,6 +183,12 @@ const constraints = {
                     minInputs: { username: 6, password: 6 },
                 },
             },
+            reset: {
+                doReset: {
+                    requiredUXInputs: ['password'],
+                    minInputs: { password: 6 },
+                },
+            },
             listings: {
                 queryGeolocation: {
                     requiredUXInputs: [],
@@ -213,6 +227,9 @@ const constraints = {
             },
             signup: {
                 schema: signupSchema,
+            },
+            reset: {
+                schema: resetSchema,
             },
             queryGeolocation: {
                 schema: geolocationSchema,
@@ -268,6 +285,12 @@ const constraints = {
                     minInputs: { username: 6, password: 6 },
                 },
             },
+            reset: {
+                doReset: {
+                    requiredUXInputs: ['password'],
+                    minInputs: { password: 6 },
+                },
+            },
             listings: {
                 queryGeolocation: {
                     requiredUXInputs: [],
@@ -305,6 +328,9 @@ const constraints = {
             },
             signup: {
                 schema: signupSchema,
+            },
+            reset: {
+                schema: resetSchema,
             },
             queryGeolocation: {
                 schema: geolocationSchema,
@@ -353,6 +379,12 @@ const constraints = {
                     minInputs: { username: 6, password: 6 },
                 },
             },
+            reset: {
+                doReset: {
+                    requiredUXInputs: ['password'],
+                    minInputs: { password: 6 },
+                },
+            },
             listings: {
                 queryGeolocation: {
                     requiredUXInputs: [],
@@ -386,6 +418,9 @@ const constraints = {
             },
             signup: {
                 schema: signupSchema,
+            },
+            reset: {
+                schema: resetSchema,
             },
             queryGeolocation: {
                 schema: geolocationSchema,
@@ -434,6 +469,12 @@ const constraints = {
                     minInputs: { username: 6, password: 6 },
                 },
             },
+            reset: {
+                doReset: {
+                    requiredUXInputs: ['password'],
+                    minInputs: { password: 6 },
+                },
+            },
             listings: {
                 queryGeolocation: {
                     requiredUXInputs: [],
@@ -467,6 +508,9 @@ const constraints = {
             },
             signup: {
                 schema: signupSchema,
+            },
+            reset: {
+                schema: resetSchema,
             },
             queryGeolocation: {
                 schema: geolocationSchema,
