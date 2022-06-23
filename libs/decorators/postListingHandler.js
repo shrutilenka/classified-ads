@@ -26,10 +26,10 @@ const NODE_ENV = {
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
 
 let storage, bucket
-if (NODE_ENV < 1) {
-    storage = new Storage({ keyFilename: process.env.CREDS_PATH })
-    bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
-}
+// if (NODE_ENV ) {
+storage = new Storage({ keyFilename: process.env.CREDS_PATH })
+bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
+// }
 
 const tidyP = promisify(tidy)
 /**
@@ -146,6 +146,7 @@ export default (fastify) => {
                 // req.file       |   buffer: <Buffer ff d8 ff e1 3d 1e 45 78 69 66 00... 15755535 more bytes>,
                 // req.file       |   size: 15755585
                 // req.file       | }
+                
                 let uploadSmallImg, uploadImg
                 let thumbnailBuffer, originalBuffer
                 originalBuffer = req.file.buffer

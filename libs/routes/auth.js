@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import crypto from 'node:crypto'
 import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
+import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
 import { ops as helpers } from '../services/helpers.js'
 import Mailer from '../services/mailer.js'
@@ -15,6 +16,7 @@ async function routes(fastify, options) {
     const { redis } = fastify
 
     const QInstance = new queries(db, redis)
+    let { auth, adminAuth, softAuth } = authAdapter(fastify)
 
     const JWT_SECRET = process.env.JWT_SECRET
     const COOKIE_NAME = config('COOKIE_NAME')

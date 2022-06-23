@@ -75,7 +75,11 @@ function localize(data, route, kind, req, reply) {
     // TODO: handle errors here !!!!
     // a translation could easily be missing !!!!
     const userFriendlyMsg = req.t(`${route}.${kind}`, sharedData)
-    // the following get's back flashed success or failor messages
+    if (NODE_ENV < 1)
+        Object.keys(userFriendlyMsg).forEach((key) => {
+            if (key !== 'success' && key !== 'error') userFriendlyMsg[key] = `[${userFriendlyMsg[key]}]`
+        })
+    // the following get's back flashed success or failure messages
     // added in the current request lifecycle (here for ex in `pipeline#validationPipeLine`)
     if (!userFriendlyMsg['success'] && reply.flash('success').length) {
         userFriendlyMsg['success'] = reply.flash('success')[0]
@@ -89,16 +93,16 @@ function localize(data, route, kind, req, reply) {
         errors = req.validationError.validation.map((err) => err.message)
         errors.push(userFriendlyMsg.error)
     }
-    
     // When there are `errors` (generated in `pipeline#validationPipeLine` for example)
     if (data.errors) {
         errors = [...errors, ...data.errors]
     }
     // When there is an `error` (generated in `common.json` namespace)
+    
     if (userFriendlyMsg.error) {
         errors.push(userFriendlyMsg.error)
     }
-    userFriendlyMsg.error = errors
+    if (errors.length > 0) userFriendlyMsg.error = errors
     // console.log(req.t(`${route}.${kind}`, UXData))
     return Object.assign(userFriendlyMsg, data)
 }
