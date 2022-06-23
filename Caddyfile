@@ -1,5 +1,4 @@
-import ./referral-spam.caddy
-
 localhost:80 {
+	import ./referral-spam.caddy
 	reverse_proxy / classified-ads:3000
 }
