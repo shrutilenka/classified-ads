@@ -18,7 +18,8 @@
     "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
     "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",
     "test": "NODE_ENV=api tap --no-coverage",
-    "update_static": "license-report --only=prod --output=html --department.value= --relatedTo.value=  | tee  static/pages/FR/third_parties.html static/pages/DZ/third_parties.html static/pages/XX/third_parties.html > /dev/null"
+    "update_static": "license-report --only=prod --output=html --department.value= --relatedTo.value=  | tee  static/pages/FR/third_parties.html static/pages/DZ/third_parties.html static/pages/XX/third_parties.html > /dev/null",
+    "update_other_apps": "cd other_apps && git clone https://github.com/bacloud22/so-cards.git"
   },
   "type": "module",
   "keywords": [

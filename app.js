@@ -244,6 +244,11 @@ async function build(doRun) {
         decorateReply: false,
     })
     fastify.register(fastifyServe, {
+        root: path.join(__dirname, 'other_apps/so-cards/'),
+        prefix: '/u/',
+        decorateReply: false,
+    })
+    fastify.register(fastifyServe, {
         root: path.join(__dirname, `static/pages/${ config('DEPLOYMENT_NAME') }`),
         prefix: '/static/pages/',
         decorateReply: false,
