@@ -7,7 +7,9 @@ import constraints from '../constraints/constraints.js'
 import { html, reb, rew } from '../constraints/regex.js'
 import { give } from './data.js'
 
+
 const require = createRequire(import.meta.url)
+const decancer = require('decancer')
 
 const coordinates = getBorders()
 const localize = {
@@ -84,16 +86,21 @@ function cleanSensitive(blob, maxLen) {
 // Chain wrapper for Strings
 function stringTransformer(s) {
     var internal = String(s)
-    // this.checkHTML = function () {
-    //     internal = sanitize(s)
-    //     return this
-    // }
+    this.decancer = function () {
+        internal = decancer(internal)
+        return this
+    }
+    this.badWords = function () {
+        // TODO: implement bad-words
+        internal = (internal)
+        return this
+    }
     this.sanitizeHTML = function () {
-        internal = sanitize(s)
+        internal = sanitize(internal)
         return this
     }
     this.cleanSensitive = function () {
-        internal = cleanSensitive(s)
+        internal = cleanSensitive(internal)
         return this
     }
     this.valueOf = function () {

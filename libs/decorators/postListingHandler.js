@@ -1,13 +1,16 @@
 import { Storage } from '@google-cloud/storage'
 import { tidy } from 'htmltidy2'
 import { createRequire } from 'module'
+import { NLPEscape } from 'nlp-escape'
 import path from 'path'
 import { format, promisify } from 'util'
 import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
+import { html } from '../constraints/regex.js'
 import { ops as helpers } from '../services/helpers.js'
 import queries from '../services/mongo.js'
 import { stringTransformer, validationPipeLine } from '../services/pipeLine.js'
+
 
 const require = createRequire(import.meta.url)
 let sharp
@@ -99,7 +102,11 @@ export default (fastify) => {
         } else {
             let stripped
             try {
-                body.desc = new stringTransformer(body.desc).sanitizeHTML().cleanSensitive().valueOf()
+                const escaper = new NLPEscape(html.allowedTags)
+                body.desc = new stringTransformer(body.desc).sanitizeHTML().valueOf()
+                const clean = escaper.escape(body.desc)
+                const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
+                body.desc = escaper.unescape(transformed)
                 stripped = body.desc.replace(/<[^>]*>?/gm, '')
                 body.desc = await tidyP(body.desc, opt)
             } catch (error) {
