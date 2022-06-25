@@ -11,15 +11,17 @@ console.log(`Original input:\n ${text}\n`);
 test('foo', t => {
     const escaper = new NLPEscape(html.allowedTags)
     text = new stringTransformer(text).sanitizeHTML().valueOf()
+    console.log(`HTML validated:\n ${text}\n`);
     const clean = escaper.escape(text)
+    console.log(`HTML validated escaped:\n ${clean}\n`);
     const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
-    let original = lib.unescape(transformed);
+    let original = escaper.unescape(transformed);
     console.log(`\nRecovered results:\n ${original}`);
 
 	t.pass();
 });
 
-test("Escape keeps natural language intact", (t) => {
-    stripped = text.replace(/<[^>]*>?/gm, '')
-    text = await tidyP(text, opt)
-});
+// test("Escape keeps natural language intact", (t) => {
+//     stripped = text.replace(/<[^>]*>?/gm, '')
+//     text = await tidyP(text, opt)
+// });
