@@ -16,49 +16,49 @@
          "error": ""
       },
       "donations": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "intro": "Partagez ou recherchez des objets d'occasion misent à côté. Donnez une seconde vie à vos vieux vêtements, meubles, appareils électroniques, etc.",
          "success": "We got some of the latest donations :)",
          "error": ""
       },
       "events": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "intro": "Faites un appel pour des rencontres culturelles ou de loisirs. Vous n'êtes plus déconnecté! Entrez en contact avec les organisateurs et socialisez plus facilement.",
          "success": "We got some of the latest events :)",
          "error": ""
       },
       "skills": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "intro": "Partager vos compétences et développez votre business. Vous pouvez également rejoindre d'autres personnes. Le partage de compétences est un moyen  avantageux d'acquérir des compétences professionnelles. Votre voiture spéciale est rayée ? Vous pouvez demander de l'aide!",
          "success": "We got some of the latest skills :)",
          "error": ""
       },
       "hobbies": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "intro": "Parlez librement de vos loisirs ou trouvez des amis avec des passe-temps similaires en en parlant.",
          "success": "We got some hobbies :)",
          "error": ""
       },
       "blogs": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "intro": "Passions créatives, loisirs et passe-temps! N'importe quel sujet pourrait tomber ici, alors n'hésitez pas à partager vos pensées.",
          "success": "We got some blogs :)",
          "error": ""
       },
       "gwoogl": {
-         "title": "Classified-ads - Search results",
+         "title": "{{app_name}} - Search results",
          "intro": "Petites annonces reprises sur le web. Utilisez notre moteur de recherche pour trouver les meilleurs résultats même en différentes langues !",
          "success": "We got some listings for your search :)",
          "error": ""
       },
       "geolocation": {
-         "title": "Classified-ads - Geolocated results",
+         "title": "{{app_name}} - Geolocated results",
          "intro": "Petites annonces reprises sur le web. Utilisez la recherche géolocalisée pour trouver des annonces à proximité !",
          "success": "We got some listings nearby :)",
          "error": ""
       },
       "POST_ERR": {
-         "title": "Classified-ads - Error",
+         "title": "{{app_name}} - Error",
          "intro": "Petites annonces reprises sur le web. Malheureusement, votre nouvelle annonce n'a pas été publiée en raison d'une erreur. Veuillez réessayer.",
          "success": "",
          "error": ""
@@ -66,25 +66,25 @@
    },
    "index": {
       "listings": {
-         "title": "Classified-ads - Today's listings",
+         "title": "{{app_name}} - Today's listings",
          "intro": "Petites annonces reprises sur le web.",
          "success": "",
          "error": ""
       },
       "tags": {
-         "title": "Classified-ads - Catégorie: {{subtitle}}",
+         "title": "{{app_name}} - Catégorie: {{subtitle}}",
          "intro": "Petites annonces reprises sur le web.",
          "success": "Nous avons quelques annonces de toutes les sections qui sont liées à cette catégorie :)",
          "error": ""
       },
       "division": {
-         "title": "Classified-ads - Département: {{subtitle}}",
+         "title": "{{app_name}} - Département: {{subtitle}}",
          "intro": "",
          "success": "Nous avons quelques annonces de toutes les sections qui se situe dans ce département :)",
          "error": ""
       },
       "keyword": {
-         "title": "Classified-ads - Mot-clé: {{subtitle}}",
+         "title": "{{app_name}} - Mot-clé: {{subtitle}}",
          "intro": "",
          "success": "Nous avons quelques annonces de toutes les sections pour ce mot clé :)",
          "error": ""
@@ -100,50 +100,50 @@
    },
    "listing": {
       "id": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "success": "We got the listing :)",
          "error": ""
       },
       "donations": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "success": "Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
          "error": "L'image sera chargée sous peu!"
       },
       "events": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "success": "Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
          "error": "L'image sera chargée sous peu!"
       },
       "skills": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "success": "Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
          "error": "L'image sera chargée sous peu!"
       },
       "hobbies": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "success": "Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
          "error": "L'image sera chargée sous peu!"
       },
       "blogs": {
-         "title": "Classified-ads - {{section}}",
+         "title": "{{app_name}} - {{section}}",
          "success": "Merci d'avoir publié une nouvelle annonce. L'annonce sera visible après modération. Vous pouvez également désactiver l'annonce pendant un certain temps :)",
          "error": ""
       },
       "contact": {
-         "title": "Classified-ads - Contact",
+         "title": "{{app_name}} - Contact",
          "success": "E-mail envoyé avec succès à l'annonceur",
          "error": ""
       }
    },
    "message": {
       "NOT_FOUND": {
-         "title": "Classified-ads - Erreur",
+         "title": "{{app_name}} - Erreur",
          "message": "Aucune annonce trouvée, L'annonce peut être désactivée ou pas encore approuvée :(",
          "success": "",
          "error": "Listing not found"
       },
       "SERVER_ERROR": {
-         "title": "Classified-ads - Erreur",
+         "title": "{{app_name}} - Erreur",
          "message": "Oups, une erreur interne s'est produite :( Veuillez réessayer"
       },
       "contact": {
@@ -151,62 +151,62 @@
          "message": ""
       },
       "verification": {
-         "title": "Classified-ads - inscription",
+         "title": "{{app_name}} - inscription",
          "message": "Vous devez maintenant vérifier votre inscription. Accédez simplement à votre boîte e-mail et cliquez sur le lien d'activation"
       }
    },
    "signup": {
       "signup": {
-         "title": "Classified-ads - inscription"
+         "title": "{{app_name}} - inscription"
       },
       "EMAIL_TAKEN": {
-         "title": "Classified-ads - erreur d'inscription",
+         "title": "{{app_name}} - erreur d'inscription",
          "error": "L'e-mail a été pris"
       },
       "BAD_EMAIL": {
-         "title": "Classified-ads - signup error",
+         "title": "{{app_name}} - signup error",
          "error": "Merci d'utiliser votre Email personnel"
       },
       "SERVER_ERROR": {
-         "title": "Classified-ads - erreur d'inscription",
+         "title": "{{app_name}} - erreur d'inscription",
          "error": "Oups, une erreur interne s'est produite :( Veuillez réessayer"
       },
       "VALIDATION_ERROR": {
-         "title": "Classified-ads - erreur d'inscription",
+         "title": "{{app_name}} - erreur d'inscription",
          "error": "Veuillez vérifier les informations fournies"
       }
    },
    "login": {
       "login": {
-         "title": "Classified-ads - authentification"
+         "title": "{{app_name}} - authentification"
       },
       "INCORRECT_CREDENTIALS": {
-         "title": "Classified-ads - erreur d'authentification",
+         "title": "{{app_name}} - erreur d'authentification",
          "error": "Veuillez vérifier l'adresse e-mail et le mot de passe et réessayer"
       },
       "USER_UNVERIFIED": {
-         "title": "Classified-ads - erreur d'authentification",
+         "title": "{{app_name}} - erreur d'authentification",
          "error": "Veuillez vérifier votre e-mail pour activer votre compte"
       },
       "SERVER_ERROR": {
-         "title": "Classified-ads - erreur d'authentification",
+         "title": "{{app_name}} - erreur d'authentification",
          "error": "Oups, une erreur interne s'est produite :( Veuillez réessayer"
       },
       "VALIDATION_ERROR": {
-         "title": "Classified-ads - signup error",
+         "title": "{{app_name}} - signup error",
          "error": "Veuillez vérifier les informations fournies"
       }
    },
    "reset": {
       "reset": {
-         "title": "Classified-ads - reset"
+         "title": "{{app_name}} - reset"
       },
       "SERVER_ERROR": {
-         "title": "Classified-ads - reset error",
+         "title": "{{app_name}} - reset error",
          "error": "Oops, an internal error occurred :( Please try again"
       },
       "VALIDATION_ERROR": {
-         "title": "Classified-ads - reset error",
+         "title": "{{app_name}} - reset error",
          "error": "Please verify the provided information"
       }
    },

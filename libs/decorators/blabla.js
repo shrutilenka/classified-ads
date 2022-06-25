@@ -55,7 +55,7 @@ export default function blabla(context) {
         this.view(`/templates/pages/${route}`, data)
     }
 }
-
+const appName = config('APP_NAME')
 /**
  * `localize` uses i18next for more user friendly messages
  * It maps messages (multilingual) to routes in different contexts
@@ -70,6 +70,7 @@ function localize(data, route, kind, req, reply) {
     const sharedData = {
         section: section,
         subtitle: subtitle,
+        app_name: appName,
         returnObjects: true,
     }
     // TODO: handle errors here !!!!
