@@ -42,7 +42,13 @@ export default function blabla(context) {
     }
     Object.assign(context[0], { user })
     // localize uses i18next for more user friendly messages
-    const userFriendlyMsg = localize(...context, this.request, this)
+    let userFriendlyMsg = {}
+    try {
+        userFriendlyMsg = localize(...context, this.request, this)    
+    } catch (err) {
+        this.request.log.error(`blabla/localize: ${err.message}`)
+    }
+    
     const route = context[1]
     const routeC = constraints[process.env.NODE_ENV].GET[route]
     const UXConstraints = routeC ? { UXConstraints: routeC } : {}

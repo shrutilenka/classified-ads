@@ -1,5 +1,6 @@
 import { Storage } from '@google-cloud/storage'
 import { tidy } from 'htmltidy2'
+import Jimp from 'jimp-compact'
 import { createRequire } from 'module'
 import { NLPEscape } from 'nlp-escape'
 import path from 'path'
@@ -10,7 +11,6 @@ import { html } from '../constraints/regex.js'
 import { ops as helpers } from '../services/helpers.js'
 import queries from '../services/mongo.js'
 import { stringTransformer, validationPipeLine } from '../services/pipeLine.js'
-
 
 const require = createRequire(import.meta.url)
 let sharp

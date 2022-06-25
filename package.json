@@ -17,7 +17,7 @@
     "tools:mlmodels:en": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec --output wiki.multi.en.vec",
     "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
     "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",
-    "test": "NODE_ENV=api tap --no-coverage",
+    "test": "NODE_ENV=api tap --no-coverage && ava",
     "update_static": "license-report --only=prod --output=html --department.value= --relatedTo.value=  | tee  static/pages/FR/third_parties.html static/pages/DZ/third_parties.html static/pages/XX/third_parties.html > /dev/null",
     "update_other_apps": "cd other_apps && git clone https://github.com/bacloud22/so-cards.git"
   },
@@ -76,7 +76,7 @@
     "i18next-fs-backend": "^1.1.4",
     "i18next-http-middleware": "^3.1.5",
     "isbot": "^3.5.0",
-    "jimp": "^0.16.1",
+    "jimp-compact": "^0.16.1-2",
     "json-schema-faker": "^0.5.0-rcv.42",
     "jsonwebtoken": "^8.5.1",
     "license-report": "^5.0.2",
@@ -105,6 +105,7 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.24",
+    "ava": "^4.3.0",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
     "got": "^12.1.0",
