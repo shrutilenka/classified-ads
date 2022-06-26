@@ -73,6 +73,8 @@ const formatNInsertListing = async (QInstance, req, blobNames) => {
 
 // options http://api.html-tidy.org/tidy/tidylib_api_5.6.0/tidy_quickref.html
 const opt = { 'show-body-only': 'yes' }
+const tags = html.allowedTags.map(tag => `<${tag}>`).concat(html.allowedTags.map(tag => `</${tag}>`))
+const escaper = new NLPEscape(tags)
 
 export default (fastify) => {
     const { db } = fastify.mongo
@@ -102,13 +104,12 @@ export default (fastify) => {
         } else {
             let stripped
             try {
-                const escaper = new NLPEscape(html.allowedTags)
+                body.desc = await tidyP(body.desc, opt)
                 body.desc = new stringTransformer(body.desc).sanitizeHTML().valueOf()
                 const clean = escaper.escape(body.desc)
                 const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
                 body.desc = escaper.unescape(transformed)
                 stripped = body.desc.replace(/<[^>]*>?/gm, '')
-                body.desc = await tidyP(body.desc, opt)
             } catch (error) {
                 // TODO: stop request ?
                 req.log.error(`post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `)
