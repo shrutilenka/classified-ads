@@ -7,9 +7,13 @@ import constraints from '../constraints/constraints.js'
 import { html, reb, rew } from '../constraints/regex.js'
 import { give } from './data.js'
 
-
 const require = createRequire(import.meta.url)
 const decancer = require('decancer')
+const naughtyWords = require('naughty-words')
+const badWords = naughtyWords.ar.concat(naughtyWords.fr).concat(naughtyWords.en)
+const Filter = require('bad-words'),
+    filter = new Filter()
+filter.addWords(...badWords)
 
 const coordinates = getBorders()
 const localize = {
@@ -85,14 +89,14 @@ function cleanSensitive(blob, maxLen) {
 
 // Chain wrapper for Strings
 function stringTransformer(s) {
-    var internal = String(s)
+    let internal = String(s)
+    let flag = false
     this.decancer = function () {
         internal = decancer(internal)
         return this
     }
     this.badWords = function () {
-        // TODO: implement bad-words
-        internal = (internal)
+        internal = filter.clean(internal)
         return this
     }
     this.sanitizeHTML = function () {
