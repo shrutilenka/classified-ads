@@ -242,7 +242,9 @@ PipeLine.prototype = {
         inputs.forEach((key) => {
             dictionary[key] = dictionary[key] ? dictionary[key] : false
         })
-        this.data = dictionary
+        Object.keys(this.data).forEach((key) => {
+            this.data[key] = dictionary[key]
+        })
         return this
     },
     // Expects this.data to be body
