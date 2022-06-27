@@ -1,52 +1,3 @@
-<!-- <nav class="navbar navbar-expand-xl navbar-dark bg-dark mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand" data-trans="(today)" href="/">Classified-ads</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
-        <li class="nav-item"><a class="nav-link" data-trans="(categories)" href="/categories">Categories</a></li>
-        <li class="nav-item"><a class="nav-link" data-trans="(donations)" href="/listings/donations">Donations</a></li>
-        <li class="nav-item"><a class="nav-link" data-trans="(events)" href="/listings/events">Events</a></li>
-        <li class="nav-item"><a class="nav-link" data-trans="(skills)" href="/listings/skills">Skills</a></li>
-        <li class="nav-item"><a class="nav-link" data-trans="(blogs)" href="/listings/blogs">Blogs</a></li>
-        <li class="nav-item"><a class="nav-link" data-trans="(about)" href="/about">About</a></li>
-        <li class="nav-item"><a class="nav-link" data-trans="(howto)" href="/how-to">How?</a></li>
-        <li class="nav-item"><a class="nav-link" data-trans="(contact)" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#97;&#99;&#108;&#111;&#117;&#100;&#49;&#52;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">Contact</a></li>
-        <li class="nav-item"><a class="nav-link" data-trans="(policy)" href="/policy">Policies</a></li>
-        <li class="nav-item px-xl-2">
-          <select class="selectpicker" id="langSelect" style="width:min-content">
-            <option value="en-US" data-content='English'>🇬🇧</option>
-            <option value="ar" data-content='عربية'>🇩🇿</option>
-            <option value="fr" data-content='Français'>🇫🇷</option>
-          </select>
-        </li>
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="fa fa-home"></span> </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <%# if(typeof user == 'undefined'){ %>
-            <li><a class="dropdown-item" data-trans="(login)" href="/login">Login 🔒</a></li>
-            <%# } else { %>
-            <li><a class="dropdown-item" href="/listings/user"><span class="fa fa-user"></span> Welcome <%= user.nickname %></a></li>
-            <%# }%>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="/login"> Login</a></li>
-            <li><a class="dropdown-item" href="/signup"> Signup</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="form-inline p-0 mx-auto mt-xl-0" style="max-width:400px">
-        <input id="autoComplete" class="form-control w-100" type="search" dir="ltr" spellcheck=false autocomplete="off">
-      </form>
-    </div>
-  </div>
-</nav> -->
-
 <header class="p-3 bg-dark text-white">
   <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -61,19 +12,9 @@
               <li><a data-trans="(skills)" href="/listings/skills" class="nav-link px-2 text-white">Skills</a></li>
               <li><a data-trans="(hobbies)" href="/listings/hobbies" class="nav-link px-2 text-white">Hobbies</a></li>
               <li><a data-trans="(blogs)" href="/listings/blogs" class="nav-link px-2 text-white">Blogs</a></li>
-              <li><a data-trans="(so-c)" href="/u/" class="nav-link px-2 text-white">Social cards</a></li>
+              <li><a data-trans="(so-c)" href="/u/" class="nav-link px-2 text-white">Digital card</a></li>
           </ul>
-          <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="fa fa-home"></span> </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" data-trans="(login)" href="#">####</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">####</a></li>
-                <li><a class="dropdown-item" href="#">####</a></li>
-              </ul>
-            </li>
-          </ul>
+
           <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
               <input id="autoComplete" class="form-control form-control-dark text-white bg-dark" type="search"
                   spellcheck=false autocomplete="off" placeholder="Quick search...">
