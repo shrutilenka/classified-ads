@@ -278,6 +278,7 @@ async function build(doRun) {
             //     })
             // gracefulServer.setReady()
         } catch (err) {
+            console.log(err)
             fastify.log.error(err)
             process.exit(1)
         }
@@ -298,6 +299,7 @@ async function build(doRun) {
                 prepareData()
             })
             .catch((err) => {
+                console.log('Refusing to start because of ' + err)
                 fastify.log.error('Refusing to start because of ' + err)
                 process.exit()
             })
@@ -328,6 +330,7 @@ async function build(doRun) {
                     await cache(db, redis)
                 })
                 .catch((err) => {
+                    console.log('Refusing to start because of ' + err)
                     fastify.log.error('Refusing to start because of ' + err)
                     process.exit()
                 })
