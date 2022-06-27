@@ -110,9 +110,10 @@ export default (fastify) => {
                 const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
                 body.desc = escaper.unescape(transformed)
                 stripped = body.desc.replace(/<[^>]*>?/gm, '')
+                body.cdesc = stripped
             } catch (error) {
                 // TODO: stop request ?
-                req.log.error(`post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `)
+                req.log.error(`post/listings#postListingHandler: tidyP:: ${body.cdesc.slice(0, 20)} | ${error.message} `)
             }
             try {
                 body.lang = stripped ? await helpers.getLanguage(stripped) : 'und'

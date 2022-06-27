@@ -89,6 +89,7 @@ function fakeItems(docsCount) {
         item.tagsLang = item.lang = randomLang
         item.title = langsFaker[randomLang].words(5 + Math.floor(Math.random() * 10))
         item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30))
+        item.cdesc = item.desc
         item.tags = [langsFaker[randomLang].words(1), langsFaker[randomLang].words(1), langsFaker[randomLang].words(1)]
         item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
         item.div = states[randomLang][Math.floor(Math.random() * states[randomLang].length)]
@@ -142,7 +143,7 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
 
 ops.createIndexes = async function createIndexes(db) {
     const listingCollection = db.collection('listing')
-    await listingCollection.createIndex({ title: 'text', desc: 'text' }, { weights: { title: 3, desc: 1 } })
+    await listingCollection.createIndex({ title: 'text', cdesc: 'text' }, { weights: { title: 3, cdesc: 1 } })
     // doesn't support indexing one key based on value
     // await listingCollection.createIndex(
     //     { lang: 'fr' },

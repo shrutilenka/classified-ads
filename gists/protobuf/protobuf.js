@@ -22,6 +22,7 @@ for (i = 0; i < 1; i++) {
     listingObj.title = 'Peter Sauce is fatter than technology' + i
     listingObj.tags = ['@@', '@@@']
     listingObj.desc = 'Peter Sauce is fatter than technology' + i
+    listingObj.cdesc = 'Peter Sauce is fatter than technology' + i
     listingObj.lat = 'Peter Sauce is fatter than technology' + i
     listingObj.lng = 'Peter Sauce is fatter than technology' + i
     listingObj.section = 'Peter Sauce is fatter than technology' + i

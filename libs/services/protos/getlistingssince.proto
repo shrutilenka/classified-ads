@@ -7,17 +7,18 @@ message Listing{
     required string title = 2;
     repeated string tags = 3;
     required string desc = 4;
-    optional float lat = 5;
-    optional float lng = 6;
-    required string section = 7;
-    required string usr = 8;
-    required string lang = 9;
-    required string tagsLang = 10;
-    optional string img = 11;
-    required string div = 12;
-    optional bool a = 13;
-    optional bool d = 14;
-    optional bool offer = 15;
+    required string cdesc = 5;
+    optional float lat = 6;
+    optional float lng = 7;
+    required string section = 8;
+    required string usr = 9;
+    required string lang = 10;
+    required string tagsLang = 11;
+    optional string img = 12;
+    required string div = 13;
+    optional bool a = 14;
+    optional bool d = 15;
+    optional bool offer = 16;
 }
 
 message GetListingsSince{

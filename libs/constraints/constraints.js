@@ -66,6 +66,7 @@ const donationsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
+            .prop('cdesc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
                 S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
@@ -84,6 +85,7 @@ const skillsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
+            .prop('cdesc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
                 S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
@@ -104,6 +106,7 @@ const blogsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
+            .prop('cdesc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
                 S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
@@ -122,6 +125,7 @@ const eventsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
+            .prop('cdesc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
                 S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),

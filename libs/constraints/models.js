@@ -12,6 +12,7 @@ const Listing = new ObjectModel({
     parent: String,
     granpa: String,
     desc: String,
+    cdesc: String,
     section: ['donations', 'skills', 'blogs', 'events', 'hobbies'],
     d: Boolean,
     a: Boolean,

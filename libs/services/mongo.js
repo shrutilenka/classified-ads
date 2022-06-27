@@ -34,7 +34,7 @@ export default function (mongoDB, redisDB) {
     /** @type { Filter } */
     const baseQuery = { d: false, a: true }
     const baseProjection = { geolocation: 0.0, d: 0.0, a: 0.0 }
-    const baseSort = [['_id', 'desc']]
+    const baseSort = [['_id']] //'desc'
     /** @type { CollationOptions } */
     const baseCollation = {}
     /**
@@ -267,7 +267,7 @@ export default function (mongoDB, redisDB) {
         const substring = 100
         docs.forEach((doc) => {
             doc.desc = doc.desc.substring(0, substring)
-            doc.title = doc.desc.substring(0, Math.round(substring / 2))
+            // doc.title = doc.desc.substring(0, Math.round(substring / 2))
             doc._id = doc._id.toHexString()
         })
         let newQResult = { documents: docs, count: count }
