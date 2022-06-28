@@ -143,6 +143,7 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
 
 ops.createIndexes = async function createIndexes(db) {
     const listingCollection = db.collection('listing')
+    await listingCollection.dropIndexes()
     await listingCollection.createIndex({ title: 'text', cdesc: 'text' }, { weights: { title: 3, cdesc: 1 } })
     // doesn't support indexing one key based on value
     // await listingCollection.createIndex(

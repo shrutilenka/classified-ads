@@ -223,7 +223,7 @@ async function routes(fastify, options, next) {
     fastify.register(multer.contentParser)
     const upload = NODE_ENV < 1 ? helpers.localMulter : helpers.cloudMulter
     fastify.post('/donations', { preHandler: [auth, upload] }, handler)
-    fastify.post('/skills', { preHandler: [auth, upload] }, handler)
+    fastify.post('/skills', { preHandler: [auth] }, handler)
     fastify.post('/blogs', { preHandler: auth }, handler)
     fastify.post('/events', { preHandler: auth }, handler)
     fastify.post('/hobbies', { preHandler: [auth, upload] }, handler)

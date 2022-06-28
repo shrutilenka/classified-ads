@@ -213,6 +213,16 @@ PipeLine.prototype = {
         ChainBool.call(this, solution, op)
         return this
     },
+    // We could just downcast (lat-lng) pff
+    randomizeCoordinations: function (meters) {
+        meters = Math.round((Math.random() - 0.5) * meters)
+        const lat = this.data.lat
+        const lng = this.data.lng
+        const coefficient = meters * 0.0000089;
+        this.data.body.lat = lat + coefficient
+        this.data.body.lng = lng + coefficient / Math.cos(lat * 0.018)
+        return this
+    },
     // Expects this.data to be body.tags
     isTagsValid: function (op) {
         const predicate = () => {
@@ -262,19 +272,6 @@ PipeLine.prototype = {
         ChainBool.call(this, solution, op)
         return this
     },
-    // Expects this.data to be body having body.undraw
-    undrawSplit: function () {
-        ;[this.data.undraw, this.data.color] = this.data.undraw.split('#')
-        return this
-    },
-    // Expects this.data to be body having body.undraw.color
-    undrawPostValidate: function () {
-        this.data.undraw = this.data.undraw + '#' + this.data.color
-        delete this.data.color
-        delete this.data.illu_q
-        delete this.data.img_radio
-        return this
-    },
     // Expects this.data to be body having body.tags
     // only if for the first tag !!!
     deriveTagsParents: function (section) {
@@ -320,14 +317,11 @@ function validationPipeLine(req) {
     const singletonSchema = schema()
 
     ///////////////////////////////////THIS IS CONSTRUCTION OF THE PIPELINE (MAIN LIKE)//////////////////////////////////////////////////////////////////////
-    const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng })
+    const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng, body: body })
     const bodyPipeline = new PipeLine(body)
     const bodyPipeline2 = new PipeLine(body)
     const bodyPipeline3 = new PipeLine(body)
-    const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).evaluate().isTrue
-    const undrawValid = !illustrations
-        ? true
-        : bodyPipeline.undrawSplit().isValidBetween(singletonSchema).undrawPostValidate().isTrue
+    const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).randomizeCoordinations(50).evaluate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents(section).evaluate().isTrue
     // value mapping is to deal with HTML input types, like the weird behavior of Checkboxes (https://stackoverflow.com/q/11424037/1951298)
     // Other value mappings (for the whole app are in ../decorators/valueMapping.js)
@@ -352,7 +346,7 @@ function validationPipeLine(req) {
         errors = errors.concat(friendlyErrors)
     }
 
-    return { errors, tagsValid, geoValid, undrawValid }
+    return { errors, tagsValid, geoValid }
 }
 
 export { validationPipeLine, stringTransformer }

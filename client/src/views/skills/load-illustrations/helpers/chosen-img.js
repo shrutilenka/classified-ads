@@ -14,6 +14,8 @@ export function chosenImg(radio) {
     const chosen = svgURL.split('/')[4].split('.')[0]
     if (chosen) {
         const undrawInput = LIS.id('undraw')
-        undrawInput.value = chosen + pastColor.current
+        const colorInput = LIS.id('color')
+        undrawInput.value = chosen
+        colorInput.value = pastColor.current
     }
 }

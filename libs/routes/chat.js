@@ -24,7 +24,7 @@ async function routes(fastify, options) {
     }, 100000)
 
     setInterval(function () {
-        console.log('refreshing channels')
+        // console.log('refreshing channels')
         refreshChannels(channels)
     }, 100000)
 

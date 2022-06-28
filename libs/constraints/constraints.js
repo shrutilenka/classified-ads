@@ -66,7 +66,6 @@ const donationsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
-            .prop('cdesc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
                 S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
@@ -85,7 +84,6 @@ const skillsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
-            .prop('cdesc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
                 S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
@@ -93,9 +91,8 @@ const skillsSchema = () => {
             .prop('offer', S.boolean().default(false))
             .prop('section', S.string().enum(['skills']).required())
             .prop('font', S.string().enum(fontFamilies))
-            .prop('illu_q', S.string().minLength(2).maxLength(15).required())
             .prop('undraw', S.string().enum(illustrations))
-            .prop('color', S.string().regex(/^[0-9a-f]{3,10}$/i))
+            .prop('color', S.string().pattern(/^[0-9a-f]{3,10}$/i))
             .prop('img_radio', S.string().required()),
     }
 }
@@ -106,7 +103,6 @@ const blogsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
-            .prop('cdesc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
                 S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
@@ -125,7 +121,6 @@ const eventsSchema = () => {
         def: S.object()
             .prop('title', S.string().minLength(10).maxLength(100).required())
             .prop('desc', S.string().minLength(10).maxLength(5000).required())
-            .prop('cdesc', S.string().minLength(10).maxLength(5000).required())
             .prop(
                 'tags',
                 S.array().minItems(1).maxItems(3).items(S.string().minLength(3).maxLength(TAG_SIZE)).required(),
@@ -202,7 +197,7 @@ const constraints = {
                     minInputs: { title_desc: 3 },
                 },
                 addSkill: {
-                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q'],
+                    requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
                 },
                 addDonation: {
@@ -304,7 +299,7 @@ const constraints = {
                     minInputs: { title_desc: 3 },
                 },
                 addSkill: {
-                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q'],
+                    requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
                 },
                 addDonation: {
@@ -398,7 +393,7 @@ const constraints = {
                     minInputs: { title_desc: 3 },
                 },
                 addSkill: {
-                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q'],
+                    requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
                 },
                 addDonation: {
@@ -488,7 +483,7 @@ const constraints = {
                     minInputs: { title_desc: 3 },
                 },
                 addSkill: {
-                    requiredUXInputs: ['title', 'desc', 'tags', 'illu_q'],
+                    requiredUXInputs: ['title', 'desc', 'tags'],
                     minInputs: { title: 10, desc: 10 },
                 },
                 addDonation: {

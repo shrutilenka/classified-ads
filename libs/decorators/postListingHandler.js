@@ -88,15 +88,15 @@ export default (fastify) => {
             reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'server error... Please try again later.'])
             return reply
         }
-        let errors, tagsValid, geoValid, undrawValid
+        let errors, tagsValid, geoValid
         try {
-            ;({ errors, tagsValid, geoValid, undrawValid } = validationPipeLine(req))
+            ;({ errors, tagsValid, geoValid } = validationPipeLine(req))
         } catch (error) {
             req.log.error(`post/listings#postListingHandler: ${error.message}`)
             reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'server error... Please try again later.'])
             return reply
         }
-        const valid = !errors.length && tagsValid && geoValid && undrawValid
+        const valid = !errors.length && tagsValid && geoValid
         if (!valid) {
             req.log.error(`post/listings#postListingHandler: ${JSON.stringify(errors)}`)
             reply.blabla([{ errors, section }, 'listings', 'POST_ERR'], req)
