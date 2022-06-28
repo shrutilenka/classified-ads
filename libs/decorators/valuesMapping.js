@@ -19,9 +19,9 @@ function inputsValueMapping(request, reply, done) {
     // do some mapping
     const keyValues = Object.keys(request.body).map((key) => {
         // RULE 1: remove keys with empty string
-        // if (request.body[key] == '') {
-        //     return
-        // }
+        if (request.body[key] == '') {
+            return
+        }
         // RULE 2: map { on: true, off: false }
         // console.log('inputsValueMapping')
         // console.log(key)
@@ -32,7 +32,7 @@ function inputsValueMapping(request, reply, done) {
         } else {
             return [key, request.body[key]]
         }
-    })
+    }).filter(Boolean)
     const dictionary = Object.fromEntries(keyValues)
     request.body = dictionary
     done()

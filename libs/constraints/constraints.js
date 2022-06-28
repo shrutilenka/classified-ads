@@ -41,12 +41,11 @@ const resetSchema = {
 
 
 const gwoogl = S.object()
-    .prop('title_desc', S.string().minLength(3).maxLength(100))
+    .prop('title_desc', S.string().minLength(3).maxLength(100)).required()
     .prop('exact', S.boolean().default(false))
     .prop('div_q', S.string().minLength(3).maxLength(40).default(''))
     .prop('since', S.string().format(S.FORMATS.DATE))
-    .prop('section', S.string().enum(['donations', 'skills', 'hobbies', 'events', 'blogs']))
-    .required(['title_desc', 'section'])
+    .prop('section', S.string().enum(['donations', 'skills', 'hobbies', 'events', 'blogs'])).required()
 const gwooglSchema = {
     body: gwoogl,
 }

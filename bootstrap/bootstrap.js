@@ -87,8 +87,8 @@ function fakeItems(docsCount) {
         const randomLang = langs[Math.floor(Math.random() * langs.length)]
         const item = langsFaker[randomLang].jsf.generate(schema)
         item.tagsLang = item.lang = randomLang
-        item.title = langsFaker[randomLang].words(5 + Math.floor(Math.random() * 10))
-        item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30))
+        item.title = langsFaker[randomLang].words(5 + Math.floor(Math.random() * 10)).slice(0, 100)
+        item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30)).slice(5000)
         item.cdesc = item.desc
         item.tags = [langsFaker[randomLang].words(1), langsFaker[randomLang].words(1), langsFaker[randomLang].words(1)]
         item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
