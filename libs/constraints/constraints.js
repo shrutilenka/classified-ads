@@ -78,6 +78,7 @@ const donationsSchema = () => {
     }
 }
 
+const HEX_WEBCOLOR_PATTERN = /^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/i
 const skillsSchema = () => {
     return {
         called: false,
@@ -92,7 +93,7 @@ const skillsSchema = () => {
             .prop('section', S.string().enum(['skills']).required())
             .prop('font', S.string().enum(fontFamilies))
             .prop('undraw', S.string().enum(illustrations))
-            .prop('color', S.string().pattern(/^[0-9a-f]{3,10}$/i))
+            .prop('color', S.string().pattern(HEX_WEBCOLOR_PATTERN))
             .prop('img_radio', S.string().required()),
     }
 }

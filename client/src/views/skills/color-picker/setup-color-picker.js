@@ -1,13 +1,15 @@
 // eslint-disable-next-line max-len
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Color picker @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 import Picker from 'vanilla-picker'
+import { LIS } from '../../../helpers/lis.js'
 import { allPaths } from '../load-illustrations/state/all-paths.js'
 import { pastColor } from '../load-illustrations/state/past-color.js'
+
 let newColor
 export const setupColorPicker = () => {
     const parent = document.querySelector('#parent')
     if (parent) {
-        const picker = new Picker(parent)
+        const picker = new Picker({ parent: parent, alpha: false })
         picker.onChange = function (color) {
             // Fill allPaths with paths of SVGs inside 'img-container' div (undraw illustrations)
             if (!allPaths.current) {
@@ -23,7 +25,10 @@ export const setupColorPicker = () => {
                 }
             })
             pastColor.current = newColor
-            // TODO: unselect radio box
+            // TODO: quick and dirty here !
+            const colorInput = LIS.id('color')
+            colorInput.value = pastColor.current.slice(0, 7)
+            // TODO: or unselect radio box
         }
     }
 }
