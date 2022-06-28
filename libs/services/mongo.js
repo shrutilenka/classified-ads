@@ -384,7 +384,7 @@ export default function (mongoDB, redisDB) {
         query._id = { $gt: ObjectId }
         if (lang !== 'und') query.lang = lang
         if (section) query.section = section
-        if (division) query.div = division
+        if (division && division !== 'und') query.div = division
         const docs = await collection
             .find(query, { score: { $meta: 'textScore' } })
             .collation(collation)

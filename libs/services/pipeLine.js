@@ -190,6 +190,7 @@ const assign = (fn, obj, solution) => (obj.value = fn(obj.value, solution))
 function ChainBool(solution, op) {
     this.value = op === 'or' ? assign(or, this, solution) : assign(and, this, solution)
 }
+
 PipeLine.prototype = {
     value: true,
     error: {},
@@ -198,6 +199,7 @@ PipeLine.prototype = {
         const predicate = (vs) => {
             const x = this.data.lat
             const y = this.data.lng
+            if (x > 90 || x < -90 || y > 180 || y < -180) return false
             let inside = false
             for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
                 const xi = vs[i][1]
@@ -214,13 +216,17 @@ PipeLine.prototype = {
         return this
     },
     // We could just downcast (lat-lng) pff
+    // We don't care if point in on the edge of polygon. Too much to care of.
     randomizeCoordinations: function (meters) {
-        meters = Math.round((Math.random() - 0.5) * meters)
-        const lat = this.data.lat
-        const lng = this.data.lng
-        const coefficient = meters * 0.0000089;
-        this.data.body.lat = lat + coefficient
-        this.data.body.lng = lng + coefficient / Math.cos(lat * 0.018)
+        const x = this.data.lat
+        const y = this.data.lng
+        // If on the edge, keep it there, not bothering.
+        if (x > 90 || x < -90 || y > 180 || y < -180) return this
+        const rand = Math.random() - 0.5
+        meters = Math.round(rand * meters)
+        const coefficient = meters * 0.0000089
+        this.data.body.lat = x + coefficient
+        this.data.body.lng = y + coefficient / Math.cos(x * 0.018)
         return this
     },
     // Expects this.data to be body.tags
@@ -321,7 +327,9 @@ function validationPipeLine(req) {
     const bodyPipeline = new PipeLine(body)
     const bodyPipeline2 = new PipeLine(body)
     const bodyPipeline3 = new PipeLine(body)
-    const geoValid = !geolocation ? true : geoPipeline.isPointInsidePolygon(coordinates).randomizeCoordinations(50).evaluate().isTrue
+    const geoValid = !geolocation
+        ? true
+        : geoPipeline.isPointInsidePolygon(coordinates).randomizeCoordinations(50).evaluate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents(section).evaluate().isTrue
     // value mapping is to deal with HTML input types, like the weird behavior of Checkboxes (https://stackoverflow.com/q/11424037/1951298)
     // Other value mappings (for the whole app are in ../decorators/valueMapping.js)
