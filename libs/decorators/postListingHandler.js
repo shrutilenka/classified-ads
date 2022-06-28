@@ -43,27 +43,31 @@ const tidyP = promisify(tidy)
  * @param {*} upload
  * @returns
  */
-const formatNInsertListing = async (QInstance, req, blobNames) => {
+const formatNInsertListing = async (QInstance, req, blobNames, upload) => {
     const { body } = req
-    let publicUrl, publicUrlSmall
-    if (blobNames) {
-        const [blobName, blobNameSmall] = blobNames[0].small
-            ? [blobNames[1].name, blobNames[0].name]
-            : [blobNames[0].name, blobNames[1].name]
-        publicUrlSmall = format(`https://storage.googleapis.com/${bucket.name}/${blobNameSmall}`)
-        publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
-    } else {
-        // TODO: config('IMG') & config('IMG_THUMB')
-        publicUrl = publicUrlSmall = `/static/images/${req.file.filename}`
-    }
-
-    const listing = Object.assign(body, {
+    let publicUrl, publicUrlSmall, listing
+    listing = Object.assign(body, {
         d: false,
         a: false,
-        img: publicUrl,
-        thum: publicUrlSmall,
         usr: req.params.username,
     })
+    if (upload) {
+        if (blobNames) {
+            const [blobName, blobNameSmall] = blobNames[0].small
+                ? [blobNames[1].name, blobNames[0].name]
+                : [blobNames[0].name, blobNames[1].name]
+            publicUrlSmall = format(`https://storage.googleapis.com/${bucket.name}/${blobNameSmall}`)
+            publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
+        } else {
+            // TODO: config('IMG') & config('IMG_THUMB')
+            publicUrl = publicUrlSmall = `/static/images/${req.file.filename}`
+        }
+        listing = Object.assign(listing, {
+            img: publicUrl,
+            thum: publicUrlSmall,
+        })
+    }
+    
     const [err, insertedId] = await to(QInstance.insertListing(listing))
     if (err) throw err
     listing['id'] = insertedId.toHexString()
@@ -71,9 +75,9 @@ const formatNInsertListing = async (QInstance, req, blobNames) => {
     return data
 }
 
-// options http://api.html-tidy.org/tidy/tidylib_api_5.6.0/tidy_quickref.html
+// Options http://api.html-tidy.org/tidy/tidylib_api_5.6.0/tidy_quickref.html
 const opt = { 'show-body-only': 'yes' }
-const tags = html.allowedTags.map(tag => `<${tag}>`).concat(html.allowedTags.map(tag => `</${tag}>`))
+const tags = html.allowedTags.map((tag) => `<${tag}>`).concat(html.allowedTags.map((tag) => `</${tag}>`))
 const escaper = new NLPEscape(tags)
 
 export default (fastify) => {
@@ -85,7 +89,7 @@ export default (fastify) => {
         const section = body.section
         if (!section) {
             req.log.error(`post/listings#postListingHandler: no section provided}`)
-            reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'server error... Please try again later.'])
+            reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'SERVER_ERROR'])
             return reply
         }
         let errors, tagsValid, geoValid
@@ -93,7 +97,7 @@ export default (fastify) => {
             ;({ errors, tagsValid, geoValid } = validationPipeLine(req))
         } catch (error) {
             req.log.error(`post/listings#postListingHandler: ${error.message}`)
-            reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'server error... Please try again later.'])
+            reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'SERVER_ERROR'])
             return reply
         }
         const valid = !errors.length && tagsValid && geoValid
@@ -113,7 +117,9 @@ export default (fastify) => {
                 body.cdesc = stripped
             } catch (error) {
                 // TODO: stop request ?
-                req.log.error(`post/listings#postListingHandler: tidyP:: ${body.cdesc.slice(0, 20)} | ${error.message} `)
+                req.log.error(
+                    `post/listings#postListingHandler: tidyP:: ${body.cdesc.slice(0, 20)} | ${error.message} `,
+                )
             }
             try {
                 body.lang = stripped ? await helpers.getLanguage(stripped) : 'und'
@@ -126,22 +132,18 @@ export default (fastify) => {
             const { upload } = constraints[process.env.NODE_ENV][method][section]
             if (upload && !req.file) {
                 req.log.error(`post/listings#postListingHandler: file not found`)
-                reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'server error... Please try again later.'])
+                reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'SERVER_ERROR'])
                 return reply
             }
             if (!upload) {
-                formatNInsertListing(QInstance, req, null)
+                formatNInsertListing(QInstance, req, null, false)
                     .then((data) => {
                         reply.blabla([data, 'listing', 'id'], req)
                         return reply
                     })
                     .catch((err) => {
                         req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
-                        reply.blabla([
-                            { title: 'TODO: blaaaaaaaaaaa' },
-                            'message',
-                            'server error... Please try again later.',
-                        ])
+                        reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'SERVER_ERROR'])
                         return reply
                     })
             } else {
@@ -155,7 +157,7 @@ export default (fastify) => {
                 // req.file       |   buffer: <Buffer ff d8 ff e1 3d 1e 45 78 69 66 00... 15755535 more bytes>,
                 // req.file       |   size: 15755585
                 // req.file       | }
-                
+
                 let uploadSmallImg, uploadImg
                 let thumbnailBuffer, originalBuffer
                 originalBuffer = req.file.buffer
@@ -225,7 +227,7 @@ export default (fastify) => {
                 })
                 Promise.all([uploadImg, uploadSmallImg])
                     .then((blobNames) => {
-                        formatNInsertListing(QInstance, req, blobNames)
+                        formatNInsertListing(QInstance, req, blobNames, true)
                             .then((data) => {
                                 reply.blabla([data, 'listing', 'id'], req)
                                 return reply

@@ -239,7 +239,7 @@ const constraints = {
             },
             skills: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: false,
                 illustrations: true,
                 schema: skillsSchema,
@@ -253,14 +253,14 @@ const constraints = {
             },
             blogs: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: true,
                 illustrations: false,
                 schema: blogsSchema,
             },
             events: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: true,
                 illustrations: false,
                 schema: eventsSchema,
@@ -340,7 +340,7 @@ const constraints = {
             },
             skills: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: false,
                 illustrations: true,
                 schema: skillsSchema,
@@ -354,7 +354,7 @@ const constraints = {
             },
             events: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: true,
                 illustrations: false,
                 schema: eventsSchema,
@@ -430,7 +430,7 @@ const constraints = {
             },
             skills: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: false,
                 illustrations: true,
                 schema: skillsSchema,
@@ -444,7 +444,7 @@ const constraints = {
             },
             events: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: true,
                 illustrations: false,
                 schema: eventsSchema,
@@ -520,7 +520,7 @@ const constraints = {
             },
             skills: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: false,
                 illustrations: true,
                 schema: skillsSchema,
@@ -534,7 +534,7 @@ const constraints = {
             },
             events: {
                 secured: true,
-                upload: true,
+                upload: false,
                 geolocation: true,
                 illustrations: false,
                 schema: eventsSchema,
