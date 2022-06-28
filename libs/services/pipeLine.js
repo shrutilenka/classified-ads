@@ -277,8 +277,8 @@ PipeLine.prototype = {
     deriveTagsParents: function (section) {
         if (section !== 'donations' && section !== 'hobbies') {
             // TODO: no real hierarchy now
-            var parent, granpa
-            parent = granpa = this.data.tags[0]
+            this.data.parent = this.data.tags[0]
+            this.data.granpa = this.data.tags[0]
             return this
         }
         // console.log(`this.data.tags[0] ${this.data.tags[0]}`)

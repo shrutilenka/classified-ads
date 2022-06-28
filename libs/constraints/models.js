@@ -20,7 +20,7 @@ const Listing = new ObjectModel({
     // TODO: add front end constraints
     lang: ['ar', 'fr', 'en', 'und'], //check
     // img: new RegExp(URL),
-    div: String,
+    
     // tagsLang: ['ar', 'fr', 'en'], //check
 })
 
@@ -37,6 +37,7 @@ const Donation = Listing.extend({
             .extend()
             .assert((a) => a.length === 2, 'should have two coordinates'),
     },
+    div: String,
 }).assert(
     (o) => o.lat === o.geolocation.coordinates[1] && o.lng === o.geolocation.coordinates[0],
     'should have two coordinates | point mismatch',
@@ -53,6 +54,7 @@ const Event = Listing.extend({
             .extend()
             .assert((a) => a.length === 2, 'should have two coordinates'),
     },
+    div: String,
     from: Date,
     to: Date,
 })
