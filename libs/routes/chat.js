@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
 import { crypto } from '../services/helpers.js'
-import { isAuthor } from '../services/mongo-mem.js'
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 async function routes(fastify, options) {
+    // Channels is a map of { key: socket }
+    // Where the key is referred as: channel
     const channels = new Map()
 
     fastify.addHook('preValidation', async (request, reply) => {
@@ -79,7 +80,7 @@ async function routes(fastify, options) {
 
     function validChannel(channel, user) {
         let [author, claimedUser, thread] = channel.split(',')
-        return user === claimedUser && isAuthor(thread, author)
+        return user === claimedUser // || isAuthor(thread, author)
     }
 
     function refreshChannels(channels) {

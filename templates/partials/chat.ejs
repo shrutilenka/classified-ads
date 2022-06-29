@@ -73,6 +73,7 @@
   .channels {
     grid-column: 2;
     grid-row: 1 / 4;
+    color: white;
   }
 
   .header {
@@ -108,39 +109,53 @@
     </ul>
   </div>
   <div class="input box">
-    <input type="text" placeholder="Have you tried the CSS Grid Layout Module?">
+    <input id="messenger" type="text" autofocus placeholder="Have you tried the CSS Grid Layout Module?" />
   </div>
 </div>
 <div id="channels"></div>
 <script>
-  let _ws = null
-  // init()
-  function init() {
-    _ws = new WebSocket(
-      `ws://${window.location.host}/chat/ping/?channel=${__channel__}`,
-    )
-    _ws.onmessage = (message) => {
-      message = JSON.parse(message.data)
-      appendMessage(message)
-    }
-    document.getElementById('message').onkeypress = (evt) => {
-      if (evt.key == 'Enter') {
-        _ws.send(
-          JSON.stringify({
-            message: evt.target.value,
-          }),
-        )
-        evt.target.value = ''
+  const append = (msg) => document.getElementById('chat').innerHTML += `<div><b>${msg.sender}:&nbsp;</b>${msg.message}</div>`
+  // const createHTML = (txt, tag) => {
+  //   var element = document.createElement(tag);
+  //   element.innerHTML = txt;
+  //   return element;
+  // }
+  
+  let notesChannel = __channel__
+  let addressedChannel = notesChannel
+
+  function channelSelect(channel, ul) {
+    return function (event) {
+      let lis = ul.getElementsByTagName("li");
+      for (var i = 0; i < lis.length; ++i) {
+        lis[i].innerHTML = lis[i].innerHTML.replace('<b>', '').replace('</b>', '')
       }
+      let li = event.target;
+      li.innerHTML = `<b>${li.innerHTML}</b>`
+      addressedChannel = channel
+      refresh()
+    };
+  }
+
+  let _ws = null
+  let sockets = []
+  function refresh() {
+    sockets[addressedChannel] = new WebSocket(
+      `ws://${window.location.host}/chat/ping/?channel=${addressedChannel}`,
+    )
+    sockets[addressedChannel].onmessage = (message) => {
+      message = JSON.parse(message.data)
+      append(message)
     }
-  }
 
-  function appendMessage(message) {
-    document.getElementById(
-      'chat',
-    ).innerHTML += `<div><b>${message.sender}:&nbsp;</b>${message.message}</div>`
+    document.getElementById('messenger').addEventListener('keyup', (e) => {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        sockets[addressedChannel].send(JSON.stringify({ message: e.target.value, }))
+        e.target.value = ''
+      }
+    })
   }
-
+  refresh()
   const channels = document.getElementById('channels')
   if (channels) {
     fetch(`/listings/id/${window.__id__}/channels`)
@@ -149,7 +164,10 @@
         data.channels.forEach(channel => {
           var ul = document.getElementById("channels box");
           var li = document.createElement("li");
+          if (channel === notesChannel)
+            li.style = 'color: red'
           li.appendChild(document.createTextNode(channel));
+          li.addEventListener("click", channelSelect(channel, ul), false);
           ul.appendChild(li);
 
           // let btn = document.createElement("button");
