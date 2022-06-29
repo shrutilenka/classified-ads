@@ -2,14 +2,18 @@ import { LIS } from '../../../helpers/lis.js'
 import { channelSelect } from '../helpers/dom.js'
 import { clientSocket } from './state.js'
 
-const { addressedChannel, notesChannel, sockets, thread } = clientSocket
-const append = (msg) => (LIS.id('chat').innerHTML += `<div><b>${msg.sender}:&nbsp;</b>${msg.message}</div>`)
+const { addressedChannel, notesChannel, sockets, thread, messages } = clientSocket
+const list = LIS.id('message-list')
+const append = (msg) => {
+    const li = document.createElement('li')
+    li.innerHTML = `<b>${msg.sender}:&nbsp;</b>${msg.message}`
+    list.appendChild(li)
+}
+const endpoint = `ws://${window.location.host}/chat/ping/?channel=`
 
 export const newSocket = () => {
     try {
-        sockets[addressedChannel] = new WebSocket(
-            `ws://${window.location.host}/chat/ping/?channel=${addressedChannel}`,
-        )
+        sockets[addressedChannel] = new WebSocket(endpoint + addressedChannel)
         sockets[addressedChannel].onerror = function (error) {
             console.log(error)
         }
@@ -19,8 +23,15 @@ export const newSocket = () => {
     }
 
     sockets[addressedChannel].onmessage = (response) => {
-        let message = JSON.parse(response.data)
-        append(message)
+        try {
+            let message = JSON.parse(response.data)
+            if (!messages[addressedChannel]) messages[addressedChannel] = []
+            localStorage.setItem(addressedChannel, JSON.stringify(messages[addressedChannel]))
+            append(message)
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     LIS.id('messenger').addEventListener('keyup', (e) => {
