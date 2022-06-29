@@ -2,6 +2,7 @@ import { LIS } from '../../../helpers/lis.js'
 import { channelSelect } from '../helpers/dom.js'
 import { clientSocket } from './state.js'
 
+
 const { addressedChannel, notesChannel, sockets, thread, messages } = clientSocket
 const list = LIS.id('message-list')
 const append = (msg) => {
@@ -18,7 +19,7 @@ export const newSocket = () => {
             console.log(error)
         }
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return false
     }
 
