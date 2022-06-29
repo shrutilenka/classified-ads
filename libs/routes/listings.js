@@ -115,10 +115,13 @@ async function routes(fastify, options, next) {
         }
         const author = elem.usr
         const newChannel = { au: author, vi: viewer, th: thread }
+        
         // update allChannels with new channel if needed
         if (!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
             allChannels.push(newChannel)
         }
+        console.log('all channels')
+        console.log(allChannels)
         // get channels convenient to this thread and viewer
         if (author === viewer) {
             // get channels of all visitors (viewer) for the author
@@ -127,6 +130,8 @@ async function routes(fastify, options, next) {
             // find the one channel for the current viewer
             channels = [allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)]
         }
+        console.log('result channels')
+        console.log(channels)
         // encrypt channels names
         channels = channels.map((ch) => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
         return reply.send({ channels })
