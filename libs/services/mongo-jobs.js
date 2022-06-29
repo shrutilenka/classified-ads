@@ -16,14 +16,14 @@ const agg = [
     {
         $project: {
             title: 1,
-            desc: 1,
+            cdesc: 1,
         },
     },
     {
         $replaceWith: {
             _id: '$_id',
             text: {
-                $concat: ['$title', ' ', '$desc'],
+                $concat: ['$title', ' ', '$cdesc'],
             },
         },
     },

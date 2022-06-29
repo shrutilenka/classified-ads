@@ -1,6 +1,6 @@
 // Configuration
 
-const consts = {
+export const consts = {
     APIHost: {
         production: '',
         development: 'https://classified-ads-bacloud14.herokuapp.com',
@@ -12,5 +12,5 @@ const consts = {
         development: 1,
         localhost: 0,
     },
+    tagSize: 35,
 }
-export default consts

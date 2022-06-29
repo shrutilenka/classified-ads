@@ -4,7 +4,8 @@
  *    input id="autoComplete"
  */
 import autoComplete from '@tarekraafat/autocomplete.js'
-import consts from '../../consts.js'
+import { consts } from '../../consts.js'
+
 export const setupAutoComplete = async () => {
     return new Promise(function (resolve, reject) {
         if (!document.querySelector('input#autoComplete')) {
@@ -46,7 +47,7 @@ export const setupAutoComplete = async () => {
                             const selection = event.detail.selection.value
                             const keyword = selection._id
                             autoCompleteJS.input.value = keyword
-                            window.location.href = `${APIHost[process.env.NODE_ENV]}/keyword/${keyword}`
+                            window.location.href = `${consts.APIHost[process.env.NODE_ENV]}/keyword/${keyword}`
                         },
                     },
                 },
