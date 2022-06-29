@@ -1,4 +1,6 @@
-export const sockets = []
-export let notesChannel = __channel__
-export let addressedChannel = notesChannel
-export let thread = window.__id__
+export const clientSocket = {
+    notesChannel: __channel__,
+    addressedChannel: __channel__,
+    thread: __id__,
+    sockets: []
+}

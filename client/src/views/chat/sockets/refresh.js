@@ -1,15 +1,25 @@
 import { LIS } from '../../../helpers/lis.js'
 import { channelSelect } from '../helpers/dom.js'
-import { addressedChannel, sockets, thread } from './state.js'
+import { clientSocket } from './state.js'
 
+const { addressedChannel, notesChannel, sockets, thread } = clientSocket
 const append = (msg) => (LIS.id('chat').innerHTML += `<div><b>${msg.sender}:&nbsp;</b>${msg.message}</div>`)
 
 export const newSocket = () => {
-    sockets[addressedChannel] = new WebSocket(
-        `ws://${window.location.host}/chat/ping/?channel=${addressedChannel}`,
-    )
-    sockets[addressedChannel].onmessage = (message) => {
-        message = JSON.parse(message.data)
+    try {
+        sockets[addressedChannel] = new WebSocket(
+            `ws://${window.location.host}/chat/ping/?channel=${addressedChannel}`,
+        )
+        sockets[addressedChannel].onerror = function (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        // console.log(error)
+        return false
+    }
+
+    sockets[addressedChannel].onmessage = (response) => {
+        let message = JSON.parse(response.data)
         append(message)
     }
 
@@ -19,6 +29,7 @@ export const newSocket = () => {
             e.target.value = ''
         }
     })
+    return true
 }
 
 export const getChannels = () => {

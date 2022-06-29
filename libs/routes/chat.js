@@ -79,7 +79,7 @@ async function routes(fastify, options) {
     }
 
     function validChannel(channel, user) {
-        let [author, claimedUser, thread] = channel.split(',')
+        let [, claimedUser] = channel.split(',')
         return user === claimedUser // || isAuthor(thread, author)
     }
 

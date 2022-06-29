@@ -1,5 +1,5 @@
 import { newSocket } from "../sockets/refresh.js"
-import { addressedChannel } from "../sockets/state.js"
+import { clientSocket } from "../sockets/state.js"
 
 export const channelSelect = (channel, ul) => {
     return function (event) {
@@ -9,7 +9,7 @@ export const channelSelect = (channel, ul) => {
         }
         let li = event.target
         li.innerHTML = `<b>${li.innerHTML}</b>`
-        addressedChannel = channel
+        clientSocket.addressedChannel = channel
         newSocket()
     }
 }
