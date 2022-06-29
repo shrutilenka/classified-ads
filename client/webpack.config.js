@@ -48,6 +48,7 @@ export default {
         biglistings: './src/views/biglistings/biglists.js',
         tags: './src/views/tags/tags.js',
         easteregg: './src/views/easteregg/easteregg.js',
+        chat: './src/views/chat/chat.js',
     },
     output: {
         filename: '[name].js',

@@ -114,70 +114,10 @@
 </div>
 <div id="channels"></div>
 <script>
-  const append = (msg) => document.getElementById('chat').innerHTML += `<div><b>${msg.sender}:&nbsp;</b>${msg.message}</div>`
-  // const createHTML = (txt, tag) => {
-  //   var element = document.createElement(tag);
-  //   element.innerHTML = txt;
-  //   return element;
-  // }
-  
-  let notesChannel = __channel__
-  let addressedChannel = notesChannel
+  {
+    const scriptElement = document.createElement("script")
+    scriptElement.src = "/javascripts/chat.js"
+    document.body.appendChild(scriptElement)
 
-  function channelSelect(channel, ul) {
-    return function (event) {
-      let lis = ul.getElementsByTagName("li");
-      for (var i = 0; i < lis.length; ++i) {
-        lis[i].innerHTML = lis[i].innerHTML.replace('<b>', '').replace('</b>', '')
-      }
-      let li = event.target;
-      li.innerHTML = `<b>${li.innerHTML}</b>`
-      addressedChannel = channel
-      refresh()
-    };
-  }
-
-  let _ws = null
-  let sockets = []
-  function refresh() {
-    sockets[addressedChannel] = new WebSocket(
-      `ws://${window.location.host}/chat/ping/?channel=${addressedChannel}`,
-    )
-    sockets[addressedChannel].onmessage = (message) => {
-      message = JSON.parse(message.data)
-      append(message)
-    }
-
-    document.getElementById('messenger').addEventListener('keyup', (e) => {
-      if (e.key === 'Enter' || e.keyCode === 13) {
-        sockets[addressedChannel].send(JSON.stringify({ message: e.target.value, }))
-        e.target.value = ''
-      }
-    })
-  }
-  refresh()
-  const channels = document.getElementById('channels')
-  if (channels) {
-    fetch(`/listings/id/${window.__id__}/channels`)
-      .then(response => response.json())
-      .then(data => {
-        data.channels.forEach(channel => {
-          var ul = document.getElementById("channels box");
-          var li = document.createElement("li");
-          if (channel === notesChannel)
-            li.style = 'color: red'
-          li.appendChild(document.createTextNode(channel));
-          li.addEventListener("click", channelSelect(channel, ul), false);
-          ul.appendChild(li);
-
-          // let btn = document.createElement("button");
-          // btn.innerHTML = "Submit";
-          // btn.type = "submit";
-          // btn.name = "formBtn";
-          // channels.appendChild(btn);
-
-        });
-        console.log(`channels ${data}`)
-      })
   }
 </script>
