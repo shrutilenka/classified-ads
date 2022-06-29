@@ -150,19 +150,19 @@ pre {
   -webkit-animation: blink 1s step-start 0s 3;
 }
 
-.card.donations {
+.card.donations, li.donations {
   background-color: #bd591220;
 }
 
-.card.events {
+.card.events, li.events {
   background-color: #934fe920;
 }
 
-.card.skills {
+.card.skills, li.skills {
   background-color: #ec496f20;
 }
 
-.card.hobbies {
+.card.hobbies, li.hobbies {
   background-color: #b2bd1220;
 }
 

@@ -1,6 +1,6 @@
 // Each ID in LIS.id('comments') must be uniq
 import { LIS } from '../../../helpers/lis.js'
-import { commentsTemplate } from './templates/comments-template.js'
+// import { commentsTemplate } from './templates/comments-template.js'
 import { topDivsTemplate } from './templates/top-divs-template.js'
 import { topSearchesTemplate } from './templates/top-searches-template.js'
 import { topTagsTemplate } from './templates/top-tags-template.js'
@@ -18,24 +18,24 @@ export function renderTopSearches() {
         })
 }
 
-export function renderComments() {
-    const comments = LIS.id('sync-comments')
-    if (!comments) {
-        return
-    }
-    fetch(`/listings/id/${window.__id__}/comments`)
-        .then((response) => response.json())
-        .then((data) => {
-            if (data) {
-                try {
-                    const html = window.ejs.render(commentsTemplate, data)
-                    comments.innerHTML = html
-                } catch (error) {
-                    console.log(error.message)
-                }
-            }
-        })
-}
+// export function renderComments() {
+//     const comments = LIS.id('sync-comments')
+//     if (!comments) {
+//         return
+//     }
+//     fetch(`/listings/id/${window.__id__}/comments`)
+//         .then((response) => response.json())
+//         .then((data) => {
+//             if (data) {
+//                 try {
+//                     const html = window.ejs.render(commentsTemplate, data)
+//                     comments.innerHTML = html
+//                 } catch (error) {
+//                     console.log(error.message)
+//                 }
+//             }
+//         })
+// }
 
 // renderTopTags
 // on sections pages

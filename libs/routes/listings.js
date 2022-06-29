@@ -1,5 +1,5 @@
 import multer from 'fastify-multer'
-import config from '../../configuration.js'
+// import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
 import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
@@ -138,39 +138,39 @@ async function routes(fastify, options, next) {
     })
 
     /* GET one listing; must not be deactivated. */
-    const COOKIE_NAME = config('COOKIE_NAME')
-    fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
-        const hex = /[0-9A-Fa-f]{6}/g
-        const [err, elem] = hex.test(req.params.id)
-            ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
-            : ['NOT_FOUND', undefined]
-        if (err === 'NOT_FOUND' || !elem) return reply.send({ boom: ':(' })
-        if (err) {
-            req.log.error(`get/id/comments#getListingById: ${err.message}`)
-            return reply.send({ boom: ':(' })
-        }
-        if (elem) {
-            const peer2 = elem.usr
-            elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
-            const user = {}
-            user['nickname'] = req.params.username ? req.params.username : req.cookies[COOKIE_NAME] ? '🏠' : ''
-            let comments = []
-            if (req.params.username) {
-                const peer1 = req.params.username
-                // console.log(`=====fetching comments=====\npeer1 ${peer1} & peer2 ${peer2} & thread ${req.params.id}\n`)
-                comments = await QInstance.getComments(peer1, peer2, req.params.id)
-                comments.forEach((comment) => {
-                    comment.from = helpers.initials(comment.from)
-                    comment.to = helpers.initials(comment.to)
-                })
-            }
-            reply.send({ comments: comments, user: user, author: peer2 })
-            return reply
-        }
-        req.log.error(`get/comments#getComments: either no listing ${req.params.id} or an error`)
-        reply.send({ boom: ':(' })
-        return reply
-    })
+    // const COOKIE_NAME = config('COOKIE_NAME')
+    // fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
+    //     const hex = /[0-9A-Fa-f]{6}/g
+    //     const [err, elem] = hex.test(req.params.id)
+    //         ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
+    //         : ['NOT_FOUND', undefined]
+    //     if (err === 'NOT_FOUND' || !elem) return reply.send({ boom: ':(' })
+    //     if (err) {
+    //         req.log.error(`get/id/comments#getListingById: ${err.message}`)
+    //         return reply.send({ boom: ':(' })
+    //     }
+    //     if (elem) {
+    //         const peer2 = elem.usr
+    //         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
+    //         const user = {}
+    //         user['nickname'] = req.params.username ? req.params.username : req.cookies[COOKIE_NAME] ? '🏠' : ''
+    //         let comments = []
+    //         if (req.params.username) {
+    //             const peer1 = req.params.username
+    //             // console.log(`=====fetching comments=====\npeer1 ${peer1} & peer2 ${peer2} & thread ${req.params.id}\n`)
+    //             comments = await QInstance.getComments(peer1, peer2, req.params.id)
+    //             comments.forEach((comment) => {
+    //                 comment.from = helpers.initials(comment.from)
+    //                 comment.to = helpers.initials(comment.to)
+    //             })
+    //         }
+    //         reply.send({ comments: comments, user: user, author: peer2 })
+    //         return reply
+    //     }
+    //     req.log.error(`get/comments#getComments: either no listing ${req.params.id} or an error`)
+    //     reply.send({ boom: ':(' })
+    //     return reply
+    // })
 
     const gwooglSchema = constraints[process.env.NODE_ENV].POST.queryGwoogl.schema
     /* Query listings not including deactivated */
@@ -233,8 +233,9 @@ async function routes(fastify, options, next) {
     fastify.post('/events', { preHandler: auth }, handler)
     fastify.post('/hobbies', { preHandler: [auth, upload] }, handler)
 
+    /*
     const commentSchema = constraints[process.env.NODE_ENV].POST.comment
-    /* Contact poster one listing. */
+    //  Contact poster one listing.
     fastify.post('/id/:id/comment', { schema: commentSchema, preHandler: auth }, async function (req, reply) {
         const hex = /[0-9A-Fa-f]{6}/g
         const [err, elem] = hex.test(req.params.id)
@@ -280,7 +281,7 @@ async function routes(fastify, options, next) {
         // reply.blabla([{ data: elem }, 'listing', 'contact'], req)
         // return reply
     })
-
+    */
     fastify.get('/user', { preHandler: auth }, async function (req, reply) {
         const [err, listings] = await to(QInstance.getListingsByUser(req.params.username))
         if (err) {

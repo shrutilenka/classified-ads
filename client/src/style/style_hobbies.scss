@@ -151,25 +151,10 @@ pre {
   -webkit-animation: blink 1s step-start 0s 3;
 }
 
-.card.donations {
-  background-color: #bd591220;
-}
-
-.card.events {
-  background-color: #934fe920;
-}
-
-.card.skills {
-  background-color: #ec496f20;
-}
-
-.card.hobbies {
+.card.hobbies, li.hobbies {
   background-color: #b2bd1220;
 }
 
-.card.crosslang {
-  background-color: rgba(1, 201, 44, 0.329);
-}
 
 #characters-left {
   font-family: Lucida Console;

@@ -6,13 +6,25 @@
           </a>
 
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a data-trans="(categories)" href="/categories" class="nav-link px-2 text-secondary">Categories</a></li>
-              <li><a data-trans="(donations)" href="/listings/donations" class="nav-link px-2 text-white">Donations</a></li>
-              <li><a data-trans="(events)" href="/listings/events" class="nav-link px-2 text-white">Events</a></li>
-              <li><a data-trans="(skills)" href="/listings/skills" class="nav-link px-2 text-white">Skills</a></li>
-              <li><a data-trans="(hobbies)" href="/listings/hobbies" class="nav-link px-2 text-white">Hobbies</a></li>
-              <li><a data-trans="(blogs)" href="/listings/blogs" class="nav-link px-2 text-white">Blogs</a></li>
-              <li><a data-trans="(so-c)" href="/u/" class="nav-link px-2 text-white">Digital card</a></li>
+            <li>
+                <a data-trans="(categories)" href="/categories" class="nav-link px-2 text-secondary">Categories</a>
+            </li>
+            <li class="<%= typeof(section)!== 'undefined' && section === 'donations' && section %>">
+                <a data-trans="(donations)" href="/listings/donations" class="nav-link px-2 text-white">Donations</a>
+            </li>
+            <li class="<%= typeof(section)!== 'undefined' && section === 'events' && section %>">
+                <a data-trans="(events)" href="/listings/events" class="nav-link px-2 text-white">Events</a>
+            </li>
+            <li class="<%= typeof(section)!== 'undefined' && section === 'skills' && section %>">
+                <a data-trans="(skills)" href="/listings/skills" class="nav-link px-2 text-white">Skills</a>
+            </li>
+            <li class="<%= typeof(section)!== 'undefined' && section === 'hobbies' && section %>">
+                <a data-trans="(hobbies)" href="/listings/hobbies" class="nav-link px-2 text-white">Hobbies</a>
+            </li>
+            <li class="<%= typeof(section)!== 'undefined' && section === 'blogs' && section %>">
+                <a data-trans="(blogs)" href="/listings/blogs" class="nav-link px-2 text-white">Blogs</a>
+            </li>
+            <li><a data-trans="(so-c)" href="/u/" class="nav-link px-2 text-white">Digital card</a></li>
           </ul>
 
           <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
