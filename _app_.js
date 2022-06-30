@@ -8,16 +8,16 @@ import fastifyJWT from '@fastify/jwt'
 import fastifyMongodb from '@fastify/mongodb'
 import fastifyRateLimit from '@fastify/rate-limit'
 import fastifyRedis from '@fastify/redis'
+import fastifySchedule from '@fastify/schedule'
 import fastifySession from '@fastify/session'
 import fastifyServe from '@fastify/static'
 import fastifySwagger from '@fastify/swagger'
 import fastifyWebsocket from '@fastify/websocket'
 import i18nextMiddleware from 'i18next-http-middleware'
 // import GracefulServer from '@gquittet/graceful-server'
-import { createRequire } from 'module'
+// import { createRequire } from 'module'
 import viewsPlugin from 'point-of-view'
-const require = createRequire(import.meta.url)
-const { fastifySchedule } = require('fastify-schedule')
+// const require = createRequire(import.meta.url)
 
 const plugins = {
     fastifySchedule,
