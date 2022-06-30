@@ -1,6 +1,6 @@
 
 
-{/* <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> */}
+/* <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> */
 export const commentsTemplate = `
     <% for (var i = 0; comments.length> 0 && i < comments.length && i < 10 ; i++) { %>
         <div x-data="{ open: false }" id="<%= comments[i]._id %>">

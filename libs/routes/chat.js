@@ -39,7 +39,7 @@ async function routes(fastify, options) {
         const channel = crypto.decrypt(key, request.query.channel)
         console.log(`Channel identified ${channel}`)
         if (validChannel(channel, user)) {
-            addToChannel(channel, socket)
+            addChannel(channel, socket)
             socket.isAlive = true
             socket.on('pong', heartbeat)
         } else {
@@ -51,26 +51,35 @@ async function routes(fastify, options) {
         }
 
         // New user
-        broadcast({
-            sender: '__server',
-            message: `${user} joined`,
-        })
+        broadcast(
+            {
+                sender: '__server',
+                message: `${user} joined`,
+            },
+            channel,
+        )
         // Leaving user
         socket.on('close', () => {
             socket.isAlive = false
             connection.destroy()
-            broadcast({
-                sender: '__server',
-                message: `${user} left`,
-            })
+            broadcast(
+                {
+                    sender: '__server',
+                    message: `${user} left`,
+                },
+                channel,
+            )
         })
         // Broadcast incoming message
         socket.on('message', (message) => {
             message = JSON.parse(message.toString())
-            broadcast({
-                sender: user,
-                ...message,
-            })
+            broadcast(
+                {
+                    sender: user,
+                    ...message,
+                },
+                channel,
+            )
         })
     })
 
@@ -92,18 +101,15 @@ async function routes(fastify, options) {
         })
     }
 
-    function addToChannel(channel, socket) {
-        if (channels.has(channel)) {
-            if (channels.get(channel).length == 0) channels.set(channel, [socket])
-            else channels.get(channel).push(socket)
-        } else {
-            channels.set(channel, [socket])
-        }
+    function addChannel(channel, socket) {
+        if (!channels.get(channel)) channels.set(channel, [socket])
+        else channels.get(channel).push(socket)
+        socket.channel = channel
     }
-    function broadcast(message) {
-        // TODO: filter with the right channels
+    function broadcast(message, channel) {
+        // Clients are the same sockets around
         for (let client of fastify.websocketServer.clients) {
-            client.send(JSON.stringify(message))
+            if (client.readyState === 1 && client.channel === channel) client.send(JSON.stringify(message))
         }
     }
 }
