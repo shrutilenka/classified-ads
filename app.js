@@ -65,6 +65,24 @@ async function build(doRun) {
         requestTimeout: 5000,
     })
     fastify.decorate('conf', (tag) => config(tag))
+
+    fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, 'static/images/'),
+        prefix: '/static/images/',
+        decorateReply: false,
+    })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, 'other_apps/so-cards/'),
+        prefix: '/u/',
+        decorateReply: false,
+    })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, `static/pages/${config('DEPLOYMENT_NAME')}`),
+        prefix: '/static/pages/',
+        decorateReply: false,
+    })
+
     fastify.register(fastifySchedule)
     fastify.register(fastifyFormbody)
     fastify.register(fastifyWebsocket)
@@ -237,29 +255,13 @@ async function build(doRun) {
         fastify.register(debugRouter, { prefix: 'debug' })
     }
     fastify.register(chatRouter, { prefix: 'chat' })
-    fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, 'static/images/'),
-        prefix: '/static/images/',
-        decorateReply: false,
-    })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, 'other_apps/so-cards/'),
-        prefix: '/u/',
-        decorateReply: false,
-    })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, `static/pages/${ config('DEPLOYMENT_NAME') }`),
-        prefix: '/static/pages/',
-        decorateReply: false,
-    })
 
     const start = async () => {
         try {
             // whatever the env (like heroku)  wants
             const port = process.env.PORT || fastify.conf('NODE_PORT')
             console.log('The app is accessible on port: ' + port)
-            await fastify.listen(port, '0.0.0.0')
+            await fastify.listen({ port, host: '0.0.0.0' })
             //  Run only on one node
             if (NODE_ENV === 0 /*process.env.worker_id == '1'*/) {
                 fastify.swagger()
