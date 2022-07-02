@@ -44,11 +44,11 @@ export default function blabla(context) {
     // localize uses i18next for more user friendly messages
     let userFriendlyMsg = {}
     try {
-        userFriendlyMsg = localize(...context, this.request, this)    
+        userFriendlyMsg = localize(...context, this.request, this)
     } catch (err) {
         this.request.log.error(`blabla/localize: ${err.message}`)
     }
-    
+
     const route = context[1]
     const routeC = constraints[process.env.NODE_ENV].GET[route]
     const UXConstraints = routeC ? { UXConstraints: routeC } : {}
@@ -98,17 +98,17 @@ function localize(data, route, kind, req, reply) {
     let errors = []
     if (req.validationError) {
         errors = req.validationError.validation.map((err) => err.message)
-        errors.push(userFriendlyMsg.error)
+        // errors.push(userFriendlyMsg.error)
     }
     // When there are `errors` (generated in `pipeline#validationPipeLine` for example)
     if (data.errors) {
         errors = [...errors, ...data.errors]
     }
     // When there is an `error` (generated in `common.json` namespace)
-    
-    if (userFriendlyMsg.error) {
-        errors.push(userFriendlyMsg.error)
-    }
+
+    if (userFriendlyMsg.error) errors.push(userFriendlyMsg.error)
+    else userFriendlyMsg.error = []
+
     if (errors.length > 0) userFriendlyMsg.error = errors
     // console.log(req.t(`${route}.${kind}`, UXData))
     return Object.assign(userFriendlyMsg, data)

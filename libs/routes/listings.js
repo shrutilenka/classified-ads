@@ -84,13 +84,18 @@ async function routes(fastify, options, next) {
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
 
         const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
+        const readableChannel = `${author},${elem.title}`
         // Todo: if author == viewer then the author could have multiple channels on one thread
-        data = { data: elem, section: elem.section, author, channel }
+        data = { data: elem, section: elem.section, author, channel, readableChannel }
         reply.blabla([data, 'listing', 'id'], req)
         return reply
     })
 
-    /* GET one new channel at least or all channels. */
+    /**
+     * GET one new channel at least or all channels for the current logged viewer.
+     * If the viewer is author, then gets all channels for the current thread (other viewers)
+     * If not, then get the unique channel between the viewer and the author for the current thread
+     */
     // TODO: cache later on Redis
     const allChannels = [
         {
@@ -101,6 +106,7 @@ async function routes(fastify, options, next) {
     ]
     fastify.get('/id/:id/channels', { preHandler: auth }, async function (req, reply) {
         let channels = []
+        let readableChannels = []
         const viewer = req.params.username
         const thread = req.params.id
         const hex = /[0-9A-Fa-f]{6}/g
@@ -115,8 +121,8 @@ async function routes(fastify, options, next) {
         }
         const author = elem.usr
         const newChannel = { au: author, vi: viewer, th: thread }
-        
-        // update allChannels with new channel if needed
+
+        // update allChannels with new channel if needed (new logged viewers landing on a thread)
         if (!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
             allChannels.push(newChannel)
         }
@@ -132,9 +138,10 @@ async function routes(fastify, options, next) {
         }
         console.log('result channels')
         console.log(channels)
+        readableChannels = channels.map((ch) => `${ch.au},${ch.vi},${elem.title.slice(0, 20)}`)
         // encrypt channels names
         channels = channels.map((ch) => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
-        return reply.send({ channels })
+        return reply.send({ channels, readableChannels })
     })
 
     /* GET one listing; must not be deactivated. */

@@ -2,7 +2,6 @@ import { LIS } from '../../../helpers/lis.js'
 import { channelSelect } from '../helpers/dom.js'
 import { clientSocket } from './state.js'
 
-
 const { addressedChannel, notesChannel, sockets, thread, messages } = clientSocket
 const list = LIS.id('message-list')
 const append = (msg) => {
@@ -29,7 +28,6 @@ export const newSocket = () => {
             if (!messages[addressedChannel]) messages[addressedChannel] = []
             localStorage.setItem(addressedChannel, JSON.stringify(messages[addressedChannel]))
             append(message)
-            
         } catch (error) {
             console.log(error)
         }
@@ -43,26 +41,31 @@ export const newSocket = () => {
     })
     return true
 }
-
+/**
+ * GET one new channel at least or all channels for the current logged viewer.
+ * If the viewer is author, then gets all channels for the current thread (other viewers)
+ * If not, then get the unique channel between the viewer and the author for the current thread
+ */
 export const getChannels = () => {
     const channels = LIS.id('channels')
     if (channels) {
         fetch(`/listings/id/${thread}/channels`)
             .then((response) => response.json())
             .then((data) => {
+                let ul = LIS.id('channels box')
                 data.channels.forEach((channel) => {
-                    var ul = LIS.id('channels box')
-                    var li = document.createElement('li')
+                    let li = document.createElement('li')
                     if (channel === notesChannel) li.style = 'color: red'
                     li.appendChild(document.createTextNode(channel))
                     li.addEventListener('click', channelSelect(channel, ul), false)
                     ul.appendChild(li)
-
-                    // let btn = document.createElement("button");
-                    // btn.innerHTML = "Submit";
-                    // btn.type = "submit";
-                    // btn.name = "formBtn";
-                    // channels.appendChild(btn);
+                })
+                data.readableChannels.forEach((channel) => {
+                    let li = document.createElement('li')
+                    if (channel === notesChannel) li.style = 'color: red'
+                    li.appendChild(document.createTextNode(channel))
+                    li.addEventListener('click', channelSelect(channel, ul), false)
+                    ul.appendChild(li)
                 })
                 console.log(`channels ${data}`)
             })
