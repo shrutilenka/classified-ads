@@ -88,7 +88,7 @@ export const setupMaps = () => {
         maps.push(map)
     }
     // Listing page map
-    if (LIS.id('listing-map') && __section__ === 'donations') {
+    if (LIS.id('listing-map') && ['donations', 'events'].indexOf(__section__) > -1) {
         map = listingMap({ lat, lng, layerFactory, zoom })
         maps.push(map)
     }

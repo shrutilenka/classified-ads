@@ -46,10 +46,11 @@ export default function (mongoDB, redisDB) {
         let listing
         collection = mongoDB.collection('listings')
         // https://stackoverflow.com/a/59841285/1951298
-        elem.geolocation = {
-            type: 'Point',
-            coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)],
-        }
+        if (elem.lng)
+            elem.geolocation = {
+                type: 'Point',
+                coordinates: [parseFloat(elem.lng), parseFloat(elem.lat)],
+            }
         switch (elem.section) {
             case 'donations':
                 listing = new Donation(elem)
@@ -491,7 +492,7 @@ export default function (mongoDB, redisDB) {
      * Search based on indexed Geo-spatial field: lat, lng
      * @param {*} latitude
      * @param {*} longitude
-     * @param {*} section
+     * @param {*} section (should be 'donations' or 'events'.)
      * @return {Promise}
      */
     this.getListingsByGeolocation = async function (latitude, longitude, section) {
@@ -540,8 +541,8 @@ export default function (mongoDB, redisDB) {
 
     this.autocomplete = async function (keyword) {
         collection = mongoDB.collection('words')
-        const keywRgx = new RegExp('^' + keyword, 'i')
-        return await collection.find({ _id: keywRgx }).project({ _id: 1 }).toArray()
+        const keywordRgx = new RegExp('^' + keyword, 'i')
+        return await collection.find({ _id: keywordRgx }).project({ _id: 1 }).toArray()
     }
 
     // One day
