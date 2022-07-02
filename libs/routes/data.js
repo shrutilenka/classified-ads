@@ -17,6 +17,9 @@ async function routes(fastify, options, next) {
         ['/get_hobbies_tags_en', give.wikiHobbiesEn],
         ['/get_hobbies_tags_fr', give.wikiHobbiesFr],
         ['/get_hobbies_tags_ar', give.wikiHobbiesAr],
+        ['/get_blogs_tags_en', give.blogsTagsEn],
+        ['/get_blogs_tags_ar', give.blogsTagsFr],
+        ['/get_blogs_tags_fr', give.blogsTagsAr],
     ].forEach(([url, tags]) => {
         fastify.get(url, async (request, reply) => reply.send({ tags }))
     })

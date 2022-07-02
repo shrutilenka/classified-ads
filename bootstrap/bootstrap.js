@@ -184,7 +184,7 @@ const docsCount = {
     localhost: 10000,
     development: 10000,
 }[process.env.NODE_ENV]
-ops.seedDevelopmenetData = async function seedDevelopmenetData(db) {
+ops.seedDevelopmentData = async function seedDevelopmentData(db) {
     fakeItems(docsCount)
     const options = { ordered: true }
     const collection = db.collection('listing')

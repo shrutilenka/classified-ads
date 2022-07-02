@@ -24,6 +24,29 @@ async function routes(fastify, options) {
 
     // const mailer = Mailer.getInstance(null)
     fastify.decorateReply('blabla', blabla)
+
+    /* GET login page. */
+    fastify.get('/login', function (req, reply) {
+        console.log('hell')
+        reply.blabla([{}, 'login', 'login'], req)
+    })
+
+    /* GET subscribe page. */
+    fastify.get('/signup', function (req, reply) {
+        reply.blabla([{}, 'signup', 'signup'], req)
+    })
+
+    /* GET reset page. */
+    fastify.get('/reset', function (req, reply) {
+        reply.blabla([{}, 'reset', 'reset'], req)
+    })
+    /* GET logout. */
+    fastify.get('/logout', (request, reply) => {
+        reply.setCookie(COOKIE_NAME, {})
+        request.flash('success', 'Successfully logged out')
+        reply.redirect('/')
+    })
+
     fastify.post('/login', { schema: loginSchema, attachValidation: true }, async function (request, reply) {
         if (request.validationError) {
             reply.blabla([{}, 'login', 'VALIDATION_ERROR'], request)
@@ -60,12 +83,6 @@ async function routes(fastify, options) {
             reply.blabla([{}, 'login', 'SERVER_ERROR'], request)
             return
         }
-    })
-
-    fastify.get('/logout', (request, reply) => {
-        reply.setCookie(COOKIE_NAME, {})
-        request.flash('success', 'Successfully logged out')
-        reply.redirect('/')
     })
 
     const signupSchema = constraints[process.env.NODE_ENV].POST.signup.schema
@@ -189,21 +206,6 @@ async function routes(fastify, options) {
             }
         },
     )
-
-    /* GET login page. */
-    fastify.get('/login', async function (req, reply) {
-        reply.blabla([{}, 'login', 'login'], req)
-    })
-
-    /* GET subscribe page. */
-    fastify.get('/signup', async function (req, reply) {
-        reply.blabla([{}, 'signup', 'signup'], req)
-    })
-
-    /* GET reset page. */
-    fastify.get('/reset', async function (req, reply) {
-        reply.blabla([{}, 'reset', 'reset'], req)
-    })
 }
 
 export default routes

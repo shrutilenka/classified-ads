@@ -102,7 +102,7 @@ getTags('../../data/taxonomy/occupations_en.csv', give.ESCOTagsEn)
  *
  */
 const toKeep = ['01000000', '05000000', '06000000', '08000000', '10000000', '15000000']
-const toKeep_ = (s) => toKeep.some((mediatopic) => s.indexOf(mediatopic) >= 0)
+const toKeep_ = (s) => toKeep.some((mediaTopic) => s.indexOf(mediaTopic) >= 0)
 give.cptallTagsEn = require('../../data/taxonomy/cptall_en.json')
     .conceptSet.filter((o) => toKeep_(o.uri) || (o.broader && toKeep_(o.broader.join(''))))
     .map((o) => o.prefLabel['en-US'])
@@ -116,6 +116,11 @@ give.cptallTagsAr = require('../../data/taxonomy/cptall_ar.json')
 give.wikiHobbiesEn = require('../../data/taxonomy/hobbies_en.json')
 give.wikiHobbiesFr = require('../../data/taxonomy/hobbies_fr.json')
 give.wikiHobbiesAr = require('../../data/taxonomy/hobbies_ar.json')
+
+
+give.blogsTagsEn = give.googleTagsEnLite.concat(give.ESCOTagsEn).concat(give.cptallTagsEn).concat(give.wikiHobbiesEn)
+give.blogsTagsFr = give.googleTagsFrLite.concat(give.ESCOTagsFr).concat(give.cptallTagsFr).concat(give.wikiHobbiesFr) 
+give.blogsTagsAr = give.googleTagsArLite.concat(give.ESCOTagsAr).concat(give.cptallTagsAr).concat(give.wikiHobbiesAr) 
 
 // const handler = {
 //     get(target, property) {

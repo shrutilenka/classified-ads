@@ -66,23 +66,6 @@ async function build(doRun) {
     })
     fastify.decorate('conf', (tag) => config(tag))
 
-    fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, 'static/images/'),
-        prefix: '/static/images/',
-        decorateReply: false,
-    })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, 'other_apps/so-cards/'),
-        prefix: '/u/',
-        decorateReply: false,
-    })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, `static/pages/${config('DEPLOYMENT_NAME')}`),
-        prefix: '/static/pages/',
-        decorateReply: false,
-    })
-
     fastify.register(fastifySchedule)
     fastify.register(fastifyFormbody)
     fastify.register(fastifyWebsocket)
@@ -255,6 +238,22 @@ async function build(doRun) {
         fastify.register(debugRouter, { prefix: 'debug' })
     }
     fastify.register(chatRouter, { prefix: 'chat' })
+    fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, 'static/images/'),
+        prefix: '/static/images/',
+        decorateReply: false,
+    })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, 'other_apps/so-cards/'),
+        prefix: '/u/',
+        decorateReply: false,
+    })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, `static/pages/${config('DEPLOYMENT_NAME')}`),
+        prefix: '/static/pages/',
+        decorateReply: false,
+    })
 
     const start = async () => {
         try {
@@ -322,7 +321,7 @@ async function build(doRun) {
             await colListings.deleteMany({})
             await colUsers.deleteMany({})
             bootstrap
-                .seedDevelopmenetData(db)
+                .seedDevelopmentData(db)
                 .then(async (reply) => {
                     await bootstrap.createIndexes(db)
                     bootstrap.famousSearches()
