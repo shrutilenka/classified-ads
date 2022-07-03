@@ -34,7 +34,31 @@
   "tags-page": {
     "intro": "Here you can choose a specific tag for donations section. Please take your time to choose the best tag that suits your item.",
   },
+  "blog-page": {
+    "add": "Add a Blog post"
+  },
+  "donation-page": {
+    "add": "Add a Donation post",
+    "(offer)": "Offer ?"
+  },
+  "event-page": {
+    "add": "Add an Event post",
+    "start-date": "Start date",
+    "end-date": "End date"
+  },
+  "hobby-page": {
+    "add": "Add a Hobby post"
+  },
+  "skill-page": {
+    "add": "Add a Skill post",
+    "(offer)": "Offer ?"
+  },
+  "tag-language": "Tag language: ",
+  "choose-tags": "Click here to choose tags",
   "delimitations-map": "delimitations map",
-  "listings-map": "listings map"
+  "listings-map": "listings map",
+  "(english)": "English",
+  "(arabic)": "Arabic",
+  "(french)": "French"
 
 }

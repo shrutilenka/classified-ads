@@ -19,7 +19,7 @@ export const setupPell = async () => {
             const editor = pell.init({
                 element: LIS.id('editor'),
                 onChange: (html) => {
-                    LIS.id('html-output').textContent = html
+                    // LIS.id('html-output').textContent = html
                     const raw = stripHtml(html)
                     const charactersLeft = 200 - raw.length
                     const count = LIS.id('characters-left')
