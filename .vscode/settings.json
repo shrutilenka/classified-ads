@@ -17,5 +17,6 @@
   },
   "emmet.includeLanguages": {
     "ejs": "html",
-  }
+  },
+  "i18n-ally.keystyle": "nested"
 }
