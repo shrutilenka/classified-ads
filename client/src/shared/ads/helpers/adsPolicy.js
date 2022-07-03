@@ -1,5 +1,5 @@
 import InApp from 'detect-inapp';
-import { noAds } from "../state";
+import { noAds } from "../state.js";
 
 export function checkPolicy(){
     const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera);

@@ -25,7 +25,8 @@ export const newSocket = () => {
     sockets[addressedChannel].onmessage = (response) => {
         try {
             let message = JSON.parse(response.data)
-            if (!messages[addressedChannel]) messages[addressedChannel] = []
+            if (!messages[addressedChannel]) messages[addressedChannel] = [message]
+            else messages[addressedChannel].push(message)
             localStorage.setItem(addressedChannel, JSON.stringify(messages[addressedChannel]))
             append(message)
         } catch (error) {
@@ -70,4 +71,8 @@ export const getChannels = () => {
                 console.log(`channels ${data}`)
             })
     }
+}
+
+export const recoverState = () => {
+    
 }

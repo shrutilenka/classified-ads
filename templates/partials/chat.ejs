@@ -1,6 +1,5 @@
 <style>
-
-  input[type='text'] {
+  /* input[type='text'] {
     position: fixed;
     bottom: 10px;
     left: 12px;
@@ -66,16 +65,12 @@
   .input {
     grid-column: 3;
     grid-row: 3;
-  }
+  } */
 </style>
-<h3 class="servervar">
-  Chat topic <%= channel %>
-</h3>
-
 <!-- <input id="message" type="text" autofocus /> -->
 <div class="app-layout">
   <div class="teams box">Teams</div>
-  <div class="channels box" id="channels box">Channels</div>
+  <ul class="channels box" id="channels box">Channels</ul>
   <div class="header box">Header</div>
   <div class="messages box">
     <ul class="message-list" id="message-list">
@@ -86,6 +81,8 @@
   </div>
 </div>
 <div id="channels"></div>
+
+
 <script>
   {
     const scriptElement = document.createElement("script")

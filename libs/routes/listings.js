@@ -296,7 +296,7 @@ async function routes(fastify, options, next) {
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         const user = { nickname: req.params.username }
-        reply.view('/templates/pages/listings', {
+        return reply.view('/templates/pages/listings', {
             user: user,
             title: 'Your listings',
             intro: 'Classified advertising brought to the web',
@@ -317,7 +317,7 @@ async function routes(fastify, options, next) {
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         const user = { nickname: req.params.username }
-        reply.view('/templates/pages/listings', {
+        return reply.view('/templates/pages/listings', {
             user: user,
             title: 'Your listings',
             intro: 'Classified advertising brought to the web',

@@ -1,4 +1,4 @@
 import { getChannels, newSocket } from './sockets/refresh.js'
 
-// let _ws = null
+recoverState()
 if (newSocket()) getChannels()
