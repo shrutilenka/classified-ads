@@ -54,7 +54,7 @@ export const setupShared = () => {
         log.info('RUNNING ON A MOBILE DEVICE')
         functions = functions.filter((p) => p[1])
     }
-    // Instantiate Pormises
+    // Instantiate Promises
     let promises = functions.map((p) => p[0]())
 
     const logPromises = (results) => {
