@@ -19,22 +19,17 @@ function initMap() {
         const loader = new Loader({
             apiKey: 'YOUR_API_KEY',
             version: 'weekly',
-            // ...additionalOptions,
+            libraries: ['places', 'visualization'],
         })
-
-        loader.load().then(() => {
+        loader.load().then((google) => {           
             state.map = new google.maps.Map(LIS.id('map'), {
-                center: { lat: -34.397, lng: 150.644 },
-                zoom: 8,
+                center: state.center,
+                zoom: 10,
+                rotateControl: false,
+                mapTypeControl: false,
+                streetViewControl: false,
             })
-        })
-
-        state.map = new google.maps.Map(LIS.id('map'), {
-            center: state.center,
-            zoom: 10,
-            rotateControl: false,
-            mapTypeControl: false,
-            streetViewControl: false,
+            
         })
     } else {
         // initMap() being called a second time, clear earlier data

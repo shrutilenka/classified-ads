@@ -1,5 +1,9 @@
-import { state } from "../state.js"
-import isMobile from "./isMobile.js"
+import { Client } from "@googlemaps/google-maps-services-js";
+import { state } from "../state.js";
+import isMobile from "./isMobile.js";
+
+const client = new Client({});
+
 // Instantiate new UI controls for DOM page or Google map. Configure UI controls or retrieve present UI controls when they exist.
 /**
  * darkSwitch
@@ -48,7 +52,8 @@ import isMobile from "./isMobile.js"
         input = LIS.id('pac-input')
     }
     if (!state.autocomplete) {
-        state.autocomplete = new google.maps.places.Autocomplete(input, _autocompleteOptions)
+        
+        state.autocomplete = client.placeQueryAutocomplete(input, _autocompleteOptions)
         state.map.controls[google.maps.ControlPosition.TOP_CENTER].clear()
         state.map.controls[google.maps.ControlPosition.TOP_CENTER].push(input)
         state.autocomplete.bindTo('bounds', state.map)

@@ -2,23 +2,13 @@
 
 import { LIS } from "../../../helpers/lis.js"
 import { state } from "../state.js"
-import isMobile from "./isMobile.js"
 
-// js_variables ==> GMap
-// _myStorage, _styles, _autocompleteOptions
-// _styleItDark(), _styleItWhite(), _showLoading(), _hideLoading(),
-// _setWithExpiry(), _getWithExpiry(), _fireAccessFunctions()
+const ops = {}
+const conf = {}
 
 function __class (cls) { return document.getElementsByClassName(cls) }
 
 const _myStorage = window.localStorage
-
-function _getScriptParams (params) {
-  const mapScripts = document.getElementsByTagName('script')
-  return params.map(param => {
-    return [...mapScripts].map(ss => { return ss.getAttribute(param) }).filter(Boolean)[0]
-  })
-}
 
 let collapseBtn1 = LIS.id('collapse1')
 collapseBtn1.onclick = function () { collapseBtn1.classList.toggle('active') }
@@ -26,7 +16,7 @@ let collapseBtn2 = LIS.id('collapse2')
 collapseBtn2.onclick = function () { collapseBtn2.classList.toggle('active') }
 
 // less styling, setting business positions off and transit off
-const _styles = {
+conf['styles'] = {
   default: [],
   hide: [
     {
@@ -138,7 +128,7 @@ const _styles = {
 }
 // Copyright of PimpTrizkit taken from https://github.com/PimpTrizkit/PJs/wiki/12.-Shade,-Blend-and-Convert-a-Web-Color-(pSBC.js)
 // Version 4.0
-const pSBC = (p, c0, c1, l) => {
+ops['pSBC'] = (p, c0, c1, l) => {
   let r, g, b, P, f, t, h, i = parseInt, m = Math.round, a = typeof (c1) == 'string'
   if (typeof (p) != 'number' || p < -1 || p > 1 || typeof (c0) != 'string' || (c0[0] != 'r' && c0[0] != '#') || (c1 && !a)) return null
   if (!this.pSBCr) this.pSBCr = (d) => {
@@ -163,11 +153,11 @@ const pSBC = (p, c0, c1, l) => {
   if (h) return 'rgb' + (f ? 'a(' : '(') + r + ',' + g + ',' + b + (f ? ',' + m(a * 1000) / 1000 : '') + ')'
   else return '#' + (4294967296 + r * 16777216 + g * 65536 + b * 256 + (f ? m(a * 255) : 0)).toString(16).slice(1, f ? undefined : -2)
 }
-var cardsColors
 
-function _styleItDark () {
+var cardsColors
+ops['styleItDark'] = () => {
   document.documentElement.style.backgroundColor = '#111'
-  state.map.setOptions({ styles: _styles.night })
+  state.map.setOptions({ styles: conf['styles'].night })
   LIS.id('copyright_google').src = './copyright/powered_by_google_on_non_white_hdpi.png'
   if (!cardsColors) {
     cardsColors = Array.from(__class('card')).map(card => { return card.style.backgroundColor })
@@ -175,15 +165,15 @@ function _styleItDark () {
   }
 
   Array.from(__class('card')).forEach(card => {
-    card.style.backgroundColor = pSBC(-0.2, card.style.backgroundColor)
+    card.style.backgroundColor = ops['pSBC'](-0.2, card.style.backgroundColor)
   })
 
   LIS.id('logo').src = './img/weather_venue_856-8_on_black.png'
 }
 
-function _styleItWhite () {
+ops['styleItWhite'] = () => {
   document.documentElement.style.backgroundColor = '#eee'
-  state.map.setOptions({ styles: _styles.hide })
+  state.map.setOptions({ styles: conf['styles'].hide })
   LIS.id('copyright_google').src = './copyright/powered_by_google_on_white_hdpi.png'
   if (cardsColors) {
     Array.from(__class('card')).forEach(function (card, idx) {
@@ -193,17 +183,17 @@ function _styleItWhite () {
   LIS.id('logo').src = './img/weather_venue_856-8.png'
 }
 
-function _showLoading () {
+ops['showLoading'] = () => {
   LIS.id('spinner-back').classList.add('show')
   LIS.id('spinner-front').classList.add('show')
 }
 
-function _hideLoading () {
+ops['hideLoading'] = () => {
   LIS.id('spinner-back').classList.remove('show')
   LIS.id('spinner-front').classList.remove('show')
 }
 
-function _setWithExpiry (key, value) {
+ops['setWithExpiry'] = (key, value) => {
   const now = new Date()
   const day = { day: now.getDay(), month: now.getMonth(), year: now.getFullYear() }
 
@@ -216,7 +206,7 @@ function _setWithExpiry (key, value) {
   _myStorage.setItem(key, JSON.stringify(item))
 }
 
-function _getWithExpiry (key) {
+ops['getWithExpiry'] = (key) => {
   const itemStr = _myStorage.getItem(key)
   // if the item doesn't exist, return null
   if (!itemStr) {
@@ -245,13 +235,13 @@ LIS.id('themeSwitch').addEventListener('click', function () {
   }
 })
 
-const _autocompleteOptions = {
+conf['autocompleteOptions'] = {
   types: ['(cities)']
   // componentRestrictions: {country: "us"}
 }
 
 // Toggle cards background color between minimum and maximum hue colors
-function minMax () {
+ops['minMax'] = () => {
   const cards = Array.from(document.querySelectorAll('[id^="checkIdcity"]')).map(a => { return a.firstElementChild }).filter(a => { return a.className === 'card'}).slice(0, 8)
   cards.forEach(card => {
     const style = card.style.backgroundImage
@@ -288,44 +278,22 @@ function minMax () {
 }
 
 // Comparison
-function allowDrop (ev) {
+ops['allowDrop'] = (ev) => {
   ev.preventDefault()
 }
 
-function drag (ev) {
+ops['drag'] = (ev) => {
   ev.dataTransfer.setData('text', ev.target.id)
 }
 
-function generateCard (cardId) {
-  const toBe = LIS.id(cardId).cloneNode(true)
-  const title = `<h3>${cardId.split('-').slice(1, -1).map(a => { return a.charAt(0).toUpperCase() + a.slice(1) }).join('-')}</h3>`
-  toBe.setAttribute('id', cardId + '_clone')
-  toBe.setAttribute('draggable', false)
-  // toBe.style.cursor =''
-  toBe.childNodes[1].firstElementChild.setAttribute('href', '')
-  toBe.insertAdjacentHTML('afterbegin', title)
-  if (isMobile) {
-    const button = document.createElement('button')
-    button.innerHTML = '<i class="bi bi-share"></i>'
-    button.classList.add('btn-sm')
-    button.classList.add('btn-light')
-    button.onclick = function () {
-      shareIt(cardId + '_clone')
-      return false
-    }
-    toBe.appendChild(button)
-  }
-  return toBe
-}
-
-function drop (ev) {
+ops['drop'] = (ev) => {
   ev.preventDefault()
   const data = ev.dataTransfer.getData('text')
   const toBe = generateCard(data)
   ev.target.appendChild(toBe)
 }
 
-function autoDrag (autoDragId) {
+ops['autoDrag'] = (autoDragId) => {
   LIS.id(autoDragId).remove()
   const data = autoDragId.slice(0, -9)
   const toBe = generateCard(data)
@@ -334,41 +302,14 @@ function autoDrag (autoDragId) {
   window.location = '#comparision-items'
 }
 
-function emptyIt() {
+ops['emptyIt'] = () => {
   const elements = document.querySelectorAll('[id*="_clone"]')
   Array.prototype.forEach.call(elements, function(node) {
     node.parentNode.removeChild(node)
   })
 }
 
-function shareIt(card_id) {
-  const dd = LIS.id(card_id)
-  // dd.style.backgroundColor ="white"
-  const scale = 2
-  // dd.childNodes[4].remove()
-  domtoimage.toBlob(dd, {
-    width: dd.clientWidth * scale,
-    height: dd.clientHeight * scale,
-    bgcolor: 'white',
-    filter: function (node) { return (node.tagName !== 'BUTTON') },
-    style: {
-      transform: 'scale(' + scale + ')',
-      transformOrigin: 'top left'
-    }
-  }).then(function (blob) {
-    const file = new File([blob], 'WeatherVenue.png', { type: blob.type })
-    const data = {
-      title: 'WeatherVenue.com',
-      text: `Weather in ${card_id.split('_')[0].split('-')[1]}`,
-      files: [file]
-    }
-    if(navigator.canShare && navigator.canShare(data)) {
-      navigator.share(data)
-    } else {
-      console.log('cannot share ')
-    }
-  })
-}
+export { ops, conf }
 
 /**
  * Copyright (c) Christopher Keefer, 2016.
@@ -531,27 +472,3 @@ function shareIt(card_id) {
     return provideResponse(value, dataType)
   };
 })(self.fetch)
-
-function offScene () {
-  __class('map_wrapper')[0].style.display = 'block'
-}
-
-function initScene (forced) {
-  if (isMobile) {
-    console.log('not compatible with smartphones.')
-    return
-  }
-  if (window.todayWeather) {
-    __class('map_wrapper')[0].style.display = 'none'
-    let done = false
-    if (forced && forced === 'rain') {
-      done = initRainScene()
-    }
-    if (forced && forced === 'sun') {
-      done = initSunScene()
-    }
-    if (!done) {
-      initRainScene()
-    }
-  }
-}
