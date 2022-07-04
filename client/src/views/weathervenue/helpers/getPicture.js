@@ -4,7 +4,7 @@
  * _myStorage.getItem(place), _myStorage.setItem(place, urls)
  * populate pictures on featured_pictures div
  */
-function getPicture(place) {
+ export const getPicture = (place) => {
     const [success, fail] = _picturesLangs(language)
     LIS.id('imgGrid').innerHTML = ''
     let cache = _myStorage.getItem(place)

@@ -1,7 +1,7 @@
 
 // Configure Google map URLs based on user interactions (successive right clicks on markers)
 // Called when a marker is right clicked
-function configURLsControls (marker) {
+export const configURLsControls = (marker) => {
     // Change marker icon between normal and black states using marker.setIcon
     const newDest = `${marker.position.lat()},${marker.position.lng()}`
     let controlUI

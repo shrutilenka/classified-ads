@@ -13,3 +13,16 @@ let directions = { start_location: undefined, end_location: undefined }
 let last = new Date().getTime()
 let first = true
 let center = { lat: -33.8688, lng: 151.2195 }
+
+export const state = {
+    currObj,
+    currentMarked,
+    map,
+    markers,
+    autocomplete,
+    language,
+    directions,
+    last,
+    first,
+    center,
+}

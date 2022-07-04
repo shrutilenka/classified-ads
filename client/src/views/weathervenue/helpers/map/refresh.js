@@ -1,6 +1,6 @@
 // #getMarkers, #setMapOnAll, #clearMarkers, #showMarkers are helpers to refresh markers.
 // Detach old features then attach new markers to map
-function getMarkers() {
+export const getMarkers = () => {
     if (!currObj.isValid) {
         return
     }
@@ -58,19 +58,19 @@ function getMarkers() {
 }
 
 // Sets the map on all markers in the array.
-function setMapOnAll(map) {
+const setMapOnAll = (map) => {
     markers.forEach((marker) => marker.setMap(map))
 }
 
 // Removes the markers from the map, but keeps them in the array.
-function clearMarkers() {
+export const clearMarkers = () => {
     markers.forEach((marker) => marker.setVisible(false))
     setMapOnAll(null)
     markers = []
 }
 
 // Shows any markers currently in the array.
-function showMarkers() {
+export const showMarkers = () => {
     markers.forEach((marker) => marker.setVisible(true))
     setMapOnAll(map)
 }

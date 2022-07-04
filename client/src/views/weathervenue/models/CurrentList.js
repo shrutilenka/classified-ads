@@ -1,6 +1,6 @@
 // CurrentList is a class holder for 'data' object which is the server response,
 // containing a list of features, weather, pollution. It should assure a safe instantiation and access
-class CurrentList {
+export default class CurrentList {
     constructor (data) {
       if (!this.isFeatures(data) || !this.isWeather(data)) {
         return { isValid: false }

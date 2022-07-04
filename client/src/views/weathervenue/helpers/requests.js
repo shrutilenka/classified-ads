@@ -1,5 +1,10 @@
 // Called once the user search for a city, look for weather cached data for today (local user time) for the city,
 // If not found, create an AJAX request for it
+
+import CurrentList from "../models/CurrentList"
+import { populateHeatMap } from "./populateHeatMap"
+import { renderForecastDays } from "./renderForecastDays"
+
 /**
  * _showLoading(), _hideLoading()
  * _getWithExpiry(), _setWithExpiry()
@@ -7,7 +12,7 @@
  * renderForecastDays()
  * initMap()
  */
-function nearbyRequest(place) {
+ export const nearbyRequest = (place) => {
     _showLoading() // Block page while loading
     const requestObject = JSON.stringify({
         lat: place.geometry.location.lat(),
@@ -30,7 +35,7 @@ function nearbyRequest(place) {
 }
 
 // Same as nearbyRequest()
-function nearbyTriggeredRequest(place) {
+export const nearbyTriggeredRequest = (place) => {
     _showLoading() // Block page while loading
     const requestObject = JSON.stringify({
         lat: place.lat,

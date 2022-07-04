@@ -3,7 +3,7 @@
 // hueColors: calculated background color based on the current temperature and all weather average
 let lastIcon
 let todayWeather
-function renderForecastDays(dailies) {
+export const renderForecastDays = (dailies) => {
     // console.log("renderForecastDays");
     // console.log(JSON.stringify(dailies));
     dailies.sort(function (first, second) {

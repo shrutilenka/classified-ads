@@ -1,4 +1,4 @@
-function _adsHolder(company) {
+export const _adsHolder = (company) => {
     switch (company) {
         case 'Google':
             return `

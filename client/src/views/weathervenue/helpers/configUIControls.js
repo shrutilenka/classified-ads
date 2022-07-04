@@ -1,3 +1,4 @@
+import { state } from "../state.js"
 // Instantiate new UI controls for DOM page or Google map. Configure UI controls or retrieve present UI controls when they exist.
 /**
  * darkSwitch
@@ -5,7 +6,7 @@
  * new google.maps.places.Autocomplete
  * panButton and geolocation
  */
-function configUIControls() {
+ export const configUIControls = () => {
     // First time visit: style map night or regular based on earlier preferences
     const darkThemeSelected =
         localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark'
@@ -45,13 +46,13 @@ function configUIControls() {
         document.body.appendChild(div)
         input = LIS.id('pac-input')
     }
-    if (!autocomplete) {
-        autocomplete = new google.maps.places.Autocomplete(input, _autocompleteOptions)
+    if (!state.autocomplete) {
+        state.autocomplete = new google.maps.places.Autocomplete(input, _autocompleteOptions)
         map.controls[google.maps.ControlPosition.TOP_CENTER].clear()
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(input)
-        autocomplete.bindTo('bounds', map)
+        state.autocomplete.bindTo('bounds', map)
         // Specify just the place data fields that you need.
-        autocomplete.setFields(['place_id', 'geometry', 'name'])
+        state.autocomplete.setFields(['place_id', 'geometry', 'name'])
     }
 
     // Geolocation

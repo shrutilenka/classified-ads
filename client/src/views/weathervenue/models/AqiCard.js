@@ -1,4 +1,4 @@
-class AqiCard {
+export default class AqiCard {
     constructor(language, aqi, today, co, no, no2) {
         const theme = {
             1: '#4C5273',

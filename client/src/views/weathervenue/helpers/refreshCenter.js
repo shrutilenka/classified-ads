@@ -1,5 +1,5 @@
 // sets default geolocation for center based on originating page: {index.html, index_ar.html}
-function refreshCenter () {
+export const refreshCenter = () => {
     const params = _getScriptParams(['lang', 'centerLocation'])
     language = params[0]
     const centerLocation = params[1]

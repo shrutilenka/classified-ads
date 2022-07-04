@@ -6,7 +6,7 @@ let heatmap
 let heatMapData
 let temp
 const getScale = (min, max, value) => Math.floor((5 * (value - min)) / (max - min))
-function populateHeatMap(day) {
+export const populateHeatMap = (day) => {
     if (!currObj.isValid) {
         return false
     }

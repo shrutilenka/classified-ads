@@ -1,5 +1,5 @@
 // Create an HTML panel containing weather alerts for all current cities
-function showAlertsList(currObj) {
+export const showAlertsList = (currObj) => {
     if (!currObj.isValid) {
         return
     }
