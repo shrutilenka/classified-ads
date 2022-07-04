@@ -747,6 +747,12 @@ export default function (mongoDB, redisDB) {
     this.existsDocument = async function (id, collName) {
         return await redisDB.exists(`cacheIds:${collName}:${id}`)
     }
+
+    this.insertAnnouncement = async function (doc) {
+        collection = mongoDB.collection('announcements')
+        const res = await collection.insertOne(doc)
+        return res.insertedId
+    }
 }
 
 // // function traceMethodCalls(obj) {

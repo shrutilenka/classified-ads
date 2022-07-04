@@ -66,6 +66,14 @@ async function routes(fastify, options) {
     function getMatch(req) {
         return realtimeJSON.findIndex((a) => a._id.toString() === req.params.id.toString())
     }
+
+    // Add an announcement
+    fastify.post('/announce', { preHandler: adminAuth }, async function (req, reply) {
+        const { body } = req
+        // const { title_en, title_ar, title_fr, english, arabic, french } = body
+        const res = await QInstance.insertAnnouncement(body)
+        reply.send(`announcement added ${JSON.stringify(res)}`)
+    })
 }
 
 export default routes
