@@ -1,9 +1,13 @@
+import { LIS } from "../../../helpers/lis"
+import { state } from "../state"
+import isMobile from "./isMobile"
+
 // Create an HTML panel containing weather alerts for all current cities
 export const showAlertsList = (currObj) => {
     if (!currObj.isValid) {
         return
     }
-    if (_isMobile) {
+    if (isMobile) {
         return
     }
     const cityNames = currObj.weather.map((elem) => {
@@ -31,8 +35,8 @@ export const showAlertsList = (currObj) => {
         const body = document.body
         body.insertBefore(panel, body.childNodes[0])
     }
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].clear()
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(panel)
+    state.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].clear()
+    state.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(panel)
 
     // Clear the previous details
     while (panel.lastChild) {

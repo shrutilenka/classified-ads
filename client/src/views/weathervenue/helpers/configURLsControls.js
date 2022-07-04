@@ -1,3 +1,4 @@
+import { state } from "../state"
 
 // Configure Google map URLs based on user interactions (successive right clicks on markers)
 // Called when a marker is right clicked
@@ -28,21 +29,21 @@ export const configURLsControls = (marker) => {
       a.target = '_blank'
       a.style.cssText = 'background-color: #2a2a3c; color: #fff'
       controlUI.appendChild(a)
-      map.controls[google.maps.ControlPosition.BOTTOM_CENTER].clear()
-      map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(controlUI)
+      state.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].clear()
+      state.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(controlUI)
       marker.setIcon('https://www.google.com/mapfiles/marker_black.png')
       return
     }
     // Refresh DOM for all markers after 'marker.setIcon' has been called on some markers
-    markers.forEach(marker_ => {
+    state.markers.forEach(marker_ => {
       // console.log(marker_.iconSrc)
       marker_.setIcon(marker_.iconSrc)
     })
     // Create an URL in map's bottom
     controlUI = LIS.id('URL')
     controlUI.innerHTML = ''
-    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].clear()
-    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(controlUI)
+    state.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].clear()
+    state.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(controlUI)
     directions = { start_location: undefined, end_location: undefined }
   }
   

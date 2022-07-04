@@ -1,3 +1,5 @@
+import { state } from "../../state"
+
 // #getMarkers, #setMapOnAll, #clearMarkers, #showMarkers are helpers to refresh markers.
 // Detach old features then attach new markers to map
 export const getMarkers = () => {
@@ -24,7 +26,7 @@ export const getMarkers = () => {
             return item.daily[0].temp.min
         }),
     )
-    map.data.forEach(function (feature) {
+    state.map.data.forEach(function (feature) {
         // if (feature.getGeometry().getType() === 'Polygon') {
         //     feature.getGeometry().forEachLatLng(function(latlng) {
         //         bounds.extend(latlng);
@@ -50,27 +52,27 @@ export const getMarkers = () => {
             marker.setIcon(
                 `https://maps.google.com/mapfiles/ms/icons/${getColor(minTemp, maxTemp, todayTemp)}-dot.png`,
             )
-            markers.push(marker)
+            state.markers.push(marker)
             // remove previous markers from map.data
-            map.data.remove(feature)
+            state.map.data.remove(feature)
         }
     })
 }
 
 // Sets the map on all markers in the array.
 const setMapOnAll = (map) => {
-    markers.forEach((marker) => marker.setMap(map))
+    state.markers.forEach((marker) => marker.setMap(map))
 }
 
 // Removes the markers from the map, but keeps them in the array.
 export const clearMarkers = () => {
-    markers.forEach((marker) => marker.setVisible(false))
+    state.markers.forEach((marker) => marker.setVisible(false))
     setMapOnAll(null)
-    markers = []
+    state.markers = []
 }
 
 // Shows any markers currently in the array.
 export const showMarkers = () => {
-    markers.forEach((marker) => marker.setVisible(true))
+    state.markers.forEach((marker) => marker.setVisible(true))
     setMapOnAll(map)
 }

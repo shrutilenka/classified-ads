@@ -1,3 +1,5 @@
+import { state } from "../state"
+
 // Get pictures for searched place
 /**
  * new google.maps.places.PlacesService
@@ -15,9 +17,9 @@
         }
         return
     }
-    const service = new google.maps.places.PlacesService(map)
+    const service = new google.maps.places.PlacesService(state.map)
     const request = {
-        location: map.getCenter(),
+        location: state.map.getCenter(),
         radius: '3000',
         query: place,
         //, 'mosque', 'airport', 'amusement_park', 'art_gallery', 'casino', 'church', 'museum', 'park', 'synagogue',

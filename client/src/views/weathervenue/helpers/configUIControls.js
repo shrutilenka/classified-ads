@@ -1,4 +1,5 @@
 import { state } from "../state.js"
+import isMobile from "./isMobile.js"
 // Instantiate new UI controls for DOM page or Google map. Configure UI controls or retrieve present UI controls when they exist.
 /**
  * darkSwitch
@@ -22,9 +23,9 @@ import { state } from "../state.js"
     const slider = LIS.id('formControlRange')
     const sliderForm = LIS.id('formControlRange0')
     let moving
-    if (!_isMobile) {
-        map.controls[google.maps.ControlPosition.TOP_LEFT].clear()
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(sliderForm)
+    if (!isMobile) {
+        state.map.controls[google.maps.ControlPosition.TOP_LEFT].clear()
+        state.map.controls[google.maps.ControlPosition.TOP_LEFT].push(sliderForm)
     }
     slider.oninput = function () {
         $('#rangeval').html(`Day ${slider.value}`)
@@ -48,9 +49,9 @@ import { state } from "../state.js"
     }
     if (!state.autocomplete) {
         state.autocomplete = new google.maps.places.Autocomplete(input, _autocompleteOptions)
-        map.controls[google.maps.ControlPosition.TOP_CENTER].clear()
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input)
-        state.autocomplete.bindTo('bounds', map)
+        state.map.controls[google.maps.ControlPosition.TOP_CENTER].clear()
+        state.map.controls[google.maps.ControlPosition.TOP_CENTER].push(input)
+        state.autocomplete.bindTo('bounds', state.map)
         // Specify just the place data fields that you need.
         state.autocomplete.setFields(['place_id', 'geometry', 'name'])
     }
@@ -68,8 +69,8 @@ import { state } from "../state.js"
     locationButton.textContent = 'Go to Current Location'
     locationButton.classList.add('custom-map-control-button')
     locationButton.setAttribute('type', 'submit')
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].clear()
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(locationButton)
+    state.map.controls[google.maps.ControlPosition.TOP_RIGHT].clear()
+    state.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(locationButton)
     locationButton.addEventListener('click', () => {
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -81,20 +82,20 @@ import { state } from "../state.js"
                     }
                     infoWindow.setPosition(pos)
                     infoWindow.setContent('Location found.')
-                    infoWindow.open(map)
-                    map.setCenter(pos)
+                    infoWindow.open(state.map)
+                    state.map.setCenter(pos)
                     pos.name = 'Current place'
                     nearbyTriggeredRequest(pos)
                     LIS.id('imgGrid').innerHTML = ''
                     showAlertsList(currObj)
                 },
                 () => {
-                    handleLocationError(true, infoWindow, map.getCenter())
+                    handleLocationError(true, infoWindow, state.map.getCenter())
                 },
             )
         } else {
             // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter())
+            handleLocationError(false, infoWindow, state.map.getCenter())
         }
     })
 }
@@ -107,5 +108,5 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
             ? 'Error: The Geolocation service failed.'
             : "Error: Your browser doesn't support geolocation.",
     )
-    infoWindow.open(map)
+    infoWindow.open(state.map)
 }

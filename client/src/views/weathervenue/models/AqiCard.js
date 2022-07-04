@@ -1,3 +1,5 @@
+import isMobile from "../helpers/isMobile"
+
 export default class AqiCard {
     constructor(language, aqi, today, co, no, no2) {
         const theme = {
@@ -21,7 +23,7 @@ export default class AqiCard {
 
     html() {
         let coo = 1
-        const showClass = _isMobile ? '' : 'show'
+        const showClass = isMobile ? '' : 'show'
         const collapseIcon = '<i class="bi bi-arrows-collapse"></i>'
         return `
           <div class="col-md-3" style="margin-top:20px;">
