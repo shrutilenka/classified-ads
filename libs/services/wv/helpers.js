@@ -45,10 +45,10 @@ async function fetchWeather0 (westLng, northLat, eastLng, southLat, mapZoom) {
 
 async function fetchWeather (city, language) {
   return new Promise(async (resolve, reject) => {
-    const APIUrlWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${city.lat}&lon=${city.lon}&lang=${language}&exclude=hourly,minutely,hourly&units=metric&appid=${OPENWEATHERMAP_API_KEY}`
+    const APIUrlWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${city.latitude}&lon=${city.longitude}&lang=${language}&exclude=hourly,minutely,hourly&units=metric&appid=${OPENWEATHERMAP_API_KEY}`
     const body0 = await api({ url: APIUrlWeather, method: 'get' })
     const data0 = await body0.data
-    const APIUrlPollution = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${city.lat}&lon=${city.lon}&appid=${OPENWEATHERMAP_API_KEY}`
+    const APIUrlPollution = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${city.latitude}&lon=${city.longitude}&appid=${OPENWEATHERMAP_API_KEY}`
     const body1 = await api({ url: APIUrlPollution, method: 'get' })
     const data1 = await body1.data
     resolve({ weather: data0, pollution: data1 })
