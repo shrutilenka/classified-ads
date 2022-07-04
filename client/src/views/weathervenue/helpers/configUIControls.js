@@ -1,9 +1,9 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 import { state } from "../state.js";
 import isMobile from "./isMobile.js";
-
+import { ops } from "./routines.js";
 const client = new Client({});
-
+function __class (cls) { return document.getElementsByClassName(cls) }
 // Instantiate new UI controls for DOM page or Google map. Configure UI controls or retrieve present UI controls when they exist.
 /**
  * darkSwitch
@@ -15,12 +15,12 @@ const client = new Client({});
     // First time visit: style map night or regular based on earlier preferences
     const darkThemeSelected =
         localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark'
-    darkThemeSelected ? _styleItDark() : _styleItWhite()
+    darkThemeSelected ? ops.styleItDark() : ops.styleItWhite()
     // Define on toggle behavior.
     google.maps.event.addDomListener(LIS.id('darkSwitch'), 'click', function () {
         const toggle =
             localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark'
-        toggle ? _styleItWhite() : _styleItDark()
+        toggle ? ops.styleItWhite() : ops.styleItDark()
     })
 
     // Slider

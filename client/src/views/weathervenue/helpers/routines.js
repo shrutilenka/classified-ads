@@ -8,15 +8,13 @@ const conf = {}
 
 function __class (cls) { return document.getElementsByClassName(cls) }
 
-const _myStorage = window.localStorage
-
 let collapseBtn1 = LIS.id('collapse1')
 collapseBtn1.onclick = function () { collapseBtn1.classList.toggle('active') }
 let collapseBtn2 = LIS.id('collapse2')
 collapseBtn2.onclick = function () { collapseBtn2.classList.toggle('active') }
 
 // less styling, setting business positions off and transit off
-conf['styles'] = {
+const styles = {
   default: [],
   hide: [
     {
@@ -128,7 +126,7 @@ conf['styles'] = {
 }
 // Copyright of PimpTrizkit taken from https://github.com/PimpTrizkit/PJs/wiki/12.-Shade,-Blend-and-Convert-a-Web-Color-(pSBC.js)
 // Version 4.0
-ops['pSBC'] = (p, c0, c1, l) => {
+function pSBC (p, c0, c1, l) {
   let r, g, b, P, f, t, h, i = parseInt, m = Math.round, a = typeof (c1) == 'string'
   if (typeof (p) != 'number' || p < -1 || p > 1 || typeof (c0) != 'string' || (c0[0] != 'r' && c0[0] != '#') || (c1 && !a)) return null
   if (!this.pSBCr) this.pSBCr = (d) => {
@@ -157,7 +155,7 @@ ops['pSBC'] = (p, c0, c1, l) => {
 var cardsColors
 ops['styleItDark'] = () => {
   document.documentElement.style.backgroundColor = '#111'
-  state.map.setOptions({ styles: conf['styles'].night })
+  state.map.setOptions({ styles: styles.night })
   LIS.id('copyright_google').src = './copyright/powered_by_google_on_non_white_hdpi.png'
   if (!cardsColors) {
     cardsColors = Array.from(__class('card')).map(card => { return card.style.backgroundColor })
@@ -165,7 +163,7 @@ ops['styleItDark'] = () => {
   }
 
   Array.from(__class('card')).forEach(card => {
-    card.style.backgroundColor = ops['pSBC'](-0.2, card.style.backgroundColor)
+    card.style.backgroundColor = pSBC(-0.2, card.style.backgroundColor)
   })
 
   LIS.id('logo').src = './img/weather_venue_856-8_on_black.png'
@@ -173,7 +171,7 @@ ops['styleItDark'] = () => {
 
 ops['styleItWhite'] = () => {
   document.documentElement.style.backgroundColor = '#eee'
-  state.map.setOptions({ styles: conf['styles'].hide })
+  state.map.setOptions({ styles: styles.hide })
   LIS.id('copyright_google').src = './copyright/powered_by_google_on_white_hdpi.png'
   if (cardsColors) {
     Array.from(__class('card')).forEach(function (card, idx) {
@@ -203,11 +201,11 @@ ops['setWithExpiry'] = (key, value) => {
     value: value,
     expiry: day
   }
-  _myStorage.setItem(key, JSON.stringify(item))
+  localStorage.setItem(key, JSON.stringify(item))
 }
 
 ops['getWithExpiry'] = (key) => {
-  const itemStr = _myStorage.getItem(key)
+  const itemStr = localStorage.getItem(key)
   // if the item doesn't exist, return null
   if (!itemStr) {
     return null
@@ -219,7 +217,7 @@ ops['getWithExpiry'] = (key) => {
   if (now.getDay() !== item.expiry.day || now.getMonth() !== item.expiry.month || now.getFullYear() !== item.expiry.year) {
     // If the item generated today, delete the item from storage
     // and return null
-    _myStorage.removeItem(key)
+    localStorage.removeItem(key)
     return null
   }
   return item.value
@@ -310,165 +308,3 @@ ops['emptyIt'] = () => {
 }
 
 export { ops, conf }
-
-/**
- * Copyright (c) Christopher Keefer, 2016.
- * https://github.com/SaneMethod/fetchCache
- *
- * Override fetch in the global context to allow us to cache the response to fetch in a Storage interface
- * implementing object (such as localStorage).
- */
-(function (fetch) {
-  /* If the context doesn't support fetch, we won't attempt to patch in our
-   caching using fetch, for obvious reasons. */
-  if (!fetch) return
-
-  /**
-   * Generate the cache key under which to store the local data - either the cache key supplied,
-   * or one generated from the url, the Content-type header (if specified) and the body (if specified).
-   *
-   * @returns {string}
-   */
-  function genCacheKey(url, settings) {
-    var {headers:{'Content-type': type}} = ('headers' in settings) ? settings : {headers: {}},
-      {body} = settings
-
-    return settings.cacheKey || url + (type || '') + (body || '')
-  }
-
-  /**
-   * Determine whether we're using localStorage or, if the user has specified something other than a boolean
-   * value for options.localCache, whether the value appears to satisfy the plugin's requirements.
-   * Otherwise, throw a new TypeError indicating what type of value we expect.
-   *
-   * @param {boolean|object} storage
-   * @returns {boolean|object}
-   */
-  function getStorage(storage) {
-    if (!storage) return false
-    if (storage === true) return self.localStorage
-    if (typeof storage === 'object' && 'getItem' in storage &&
-          'removeItem' in storage && 'setItem' in storage) {
-      return storage
-    }
-    throw new TypeError('localCache must either be a boolean value, ' +
-          'or an object which implements the Storage interface.')
-  }
-
-  /**
-   * Remove the item specified by cacheKey and its attendant meta items from storage.
-   *
-   * @param {Storage|object} storage
-   * @param {string} cacheKey
-   */
-  function removeFromStorage(storage, cacheKey) {
-    storage.removeItem(cacheKey)
-    storage.removeItem(cacheKey + 'cachettl')
-    storage.removeItem(cacheKey + 'dataType')
-  }
-
-  /**
-   * Cache the response into our storage object.
-   * We clone the response so that we can drain the stream without making it
-   * unavailable to future handlers.
-   *
-   * @param {string} cacheKey Key under which to cache the data string. Bound in
-   * fetch override.
-   * @param {Storage} storage Object implementing Storage interface to store cached data
-   * (text or json exclusively) in. Bound in fetch override.
-   * @param {Number} hourstl Number of hours this value shoud remain in the cache.
-   * Bound in fetch override.
-   * @param {Response} response
-   */
-  function cacheResponse(cacheKey, storage, hourstl, response) {
-    var cres = response.clone(),
-      dataType = (response.headers.get('Content-Type') || 'text/plain').toLowerCase()
-
-    cres.text().then((text) => {
-      try {
-        storage.setItem(cacheKey, text)
-        storage.setItem(cacheKey + 'cachettl', +new Date() + 1000 * 60 * 60 * hourstl)
-        storage.setItem(cacheKey + 'dataType', dataType)
-      } catch (e) {
-        // Remove any incomplete data that may have been saved before the exception was caught
-        removeFromStorage(storage, cacheKey)
-        console.log('Cache Error: ' + e, cacheKey, text)
-      }
-    })
-
-    return response
-  }
-
-  /**
-   * Create a new response containing the cached value, and return a promise
-   * that resolves with this response.
-   *
-   * @param value
-   * @param dataType
-   * @returns {Promise}
-   */
-  function provideResponse(value, dataType) {
-    var response = new Response(
-      value,
-      {
-        status: 200,
-        statusText: 'success',
-        headers: {
-          'Content-Type': dataType
-        }
-      }
-    )
-
-    return new Promise(function (resolve, reject) {
-      resolve(response)
-    })
-  }
-
-  /**
-   * Override fetch on the global context, so that we can intercept
-   * fetch calls and respond with locally cached content, if available.
-   * New parameters available on the call to fetch:
-   * localCache   : true // required - either a boolean (if true, localStorage is used,
-   * if false request is not cached or returned from cache), or an object implementing the
-   * Storage interface, in which case that object is used instead.
-   * cacheTTL     : 5, // optional, cache time in hours, default is 5. Use float numbers for
-   * values less than a full hour (e.g. 0.5 for 1/2 hour).
-   * cacheKey     : 'post', // optional - key under which cached string will be stored.
-   * isCacheValid : function  // optional - return true for valid, false for invalid.
-   */
-  self.fetch = function (url, settings) {
-    var storage = getStorage(settings.localCache),
-      hourstl = settings.cacheTTL || 5,
-      cacheKey = genCacheKey(url, settings),
-      cacheValid = settings.isCacheValid,
-      ttl,
-      value,
-      dataType
-
-    if (!storage) return fetch(url, settings)
-
-    ttl = storage.getItem(cacheKey + 'cachettl')
-
-    if (cacheValid && typeof cacheValid === 'function' && !cacheValid()) {
-      removeFromStorage(storage, cacheKey)
-      ttl = 0
-    }
-
-    if (ttl && ttl < +new Date()) {
-      removeFromStorage(storage, cacheKey)
-    }
-
-    value = storage.getItem(cacheKey)
-
-    if (!value) {
-      /* If not cached, we'll make the request and add a then block to the resulting promise,
-           in which we'll cache the result. */
-      return fetch(url, settings).then(cacheResponse.bind(null, cacheKey, storage, hourstl))
-    }
-
-    /* Value is cached, so we'll simply create and respond with a promise of our own,
-       and provide a response object. */
-    dataType = storage.getItem(cacheKey + 'dataType') || 'text/plain'
-    return provideResponse(value, dataType)
-  };
-})(self.fetch)

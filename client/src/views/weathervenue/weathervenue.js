@@ -37,7 +37,7 @@ function initMap() {
         google.maps.event.trigger(state.map, 'resize')
     }
     configUIControls()
-    _initAccessibility(state.language)
+    // _initAccessibility(state.language)
     // Populate current list of cities nearby on the map
     if (state.currObj.isValid) {
         state.map.data.addGeoJson(state.currObj.currentList)

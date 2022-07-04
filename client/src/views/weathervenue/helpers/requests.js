@@ -1,19 +1,12 @@
-// Called once the user search for a city, look for weather cached data for today (local user time) for the city,
-// If not found, create an AJAX request for it
-
 import CurrentList from "../models/CurrentList"
+import override from "./overrideFetch"
 import { populateHeatMap } from "./populateHeatMap"
 import { renderForecastDays } from "./renderForecastDays"
+import { ops } from "./routines"
+override(fetch)
 
-/**
- * _showLoading(), _hideLoading()
- * _getWithExpiry(), _setWithExpiry()
- * "nearby/" is the main API in back-end
- * renderForecastDays()
- * initMap()
- */
  export const nearbyRequest = (place) => {
-    _showLoading() // Block page while loading
+    ops.showLoading() // Block page while loading
     const requestObject = JSON.stringify({
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
@@ -36,7 +29,7 @@ import { renderForecastDays } from "./renderForecastDays"
 
 // Same as nearbyRequest()
 export const nearbyTriggeredRequest = (place) => {
-    _showLoading() // Block page while loading
+    ops.showLoading() // Block page while loading
     const requestObject = JSON.stringify({
         lat: place.lat,
         lng: place.lng,
