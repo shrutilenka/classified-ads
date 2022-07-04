@@ -1,5 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
 import { crypto } from '../services/helpers.js'
+const NODE_ENV = {
+    api: -1,
+    localhost: 0,
+    development: 1,
+    production: 2,
+}[process.env.NODE_ENV]
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 async function routes(fastify, options) {
     // Channels is a map of { key: socket }
@@ -13,31 +19,30 @@ async function routes(fastify, options) {
             await reply.code(401).send('not authenticated')
         }
     })
-
+    // Periodically clean dead sockets
     setInterval(function ping() {
         fastify.websocketServer.clients.forEach(function each(ws) {
-            console.log('cleaning dead sockets')
+            if (NODE_ENV < 1) console.log('cleaning dead sockets')
             if (ws.isAlive === false) return ws.terminate()
-
             ws.isAlive = false
             ws.ping()
         })
     }, 100000)
-
+    // Periodically refresh sockets
     setInterval(function () {
-        // console.log('refreshing channels')
+        if (NODE_ENV < 1) console.log('refreshing channels')
         refreshChannels(channels)
     }, 100000)
 
+    // Endpoint for first user landing on chat page (listing)
     fastify.get('/ping/*', { websocket: true }, (connection, request) => {
         connection.socket.id = uuidv4()
         const socket = connection.socket
         const user = fastify.wsauth(request)
         // Client connect
-        console.log(`Browser connected ${socket.id}`)
-        console.log(`Client connected ${user}`)
+        if (NODE_ENV < 1) console.log(`Browser connected ${socket.id}\nClient connected ${user}`)
         const channel = crypto.decrypt(key, request.query.channel)
-        console.log(`Channel identified ${channel}`)
+        if (NODE_ENV < 1) console.log(`Channel identified ${channel}`)
         if (validChannel(channel, user)) {
             addChannel(channel, socket)
             socket.isAlive = true
@@ -49,37 +54,18 @@ async function routes(fastify, options) {
             connection.destroy()
             return
         }
-
         // New user
-        broadcast(
-            {
-                sender: '__server',
-                message: `${user} joined`,
-            },
-            channel,
-        )
+        broadcast({ sender: '__server', message: `${user} joined` }, channel)
         // Leaving user
         socket.on('close', () => {
             socket.isAlive = false
             connection.destroy()
-            broadcast(
-                {
-                    sender: '__server',
-                    message: `${user} left`,
-                },
-                channel,
-            )
+            broadcast({ sender: '__server', message: `${user} left` }, channel)
         })
         // Broadcast incoming message
         socket.on('message', (message) => {
             message = JSON.parse(message.toString())
-            broadcast(
-                {
-                    sender: user,
-                    ...message,
-                },
-                channel,
-            )
+            broadcast({ sender: user, ...message }, channel)
         })
     })
 
