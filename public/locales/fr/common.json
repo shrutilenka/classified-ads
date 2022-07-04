@@ -25,36 +25,36 @@
    "(divisions)": "Wilaya",
    "(today-listings)": "Annonces d\"aujourd\"hui",
    "(tour-hello)": "On test tour.js",
-   "(posted-by)": "Posted by:",
-   "blogs-intro": "In Classified-ads blogs section is our meta category where you and us also can express ourselves freely from tags. Anything can be posted here, including our daily announcements.",
+   "(posted-by)": "Publié par:",
+   "blogs-intro": "La section des blogs est notre méta-catégorie où vous et nous meme pouvons s'exprimer librement à partir de balises. Tout peut être publié ici, y compris nos annonces quotidiennes.",
    "tags-page": {
-     "intro": "Here you can choose a specific tag for donations section. Please take your time to choose the best tag that suits your item.",
+     "intro": "Ici, vous pouvez choisir une balise spécifique pour la section des dons. Veuillez prendre votre temps pour choisir la meilleure étiquette qui convient à votre article."
    },
    "blog-page": {
-     "add": "Add a Blog post"
+     "add": "Ajouter un article Blog"
    },
    "donation-page": {
-     "add": "Add a Donation post",
-     "(offer)": "Offer ?"
+     "add": "Ajouter une publication Don",
+     "(offer)": "Offre ?"
    },
    "event-page": {
-     "add": "Add an Event post",
-     "start-date": "Start date",
-     "end-date": "End date"
+     "add": "Ajouter une publication Evénement",
+     "start-date": "Date de début",
+     "end-date": "Date de fin"
    },
    "hobby-page": {
-     "add": "Add a Hobby post"
+     "add": "Ajouter une publication Loisir"
    },
    "skill-page": {
-     "add": "Add a Skill post",
-     "(offer)": "Offer ?"
+     "add": "Ajouter une publication Compétence",
+     "(offer)": "Offre ?"
    },
-   "tag-language": "Tag language: ",
-   "choose-tags": "Click here to choose tags",
-   "delimitations-map": "delimitations map",
-   "listings-map": "listings map",
-   "(english)": "English",
-   "(arabic)": "Arabic",
-   "(french)": "French"
+   "tag-language": "Langue des balises: ",
+   "choose-tags": "Cliquez ici pour choisir les balises",
+   "delimitations-map": "carte des délimitations",
+   "listings-map": "carte des annonces",
+   "(english)": "Anglais",
+   "(arabic)": "Arabe",
+   "(french)": "Français"
  
  }

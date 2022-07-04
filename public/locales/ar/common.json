@@ -25,36 +25,36 @@
    "(divisions)": "ولاية",
    "(today-listings)": "قوائم اليوم",
    "(tour-hello)": "تجربة تاور",
-   "(posted-by)": "Posted by:",
-   "blogs-intro": "In Classified-ads blogs section is our meta category where you and us also can express ourselves freely from tags. Anything can be posted here, including our daily announcements.",
+   "(posted-by)": "منشور من طرف:",
+   "blogs-intro": "في قسم مدونات الإعلانات المبوبة ، توجد فئة التعريف الخاصة بنا حيث يمكنك أنت ونحن أيضًا التعبير عن أنفسنا بحرية من العلامات. يمكن نشر أي شيء هنا ، بما في ذلك إعلاناتنا اليومية.",
    "tags-page": {
-     "intro": "Here you can choose a specific tag for donations section. Please take your time to choose the best tag that suits your item.",
+     "intro": "هنا يمكنك اختيار علامة محددة لقسم التبرعات. يرجى أخذ الوقت الكافي لاختيار أفضل علامة تناسب البند الخاص بك."
    },
    "blog-page": {
-     "add": "Add a Blog post"
+     "add": "أضف منشور مدونة"
    },
    "donation-page": {
-     "add": "Add a Donation post",
-     "(offer)": "Offer ?"
+     "add": "أضف منشور تبرع",
+     "(offer)": "عرض ؟"
    },
    "event-page": {
-     "add": "Add an Event post",
-     "start-date": "Start date",
-     "end-date": "End date"
+     "add": "أضف منشور حدث",
+     "start-date": "تاريخ البدء",
+     "end-date": "تاريخ الانتهاء"
    },
    "hobby-page": {
-     "add": "Add a Hobby post"
+     "add": "أضف منشور هواية"
    },
    "skill-page": {
-     "add": "Add a Skill post",
-     "(offer)": "Offer ?"
+     "add": "أضف منشور مهارة",
+     "(offer)": "عرض ؟"
    },
-   "tag-language": "Tag language: ",
-   "choose-tags": "Click here to choose tags",
-   "delimitations-map": "delimitations map",
-   "listings-map": "listings map",
-   "(english)": "English",
-   "(arabic)": "Arabic",
-   "(french)": "French"
+   "tag-language": "لغة العلامة:",
+   "choose-tags": "انقر هنا لاختيار العلامات",
+   "delimitations-map": "خريطة ترسيم الحدود",
+   "listings-map": "خريطة القوائم",
+   "(english)": "إنجليزي",
+   "(arabic)": "عربي",
+   "(french)": "فرنسي"
  
 }
