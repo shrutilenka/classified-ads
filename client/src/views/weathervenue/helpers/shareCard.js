@@ -1,4 +1,6 @@
 import domtoimage from 'dom-to-image';
+import { LIS } from '../../../helpers/lis';
+
 
 export default shareCard = (card_id) => {
     const dd = LIS.id(card_id)

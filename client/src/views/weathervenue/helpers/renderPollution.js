@@ -1,4 +1,6 @@
+import { LIS } from "../../../helpers/lis.js"
 import { state } from "../state.js"
+
 
 // Create and Update the HTML div card holding pollution information and scale for one city for today only
 export const renderPollution = (pollution) => {

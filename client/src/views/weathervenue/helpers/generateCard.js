@@ -1,3 +1,4 @@
+import { LIS } from "../../../helpers/lis.js"
 import isMobile from "./isMobile.js"
 import shareCard from "./shareCard.js"
 

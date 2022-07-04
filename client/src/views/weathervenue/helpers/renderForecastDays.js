@@ -1,3 +1,4 @@
+import { LIS } from "../../../helpers/lis.js"
 import { weekdaysLangs } from "../models/translations.js"
 import { state } from "../state.js"
 

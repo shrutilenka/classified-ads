@@ -1,3 +1,4 @@
+import { LIS } from "../../../helpers/lis.js"
 import { state } from "../state.js"
 
 // Configure Google map URLs based on user interactions (successive right clicks on markers)
