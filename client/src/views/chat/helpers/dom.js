@@ -2,9 +2,9 @@ import { LIS } from '../../../helpers/lis.js'
 import { newSocket } from '../sockets/refresh.js'
 import { clientSocket } from '../sockets/state.js'
 
-
-const { addressedChannel, messages, sockets } = clientSocket
+const { addressedChannel, addressedId, messages, sockets } = clientSocket
 const list = LIS.id('message-list')
+const id = (channel) => channel.slice(0, 8) + channel.slice(-2)
 const append = (msg) => {
     const li = document.createElement('li')
     li.innerHTML = `<b>${msg.sender}:&nbsp;</b>${msg.message}`
@@ -12,6 +12,7 @@ const append = (msg) => {
 }
 // On click event and having the complete list
 // focus the channel clicked and un-focus others.
+// localStorage -> messages -> UI
 export const channelSelect = (channel, ul) => {
     return function (event) {
         let lies = ul.getElementsByTagName('li')
@@ -21,19 +22,16 @@ export const channelSelect = (channel, ul) => {
         let li = event.target
         li.innerHTML = `<b>${li.innerHTML}</b>`
         addressedChannel = channel
-        if (localStorage.getItem(addressedChannel))
-            messages[addressedChannel].push(JSON.parse(localStorage.getItem(addressedChannel)))
-        if (!sockets[addressedChannel]) newSocket()
+        addressedId = id(channel)
+        if (localStorage.getItem(addressedId))
+            messages[addressedId].push(JSON.parse(localStorage.getItem(addressedId)))
+        // Make socket, fill messages and append
+        if (!sockets[addressedId]) newSocket()
         else {
-            messages[addressedChannel].forEach((message) => {
+            // get earlier messages and append
+            messages[addressedId].forEach((message) => {
                 append(message)
             })
         }
     }
 }
-
-// const createHTML = (txt, tag) => {
-//   var element = document.createElement(tag);
-//   element.innerHTML = txt;
-//   return element;
-// }

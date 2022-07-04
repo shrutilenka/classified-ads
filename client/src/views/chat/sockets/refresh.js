@@ -2,8 +2,9 @@ import { LIS } from '../../../helpers/lis.js'
 import { channelSelect } from '../helpers/dom.js'
 import { clientSocket } from './state.js'
 
-const { addressedChannel, notesChannel, sockets, thread, messages } = clientSocket
+const { addressedChannel, addressedId, notesChannel, sockets, thread, messages } = clientSocket
 const list = LIS.id('message-list')
+const id = (channel) => channel.slice(0, 8) + channel.slice(-2)
 const append = (msg) => {
     const li = document.createElement('li')
     li.innerHTML = `<b>${msg.sender}:&nbsp;</b>${msg.message}`
@@ -11,10 +12,11 @@ const append = (msg) => {
 }
 const endpoint = `ws://${window.location.host}/chat/ping/?channel=`
 
+// Create new Socket: assumes localStorage & messages does not contain earlier messages (discarded)
 export const newSocket = () => {
     try {
-        sockets[addressedChannel] = new WebSocket(endpoint + addressedChannel)
-        sockets[addressedChannel].onerror = function (error) {
+        sockets[addressedId] = new WebSocket(endpoint + addressedChannel)
+        sockets[addressedId].onerror = function (error) {
             console.log(error)
         }
     } catch (error) {
@@ -22,21 +24,24 @@ export const newSocket = () => {
         return false
     }
 
-    sockets[addressedChannel].onmessage = (response) => {
+    // message -> messages -> localStorage
+    // message -> UI
+    sockets[addressedId].onmessage = (response) => {
         try {
             let message = JSON.parse(response.data)
-            if (!messages[addressedChannel]) messages[addressedChannel] = [message]
-            else messages[addressedChannel].push(message)
-            localStorage.setItem(addressedChannel, JSON.stringify(messages[addressedChannel]))
+            if (!messages[addressedId]) messages[addressedId] = [message]
+            else messages[addressedId].push(message)
+            localStorage.setItem(addressedId, JSON.stringify(messages[addressedId]))
             append(message)
         } catch (error) {
             console.log(error)
         }
     }
 
+    // Sender UI is treated as other users. He/She will we receiving messages by socket server 
     LIS.id('messenger').addEventListener('keyup', (e) => {
         if (e.key === 'Enter' /* || e.keyCode === 13 */) {
-            sockets[addressedChannel].send(JSON.stringify({ message: e.target.value }))
+            sockets[addressedId].send(JSON.stringify({ message: e.target.value }))
             e.target.value = ''
         }
     })
@@ -57,14 +62,14 @@ export const getChannels = () => {
                 data.channels.forEach((channel) => {
                     let li = document.createElement('li')
                     if (channel === notesChannel) li.style = 'color: red'
-                    li.appendChild(document.createTextNode(channel))
+                    li.appendChild(document.createTextNode(id(channel)))
                     li.addEventListener('click', channelSelect(channel, ul), false)
                     ul.appendChild(li)
                 })
                 data.readableChannels.forEach((channel) => {
                     let li = document.createElement('li')
                     if (channel === notesChannel) li.style = 'color: red'
-                    li.appendChild(document.createTextNode(channel))
+                    li.appendChild(document.createTextNode(id(channel)))
                     li.addEventListener('click', channelSelect(channel, ul), false)
                     ul.appendChild(li)
                 })
@@ -73,6 +78,4 @@ export const getChannels = () => {
     }
 }
 
-export const recoverState = () => {
-    
-}
+export const recoverState = () => {}
