@@ -1,4 +1,4 @@
-import { state } from "../state"
+import { state } from "../state.js"
 
 // Configure Google map URLs based on user interactions (successive right clicks on markers)
 // Called when a marker is right clicked
@@ -29,8 +29,8 @@ export const configURLsControls = (marker) => {
       a.target = '_blank'
       a.style.cssText = 'background-color: #2a2a3c; color: #fff'
       controlUI.appendChild(a)
-      state.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].clear()
-      state.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(controlUI)
+      state.map.controls[state.google.maps.ControlPosition.BOTTOM_CENTER].clear()
+      state.map.controls[state.google.maps.ControlPosition.BOTTOM_CENTER].push(controlUI)
       marker.setIcon('https://www.google.com/mapfiles/marker_black.png')
       return
     }
@@ -42,8 +42,8 @@ export const configURLsControls = (marker) => {
     // Create an URL in map's bottom
     controlUI = LIS.id('URL')
     controlUI.innerHTML = ''
-    state.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].clear()
-    state.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(controlUI)
+    state.map.controls[state.google.maps.ControlPosition.BOTTOM_CENTER].clear()
+    state.map.controls[state.google.maps.ControlPosition.BOTTOM_CENTER].push(controlUI)
     directions = { start_location: undefined, end_location: undefined }
   }
   

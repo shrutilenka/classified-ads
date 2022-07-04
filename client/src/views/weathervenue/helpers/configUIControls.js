@@ -5,19 +5,14 @@ import { ops } from "./routines.js";
 const client = new Client({});
 function __class (cls) { return document.getElementsByClassName(cls) }
 // Instantiate new UI controls for DOM page or Google map. Configure UI controls or retrieve present UI controls when they exist.
-/**
- * darkSwitch
- * heatmap slider
- * new google.maps.places.Autocomplete
- * panButton and geolocation
- */
+
  export const configUIControls = () => {
     // First time visit: style map night or regular based on earlier preferences
     const darkThemeSelected =
         localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark'
     darkThemeSelected ? ops.styleItDark() : ops.styleItWhite()
     // Define on toggle behavior.
-    google.maps.event.addDomListener(LIS.id('darkSwitch'), 'click', function () {
+    state.google.maps.events.addDomListener(LIS.id('darkSwitch'), 'click', function () {
         const toggle =
             localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark'
         toggle ? ops.styleItWhite() : ops.styleItDark()
@@ -28,8 +23,8 @@ function __class (cls) { return document.getElementsByClassName(cls) }
     const sliderForm = LIS.id('formControlRange0')
     let moving
     if (!isMobile) {
-        state.map.controls[google.maps.ControlPosition.TOP_LEFT].clear()
-        state.map.controls[google.maps.ControlPosition.TOP_LEFT].push(sliderForm)
+        state.map.controls[state.google.maps.ControlPosition.TOP_LEFT].clear()
+        state.map.controls[state.google.maps.ControlPosition.TOP_LEFT].push(sliderForm)
     }
     slider.oninput = function () {
         $('#rangeval').html(`Day ${slider.value}`)
@@ -54,8 +49,8 @@ function __class (cls) { return document.getElementsByClassName(cls) }
     if (!state.autocomplete) {
         
         state.autocomplete = client.placeQueryAutocomplete(input, _autocompleteOptions)
-        state.map.controls[google.maps.ControlPosition.TOP_CENTER].clear()
-        state.map.controls[google.maps.ControlPosition.TOP_CENTER].push(input)
+        state.map.controls[state.google.maps.ControlPosition.TOP_CENTER].clear()
+        state.map.controls[state.google.maps.ControlPosition.TOP_CENTER].push(input)
         state.autocomplete.bindTo('bounds', state.map)
         // Specify just the place data fields that you need.
         state.autocomplete.setFields(['place_id', 'geometry', 'name'])
@@ -69,13 +64,13 @@ function __class (cls) { return document.getElementsByClassName(cls) }
         return
     }
 
-    const infoWindow = new google.maps.InfoWindow()
+    const infoWindow = new state.google.maps.InfoWindow()
     const locationButton = document.createElement('button')
     locationButton.textContent = 'Go to Current Location'
     locationButton.classList.add('custom-map-control-button')
     locationButton.setAttribute('type', 'submit')
-    state.map.controls[google.maps.ControlPosition.TOP_RIGHT].clear()
-    state.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(locationButton)
+    state.map.controls[state.google.maps.ControlPosition.TOP_RIGHT].clear()
+    state.map.controls[state.google.maps.ControlPosition.TOP_RIGHT].push(locationButton)
     locationButton.addEventListener('click', () => {
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -92,7 +87,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
                     pos.name = 'Current place'
                     nearbyTriggeredRequest(pos)
                     LIS.id('imgGrid').innerHTML = ''
-                    showAlertsList(currObj)
+                    showAlertsList(state.currentResponse)
                 },
                 () => {
                     handleLocationError(true, infoWindow, state.map.getCenter())

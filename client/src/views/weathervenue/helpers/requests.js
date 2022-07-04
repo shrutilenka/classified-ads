@@ -1,8 +1,11 @@
-import CurrentList from "../models/CurrentList"
-import override from "./overrideFetch"
-import { populateHeatMap } from "./populateHeatMap"
-import { renderForecastDays } from "./renderForecastDays"
-import { ops } from "./routines"
+import CurrentList from "../models/CurrentList.js"
+import { state } from "../state.js"
+import override from "./overrideFetch.js"
+import { populateHeatMap } from "./populateHeatMap.js"
+import { renderForecastDays } from "./renderForecastDays.js"
+import { ops } from "./routines.js"
+
+
 override(fetch)
 
  export const nearbyRequest = (place) => {
@@ -11,16 +14,16 @@ override(fetch)
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
         cityname: place.name,
-        language: language,
+        language: state.language,
     })
     fetch('nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
-            currObj = new CurrentList(data.data)
-            LIS.id('location').innerHTML = currObj.location
-            renderForecastDays(currObj.dailies)
+            state.currentResponse = new CurrentList(data.data)
+            LIS.id('location').innerHTML = state.currentResponse.location
+            renderForecastDays(state.currentResponse.dailies)
             initMap()
             populateHeatMap(0)
             _hideLoading() // Unblock page
@@ -34,16 +37,16 @@ export const nearbyTriggeredRequest = (place) => {
         lat: place.lat,
         lng: place.lng,
         cityname: place.name,
-        language: language,
+        language: state.language,
     })
     fetch('nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
-            currObj = new CurrentList(data.data)
-            LIS.id('location').innerHTML = currObj.location
-            renderForecastDays(currObj.dailies)
+            state.currentResponse = new CurrentList(data.data)
+            LIS.id('location').innerHTML = state.currentResponse.location
+            renderForecastDays(state.currentResponse.dailies)
             initMap()
             _hideLoading() // Unblock page
         })

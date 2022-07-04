@@ -20,4 +20,8 @@
   color: red;
 }
 
+.announcement p {
+  margin-top: revert;
+}
+
 /*# sourceMappingURL=shared.css.map */

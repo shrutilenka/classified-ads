@@ -49,6 +49,7 @@ export default {
         tags: './src/views/tags/tags.js',
         easteregg: './src/views/easteregg/easteregg.js',
         chat: './src/views/chat/chat.js',
+        weathervenue: './src/views/weathervenue/weathervenue.js',
     },
     output: {
         filename: '[name].js',

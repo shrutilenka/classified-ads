@@ -1,4 +1,5 @@
 import isMobile from "../helpers/isMobile"
+import { aqiLangs, weekdaysLangs } from "./translations.js"
 
 export default class AqiCard {
     constructor(language, aqi, today, co, no, no2) {
@@ -10,12 +11,12 @@ export default class AqiCard {
             5: '#A67041',
         }
         this.style = 'background-color: ' + theme[aqi]
-        this.aqiInterpretation = _aqiLangs(language)
+        this.aqiInterpretation = aqiLangs(language)
         this.aqi = aqi
         const d = new Date(0)
         d.setUTCSeconds(today)
         this.ISODate = d.toISOString().slice(5, 10)
-        this.dayName = _weekdaysLangs(language)[d.getDay()]
+        this.dayName = weekdaysLangs(language)[d.getDay()]
         this.co = co
         this.no = no
         this.no2 = no2

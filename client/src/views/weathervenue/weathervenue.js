@@ -21,7 +21,8 @@ function initMap() {
             version: 'weekly',
             libraries: ['places', 'visualization'],
         })
-        loader.load().then((google) => {           
+        loader.load().then((google) => {
+            state.google = google
             state.map = new google.maps.Map(LIS.id('map'), {
                 center: state.center,
                 zoom: 10,
@@ -29,18 +30,17 @@ function initMap() {
                 mapTypeControl: false,
                 streetViewControl: false,
             })
-            
         })
     } else {
         // initMap() being called a second time, clear earlier data
         state.map.data.forEach((feature) => state.map.data.remove(feature))
-        google.maps.event.trigger(state.map, 'resize')
+        state.google.maps.events.trigger(state.map, 'resize')
     }
     configUIControls()
     // _initAccessibility(state.language)
     // Populate current list of cities nearby on the map
-    if (state.currObj.isValid) {
-        state.map.data.addGeoJson(state.currObj.currentList)
+    if (state.currentResponse.isValid) {
+        state.map.data.addGeoJson(state.currentResponse.currentList)
         clearMarkers()
         getMarkers()
         showMarkers()
@@ -48,7 +48,7 @@ function initMap() {
             strokeColor: 'blue',
         })
         // Fit map size to its markers
-        const bounds = new google.maps.LatLngBounds()
+        const bounds = new state.google.maps.LatLngBounds()
         state.map.data.forEach(function (feature) {
             feature.getGeometry().forEachLatLng(function (latlng) {
                 bounds.extend(latlng)
@@ -58,18 +58,18 @@ function initMap() {
         state.map.setCenter(state.center)
         state.map.setZoom(11)
         // Show alerts panel
-        showAlertsList(state.currObj)
+        showAlertsList(state.currentResponse)
         populateHeatMap(0)
     }
 
     // Create the infoWindow for the center marker
-    const infoWindow = new google.maps.InfoWindow()
+    const infoWindow = new state.google.maps.InfoWindow()
     const infoWindowContent = LIS.id('infoWindow-content')
     const infoWindowContentPrime = infoWindowContent.cloneNode(true)
     infoWindow.setContent(infoWindowContent)
-    const marker = new google.maps.Marker({
+    const marker = new state.google.maps.Marker({
         map: state.map,
-        animation: google.maps.Animation.DROP,
+        animation: state.google.maps.Animation.DROP,
     })
 
     let latestClicked = ''
@@ -88,10 +88,10 @@ function initMap() {
                 infoWindow.setContent(infoWindowContentPrime)
                 infoWindow.open(state.map, marker)
                 toggleBounce()
-                if (state.currObj.isValid) {
-                    LIS.id('location').innerHTML = marker.title // state.currObj.location;
-                    const cityWeather = state.currObj.weather.find((item) => item.cityName === marker.title)
-                    const cityPollution = state.currObj.pollution.find(
+                if (state.currentResponse.isValid) {
+                    LIS.id('location').innerHTML = marker.title // state.currentResponse.location;
+                    const cityWeather = state.currentResponse.weather.find((item) => item.cityName === marker.title)
+                    const cityPollution = state.currentResponse.pollution.find(
                         (item) => item.cityName === marker.title,
                     )
                     renderForecastDays(cityWeather.daily)
@@ -111,7 +111,7 @@ function initMap() {
                     state.markers.forEach((marker_) => {
                         marker_.setAnimation(null)
                     })
-                    marker.setAnimation(google.maps.Animation.BOUNCE)
+                    marker.setAnimation(state.google.maps.Animation.BOUNCE)
                 }
             }
         })
@@ -150,30 +150,23 @@ function initMap() {
         getPicture(place.name)
         nearbyRequest(place)
         // refreshDzBorder()
-        showAlertsList(state.currObj)
+        showAlertsList(state.currentResponse)
     })
     // Populate current alerts of all cities on a floating HTML panel on the map
-    showAlertsList(state.currObj)
+    showAlertsList(state.currentResponse)
 }
 
 initMap()
 
-document.addEventListener(
-    'DOMContentLoaded',
-    function () {
-        setTimeout(function () {
-            const params = _getScriptParams(['lang', 'centerLocation'])
-            state.language = params[0]
-            const centerLocation = params[1]
-            const pos = {
-                lat: state.center.lat,
-                lng: state.center.lng,
-            }
-            state.map.setCenter(pos)
-            pos.name = centerLocation.charAt(0).toUpperCase() + centerLocation.slice(1)
-            nearbyTriggeredRequest(pos)
-            LIS.id('imgGrid').innerHTML = ''
-        }, 2000)
-    },
-    false,
-)
+setTimeout(function () {
+    state.language = 'en'
+    const centerLocation = 'London'
+    const pos = {
+        lat: state.center.lat,
+        lng: state.center.lng,
+    }
+    state.map.setCenter(pos)
+    pos.name = centerLocation.charAt(0).toUpperCase() + centerLocation.slice(1)
+    nearbyTriggeredRequest(pos)
+    LIS.id('imgGrid').innerHTML = ''
+}, 2000)

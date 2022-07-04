@@ -1,5 +1,5 @@
-import isMobile from "./isMobile"
-import shareCard from "./shareCard"
+import isMobile from "./isMobile.js"
+import shareCard from "./shareCard.js"
 
 export default generateCard = (cardId) => {
     const toBe = LIS.id(cardId).cloneNode(true)

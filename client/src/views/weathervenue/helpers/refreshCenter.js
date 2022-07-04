@@ -1,3 +1,5 @@
+import { state } from "../state.js"
+
 // sets default geolocation for center based on originating page: {index.html, index_ar.html}
 export const refreshCenter = () => {
     const params = _getScriptParams(['lang', 'centerLocation'])
@@ -17,10 +19,10 @@ export const refreshCenter = () => {
         break
     }
     // When initMap is called for a second time, choose the earlier center not to move the map center away in the globe
-    if (currObj.isValid) {
+    if (state.currentResponse.isValid) {
       center = {
-        lat: currObj.coordinates[1],
-        lng: currObj.coordinates[0]
+        lat: state.currentResponse.coordinates[1],
+        lng: state.currentResponse.coordinates[0]
       }
     }
   }

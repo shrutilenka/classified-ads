@@ -1,9 +1,9 @@
 // currentObj is an instance of CurrentList
 // map, currentMarked, markers, autocomplete, language, and directions are all global variables holding one value,
 // that could change with a new city search or other user interactions
-let currObj = { isValid: false }
+let currentResponse = { isValid: false }
 let currentMarked
-let map
+let map, google
 let markers = []
 let autocomplete
 let language = 'en'
@@ -15,9 +15,10 @@ let first = true
 let center = { lat: -33.8688, lng: 151.2195 }
 
 export const state = {
-    currObj,
+    currentResponse,
     currentMarked,
     map,
+    google,
     markers,
     autocomplete,
     language,

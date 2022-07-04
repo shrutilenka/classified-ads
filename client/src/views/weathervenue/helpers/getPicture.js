@@ -1,13 +1,13 @@
-import { state } from "../state"
+import { picturesLangs } from "../models/translations.js"
+import { state } from "../state.js"
 
 // Get pictures for searched place
 /**
- * new google.maps.places.PlacesService
- * _myStorage.getItem(place), _myStorage.setItem(place, urls)
+ * new state.state.google.maps.places.PlacesService
  * populate pictures on featured_pictures div
  */
  export const getPicture = (place) => {
-    const [success, fail] = _picturesLangs(language)
+    const [success, fail] = picturesLangs(language)
     LIS.id('imgGrid').innerHTML = ''
     let cache = _myStorage.getItem(place)
     if (cache) {
@@ -17,7 +17,7 @@ import { state } from "../state"
         }
         return
     }
-    const service = new google.maps.places.PlacesService(state.map)
+    const service = new state.state.google.maps.places.PlacesService(state.map)
     const request = {
         location: state.map.getCenter(),
         radius: '3000',
@@ -36,7 +36,7 @@ import { state } from "../state"
         }
         called = true
         LIS.id('gallery').innerHTML = success(place)
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
+        if (status === state.google.maps.places.PlacesServiceStatus.OK) {
             const photos = results
                 .map((elem) => {
                     return elem.photos ? elem.photos[0].getUrl() : undefined

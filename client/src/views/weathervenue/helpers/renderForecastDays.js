@@ -1,3 +1,7 @@
+import { weekdaysLangs } from "../models/translations.js"
+import { state } from "../state.js"
+
+
 // Create and Update the HTML list of div cards holding a list of weather information for one city in a week
 // Fill __currentSpokenForecast with a transcript for Weather forecast
 // hueColors: calculated background color based on the current temperature and all weather average
@@ -9,7 +13,7 @@ export const renderForecastDays = (dailies) => {
     dailies.sort(function (first, second) {
         return second.dt - first.dt
     })
-    const weekdayNames = _weekdaysLangs(language)
+    const weekdayNames = weekdaysLangs(state.language)
     lastIcon = `url(https://openweathermap.org/img/wn/${
         dailies[dailies.length - 1].weather[0].icon || 'na'
     }.png)`
@@ -31,7 +35,7 @@ export const renderForecastDays = (dailies) => {
         }),
     )
     dailies.forEach(function (period, co) {
-        const card = new TemperatureCard(language, period, maxTemp, minTemp, currentMarked, co)
+        const card = new TemperatureCard(state.language, period, maxTemp, minTemp, currentMarked, co)
         LIS.id('forecast-items').insertAdjacentHTML('afterbegin', card.html())
     })
     window.todayWeather = dailies[0].weather[0].description

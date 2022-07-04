@@ -1,4 +1,5 @@
 import isMobile from "../helpers/isMobile"
+import { weekdaysLangs } from "./translations.js"
 
 Array.range = function (from, to, step, prec) {
   if (typeof from === 'number') {
@@ -25,7 +26,7 @@ export default class TemperatureCard {
     const d = new Date(0)
     d.setUTCSeconds(period.dt)
     this.ISODate = d.toISOString().slice(5, 10)
-    this.dayName = _weekdaysLangs(language)[d.getDay()]
+    this.dayName = weekdaysLangs(language)[d.getDay()]
     this.iconSrc = `https://openweathermap.org/img/wn/${period.weather[0].icon || 'na'}@4x.png`
     this.maxTempF = period.temp.max || 'N/A'
     this.minTempF = period.temp.min || 'N/A'

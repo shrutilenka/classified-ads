@@ -1,28 +1,28 @@
-import { state } from "../../state"
+import { state } from "../../state.js"
 
 // #getMarkers, #setMapOnAll, #clearMarkers, #showMarkers are helpers to refresh markers.
 // Detach old features then attach new markers to map
 export const getMarkers = () => {
-    if (!currObj.isValid) {
+    if (!state.currentResponse.isValid) {
         return
     }
     center = {
-        lat: currObj.coordinates[1],
-        lng: currObj.coordinates[0],
+        lat: state.currentResponse.coordinates[1],
+        lng: state.currentResponse.coordinates[0],
     }
-    // const bounds = new google.maps.LatLngBounds()
+    // const bounds = new state.google.maps.LatLngBounds()
 
     let idx = 0
     const COLORS = ['blue', 'purple', 'green', 'yellow', 'red']
     const getColor = (min, max, value) => COLORS[Math.floor((COLORS.length * (value - min)) / (max - min))]
 
     const maxTemp = Math.max(
-        ...currObj.weather.map((item) => {
+        ...state.currentResponse.weather.map((item) => {
             return item.daily[0].temp.max
         }),
     )
     const minTemp = Math.min(
-        ...currObj.weather.map((item) => {
+        ...state.currentResponse.weather.map((item) => {
             return item.daily[0].temp.min
         }),
     )
@@ -33,14 +33,14 @@ export const getMarkers = () => {
         //     });
         // } else
         if (feature.getGeometry().getType() === 'Point') {
-            const todayTempCeil = currObj.weather[idx].daily[0].temp.max
-            const todayTempFloor = currObj.weather[idx++].daily[0].temp.min
+            const todayTempCeil = state.currentResponse.weather[idx].daily[0].temp.max
+            const todayTempFloor = state.currentResponse.weather[idx++].daily[0].temp.min
             const todayTemp = (todayTempCeil + todayTempFloor) / 2
             const LatLng = feature.getGeometry().get()
-            const marker = new google.maps.Marker({
+            const marker = new state.google.maps.Marker({
                 position: LatLng,
                 map: map,
-                animation: google.maps.Animation.DROP,
+                animation: state.google.maps.Animation.DROP,
                 title: feature.i ? feature.i.name : feature.name,
                 iconSrc: `https://maps.google.com/mapfiles/ms/icons/${getColor(
                     minTemp,
