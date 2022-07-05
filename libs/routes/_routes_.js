@@ -1,3 +1,4 @@
+import wvRouter from '../routes/wv/wv.js'
 import adminRouter from './admin.js'
 import authRouter from './auth.js'
 import chatRouter from './chat.js'
@@ -6,6 +7,6 @@ import debugRouter from './debug.js'
 import indexRouter from './index.js'
 import listingsRouter from './listings.js'
 
-const routes = { adminRouter, authRouter, chatRouter, dataRouter, debugRouter, indexRouter, listingsRouter }
+const routes = { adminRouter, authRouter, chatRouter, dataRouter, debugRouter, indexRouter, listingsRouter, wvRouter }
 
 export { routes }

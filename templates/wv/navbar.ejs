@@ -1,0 +1,19 @@
+<% var enRoute = "/" , frRoute = "/fr", arRoute = "/ar" %>
+
+
+<% if(lang=='ar'){ %>
+	<%- include('navbar_ar' , {
+		enRoute,
+		frRoute
+			}); %>
+<% } else if(lang=='en'){ %>
+	<%- include('navbar_en', {
+		frRoute ,
+		arRoute
+			}); %>
+<% } else if(lang=='fr'){ %>
+	<%- include('navbar_fr', {
+		enRoute ,
+		arRoute
+			}); %>
+<% } %>

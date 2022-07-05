@@ -21,7 +21,7 @@ import RedisAPI from './libs/services/redis.js'
 import { plugins } from './_app_.js'
 
 const { helmet, logger, swagger } = options
-const { adminRouter, authRouter, chatRouter, dataRouter, debugRouter, indexRouter, listingsRouter } = routes
+const { adminRouter, authRouter, chatRouter, dataRouter, debugRouter, indexRouter, listingsRouter, wvRouter } = routes
 const { fastifyCompress, fastifyAuth, fastifyCookies, fastifyFlash, fastifyJWT } = plugins
 const { fastifySchedule, i18nextMiddleware, fastifySession, fastifySwagger, fastifyWebsocket, viewsPlugin } = plugins
 const { fastifyFormbody, fastifyHelmet, fastifyMongodb, fastifyRateLimit, fastifyRedis, fastifyServe } = plugins
@@ -238,6 +238,8 @@ async function build(doRun) {
         fastify.register(debugRouter, { prefix: 'debug' })
     }
     fastify.register(chatRouter, { prefix: 'chat' })
+    fastify.register(wvRouter, { prefix: 'wv' })
+    
     fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
     fastify.register(fastifyServe, {
         root: path.join(__dirname, 'static/images/'),

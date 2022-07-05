@@ -1,13 +1,14 @@
-import axios from 'axios'
-import { setupCache } from 'axios-cache-adapter'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import zlib from 'zlib'
+import axios from 'axios';
+import pkg from 'axios-cache-adapter';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import zlib from 'zlib';
+const { setupCache } = pkg;
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const rawdata = zlib.gunzipSync(fs.readFileSync(path.join(__dirname, '../../data/geo/city.list.min.json.gz'))).toString()
+const rawdata = zlib.gunzipSync(fs.readFileSync(path.join(__dirname, '../../../data/geo/city.list.min.json.gz'))).toString()
 const citiesIds = JSON.parse(rawdata)
 const cache = setupCache({
   maxAge: 24 * 60 * 3
@@ -133,4 +134,5 @@ const messages = {
   }
 }
 
-export { messages, getCityId, fetchWeather, fetchWeather0, formatCities }
+export { messages, getCityId, fetchWeather, fetchWeather0, formatCities };
+

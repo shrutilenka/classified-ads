@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('head',
+      { version: 'bootstrap' , centerLocation: 'london' , lang: 'en' , title: 'Welcome to WeatherVenue',
+        description: 'WeatherVenue lets you find best places to visit in your entourage; Easily finding warmer winter vacation or cool summer escapes.',
+      });
+  %>
+</head>
+
+<body>
+  
+  <div id="cookies-eu-banner" style="display: none;">
+    By continuing to visit this site, you accept the use of cookies by Google Analytics for statistical purposes.
+    <a href="https://www.cookielaw.org/google-analytics-eu-cookie-law/" id="cookies-eu-more">Read more</a>
+    <button type="submit" id="cookies-eu-reject">Reject</button>
+    <button type="submit" id="cookies-eu-accept">Accept</button>
+  </div>
+  <div id="spinner-back"></div>
+  <div id="spinner-front">
+    <img src="./img/loading.gif" /><br>
+  </div>
+  <%- include('nav_bar', { lang: 'en' }); %>
+  <div class="container-fluid">
+  <h2 class="text-center" id="explanatory-text">Let people find best places to visit in their entourage; For warmer winter weather vacation or cool summer escapes.</h2>
+  </div>
+  <%- include('map', { command: 'Enter a location' }); %>
+
+
+  <div class="container-fluid" data-intro=<%- messages.tour[lang].cards %> data-position="auto">
+    <h3 class="section_head" id="location">Search for your city to display next days forecasts.</h3>
+    <p id="date"></p>
+    <div class="row text-center" id="minibar1">
+      <button id="collapse1" type="button" aria-label="collapse" class="btn btn-light" data-toggle="collapse" href="#forecast-items">
+        <i class="bi bi-arrows-collapse"></i>
+      </button>
+      <button type="button" aria-label="min-max" class="btn btn-light" id="minmax" onclick="minMax()">
+        <i class="bi bi-thermometer"></i>
+        <i class="bi bi-thermometer-high"></i>
+      </button>
+    </div>
+    <div class="row collapse show" id="forecast-items"></div>
+  </div>
+
+  <div class="container-fluid" data-intro=<%- messages.tour[lang].comparision %> data-position="auto">
+    <h3 class="section_head">Weather comparison</h3>
+    <div class="row text-center" id="minibar2">
+      <button id="collapse2" type="button" aria-label="collapse" class="btn btn-light" data-toggle="collapse" href="#comparision-items">
+        <i class="bi bi-arrows-collapse"></i>
+      </button>
+      <button type="button" aria-label="empty-it" class="btn btn-light" id="startover" onclick="emptyIt()">
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+    <div class="row collapse show" id="comparision-items" ondrop="drop(event)" ondragover="allowDrop(event)">
+    </div>
+  </div>
+
+  <h3 class="section_head" id="gallery">Local pictures of the main city will appear below</h3>
+  <div class="row" id="imgGrid" data-intro=<%- messages.tour[lang].gallery %> data-position="auto">
+
+  </div>
+  <%- include('footer'); %>
+
+</body>
+<%- include('after_body'); %>
+
+</html>
