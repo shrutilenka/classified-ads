@@ -8,7 +8,7 @@ import { state } from "../state.js"
  * populate pictures on featured_pictures div
  */
  export const getPicture = (place) => {
-    const [success, fail] = picturesLangs(language)
+    const [success, fail] = picturesLangs(state.language)
     LIS.id('imgGrid').innerHTML = ''
     let cache = _myStorage.getItem(place)
     if (cache) {

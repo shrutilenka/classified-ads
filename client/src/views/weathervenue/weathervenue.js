@@ -5,7 +5,7 @@ import { getPicture } from './helpers/getPicture.js'
 import { clearMarkers, getMarkers, showMarkers } from './helpers/map/refresh.js'
 import { refreshCenter } from './helpers/refreshCenter.js'
 import { renderPollution } from './helpers/renderPollution.js'
-import { nearbyRequest } from './helpers/requests.js'
+import { nearbyRequest, nearbyTriggeredRequest } from './helpers/requests.js'
 import { showAlertsList } from './helpers/showAlertsList.js'
 import { state } from './state.js'
 
@@ -153,21 +153,18 @@ loader.load().then((google) => {
         streetViewControl: false,
     })
     initMap()
+
+    // Trigger first request automatically
+    state.language = 'fr'
+    const centerLocation = process.env.centerLocation
+    state.center.lat = process.env.lat
+    state.center.lng = process.env.lng
+    const pos = {
+        lat: Number(state.center.lat),
+        lng: Number(state.center.lng),
+    }
+    state.map.setCenter(pos)
+    pos.name = centerLocation.charAt(0).toUpperCase() + centerLocation.slice(1)
+    nearbyTriggeredRequest(pos)
+    LIS.id('imgGrid').innerHTML = ''
 })
-
-
-
-// setTimeout(function () {
-//     state.language = 'fr'
-//     const centerLocation = 'paris'
-//     state.center.lat = process.env.lat
-//     state.center.lng = process.env.lng
-//     const pos = {
-//         lat: state.center.lat,
-//         lng: state.center.lng,
-//     }
-//     state.map.setCenter(pos)
-//     pos.name = centerLocation.charAt(0).toUpperCase() + centerLocation.slice(1)
-//     nearbyTriggeredRequest(pos)
-//     LIS.id('imgGrid').innerHTML = ''
-// }, 2000)

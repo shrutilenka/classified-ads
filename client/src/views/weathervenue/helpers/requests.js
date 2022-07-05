@@ -17,7 +17,7 @@ override(fetch)
         cityname: place.name,
         language: state.language,
     })
-    fetch('nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
+    fetch('wv/nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
         .then(function (response) {
             return response.json()
         })
@@ -27,7 +27,7 @@ override(fetch)
             renderForecastDays(state.currentResponse.dailies)
             initMap()
             populateHeatMap(0)
-            _hideLoading() // Unblock page
+            ops.hideLoading() // Unblock page
         })
 }
 
@@ -40,7 +40,7 @@ export const nearbyTriggeredRequest = (place) => {
         cityname: place.name,
         language: state.language,
     })
-    fetch('nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
+    fetch('wv/nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
         .then(function (response) {
             return response.json()
         })
@@ -49,6 +49,6 @@ export const nearbyTriggeredRequest = (place) => {
             LIS.id('location').innerHTML = state.currentResponse.location
             renderForecastDays(state.currentResponse.dailies)
             initMap()
-            _hideLoading() // Unblock page
+            ops.hideLoading() // Unblock page
         })
 }
