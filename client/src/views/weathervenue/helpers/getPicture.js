@@ -10,7 +10,7 @@ import { state } from "../state.js"
  export const getPicture = (place) => {
     const [success, fail] = picturesLangs(state.language)
     LIS.id('imgGrid').innerHTML = ''
-    let cache = _myStorage.getItem(place)
+    let cache = localStorage.getItem(`wv:${place}`)
     if (cache) {
         cache = JSON.parse(cache)
         for (let i = 0; i < cache.photos.length; i++) {
@@ -52,7 +52,7 @@ import { state } from "../state.js"
                 LIS.id('gallery').innerHTML = fail(place)
                 return
             }
-            _myStorage.setItem(place, JSON.stringify({ photos: photos, names: names }))
+            localStorage.setItem(`wv:${place}`, JSON.stringify({ photos: photos, names: names }))
             for (let i = 0; i < photos.length; i++) {
                 LIS.id('imgGrid').innerHTML +=
                     '<div class="featured_pictures"><img src="' + photos[i] + '" alt="' + names[i] + '" /></div>'

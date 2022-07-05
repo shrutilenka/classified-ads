@@ -1,6 +1,7 @@
 import { LIS } from "../../../helpers/lis.js"
 import CurrentList from "../models/CurrentList.js"
 import { state } from "../state.js"
+// import { initMap } from "../weathervenue.js"
 import override from "./overrideFetch.js"
 import { populateHeatMap } from "./populateHeatMap.js"
 import { renderForecastDays } from "./renderForecastDays.js"
@@ -25,7 +26,7 @@ override(fetch)
             state.currentResponse = new CurrentList(data.data)
             LIS.id('location').innerHTML = state.currentResponse.location
             renderForecastDays(state.currentResponse.dailies)
-            initMap()
+            // initMap()
             populateHeatMap(0)
             ops.hideLoading() // Unblock page
         })
@@ -45,10 +46,12 @@ export const nearbyTriggeredRequest = (place) => {
             return response.json()
         })
         .then(function (data) {
+            console.log(data)
             state.currentResponse = new CurrentList(data.data)
             LIS.id('location').innerHTML = state.currentResponse.location
             renderForecastDays(state.currentResponse.dailies)
             initMap()
+            
             ops.hideLoading() // Unblock page
         })
 }

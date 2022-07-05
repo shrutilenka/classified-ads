@@ -6,7 +6,7 @@ export const getMarkers = () => {
     if (!state.currentResponse.isValid) {
         return
     }
-    center = {
+    state.center = {
         lat: state.currentResponse.coordinates[1],
         lng: state.currentResponse.coordinates[0],
     }
@@ -74,5 +74,5 @@ export const clearMarkers = () => {
 // Shows any markers currently in the array.
 export const showMarkers = () => {
     state.markers.forEach((marker) => marker.setVisible(true))
-    setMapOnAll(map)
+    setMapOnAll(state.map)
 }

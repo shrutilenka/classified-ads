@@ -1,4 +1,4 @@
-import isMobile from "../helpers/isMobile"
+import isMobile from "../helpers/isMobile.js"
 import { weekdaysLangs } from "./translations.js"
 
 Array.range = function (from, to, step, prec) {
@@ -82,11 +82,11 @@ export default class TemperatureCard {
                   <div class="collapse ${showClass}" id="collapseId${this.co}">
                       <p class="card-text text-center">▼ Low: ${this.minTempF} &nbsp;|&nbsp; ▲ High: ${this.maxTempF}</p>
                       <div id="weatherinfo">
-                      <p><img class="icon" src="./img/sunrise.svg"> ${this.sunrise}</p>
-                      <p><img class="icon" src="./img/sunset.svg"> ${this.sunset}</p>
-                      <p><img class="icon" src="./img/humidity.svg"> ${this.humidity}</p>
-                      <p><img class="icon" src="./img/pressure.svg"> ${this.pressure}</p>
-                      <p><img class="icon" src="./img/wind.svg"> ${this.wind_speed}</p>
+                      <p><img class="icon" src="/wv/images/sunrise.svg"> ${this.sunrise}</p>
+                      <p><img class="icon" src="/wv/images/sunset.svg"> ${this.sunset}</p>
+                      <p><img class="icon" src="/wv/images/humidity.svg"> ${this.humidity}</p>
+                      <p><img class="icon" src="/wv/images/pressure.svg"> ${this.pressure}</p>
+                      <p><img class="icon" src="/wv/images/wind.svg"> ${this.wind_speed}</p>
                   </div>
                   </div>
               </div>

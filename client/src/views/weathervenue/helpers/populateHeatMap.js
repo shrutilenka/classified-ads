@@ -31,7 +31,7 @@ export const populateHeatMap = (day) => {
             radius: 150,
             opacity: 0.5,
         })
-        heatmap.setMap(map)
+        heatmap.setMap(state.map)
     } else {
         heatmap.set('data', heatMapData)
         // heatmap.set('opacity', 0.5)

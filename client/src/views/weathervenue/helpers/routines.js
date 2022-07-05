@@ -156,7 +156,7 @@ var cardsColors
 ops['styleItDark'] = () => {
   document.documentElement.style.backgroundColor = '#111'
   state.map.setOptions({ styles: styles.night })
-  LIS.id('copyright_google').src = './copyright/powered_by_google_on_non_white_hdpi.png'
+  LIS.id('copyright_google').src = '/wv/images/powered_by_google_on_non_white_hdpi.png'
   if (!cardsColors) {
     cardsColors = Array.from(__class('card')).map(card => { return card.style.backgroundColor })
     cardsColors = [...cardsColors]
@@ -166,19 +166,19 @@ ops['styleItDark'] = () => {
     card.style.backgroundColor = pSBC(-0.2, card.style.backgroundColor)
   })
 
-  LIS.id('logo').src = './img/weather_venue_856-8_on_black.png'
+  LIS.id('logo').src = '/wv/images/weather_venue_856-8_on_black.png'
 }
 
 ops['styleItWhite'] = () => {
   document.documentElement.style.backgroundColor = '#eee'
   state.map.setOptions({ styles: styles.hide })
-  LIS.id('copyright_google').src = './copyright/powered_by_google_on_white_hdpi.png'
+  LIS.id('copyright_google').src = '/wv/images/powered_by_google_on_white_hdpi.png'
   if (cardsColors) {
     Array.from(__class('card')).forEach(function (card, idx) {
       card.style.backgroundColor = cardsColors[idx]
     })
   }
-  LIS.id('logo').src = './img/weather_venue_856-8.png'
+  LIS.id('logo').src = '/wv/images/weather_venue_856-8.png'
 }
 
 ops['showLoading'] = () => {

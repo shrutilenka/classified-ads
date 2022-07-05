@@ -3,6 +3,7 @@ import { LIS } from '../../helpers/lis.js'
 import { configUIControls } from './helpers/configUIControls.js'
 import { getPicture } from './helpers/getPicture.js'
 import { clearMarkers, getMarkers, showMarkers } from './helpers/map/refresh.js'
+import { populateHeatMap } from './helpers/populateHeatMap.js'
 import { refreshCenter } from './helpers/refreshCenter.js'
 import { renderPollution } from './helpers/renderPollution.js'
 import { nearbyRequest, nearbyTriggeredRequest } from './helpers/requests.js'
@@ -12,7 +13,7 @@ import { state } from './state.js'
 const today = new Date().toDateString()
 LIS.id('date').innerHTML = today
 
-function initMap() {
+export function initMap() {
     refreshCenter()
     // initMap() being called a second time, clear earlier data
     state.map.data.forEach((feature) => state.map.data.remove(feature))
@@ -152,7 +153,12 @@ loader.load().then((google) => {
         mapTypeControl: false,
         streetViewControl: false,
     })
-    initMap()
+    try {
+        initMap()
+    } catch (error) {
+        console.log(error)
+    }
+    
 
     // Trigger first request automatically
     state.language = 'fr'
@@ -165,6 +171,8 @@ loader.load().then((google) => {
     }
     state.map.setCenter(pos)
     pos.name = centerLocation.charAt(0).toUpperCase() + centerLocation.slice(1)
+    console.log(pos)
+    console.log(state)
     nearbyTriggeredRequest(pos)
     LIS.id('imgGrid').innerHTML = ''
 })

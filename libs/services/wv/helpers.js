@@ -64,12 +64,11 @@ function formatCities (cities, weathers, pollutions) {
     pollution: []
   }
   cities.forEach(function (city, index) {
-    // console.log(city)
     const feature = {
       cityid: undefined, // getCityId({ lon: city["lon"], lat: city["lat"] })
       geometry: {
         type: 'Point',
-        coordinates: [city.lon, city.lat]
+        coordinates: [city.longitude, city.latitude]
       },
       type: 'Feature',
       properties: {
