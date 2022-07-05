@@ -17,7 +17,7 @@ function initMap() {
     // Instantiate the map or clean it if it already exists
     if (!state.map) {
         const loader = new Loader({
-            apiKey: 'YOUR_API_KEY',
+            apiKey: process.env.GOOGLE_MAPS_API_KEY,
             version: 'weekly',
             libraries: ['places', 'visualization'],
         })
@@ -159,8 +159,10 @@ function initMap() {
 initMap()
 
 setTimeout(function () {
-    state.language = 'en'
-    const centerLocation = 'London'
+    state.language = 'fr'
+    const centerLocation = 'paris'
+    state.center.lat = process.env.lat
+    state.center.lng = process.env.lng
     const pos = {
         lat: state.center.lat,
         lng: state.center.lng,

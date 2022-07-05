@@ -1,12 +1,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" 
-   content="default-src 'self' cdn.jsdelivr.net; 
-   script-src 'self' 'unsafe-inline' cdn.jsdelivr.net cdn.rtlcss.com code.jquery.com maps.googleapis.com unpkg.com www.google-analytics.com www.googletagmanager.com lh3.googleusercontent.com ajax.googleapis.com cdnjs.cloudflare.com polyfill.io stackpath.bootstrapcdn.com; 
-   connect-src 'self' www.google-analytics.com; 
-   img-src 'self' data: maps.gstatic.com *.googleapis.com *.ggpht openweathermap.org www.google-analytics.com maps.google.com lh3.googleusercontent.com; 
-   style-src 'self' 'unsafe-inline' unpkg.com cdn.jsdelivr.net cdn.rtlcss.com stackpath.bootstrapcdn.com fonts.googleapis.com;
-   font-src 'self' cdn.jsdelivr.net fonts.gstatic.com
+   content="default-src 'self' cdn.jsdelivr.net https://*.googleapis.com;
+   script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net https://*.googleapis.com https://*.gstatic.com *.google.com https://*.ggpht.com *.googleusercontent.com;
+   img-src 'self' https://*.googleapis.com https://*.gstatic.com *.google.com  *.googleusercontent.com data:;
+   frame-src *.google.com;
+   connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com  data: blob:;
+   font-src https://fonts.gstatic.com;
+   style-src 'self' 'unsafe-inline' cdn.jsdelivr.net https://fonts.googleapis.com
    base-uri 'self';
    form-action 'self'">
 
