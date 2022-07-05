@@ -61,7 +61,7 @@ export function initMap(first) {
     if (state.markers && state.markers.length > 0) {
         state.markers.forEach((marker) => {
             marker.addListener('click', () => {
-                // console.log(marker.title)
+                console.log(marker.title)
                 state.currentMarked = marker.title
                 // Do not render again when the same marker is clicked !
                 if (latestClicked !== marker.title) {

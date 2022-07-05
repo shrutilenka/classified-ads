@@ -2,6 +2,7 @@ import { Client } from "@googlemaps/google-maps-services-js";
 import { LIS } from "../../../helpers/lis.js";
 import { state } from "../state.js";
 import isMobile from "./isMobile.js";
+import { populateHeatMap } from "./populateHeatMap.js";
 import { conf, ops } from "./routines.js";
 
 const client = new Client({});
@@ -29,11 +30,11 @@ function __class (cls) { return document.getElementsByClassName(cls) }
         state.map.controls[state.google.maps.ControlPosition.TOP_LEFT].push(sliderForm)
     }
     slider.oninput = function () {
-        $('#rangeval').html(`Day ${slider.value}`)
+        LIS.id('rangeval').innerHTML = `Day ${slider.value}`
         moving = populateHeatMap(slider.value - 1)
         if (!moving) {
             slider.value = 1
-            $('#rangeval').html('Day 1')
+            LIS.id('rangeval').innerHTML = 'Day 1'
         }
     }
 
