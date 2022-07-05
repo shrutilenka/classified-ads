@@ -5,7 +5,7 @@ import { getPicture } from './helpers/getPicture.js'
 import { clearMarkers, getMarkers, showMarkers } from './helpers/map/refresh.js'
 import { refreshCenter } from './helpers/refreshCenter.js'
 import { renderPollution } from './helpers/renderPollution.js'
-import { nearbyRequest, nearbyTriggeredRequest } from './helpers/requests.js'
+import { nearbyRequest } from './helpers/requests.js'
 import { showAlertsList } from './helpers/showAlertsList.js'
 import { state } from './state.js'
 
@@ -14,28 +14,10 @@ LIS.id('date').innerHTML = today
 
 function initMap() {
     refreshCenter()
-    // Instantiate the map or clean it if it already exists
-    if (!state.map) {
-        const loader = new Loader({
-            apiKey: process.env.GOOGLE_MAPS_API_KEY,
-            version: 'weekly',
-            libraries: ['places', 'visualization'],
-        })
-        loader.load().then((google) => {
-            state.google = google
-            state.map = new google.maps.Map(LIS.id('map'), {
-                center: state.center,
-                zoom: 10,
-                rotateControl: false,
-                mapTypeControl: false,
-                streetViewControl: false,
-            })
-        })
-    } else {
-        // initMap() being called a second time, clear earlier data
-        state.map.data.forEach((feature) => state.map.data.remove(feature))
-        state.google.maps.events.trigger(state.map, 'resize')
-    }
+    // initMap() being called a second time, clear earlier data
+    state.map.data.forEach((feature) => state.map.data.remove(feature))
+    state.google.maps.event.trigger(state.map, 'resize')
+    
     configUIControls()
     // _initAccessibility(state.language)
     // Populate current list of cities nearby on the map
@@ -156,19 +138,36 @@ function initMap() {
     showAlertsList(state.currentResponse)
 }
 
-initMap()
+const loader = new Loader({
+    apiKey: process.env.GOOGLE_MAPS_API_KEY,
+    version: 'weekly',
+    libraries: ['places', 'visualization'],
+})
+loader.load().then((google) => {
+    state.google = google
+    state.map = new google.maps.Map(LIS.id('map'), {
+        center: state.center,
+        zoom: 10,
+        rotateControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+    })
+    initMap()
+})
 
-setTimeout(function () {
-    state.language = 'fr'
-    const centerLocation = 'paris'
-    state.center.lat = process.env.lat
-    state.center.lng = process.env.lng
-    const pos = {
-        lat: state.center.lat,
-        lng: state.center.lng,
-    }
-    state.map.setCenter(pos)
-    pos.name = centerLocation.charAt(0).toUpperCase() + centerLocation.slice(1)
-    nearbyTriggeredRequest(pos)
-    LIS.id('imgGrid').innerHTML = ''
-}, 2000)
+
+
+// setTimeout(function () {
+//     state.language = 'fr'
+//     const centerLocation = 'paris'
+//     state.center.lat = process.env.lat
+//     state.center.lng = process.env.lng
+//     const pos = {
+//         lat: state.center.lat,
+//         lng: state.center.lng,
+//     }
+//     state.map.setCenter(pos)
+//     pos.name = centerLocation.charAt(0).toUpperCase() + centerLocation.slice(1)
+//     nearbyTriggeredRequest(pos)
+//     LIS.id('imgGrid').innerHTML = ''
+// }, 2000)

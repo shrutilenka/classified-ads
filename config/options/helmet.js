@@ -58,6 +58,6 @@ export default () => {
             },
         },
         // TODO: revise policies
-        global: false,
+        global: true,
     }
 }

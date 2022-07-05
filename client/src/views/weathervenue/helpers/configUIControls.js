@@ -2,7 +2,7 @@ import { Client } from "@googlemaps/google-maps-services-js";
 import { LIS } from "../../../helpers/lis.js";
 import { state } from "../state.js";
 import isMobile from "./isMobile.js";
-import { ops } from "./routines.js";
+import { conf, ops } from "./routines.js";
 
 const client = new Client({});
 function __class (cls) { return document.getElementsByClassName(cls) }
@@ -14,7 +14,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
         localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark'
     darkThemeSelected ? ops.styleItDark() : ops.styleItWhite()
     // Define on toggle behavior.
-    state.google.maps.events.addDomListener(LIS.id('darkSwitch'), 'click', function () {
+    state.google.maps.event.addDomListener(LIS.id('darkSwitch'), 'click', function () {
         const toggle =
             localStorage.getItem('darkSwitch') !== null && localStorage.getItem('darkSwitch') === 'dark'
         toggle ? ops.styleItWhite() : ops.styleItDark()
@@ -50,7 +50,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
     }
     if (!state.autocomplete) {
         
-        state.autocomplete = client.placeQueryAutocomplete(input, _autocompleteOptions)
+        state.autocomplete = new state.google.maps.places.Autocomplete(input, conf.autocompleteOptions)
         state.map.controls[state.google.maps.ControlPosition.TOP_CENTER].clear()
         state.map.controls[state.google.maps.ControlPosition.TOP_CENTER].push(input)
         state.autocomplete.bindTo('bounds', state.map)
@@ -59,7 +59,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
     }
 
     // Geolocation
-    currentMarked = 'geolocated'
+    state.currentMarked = 'geolocated'
     // Create Geolocation button if it does not exist
     const panButton = __class('custom-map-control-button')[0]
     if (panButton) {
