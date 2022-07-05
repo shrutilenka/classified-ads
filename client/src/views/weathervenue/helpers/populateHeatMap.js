@@ -4,7 +4,6 @@ import { state } from "../state.js"
  * new HeatmapOverlay()
  * map getScale() on weather
  */
-let heatmap
 let heatMapData
 let temp
 const getScale = (min, max, value) => Math.floor((5 * (value - min)) / (max - min))
@@ -25,17 +24,18 @@ export const populateHeatMap = (day) => {
         return { location: new state.google.maps.LatLng(a.lat, a.lon), weight: temps[idx] }
     })
     heatMapData = new state.google.maps.MVCArray(temp)
-    if (!heatmap) {
-        heatmap = new state.google.maps.visualization.HeatmapLayer({
+    if (!state.heatmap) {
+        state.heatmap = new state.google.maps.visualization.HeatmapLayer({
             data: heatMapData,
             radius: 150,
             opacity: 0.5,
         })
-        heatmap.setMap(state.map)
+        state.heatmap.setMap(null)
+        state.heatmap.setMap(state.map)
     } else {
-        heatmap.set('data', heatMapData)
-        // heatmap.set('opacity', 0.5)
-        // heatmap.set('radius', 150)
+        state.heatmap.set('data', heatMapData)
+        // state.heatmap.set('opacity', 0.5)
+        // state.heatmap.set('radius', 150)
     }
     return true
 }

@@ -39,7 +39,7 @@ export const getMarkers = () => {
             const LatLng = feature.getGeometry().get()
             const marker = new state.google.maps.Marker({
                 position: LatLng,
-                map: map,
+                map: state.map,
                 animation: state.google.maps.Animation.DROP,
                 title: feature.i ? feature.i.name : feature.name,
                 iconSrc: `https://maps.google.com/mapfiles/ms/icons/${getColor(

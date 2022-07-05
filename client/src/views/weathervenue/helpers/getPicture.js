@@ -4,7 +4,7 @@ import { state } from "../state.js"
 
 // Get pictures for searched place
 /**
- * new state.state.google.maps.places.PlacesService
+ * new state.google.maps.places.PlacesService
  * populate pictures on featured_pictures div
  */
  export const getPicture = (place) => {
@@ -18,7 +18,7 @@ import { state } from "../state.js"
         }
         return
     }
-    const service = new state.state.google.maps.places.PlacesService(state.map)
+    const service = new state.google.maps.places.PlacesService(state.map)
     const request = {
         location: state.map.getCenter(),
         radius: '3000',

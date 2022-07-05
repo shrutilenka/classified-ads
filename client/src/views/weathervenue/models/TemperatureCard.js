@@ -18,6 +18,7 @@ Array.range = function (from, to, step, prec) {
 }
 
 export default class TemperatureCard {
+
   constructor (language, period, maxTemp, minTemp, currentMarked, co) {
     this.period = period
     this.maxTemp = maxTemp
