@@ -1,8 +1,8 @@
 import domtoimage from 'dom-to-image';
-import { LIS } from '../../../helpers/lis';
+import { LIS } from '../../../helpers/lis.js';
 
 
-export default shareCard = (card_id) => {
+export const shareCard = (card_id) => {
     const dd = LIS.id(card_id)
     // dd.style.backgroundColor ="white"
     const scale = 2

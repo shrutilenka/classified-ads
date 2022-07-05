@@ -18,6 +18,7 @@ override(fetch)
         cityname: place.name,
         language: state.language,
     })
+    // TODO: refresh center (when city in cache it seems like center is not refreshed) 
     fetch('wv/nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
         .then(function (response) {
             return response.json()

@@ -1,8 +1,8 @@
 import { LIS } from "../../../helpers/lis.js"
 import isMobile from "./isMobile.js"
-import shareCard from "./shareCard.js"
+import { shareCard } from "./shareCard.js"
 
-export default generateCard = (cardId) => {
+export const generateCard = (cardId) => {
     const toBe = LIS.id(cardId).cloneNode(true)
     const title = `<h3>${cardId.split('-').slice(1, -1).map(a => { return a.charAt(0).toUpperCase() + a.slice(1) }).join('-')}</h3>`
     toBe.setAttribute('id', cardId + '_clone')

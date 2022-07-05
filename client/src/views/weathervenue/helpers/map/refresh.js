@@ -41,7 +41,7 @@ export const getMarkers = () => {
                 position: LatLng,
                 map: state.map,
                 animation: state.google.maps.Animation.DROP,
-                title: feature.i ? feature.i.name : feature.name,
+                title: feature.j.name,
                 iconSrc: `https://maps.google.com/mapfiles/ms/icons/${getColor(
                     minTemp,
                     maxTemp,

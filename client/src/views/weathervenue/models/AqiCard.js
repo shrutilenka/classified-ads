@@ -1,5 +1,5 @@
-import isMobile from "../helpers/isMobile"
-import { aqiLangs, weekdaysLangs } from "./translations.js"
+import isMobile from '../helpers/isMobile.js'
+import { aqiLangs, weekdaysLangs } from './translations.js'
 
 export default class AqiCard {
     constructor(language, aqi, today, co, no, no2) {
@@ -74,4 +74,3 @@ export default class AqiCard {
       `
     }
 }
-
