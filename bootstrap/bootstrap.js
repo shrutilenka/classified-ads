@@ -59,17 +59,20 @@ const langsFaker = {
 const sections = ['donations', 'skills', 'blogs', 'events', 'hobbies']
 
 let items = []
+
+// https://github.com/sandstrom/country-bounding-boxes/blob/master/bounding-boxes.json
 // Approximate algeria bounding box:
-const minLng = -0.19775390625
-const maxLng = 7.492675781249999
-const minLat = 29.630771207229
-const maxLat = 35.782170703266075
-// -7.646484,20.138470,11.469727,36.826875
-// Approximate USA bounding box:
-// const minLng = -124.0500001
-// const maxLng = -67.100001
-// const minLat = 30.7800001
-// const maxLat = 47.9000001
+// DZA 	Algeria 	18.968147 	37.2962055 	-8.668908 	11.997337
+// const minLng = -8.668908
+// const maxLng = 11.997337
+// const minLat = 18.968147
+// const maxLat = 37.2962055
+
+// Approximate france bounding box: 41.2632185 	51.268318 	-5.4534286 	9.8678344
+const minLng = -5.4534286
+const maxLng = 9.8678344
+const minLat = 41.2632185
+const maxLat = 51.268318
 /** */
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1

@@ -5,6 +5,7 @@ import { LIS } from '../../../../../helpers/lis.js';
 import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js';
 
 const polygon = states.features.map((a) => a.geometry.coordinates[0])
+console.log(polygon)
 /**
  * Attach one marker to map with constraints (marker is draggable but cannot go out of )
  * Based on __borders and __states (country borders and Wilayas delimitations)

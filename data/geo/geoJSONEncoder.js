@@ -18,9 +18,16 @@ function getStates() {
 // name_{lang}: optional - the name of the region (Other languages)
 // If feature.properties.name_{lang} doesn't exist, it falls to feature.properties.name (English)
 const getStateNames = (lang) => {
-    return lang === 'en'
-        ? states.features.map((f) => f.properties.name)
-        : states.features.map((f) => f.properties[`name_${lang}`] || f.properties.name)
+    switch (process.env.DEPLOYMENT_NAME) {
+        case 'fr':
+            return states.features.map((f) => f.properties.nom)
+        case 'dz':
+            return lang === 'en'
+                ? states.features.map((f) => f.properties.name)
+                : states.features.map((f) => f.properties[`name_${lang}`] || f.properties.name)
+        default:
+            break
+    }
 }
 
 export { getBorders, getStates, getStateNames };
