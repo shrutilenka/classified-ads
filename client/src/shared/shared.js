@@ -4,6 +4,7 @@ import { setupAdsRotator } from './ads/setup-ads-rotator.js'
 import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords.js'
 import { setupUndrawKeywords } from './auto-complete/setup-undraw-keywords.js'
 import { setupInteractiveCards } from './cards/setup-interactive-cards.js'
+import { setupSadFace } from './collaboration/setup-sad-face.js'
 import { setupPell } from './editor/setup-pell.js'
 import { setupFavorites } from './favorites/favorites.js'
 import { setupScrollBlink } from './focus/scroll&blink.js'
@@ -48,6 +49,7 @@ export const setupShared = () => {
         [setupTour, false],
         [setupScrollBlink, true],
         [renderShared, true],
+        [setupSadFace, false]
         // [tweakBootstrap, true]
     ]
     if (inapp.isMobile) {

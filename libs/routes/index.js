@@ -3,6 +3,7 @@ import showdown from 'showdown'
 import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
 import { give } from '../services/data.js'
+import { EphemeralData } from '../services/helpers.js'
 import queries from '../services/mongo.js'
 
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
