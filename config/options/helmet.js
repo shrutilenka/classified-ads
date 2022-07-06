@@ -15,6 +15,7 @@ export default () => {
                     'fonts.googleapis.com',
                     'www.googleapis.com',
                     'app.zingsoft.com',
+                    'raw.githubusercontent.com',
                     toBeReplaced,
                 ],
                 'style-src': [

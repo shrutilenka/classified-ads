@@ -39,6 +39,7 @@ const zoom = 8
 const addressPoints = window.__addressPoints__
 
 export const setupMaps = () => {
+    
     tweakLeaflet()
     const { lat, lng } = updateCenter()
     // Safe instantiate map container

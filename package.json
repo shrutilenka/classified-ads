@@ -75,6 +75,7 @@
     "fastify-metrics": "^8.0.0",
     "fastify-multer": "^2.0.3",
     "fastify-nodemailer": "^5.0.0",
+    "flatgeobuf": "^3.23.0",
     "fluent-json-schema": "^3.1.0",
     "fuzzyset": "^1.0.7",
     "htmltidy2": "^1.0.0",

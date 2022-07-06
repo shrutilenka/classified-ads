@@ -1,4 +1,4 @@
-import { getStateNamesByLang } from '../data/geoJSONEncoder.js'
+import { getStateNamesByLang } from '../shared/maps/geoJSONEncoder.js'
 import { getCookies } from './get-cookies.js'
 
 export const getStateNames = () => {

@@ -1,7 +1,9 @@
 import L from 'leaflet';
-import { getBorders } from "../../../data/geoJSONEncoder.js";
 import { moveableMarker } from './helpers/marker/setup-marker.js';
-const coordinates = getBorders()
+import { country } from './state.js';
+
+const coordinates = country.borders
+
 let map
 let circle
 let lastValid

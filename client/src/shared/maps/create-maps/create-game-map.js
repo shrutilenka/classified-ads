@@ -1,13 +1,12 @@
 import * as L from 'leaflet'
 import 'leaflet.fullscreen'
 import { io } from 'socket.io-client'
-import { getBorders, getStates } from "../../../data/geoJSONEncoder.js"
-import { onEachFeature } from './helpers/on-each-feature/on-each-feature.js'
+import { onEachFeatureClosure } from './helpers/on-each-feature/on-each-feature.js'
 import { styleStatesClosure } from './helpers/style-states.js'
-import { geoJson, map } from './state.js'
+import { country, geoJson } from './state.js'
 
-const coordinates = getBorders()
-const states = getStates()
+const coordinates = country.borders
+const states = country.states
 
 const latLngs = []
 const someColor = (idx) => {
@@ -46,14 +45,14 @@ const osmAttrib =
  * create Game map (connected with server by sockets)
  */
 export function gameMap({ lat, lng, layerFactory, zoom }) {
-    map.current = new L.Map('game-map')
+    let map = new L.Map('game-map')
     map.name = 'gameMap'
-    map.current.addLayer(layerFactory(osmUrl, osmAttrib, false))
-    map.current.setView(new L.LatLng(lat, lng), zoom)
+    map.addLayer(layerFactory(osmUrl, osmAttrib, false))
+    map.setView(new L.LatLng(lat, lng), zoom)
     geoJson.current = L.geoJson(states, {
         style: styleStatesClosure(map),
-        onEachFeature,
-    }).addTo(map.current)
+        onEachFeature: onEachFeatureClosure(map)
+    }).addTo(map)
     // create a fullscreen button and add it to the map
     L.control
         .fullscreen({
@@ -65,14 +64,14 @@ export function gameMap({ lat, lng, layerFactory, zoom }) {
             forcePseudoFullscreen: true, // force use of pseudo full screen even if full screen API is available, default false
             fullscreenElement: false, // Dom element to render in full screen, false by default, fallback to map._container
         })
-        .addTo(map.current)
+        .addTo(map)
     // transform geojson coordinates into an array of L.LatLng
     for (let i = 0; i < coordinates.length; i++) {
         latLngs.push(new L.LatLng(coordinates[i][1], coordinates[i][0]))
     }
-    L.mask(latLngs).addTo(map.current)
+    L.mask(latLngs).addTo(map)
 
-    // var markers = new L.MarkerClusterGroup().addTo(map.current);
+    // var markers = new L.MarkerClusterGroup().addTo(map);
     const circles = []
     window.circles = circles
     // window['markers'] = markers;
@@ -91,7 +90,7 @@ export function gameMap({ lat, lng, layerFactory, zoom }) {
             circles.forEach((circle) => {
                 const fixed = someColor(circle.cluster)
                 circle.setStyle({ fillColor: fixed, color: fixed, fillOpacity: 1 })
-                circle.addTo(map.current)
+                circle.addTo(map)
             })
         }
         population.push(newMarker)
@@ -100,7 +99,7 @@ export function gameMap({ lat, lng, layerFactory, zoom }) {
     // Refresh tiles after some time
     // because it doesn't load properly at first
     setTimeout(() => {
-        map.current.invalidateSize()
+        map.invalidateSize()
     }, 3000)
     return map
 }

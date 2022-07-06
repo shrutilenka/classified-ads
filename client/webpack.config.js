@@ -1,4 +1,3 @@
-import WebpackBeforeBuildPlugin from "before-build-webpack";
 import dotenv from "dotenv";
 import Dotenv from "dotenv-webpack";
 import FileManagerPlugin from "filemanager-webpack-plugin";
@@ -71,27 +70,27 @@ export default {
     },
     ...(isDevEnv && devConfig),
     plugins: [
-        new WebpackBeforeBuildPlugin(function (stats, callback) {
-            console.log('Environment variables:\n')
-            console.log(Object.keys(envKeys.parsed))
-            console.log('WebpackBeforeBuildPlugin: \nDownloading some data-sets\n')
-            const promise = downloadFile(process.env.BORDERS_FILE_URL, 'src/data/borders.json')
-            const promise2 = downloadFile(process.env.STATES_FILE_URL, 'src/data/states.json')
-            Promise.all([promise, promise2])
-                .then((msg) => {
-                    console.log(msg)
-                    callback()
-                })
-                .catch(console.error)
-        }),
+        // new WebpackBeforeBuildPlugin(function (stats, callback) {
+        //     console.log('Environment variables:\n')
+        //     console.log(Object.keys(envKeys.parsed))
+        //     console.log('WebpackBeforeBuildPlugin: \nDownloading some data-sets\n')
+        //     const promise = downloadFile(process.env.BORDERS_FILE_URL, 'src/data/borders.json')
+        //     const promise2 = downloadFile(process.env.STATES_FILE_URL, 'src/data/states.json')
+        //     Promise.all([promise, promise2])
+        //         .then((msg) => {
+        //             console.log(msg)
+        //             callback()
+        //         })
+        //         .catch(console.error)
+        // }),
         new FileManagerPlugin({
             events: {
                 onStart: {},
                 onEnd: {
                     copy: [
                         { source: 'dist', destination: paths.public },
-                        { source: 'src/data/borders.json', destination: '../data/geo/borders.json' },
-                        { source: 'src/data/states.json', destination: '../data/geo/states.json' },
+                        // { source: 'src/data/borders.json', destination: '../data/geo/borders.json' },
+                        // { source: 'src/data/states.json', destination: '../data/geo/states.json' },
                         { source: 'node_modules/leaflet/dist/images', destination: paths.cssImages },
                     ],
                 },

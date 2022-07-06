@@ -1,18 +1,18 @@
-import borders from './borders.json'
-import states from './states.json'
+// import borders from './borders.min.json'
+// import states from './states.min.json'
+import { country } from './create-maps/state.js'
 
 // TODO: DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 export function getBorders() {
-    return borders.features[0].geometry.coordinates[0]
+    return country.borders.features[0].geometry.coordinates[0]
 }
 
 export function getStates() {
-    return states.features.map((a) => a.geometry.coordinates[0])
+    return country.states.features.map((a) => a.geometry.coordinates[0])
 }
-
 
 // name: required - the name of the region (Default is English)
 // name_{lang}: optional - the name of the region (Other languages)
@@ -20,11 +20,11 @@ export function getStates() {
 export const getStateNamesByLang = (lang) => {
     switch (process.env.DEPLOYMENT_NAME) {
         case 'fr':
-            return states.features.map((f) => f.properties.nom)
+            return country.states.features.map((f) => f.properties.nom)
         case 'dz':
             return lang === 'en'
-                ? states.features.map((f) => f.properties.name)
-                : states.features.map((f) => f.properties[`name_${lang}`] || f.properties.name)
+                ? country.states.features.map((f) => f.properties.name)
+                : country.states.features.map((f) => f.properties[`name_${lang}`] || f.properties.name)
         default:
             break
     }

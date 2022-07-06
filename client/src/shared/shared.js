@@ -12,6 +12,7 @@ import { setupScrollBlink } from './focus/scroll&blink.js'
 import { dateFromObjectId } from './formatters/date-from-objectId.js'
 import { setupI18n } from './i18n/setup-i18n.js'
 import { loadFile } from './load-file/load-file.js'
+import { country } from './maps/create-maps/state.js'
 // import { setupLeaflet } from "./maps/setup-leaflet";
 import { setupMaps } from './maps/setup-maps.js'
 import { setupAutoComplete } from './search/setup-autocomplete.js'
@@ -19,7 +20,6 @@ import { setupHolmes } from './search/setup-holmes.js'
 import { renderShared } from './syncing/render-json.js'
 import { setupInputTags } from './tags/setup-input-tags.js'
 import { runToasts } from './toasts/toasts.js'
-
 
 /**
  * Fulfill promises on phone all other devices
@@ -30,7 +30,7 @@ export const setupShared = () => {
     const log = window.log
     log.info('Logging setup shared')
     const toArray = (a) => (Array.isArray(a) ? a : [a])
-    const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera);
+    const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera)
     let functions = [
         [setupI18n, true],
         [setupHolmes, true],
@@ -49,7 +49,7 @@ export const setupShared = () => {
         [setupTour, false],
         [setupScrollBlink, true],
         [renderShared, true],
-        [setupSadFace, false]
+        [setupSadFace, false],
         // [tweakBootstrap, true]
     ]
     if (inapp.isMobile) {
@@ -80,7 +80,18 @@ export const setupShared = () => {
 
     // Other function calls that are not yet promisified
     // because I'm not sure yet what's asynchronous in there
-    setupMaps()
+    fetch(process.env.STATES_FILE_URL)
+        .then((response) => response.json())
+        .then((data) => {
+            country.states = data
+            fetch(process.env.BORDERS_FILE_URL)
+                .then((response) => response.json())
+                .then((data) => {
+                    country.borders = data
+                    setupMaps()
+                })
+        })
+    
     // TODO: review sockets
     // setupSocket()
     // Global objects

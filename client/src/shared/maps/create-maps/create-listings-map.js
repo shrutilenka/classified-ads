@@ -1,8 +1,8 @@
 import * as L from 'leaflet';
 import 'leaflet.fullscreen';
-import { getBorders } from "../../../data/geoJSONEncoder.js";
+import { country } from './state.js';
 
-const coordinates = getBorders()
+const coordinates = country.borders
 let map
 let circle
 let lastValid
