@@ -30,11 +30,11 @@ function __class (cls) { return document.getElementsByClassName(cls) }
         state.map.controls[state.google.maps.ControlPosition.TOP_LEFT].push(sliderForm)
     }
     slider.oninput = function () {
-        LIS.id('rangeval').innerHTML = `Day ${slider.value}`
+        LIS.id('rangeval').innerHTML = day-slider-value
         moving = populateHeatMap(slider.value - 1)
         if (!moving) {
             slider.value = 1
-            LIS.id('rangeval').innerHTML = 'Day 1'
+            LIS.id('rangeval').innerHTML = day-1
         }
     }
 
@@ -45,7 +45,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
         div.id = 'pac-input'
         div.className = 'controls'
         div.type = 'text'
-        div.placeholder = 'Enter a location'
+        div.placeholder = enter-a-location
         document.body.appendChild(div)
         input = LIS.id('pac-input')
     }
@@ -69,7 +69,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
 
     const infoWindow = new state.google.maps.InfoWindow()
     const locationButton = document.createElement('button')
-    locationButton.textContent = 'Go to Current Location'
+    locationButton.textContent = go-to-current-location
     locationButton.classList.add('custom-map-control-button')
     locationButton.setAttribute('type', 'submit')
     state.map.controls[state.google.maps.ControlPosition.TOP_RIGHT].clear()
@@ -84,10 +84,10 @@ function __class (cls) { return document.getElementsByClassName(cls) }
                         lng: position.coords.longitude,
                     }
                     infoWindow.setPosition(pos)
-                    infoWindow.setContent('Location found.')
+                    infoWindow.setContent(location-found)
                     infoWindow.open(state.map)
                     state.map.setCenter(pos)
-                    pos.name = 'Current place'
+                    pos.name = current-place
                     nearbyTriggeredRequest(pos)
                     LIS.id('imgGrid').innerHTML = ''
                     showAlertsList(state.currentResponse)
@@ -108,8 +108,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos)
     infoWindow.setContent(
         browserHasGeolocation
-            ? 'Error: The Geolocation service failed.'
-            : "Error: Your browser doesn't support geolocation.",
+            ? error-the-geolocation-service-failed
+            : error-your-browser-doesnt-support-geolocation,
     )
     infoWindow.open(state.map)
 }

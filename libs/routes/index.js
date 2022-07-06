@@ -24,6 +24,7 @@ async function routes(fastify, options) {
 
     /* GET home page. */
     fastify.get('/', { preHandler: softAuth }, async function (req, reply) {
+        let announcement
         const [err, listings] = await to(QInstance.getListingsSince(20, '', req.pagination))
         if (err) {
             req.log.error(`index#getListingsSince: ${err.message}`)
@@ -35,6 +36,7 @@ async function routes(fastify, options) {
             current: page,
             pages: Math.ceil(listings.count / perPage),
             addressPoints: [],
+            announcement: announcement
         }
         data.addressPoints = listings.documents.map((a) => {
             return [a.lat, a.lng, a.title, a._id, a.section]
@@ -213,10 +215,10 @@ async function routes(fastify, options) {
 
     fastify.get('/about', { preHandler: softAuth }, function (req, reply) {
         reply.view('/templates/pages/blog', {
-            title: 'What is Classified-ads-48',
+            title: 'What is Classified-ads',
             sections: [
-                { id: 'What is', html: req.t('doc.about') },
-                { id: 'Careful', html: req.t('doc.careful') },
+                { id: 'About', html: req.t('doc.about') },
+                { id: 'User agreement', html: req.t('doc.agreement') },
             ],
         })
     })
@@ -225,7 +227,7 @@ async function routes(fastify, options) {
         reply.view('/templates/pages/blog', {
             title: 'How to post on Listings',
             sections: [
-                { id: 'Careful', html: req.t('doc.careful') },
+                { id: 'User agreement', html: req.t('doc.agreement') },
                 { id: 'Login', html: req.t('doc.login') },
                 { id: 'Validation', html: req.t('doc.validation') },
             ],
