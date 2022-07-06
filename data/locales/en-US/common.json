@@ -217,5 +217,8 @@
          "text": "Hello,\n\nPlease verify your account by clicking the link:\n{{host}}/confirmation/{{token}}",
          "html": "Hello,\n\nPlease verify your account by clicking the link:\n{{host}}/confirmation/{{token}}"
       }
+   },
+   "blog": {
+      "intro": "In Classified-ads blogs section is our meta category where you and us also can express ourselves freely from tags. Anything can be posted here, including our daily announcements."
    }
 }

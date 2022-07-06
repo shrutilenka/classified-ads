@@ -1,6 +1,6 @@
-<% if(typeof data.announcement!=='undefined'){ %>
+<% if(typeof announcement!=='undefined'){ %>
 <div class="announcement">
-    <p>Announcement Here!<%= data.announcement %></p>
+    <p>Announcement Here!<%= announcement %></p>
 </div>
 <% }%>
 <header class="p-3 bg-dark text-white">
@@ -39,14 +39,15 @@
           </form>
 
           <div class="text-end">
-              <% if(typeof user.nickname==='undefined' || user.nickname==='' ){ %>
-                  <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
-                  <a href="/signup"><button type="button" class="btn btn-warning">Sign-up</button></a>
-                  <% } else { %>
-                      <a href="/listings/user"><span class="fa fa-user"></span> Welcome <%=
-                              user.nickname %></a>
-                      <a href="/logout"><button type="button" class="btn btn-outline-light me-2">Logout</button></a>
-                      <% }%>
+            <% if(typeof user!=='undefined'){ %>
+            <% if(typeof user.nickname==='undefined' || user.nickname==='' ){ %>
+            <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+            <a href="/signup"><button type="button" class="btn btn-warning">Sign-up</button></a>
+            <% } else { %>
+            <a href="/listings/user"><span class="fa fa-user"></span> Welcome <%= user.nickname %></a>
+            <a href="/logout"><button type="button" class="btn btn-outline-light me-2">Logout</button></a>
+            <% }%>
+            <% }%>
           </div>
           <ul class="nav float-end">
               <li class="nav-item px-xl-2">

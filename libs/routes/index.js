@@ -1,3 +1,5 @@
+import axios from 'axios'
+import showdown from 'showdown'
 import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
 import { give } from '../services/data.js'
@@ -24,7 +26,7 @@ async function routes(fastify, options) {
 
     /* GET home page. */
     fastify.get('/', { preHandler: softAuth }, async function (req, reply) {
-        let announcement
+        // let announcement
         const [err, listings] = await to(QInstance.getListingsSince(20, '', req.pagination))
         if (err) {
             req.log.error(`index#getListingsSince: ${err.message}`)
@@ -36,7 +38,7 @@ async function routes(fastify, options) {
             current: page,
             pages: Math.ceil(listings.count / perPage),
             addressPoints: [],
-            announcement: announcement
+            // announcement: announcement
         }
         data.addressPoints = listings.documents.map((a) => {
             return [a.lat, a.lng, a.title, a._id, a.section]
@@ -252,6 +254,48 @@ async function routes(fastify, options) {
             svg: give.SVGs[idx - 1],
             style: `easter-egg-${idx}.css`,
         })
+    })
+
+    let converter = new showdown.Converter()
+    let dailyAnnouncements = new EphemeralData(86400000)
+    let github =
+        'https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/announcements/fr/announcements.md'
+    fastify.get('/announcements', function (req, reply) {
+        let listings = []
+        if (dailyAnnouncements.isSame()) {
+            listings = dailyAnnouncements.data
+            return reply.view('/templates/pages/blog', {
+                title: 'Announcements',
+                intro: req.t('blog.intro'),
+                sections: listings,
+            })
+        }
+        dailyAnnouncements.reset()
+        axios
+            .get(github)
+            .then(function (response) {
+                // handle success
+                let announcements = response.data.split('<hr>').reverse()
+                announcements.forEach((announcement) => {
+                    let title = announcement.match(/#.+/g).filter((title) => title.indexOf('##') < 0)[0]
+                    title = title.replace(/#/g, '')
+                    announcement = converter.makeHtml(announcement)
+                    listings.push({ id: title, html: announcement })
+                })
+                dailyAnnouncements.data = listings
+                return reply.view('/templates/pages/blog', {
+                    title: 'Announcements',
+                    intro: req.t('blog.intro'),
+                    sections: listings,
+                })
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error)
+            })
+            .then(function () {
+                // always executed
+            })
     })
 }
 

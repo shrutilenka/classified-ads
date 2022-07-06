@@ -101,6 +101,7 @@
     "request": "^2.88.2",
     "safe-log-error": "^1.0.0",
     "sanitize-html": "^2.7.0",
+    "showdown": "^2.1.0",
     "stream-chain": "^2.2.5",
     "stream-json": "^1.7.4",
     "through": "^2.3.8",
