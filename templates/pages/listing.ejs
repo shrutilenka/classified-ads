@@ -39,7 +39,43 @@
         <%- include('../partials/sections/breadcrumb'); %>
 
         <p data-trans="(posted-by)">Posted by:</p>
-        <img id='avatar' width="80" height="80" alt="User">
+        <div id="user">
+          <img id='avatar' width="80" height="80" alt="User">
+
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-backdrop="false">
+          Launch demo modal
+          </button>
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form class="p-3" id="message-dialog" action="/listings/sendmessage" method="POST" name="sendMessage">
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea class="form-control" id="message" rows="7"></textarea>
+                        </div>
+                        <input type="hidden" name="email" value='<%= data.email %>'>
+                        <div class="w-100">
+                            <button class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Send</button>
+                        </div>
+                      </form>
+                  </div>
+                </div>
+            </div>
+          </div>
+          </div>
+  
+
+
+          
+        </div>
         <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
         <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
         <% } %>

@@ -55,6 +55,11 @@
   var __initials__ = "<%= data.usr  %>"
 </script>
 <% } %>
+<% if(typeof data != 'undefined' && typeof data.email != 'undefined'){ %>
+  <script>
+    var __email__ = "<%= data.email  %>"
+  </script>
+  <% } %>
 <% if(typeof data != 'undefined' && typeof data.undraw != 'undefined'){ %>
 <script>
   var __undrawURL__ = "<%= data.undraw  %>"

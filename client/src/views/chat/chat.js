@@ -1,4 +1,4 @@
-import { getChannels, newSocket } from './sockets/refresh.js'
+import { getChannels, newSocket, recoverState } from './sockets/refresh.js'
 
 recoverState()
 if (newSocket()) getChannels()

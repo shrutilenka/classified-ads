@@ -7,7 +7,7 @@ import { country } from './create-maps/state.js'
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 export function getBorders() {
-    return country.borders.features[0].geometry.coordinates[0]
+    return country.borders.geometry.coordinates[0]
 }
 
 export function getStates() {

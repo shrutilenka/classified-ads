@@ -80,9 +80,9 @@ async function routes(fastify, options, next) {
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         let data = {}
-        const author = elem.usr
+        const author = elem.email = elem.usr
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
-
+        
         const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
         const readableChannel = `${author},${elem.title}`
         // Todo: if author == viewer then the author could have multiple channels on one thread

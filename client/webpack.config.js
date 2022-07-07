@@ -75,7 +75,7 @@ export default {
         //     console.log(Object.keys(envKeys.parsed))
         //     console.log('WebpackBeforeBuildPlugin: \nDownloading some data-sets\n')
         //     const promise = downloadFile(process.env.BORDERS_FILE_URL, 'src/data/borders.json')
-        //     const promise2 = downloadFile(process.env.STATES_FILE_URL, 'src/data/states.json')
+        //     const promise2 = downloadFile(process.env.STATES_FILE_URL, 'src/data/states.min.json')
         //     Promise.all([promise, promise2])
         //         .then((msg) => {
         //             console.log(msg)

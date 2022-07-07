@@ -1,13 +1,13 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
-const borders = require("./borders.min.json");
+const borders = require("./borders.json");
 const states = require("./states.min.json");
 
 // TODO: DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 function getBorders() {
-    return borders.features[0].geometry.coordinates[0]
+    return borders.geometry.coordinates[0]
 }
 
 function getStates() {
