@@ -306,6 +306,25 @@ export default function (mongoDB, redisDB) {
     }
 
     /**
+     * Get notification (messages/...) attached to a specific user
+     * @param {*} user user email
+     * @return {Promise}
+     */
+    this.getNotificationsByUser = async function (user) {
+        collection = mongoDB.collection('comment')
+        const query = {}
+        const projection = { }
+        // from: String,
+        // to: String,
+        // sent: Date,
+        // thread: String,
+        // message: String,
+        query.to = user
+        const tmp = await collection.find(query).project(projection).sort(baseSort).toArray()
+        return tmp
+    }
+    
+    /**
      * Get user by username
      * @param {*} user user email
      * @return {Promise}

@@ -80,9 +80,9 @@ async function routes(fastify, options, next) {
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         let data = {}
-        const author = elem.email = elem.usr
+        const author = (elem.email = elem.usr)
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
-        
+
         const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
         const readableChannel = `${author},${elem.title}`
         // Todo: if author == viewer then the author could have multiple channels on one thread
@@ -240,6 +240,51 @@ async function routes(fastify, options, next) {
     fastify.post('/events', { preHandler: auth }, handler)
     fastify.post('/hobbies', { preHandler: [auth, upload] }, handler)
 
+    // const geolocationSchema = constraints[process.env.NODE_ENV].POST.queryGeolocation.schema
+    /* Query listings withing a geo-point and radius */
+    fastify.post(
+        '/sendmessage',
+        {
+            // schema: geolocationSchema,
+            preHandler: auth,
+        },
+        async (req, reply) => {
+            const { body } = req
+            console.log(body)
+            const hex = /[0-9A-Fa-f]{6}/g
+            const [err, elem] = hex.test(body.id)
+                ? await to(QInstance.getListingById(body.id, false, body.email))
+                : ['NOT_FOUND', undefined]
+            if (err) {
+                req.log.error(`post/sendmessage#getListingById: ${err.message}`)
+                return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            }
+            if (!elem) {
+                reply.send({ boom: ':(' })
+                // reply.blabla([{}, 'message', 'not found'], req)
+                return reply
+            }
+            const message = {
+                to: body.email,
+                from: req.params.username,
+                sent: new Date(),
+                thread: body.id,
+                message: body.content,
+            }
+            
+            QInstance.insertComment(message)
+                .then((acknowledged) => {
+                    reply.send({ boom: ':)' })
+                    return reply
+                })
+                .catch((err) => {
+                    req.log.error(`post/comment#sendmessage: ${err.message}`)
+                })
+            reply.blabla([{ data: elem }, 'listing', 'contact'], req)
+            return reply
+        },
+    )
+
     /*
     const commentSchema = constraints[process.env.NODE_ENV].POST.comment
     //  Contact poster one listing.
@@ -301,6 +346,24 @@ async function routes(fastify, options, next) {
             title: 'Your listings',
             intro: 'Classified advertising brought to the web',
             listings: listings,
+            context: 'alllistings',
+            success: 'Yep, we got some :)',
+        })
+    })
+
+    fastify.get('/user/notifications', { preHandler: auth }, async function (req, reply) {
+        const [err, notifications] = await to(QInstance.getNotificationsByUser(req.params.username))
+        if (err) {
+            req.log.error(`user#getNotificationsByUser: ${err.message}`)
+            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        }
+        const user = { nickname: req.params.username }
+        return reply.view('/templates/pages/notifications', {
+            user: user,
+            title: 'Notifications',
+            intro: 'Classified advertising brought to the web',
+            notifications: notifications,
+            context: 'messages',
             success: 'Yep, we got some :)',
         })
     })
