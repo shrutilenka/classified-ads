@@ -80,7 +80,7 @@ async function routes(fastify, options, next) {
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         let data = {}
-        const author = (elem.email = elem.usr)
+        const author = elem.email = elem.usr
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
 
         const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
@@ -251,8 +251,9 @@ async function routes(fastify, options, next) {
         async (req, reply) => {
             const { body } = req
             const hex = /[0-9A-Fa-f]{6}/g
+            let receiver = crypto.decrypt(key, body.email)
             const [err, elem] = hex.test(body.id)
-                ? await to(QInstance.getListingById(body.id, false, body.email))
+                ? await to(QInstance.getListingById(body.id, false, receiver))
                 : ['NOT_FOUND', undefined]
             if (err) {
                 req.log.error(`post/sendmessage#getListingById: ${err.message}`)
@@ -264,7 +265,7 @@ async function routes(fastify, options, next) {
                 return reply
             }
             const message = {
-                to: body.email,
+                to: receiver,
                 from: req.params.username,
                 sent: new Date(),
                 thread: body.id,

@@ -3,7 +3,7 @@ import { Mutex } from 'async-mutex'
 import { Blog, Comment, Donation, Skill, User } from '../constraints/models.js'
 import { refreshTopK } from '../services/miner.js'
 import Dictionary from './dictionary.js'
-import { EphemeralData } from './helpers.js'
+import { crypto, EphemeralData } from './helpers.js'
 import { getListingById, getListingsSince } from './mongo-protobuff.js'
 
 /**
@@ -20,7 +20,7 @@ function getObjectId(days) {
     const hexSeconds = Math.floor(yesterday / 1000).toString(16)
     return new ObjectId(hexSeconds + '0000000000000000')
 }
-
+const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 /**
  *
  * @param { MongoDBNamespace } mongoDB
@@ -79,9 +79,7 @@ export default function (mongoDB, redisDB) {
         let comment
         collection = mongoDB.collection('comment')
         comment = new Comment(elem)
-        console.log(comment)
         const res = await collection.insertOne(comment)
-        console.log(res)
         return res.acknowledged
     }
 
@@ -201,6 +199,7 @@ export default function (mongoDB, redisDB) {
             if (upLevel === '2') await redisDB.hdel(`up-ids`, id)
             if (upLevel === '3') await redisDB.hset(`up-ids`, id, '1')
             release()
+            delete doc.usr
             return doc
         } else {
             release()
@@ -288,6 +287,9 @@ export default function (mongoDB, redisDB) {
         } catch (error) {
             console.error(error)
         }
+        newQResult.documents.forEach((doc) => {
+            delete doc.usr
+        })
         return newQResult
     }
 
@@ -317,16 +319,24 @@ export default function (mongoDB, redisDB) {
     this.getNotificationsByUser = async function (user) {
         collection = mongoDB.collection('comment')
         const query = { $or: [{ from: user }, { to: user }] }
-        const projection = { }
+        const projection = {}
+        const sort = [['thread', '_id']]
         // from: String,
         // to: String,
         // sent: Date,
         // thread: String,
         // message: String,
-        const tmp = await collection.find(query).project(projection).sort(baseSort).toArray()
+        const tmp = await collection.find(query).project(projection).sort(sort).toArray()
+        tmp.forEach((element) => {
+            if (element.from === user) element['direction'] = 'sender'
+            else element['direction'] = 'receiver'
+            // A crypt is gonna be used on front-end instead
+            element.from = crypto.encrypt(key, element.from)
+            element.to = crypto.encrypt(key, element.to)
+        })
         return tmp
     }
-    
+
     /**
      * Get user by username
      * @param {*} user user email
