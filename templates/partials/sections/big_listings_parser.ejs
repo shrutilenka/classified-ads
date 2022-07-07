@@ -1,8 +1,9 @@
-<% if(typeof listings != 'undefined' && (context == 'gwoogl' || context == 'geolocation' || context == 'listings')){ %>
+<% if(typeof listings != 'undefined' && (context == 'alllistings' || context == 'geolocation' || context == 'gwoogl')){ %>
 <div class="controls">
   <button type="button" class="btn btn-primary" data-filter=".donations">Donations</button>
   <button type="button" class="btn btn-primary" data-filter=".events">Meetups</button>
   <button type="button" class="btn btn-primary" data-filter=".skills">Skills</button>
+  <button type="button" class="btn btn-primary" data-filter=".blogs">Blogs</button>
 </div>
 <div class="mixitup_container row align-items-stretch ca-listings">
   <% for (var i = 0; listings.length> 0 && i < listings.length ; i++) { %>

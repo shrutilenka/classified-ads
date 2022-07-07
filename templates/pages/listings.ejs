@@ -38,7 +38,7 @@
   <%- include('../partials/conf/beforebodyclose'); %>
   <script>
     {
-      if (__context__ == 'alllistings') {
+      if (window.__context__ === 'alllistings') {
         const scriptElement = document.createElement("script")
         scriptElement.src = "/javascripts/biglistings.js"
         document.body.appendChild(scriptElement)

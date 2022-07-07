@@ -1,6 +1,7 @@
 // import { LIS } from '../../helpers/lis.js'
 import mixitup from 'mixitup'
 const __context__ = window.__context__
+const __section__ = window.__section__
 
 export const setupMixitup = () => {
     if (!__section__ && (__context__ === 'alllistings' || __context__ === 'geolocation' || __context__ === 'gwoogl')) {

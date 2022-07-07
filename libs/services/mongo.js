@@ -320,7 +320,7 @@ export default function (mongoDB, redisDB) {
         collection = mongoDB.collection('comment')
         const query = { $or: [{ from: user }, { to: user }] }
         const projection = {}
-        const sort = [['thread', '_id']]
+        const sort = [['thread', 1], ['sent', 1]]
         // from: String,
         // to: String,
         // sent: Date,
@@ -328,8 +328,15 @@ export default function (mongoDB, redisDB) {
         // message: String,
         const tmp = await collection.find(query).project(projection).sort(sort).toArray()
         tmp.forEach((element) => {
-            if (element.from === user) element['direction'] = 'sender'
-            else element['direction'] = 'receiver'
+            // TODO: replace peer by initials
+            if (element.from === user) {
+                element['peer'] = element.to
+                element['direction'] = 'sender'
+            }
+            else {
+                element['peer'] = element.from
+                element['direction'] = 'receiver'
+            }
             // A crypt is gonna be used on front-end instead
             element.from = crypto.encrypt(key, element.from)
             element.to = crypto.encrypt(key, element.to)

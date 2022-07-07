@@ -68,6 +68,8 @@ async function routes(fastify, options, next) {
     fastify.get('/hobbies', { preHandler: softAuth }, getSectionHandler)
 
     /* GET one listing; must not be deactivated. */
+    // TODO: remove author email
+    // TODO: remove chat all together
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
         const viewer = req.params.username
         const hex = /[0-9A-Fa-f]{6}/g
@@ -80,7 +82,8 @@ async function routes(fastify, options, next) {
             return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
         }
         let data = {}
-        const author = elem.email = elem.usr
+        const author = elem.usr
+        elem.email = crypto.encrypt(key, elem.usr)
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
 
         const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
