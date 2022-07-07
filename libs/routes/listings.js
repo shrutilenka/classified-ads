@@ -250,7 +250,6 @@ async function routes(fastify, options, next) {
         },
         async (req, reply) => {
             const { body } = req
-            console.log(body)
             const hex = /[0-9A-Fa-f]{6}/g
             const [err, elem] = hex.test(body.id)
                 ? await to(QInstance.getListingById(body.id, false, body.email))
@@ -269,17 +268,13 @@ async function routes(fastify, options, next) {
                 from: req.params.username,
                 sent: new Date(),
                 thread: body.id,
-                message: body.content,
+                message: body.message,
             }
-            
-            QInstance.insertComment(message)
-                .then((acknowledged) => {
-                    reply.send({ boom: ':)' })
-                    return reply
-                })
-                .catch((err) => {
-                    req.log.error(`post/comment#sendmessage: ${err.message}`)
-                })
+            const [errr, acknowledged] = await to(QInstance.insertComment(message))
+            if (errr) {
+                req.log.error(`post/sendmessage#getListingById: ${errr.message}`)
+                return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            }
             reply.blabla([{ data: elem }, 'listing', 'contact'], req)
             return reply
         },

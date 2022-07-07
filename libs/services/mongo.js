@@ -74,10 +74,14 @@ export default function (mongoDB, redisDB) {
      * @return {Promise}
      */
     this.insertComment = async function (elem) {
+        console.log('inserting')
+        console.log(elem)
         let comment
         collection = mongoDB.collection('comment')
         comment = new Comment(elem)
+        console.log(comment)
         const res = await collection.insertOne(comment)
+        console.log(res)
         return res.acknowledged
     }
 
@@ -312,14 +316,13 @@ export default function (mongoDB, redisDB) {
      */
     this.getNotificationsByUser = async function (user) {
         collection = mongoDB.collection('comment')
-        const query = {}
+        const query = { $or: [{ from: user }, { to: user }] }
         const projection = { }
         // from: String,
         // to: String,
         // sent: Date,
         // thread: String,
         // message: String,
-        query.to = user
         const tmp = await collection.find(query).project(projection).sort(baseSort).toArray()
         return tmp
     }
