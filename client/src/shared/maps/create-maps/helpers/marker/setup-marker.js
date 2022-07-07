@@ -1,11 +1,9 @@
 import InApp from 'detect-inapp';
-import states from '../../../../../data/states.json';
 import { getStateNames } from '../../../../../helpers/get-state-names.js';
 import { LIS } from '../../../../../helpers/lis.js';
+import { country } from '../../state.js';
 import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js';
 
-const polygon = states.features.map((a) => a.geometry.coordinates[0])
-console.log(polygon)
 /**
  * Attach one marker to map with constraints (marker is draggable but cannot go out of )
  * Based on __borders and __states (country borders and Wilayas delimitations)
@@ -15,6 +13,7 @@ console.log(polygon)
  * @return {(marker|*[])[]} Just a reference
  */
 export function moveableMarker(map, marker, coordinates) {
+    const polygon = country.states.features
     const names = getStateNames()
     const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera);
     let lastValid = []

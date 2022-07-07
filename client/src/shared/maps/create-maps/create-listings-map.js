@@ -2,7 +2,6 @@ import * as L from 'leaflet';
 import 'leaflet.fullscreen';
 import { country } from './state.js';
 
-const coordinates = country.borders
 let map
 let circle
 let lastValid
@@ -14,6 +13,7 @@ let moveable
  * create listings Map
  */
 export function listingsMap({ lat, lng, layerFactory, clusterFactory, zoom }) {
+    const coordinates = country.borders
     map = new L.Map('listings-map')
     map.name = 'listingsMap'
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

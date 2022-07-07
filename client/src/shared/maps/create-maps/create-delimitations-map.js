@@ -12,7 +12,7 @@ const osmAttrib = 'Map data &copy; OpenStreetMap contributors'
 
 export function delimitationsMap({ lat, lng, layerFactory, zoom }) {
     let map = new L.Map('delimitations-map')
-    map = 'delimitationsMap'
+    map.name = 'delimitationsMap'
     map.addLayer(layerFactory(osmUrl, osmAttrib, false))
     map.setView(new L.LatLng(lat, lng), zoom)
     geoJson.current = L.geoJson(country.states, {

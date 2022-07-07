@@ -5,9 +5,6 @@ import { onEachFeatureClosure } from './helpers/on-each-feature/on-each-feature.
 import { styleStatesClosure } from './helpers/style-states.js'
 import { country, geoJson } from './state.js'
 
-const coordinates = country.borders
-const states = country.states
-
 const latLngs = []
 const someColor = (idx) => {
     return [
@@ -45,13 +42,15 @@ const osmAttrib =
  * create Game map (connected with server by sockets)
  */
 export function gameMap({ lat, lng, layerFactory, zoom }) {
+    const coordinates = country.borders
+    const states = country.states
     let map = new L.Map('game-map')
     map.name = 'gameMap'
     map.addLayer(layerFactory(osmUrl, osmAttrib, false))
     map.setView(new L.LatLng(lat, lng), zoom)
     geoJson.current = L.geoJson(states, {
         style: styleStatesClosure(map),
-        onEachFeature: onEachFeatureClosure(map)
+        onEachFeature: onEachFeatureClosure(map),
     }).addTo(map)
     // create a fullscreen button and add it to the map
     L.control

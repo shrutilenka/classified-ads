@@ -3,7 +3,6 @@ import 'leaflet.fullscreen';
 import { moveableMarker } from './helpers/marker/setup-marker.js';
 import { country } from './state.js';
 
-const coordinates = country.borders
 let map
 let circle
 let lastValid
@@ -15,6 +14,7 @@ let moveable
  * create geo-search's Map
  */
 export function geoSearchMap({ lat, lng, layerFactory, clusterFactory, zoom }) {
+    const coordinates = country.borders
     map = new L.Map('geo-search-map')
     map.name = 'geoSearchMap'
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
