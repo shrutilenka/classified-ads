@@ -13,7 +13,7 @@
       <p class="lead"><%= intro %></p>
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
     </div>
-    
+
     <div class="nav-scroller py-1 mb-2" id="sync-top-tags"></div>
     <%- include('../partials/sections/geo_search_map'); %>
     <%- include('../partials/forms/gwoogl'); %>
@@ -21,9 +21,9 @@
     <hr>
     <h2 class="pb-2">Listings</h2>
     <% if(typeof section == 'undefined' && typeof context != 'undefined' && (context == 'geolocation' || context == 'gwoogl' || context == 'alllistings')){ %>
-      <%- include('../partials/sections/big_listings_parser'); %>
+    <%- include('../partials/sections/big_listings_parser'); %>
     <% } else { %>
-      <%- include('../partials/sections/listings_parser'); %>
+    <%- include('../partials/sections/listings_parser'); %>
     <% } %>
     <%- include('../partials/shared/pagination'); %>
     <%- include('../partials/sections/add_donation'); %>
@@ -38,7 +38,7 @@
   <%- include('../partials/conf/beforebodyclose'); %>
   <script>
     {
-      if(__context__ == 'alllistings') {
+      if (__context__ == 'alllistings') {
         const scriptElement = document.createElement("script")
         scriptElement.src = "/javascripts/biglistings.js"
         document.body.appendChild(scriptElement)
@@ -46,4 +46,5 @@
     }
   </script>
 </body>
+
 </html>

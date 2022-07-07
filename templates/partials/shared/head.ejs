@@ -7,22 +7,22 @@
 
 
 <% if (locals.title) { %>
-  <title><%= title %></title>
+<title><%= title %></title>
 <% } else { %>
-  <title>Classified-ads</title>
+<title>Classified-ads</title>
 <% } %>
 </title>
 
 <% if (typeof section != 'undefined' && section == 'donations') { %>
-  <link rel="stylesheet" href="/stylesheets/style_donations.css">
+<link rel="stylesheet" href="/stylesheets/style_donations.css">
 <% } else if (typeof section != 'undefined' && section == 'skills') { %>
-  <link rel="stylesheet" href="/stylesheets/style_skills.css">
+<link rel="stylesheet" href="/stylesheets/style_skills.css">
 <% } else if (typeof section != 'undefined' && section == 'events') { %>
-  <link rel="stylesheet" href="/stylesheets/style_events.css">
+<link rel="stylesheet" href="/stylesheets/style_events.css">
 <% } else if (typeof section != 'undefined' && section == 'hobbies') { %>
-  <link rel="stylesheet" href="/stylesheets/style_hobbies.css">
+<link rel="stylesheet" href="/stylesheets/style_hobbies.css">
 <% } else { %>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet" href="/stylesheets/style.css">
 <% } %>
 <link rel="stylesheet" href="/stylesheets/shared.css">
 

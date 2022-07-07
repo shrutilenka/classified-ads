@@ -31,19 +31,19 @@
 </script>
 <% } %>
 <% if(typeof context != 'undefined'){ %>
-  <script>
-    var __context__ = "<%= context  %>"
-  </script>
-  <% } %>
+<script>
+  var __context__ = "<%= context  %>"
+</script>
+<% } %>
 <% if(typeof section != 'undefined'){ %>
 <script>
   var __section__ = "<%= section  %>"
 </script>
 <% } %>
 <% if(typeof channel != 'undefined'){ %>
-  <script>
-    var __channel__ = "<%= channel  %>"
-  </script>
+<script>
+  var __channel__ = "<%= channel  %>"
+</script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data.font != 'undefined'){ %>
 <script>
@@ -56,10 +56,10 @@
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data.email != 'undefined'){ %>
-  <script>
-    var __email__ = "<%= data.email  %>"
-  </script>
-  <% } %>
+<script>
+  var __email__ = "<%= data.email  %>"
+</script>
+<% } %>
 <% if(typeof data != 'undefined' && typeof data.undraw != 'undefined'){ %>
 <script>
   var __undrawURL__ = "<%= data.undraw  %>"
@@ -81,8 +81,8 @@
 </script>
 <% } %>
 <% if(typeof noads != 'undefined'){ %>
-  <script>
-    var __grade__ = "<%= noads.grade  %>"
-    var __urls__ = <%- JSON.stringify(noads.urls) %>
-  </script>
+<script>
+  var __grade__ = "<%= noads.grade  %>"
+  var __urls__ = <%- JSON.stringify(noads.urls) %>
+</script>
 <% } %>

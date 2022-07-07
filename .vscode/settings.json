@@ -4,8 +4,11 @@
     "source.organizeImports",
     "source.fixAll"
   ],
+  "emmet.includeLanguages": {
+    "ejs": "html",
+  },
   "[html]": {
-    "editor.defaultFormatter": "vscode.html-language-features"
+    "editor.defaultFormatter": "j69.ejs-beautify"
   },
   "i18n-ally.localesPaths": [
     "data/locales",
@@ -14,9 +17,6 @@
   ],
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "emmet.includeLanguages": {
-    "ejs": "html",
   },
   "i18n-ally.keystyle": "nested"
 }

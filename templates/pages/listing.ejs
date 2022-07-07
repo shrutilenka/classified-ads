@@ -43,79 +43,79 @@
           <img id='avatar' width="80" height="80" alt="User">
 
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-backdrop="false">
-          Launch demo modal
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-backdrop="false">
+            Launch demo modal
           </button>
           <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <form class="p-3" id="message-dialog" action="/listings/sendmessage" method="POST" name="sendMessage">
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea class="form-control" id="message" rows="7"></textarea>
-                        </div>
-                        <input type="hidden" name="email" value='<%= data.email %>'>
-                        <div class="w-100">
-                            <button class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Send</button>
-                        </div>
-                      </form>
-                  </div>
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                  <form class="p-3" id="message-dialog" action="/listings/sendmessage" method="POST" name="sendMessage">
+                    <div class="form-group">
+                      <label for="message">Message</label>
+                      <textarea class="form-control" id="message" rows="7"></textarea>
+                    </div>
+                    <input type="hidden" name="email" value='<%= data.email %>'>
+                    <div class="w-100">
+                      <button class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Send</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
-          </div>
-  
+        </div>
 
 
-          
-        </div>
-        <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
-        <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
-        <% } %>
-        <% if (data.undraw) { %>
-        <div id="undraw-output">
-          <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= data.undraw.split('#')[0]+'.svg' %>" alt="<%= data.undraw.split('#')[0] %>" style="width: 40rem;">
-        </div>
-        <% } %>
 
-        <div id="font-picker"></div>
-
-        <% if (data.title && data.desc) { %>
-        <h2><%= data.title.charAt(0).toUpperCase() + data.title.slice(1) %></h2>
-        <p class="apply-font"><%- data.desc %></p>
-        <% if (data.section == 'donations') { %>
-        <div class="map" id="listing-map"></div>
-        <% } %>
-        <br>
-        <hr>
-        <div class="d-flex">
-          <div class="mx-auto mx-lg-0">
-            <img id="listingImg" src="<%- data.img %>" width="200rem">
-          </div>
-        </div>
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-          <span class="close">&times;</span>
-          <img class="modal-content" id="img01">
-          <div id="caption"></div>
-        </div>
-        <div class="row" id="sync-comments"></div>
-        <% } %>
 
       </div>
-      <%- include('../partials/conf/prepare_js'); %>
-      <% if(typeof channel !== 'undefined'){ %>
-      <%- include('../partials/chat'); %>
+      <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
+      <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
       <% } %>
-      <%- include('../partials/shared/footer'); %>
+      <% if (data.undraw) { %>
+      <div id="undraw-output">
+        <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= data.undraw.split('#')[0]+'.svg' %>" alt="<%= data.undraw.split('#')[0] %>" style="width: 40rem;">
+      </div>
+      <% } %>
+
+      <div id="font-picker"></div>
+
+      <% if (data.title && data.desc) { %>
+      <h2><%= data.title.charAt(0).toUpperCase() + data.title.slice(1) %></h2>
+      <p class="apply-font"><%- data.desc %></p>
+      <% if (data.section == 'donations') { %>
+      <div class="map" id="listing-map"></div>
+      <% } %>
+      <br>
+      <hr>
+      <div class="d-flex">
+        <div class="mx-auto mx-lg-0">
+          <img id="listingImg" src="<%- data.img %>" width="200rem">
+        </div>
+      </div>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+      </div>
+      <div class="row" id="sync-comments"></div>
+      <% } %>
+
     </div>
+    <%- include('../partials/conf/prepare_js'); %>
+    <% if(typeof channel !== 'undefined'){ %>
+    <%- include('../partials/chat'); %>
+    <% } %>
+    <%- include('../partials/shared/footer'); %>
+  </div>
 
   <%- include('../partials/conf/beforebodyclose'); %>
   <script src="/unversioned_js/ejs.min.js"></script>
@@ -128,4 +128,5 @@
     }
   </script>
 </body>
+
 </html>
