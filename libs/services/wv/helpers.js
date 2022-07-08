@@ -1,21 +1,21 @@
 import axios from 'axios';
-import pkg from 'axios-cache-adapter';
+// import pkg from 'axios-cache-adapter';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import zlib from 'zlib';
-const { setupCache } = pkg;
+// const { setupCache } = pkg;
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const rawdata = zlib.gunzipSync(fs.readFileSync(path.join(__dirname, '../../../data/geo/city.list.min.json.gz'))).toString()
 const citiesIds = JSON.parse(rawdata)
-const cache = setupCache({
-  maxAge: 24 * 60 * 3
-})
-const api = axios.create({
-  adapter: cache.adapter
-})
+// const cache = setupCache({
+//   maxAge: 24 * 60 * 3
+// })
+// const api = axios.create({
+//   adapter: cache.adapter
+// })
 const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY
 
 function getCityId (coord) {
@@ -39,7 +39,8 @@ function getCityId (coord) {
 async function fetchWeather0 (westLng, northLat, eastLng, southLat, mapZoom) {
   return new Promise(async (resolve, reject) => {
     const openWeatherMapAPI = `https://api.openweathermap.org/data/2.5/box/city?bbox=${westLng},${northLat},${eastLng},${southLat},${mapZoom}&cluster=yes&format=json&APPID=${OPENWEATHERMAP_API_KEY}`
-    const body0 = await api({ url: openWeatherMapAPI, method: 'get' })
+    // const body0 = await api({ url: openWeatherMapAPI, method: 'get' })
+    const body0 = await axios.get(openWeatherMapAPI)
     resolve(body0)
   })
 }
@@ -47,10 +48,12 @@ async function fetchWeather0 (westLng, northLat, eastLng, southLat, mapZoom) {
 async function fetchWeather (city, language) {
   return new Promise(async (resolve, reject) => {
     const APIUrlWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${city.latitude}&lon=${city.longitude}&lang=${language}&exclude=hourly,minutely,hourly&units=metric&appid=${OPENWEATHERMAP_API_KEY}`
-    const body0 = await api({ url: APIUrlWeather, method: 'get' })
+    // const body0 = await api({ url: APIUrlWeather, method: 'get' })
+    const body0 = await axios.get(APIUrlWeather)
     const data0 = await body0.data
     const APIUrlPollution = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${city.latitude}&lon=${city.longitude}&appid=${OPENWEATHERMAP_API_KEY}`
-    const body1 = await api({ url: APIUrlPollution, method: 'get' })
+    // const body1 = await api({ url: APIUrlPollution, method: 'get' })
+    const body1 = await axios.get(APIUrlPollution)
     const data1 = await body1.data
     resolve({ weather: data0, pollution: data1 })
   })
