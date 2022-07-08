@@ -8,8 +8,8 @@ services:
       - caddy-service
     # environment:
     #   - NODE_ENV=localhost
-    volumes:
-      - .:/classified-ads
+    #volumes:
+    #  - .:/classified-ads
     ports:
       - 3000:3000
     build:
