@@ -1,5 +1,5 @@
+import emailToName from 'email-to-name';
 import validator from 'email-validator';
-
 // Credit
 // Source: https://stackoverflow.com/a/19303725/1951298
 // Author: Antti Kissaniemi
@@ -16,7 +16,7 @@ function shuffle(array, seed) {
         ;[array[i], array[j]] = [array[j], array[i]]
     }
 }
-
+console.log(emailToName.process('acloudguru@janesmith.com'))
 /**
  *
  * @param {Number} seed random seed for reproducibility and privacy

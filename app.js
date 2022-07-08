@@ -237,7 +237,8 @@ async function build(doRun) {
     if (NODE_ENV < 1) {
         fastify.register(debugRouter, { prefix: 'debug' })
     }
-    fastify.register(chatRouter, { prefix: 'chat' })
+    // TODO: CHAT @@@@@@@@@@@@@
+    // fastify.register(chatRouter, { prefix: 'chat' })
     fastify.register(wvRouter, { prefix: 'wv' })
     
     fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })

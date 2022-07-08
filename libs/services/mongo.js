@@ -1,13 +1,13 @@
 import { ObjectId } from '@fastify/mongodb'
 import { Mutex } from 'async-mutex'
+import emailToName from 'email-to-name'
 import { Blog, Comment, Donation, Skill, User } from '../constraints/models.js'
 import { refreshTopK } from '../services/miner.js'
 import Dictionary from './dictionary.js'
 import { crypto, EphemeralData } from './helpers.js'
 import { getListingById, getListingsSince } from './mongo-protobuff.js'
-
 /**
- * This function returns an ObjectId embedded with a given datetime
+ * This function returns an ObjectId embedded with a given dateTime
  * Accepts number of days since document was created
  * Author: https://stackoverflow.com/a/8753670/1951298
  * @param {Number} days
@@ -310,7 +310,7 @@ export default function (mongoDB, redisDB) {
         })
         return tmp
     }
-
+    
     /**
      * Get notification (messages/...) attached to a specific user
      * @param {*} user user email
@@ -330,11 +330,11 @@ export default function (mongoDB, redisDB) {
         tmp.forEach((element) => {
             // TODO: replace peer by initials
             if (element.from === user) {
-                element['peer'] = element.to
+                element['peer'] = emailToName.process(element.to)
                 element['direction'] = 'sender'
             }
             else {
-                element['peer'] = element.from
+                element['peer'] = emailToName.process(element.from)
                 element['direction'] = 'receiver'
             }
             // A crypt is gonna be used on front-end instead

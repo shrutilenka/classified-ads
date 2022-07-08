@@ -40,7 +40,7 @@ export const setupShared = () => {
         // buggy
         // [setupFontPicker, true],
         // [setupLeaflet, true],
-        [setupDelimitationsKeywords, true],
+        // [setupDelimitationsKeywords, true], must run after loading country state
         [setupUndrawKeywords, true],
         [runToasts, true],
         [setupFavorites, true],
@@ -88,6 +88,7 @@ export const setupShared = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     country.borders = data
+                    setupDelimitationsKeywords()
                     setupMaps()
                 })
         })

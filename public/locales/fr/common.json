@@ -4,6 +4,7 @@
    "(donations)": "Dons",
    "(events)": "Rencontres",
    "(skills)": "Compétences",
+   "(hobbies)": "Loisirs",
    "(blogs)": "Blogs",
    "(so-c)": "Carte digitale 🔗",
    "(weather)": "Météo 🔗",
@@ -30,6 +31,9 @@
    "tags-page": {
      "intro": "Ici, vous pouvez choisir une balise spécifique pour la section des dons. Veuillez prendre votre temps pour choisir la meilleure étiquette qui convient à votre article."
    },
+   "geo": {
+    "(search)": "Recherche géolocalisée"
+    },
    "blog-page": {
      "add": "Ajouter un article Blog"
    },

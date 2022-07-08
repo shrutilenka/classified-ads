@@ -2,28 +2,27 @@ import autoComplete from '@tarekraafat/autocomplete.js'
 import { getStateNames } from '../../helpers/get-state-names.js'
 
 export const setupDelimitationsKeywords = async () => {
-    return new Promise(function (resolve, reject) {
-        if (!document.getElementsByName('div_q').length) {
-            return resolve('### function "setupDelimitationsKeywords" ignored well')
-        }
-        const names = getStateNames()
-        // Autocomplete for governmental divisions
-        try {
-            const autoCompleteJS = new autoComplete({
-                selector: '#autoComplete-states',
-                placeHolder: 'Divisions...',
-                data: {
-                    src: names,
+    if (!document.getElementsByName('div_q').length) {
+        console.log('### function "setupDelimitationsKeywords" ignored well')
+    }
+    const names = getStateNames()
+    // Autocomplete for governmental divisions
+    try {
+        const autoCompleteJS = new autoComplete({
+            selector: '#autoComplete-states',
+            // placeHolder: 'Divisions...',
+            data: {
+                src: names,
+            },
+            resultItem: {
+                highlight: {
+                    render: true,
                 },
-                resultItem: {
-                    highlight: {
-                        render: true,
-                    },
-                },
-            })
-            return resolve('### function "setupDelimitationsKeywords" run successfully')
-        } catch (error) {
-            return reject(new Error('### function "setupDelimitationsKeywords" failed'))
-        }
-    })
+            },
+        })
+        window.autoCompleteJS = autoCompleteJS
+        console.log('### function "setupDelimitationsKeywords" run successfully')
+    } catch (error) {
+        console.error('### function "setupDelimitationsKeywords" failed')
+    }
 }

@@ -4,6 +4,7 @@
   "(donations)": "Donations",
   "(events)": "Meetings",
   "(skills)": "Skills",
+  "(hobbies)": "Hobbies",
   "(blogs)": "Blogs",
   "(so-c)": "Digital card 🔗",
   "(weather)": "Weather 🔗",
@@ -33,6 +34,9 @@
   "blogs-intro": "In Classified-ads blogs section is our meta category where you and us also can express ourselves freely from tags. Anything can be posted here, including our daily announcements.",
   "tags-page": {
     "intro": "Here you can choose a specific tag for donations section. Please take your time to choose the best tag that suits your item."
+  },
+  "geo": {
+    "(search)": "Geo-location search"
   },
   "blog-page": {
     "add": "Add a Blog post"

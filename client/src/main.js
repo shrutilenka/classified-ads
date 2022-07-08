@@ -4,7 +4,7 @@
   pages contain different HTML elements
 
   GLOBAL VARIABLES besides DOM objects are
-  coming sequencially from imported scripts
+  coming sequentially from imported scripts
   before 'main.js' is imported. These are variables renamed
 
   - pell -> __pell: https://github.com/jaredreich/pell
