@@ -1,4 +1,5 @@
-localhost:80 {
-	import ./referral-spam.caddy
-	reverse_proxy / classified-ads:3000
+classifieds22 {
+	reverse_proxy classified-ads:3000 {
+		header_down Strict-Transport-Security max-age=31536000;		
+	}
 }

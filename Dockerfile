@@ -34,5 +34,5 @@ RUN npm i
 RUN npm run dev:client
 
 WORKDIR /classified-ads
-EXPOSE 3000
+# EXPOSE 3000
 CMD [ "npm", "run", "start" ]
