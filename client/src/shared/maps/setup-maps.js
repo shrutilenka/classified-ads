@@ -77,7 +77,7 @@ export const setupMaps = () => {
             }
 
             marker.bindPopup(title)
-            markers.addLayer(marker)
+            // markers.addLayer(marker)
         }
         return markers
     }

@@ -42,7 +42,7 @@ const osmAttrib =
  * create Game map (connected with server by sockets)
  */
 export function gameMap({ lat, lng, layerFactory, zoom }) {
-    const coordinates = country.borders
+    const coordinates = country.borders.geometry.coordinates.flat().flat()
     const states = country.states
     let map = new L.Map('game-map')
     map.name = 'gameMap'
@@ -99,6 +99,6 @@ export function gameMap({ lat, lng, layerFactory, zoom }) {
     // because it doesn't load properly at first
     setTimeout(() => {
         map.invalidateSize()
-    }, 3000)
+    }, 300)
     return map
 }

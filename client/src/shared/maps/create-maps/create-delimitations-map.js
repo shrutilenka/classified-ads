@@ -21,6 +21,6 @@ export function delimitationsMap({ lat, lng, layerFactory, zoom }) {
     }).addTo(map)
     setTimeout(() => {
         map.invalidateSize()
-    }, 3000)
+    }, 300)
     return map
 }
