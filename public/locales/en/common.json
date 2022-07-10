@@ -1,0 +1,68 @@
+{
+  "(today)": "Today's",
+  "(categories)": "Categories",
+  "(donations)": "Donations",
+  "(events)": "Meetings",
+  "(skills)": "Skills",
+  "(hobbies)": "Hobbies",
+  "(blogs)": "Blogs",
+  "(so-c)": "Digital card 🔗",
+  "(weather)": "Weather 🔗",
+  "(about)": "About",
+  "(howto)": "How-to",
+  "(tags)": "Tags",
+  "(contact)": "Contact",
+  "(policy)": "Policies",
+  "(login)": "Login 🔒",
+  "(signup)": "Sign-up",
+  "(password)": "Password",
+  "(reset)": "Reset",
+  "(reset-pass)": "Reset password",
+  "|date|": "Somewhere in the globe -",
+  "(search)": "Search",
+  "(exactsearch)": "Exact search",
+  "(exact?)": "Exact?",
+  "(sincedate)": "Since",
+  "(fuzzysearch)": "Approximate search",
+  "(description)": "Description",
+  "(title)": "Titre",
+  "(title|description)": "Title or description",
+  "(divisions)": "Divisions",
+  "(today-listings)": "Today listings",
+  "(tour-hello)": "testing tour",
+  "(posted-by)": "Posted by:",
+  "blogs-intro": "In Classified-ads blogs section is our meta category where you and us also can express ourselves freely from tags. Anything can be posted here, including our daily announcements.",
+  "tags-page": {
+    "intro": "Here you can choose a specific tag for donations section. Please take your time to choose the best tag that suits your item."
+  },
+  "geo": {
+    "(search)": "Geo-location search"
+  },
+  "blog-page": {
+    "add": "Add a Blog post"
+  },
+  "donation-page": {
+    "add": "Add a Donation post",
+    "(offer)": "Offer ?"
+  },
+  "event-page": {
+    "add": "Add an Event post",
+    "start-date": "Start date",
+    "end-date": "End date"
+  },
+  "hobby-page": {
+    "add": "Add a Hobby post"
+  },
+  "skill-page": {
+    "add": "Add a Skill post",
+    "(offer)": "Offer ?"
+  },
+  "tag-language": "Tag language: ",
+  "choose-tags": "Click here to choose tags",
+  "delimitations-map": "delimitations map",
+  "listings-map": "listings map",
+  "(english)": "English",
+  "(arabic)": "Arabic",
+  "(french)": "French"
+
+}

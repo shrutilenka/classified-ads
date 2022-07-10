@@ -199,7 +199,6 @@ export default function (mongoDB, redisDB) {
             if (upLevel === '2') await redisDB.hdel(`up-ids`, id)
             if (upLevel === '3') await redisDB.hset(`up-ids`, id, '1')
             release()
-            delete doc.usr
             return doc
         } else {
             release()
@@ -287,6 +286,7 @@ export default function (mongoDB, redisDB) {
         } catch (error) {
             console.error(error)
         }
+        // Not rendered in template by remove anyway
         newQResult.documents.forEach((doc) => {
             delete doc.usr
         })

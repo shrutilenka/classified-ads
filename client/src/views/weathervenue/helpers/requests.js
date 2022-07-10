@@ -19,7 +19,7 @@ override(fetch)
         language: state.language,
     })
     // TODO: refresh center (when city in cache it seems like center is not refreshed) 
-    fetch('wv/nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
+    fetch('/wv/nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
         .then(function (response) {
             return response.json()
         })
@@ -42,7 +42,7 @@ export const nearbyTriggeredRequest = (place) => {
         cityname: place.name,
         language: state.language,
     })
-    fetch('wv/nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
+    fetch('/wv/nearby/' + requestObject, { localCache: true, cacheTTL: 5 })
         .then(function (response) {
             return response.json()
         })

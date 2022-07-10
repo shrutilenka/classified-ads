@@ -60,7 +60,7 @@ const dbName = process.env.NODE_ENV === 'development' ? 'listings_db_dev' : 'lis
 async function build(doRun) {
     const fastify = fastify_({
         logger: logger(),
-        disableRequestLogging: false,
+        disableRequestLogging: true,
         keepAliveTimeout: 10000,
         requestTimeout: 5000,
     })
