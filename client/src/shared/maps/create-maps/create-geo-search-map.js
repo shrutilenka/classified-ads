@@ -14,7 +14,7 @@ let moveable
  * create geo-search's Map
  */
 export function geoSearchMap({ lat, lng, layerFactory, clusterFactory, zoom }) {
-    const coordinates = country.borders.geometry.coordinates.flat().flat()
+    const coordinates = country.borders
     map = new L.Map('geo-search-map')
     map.name = 'geoSearchMap'
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

@@ -13,7 +13,7 @@ let moveable
  * create listings Map
  */
 export function listingsMap({ lat, lng, layerFactory, clusterFactory, zoom }) {
-    const coordinates = country.borders.geometry.coordinates.flat().flat()
+    const coordinates = country.borders
     map = new L.Map('listings-map')
     map.name = 'listingsMap'
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

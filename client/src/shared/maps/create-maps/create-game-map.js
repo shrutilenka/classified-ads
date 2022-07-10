@@ -42,7 +42,7 @@ const osmAttrib =
  * create Game map (connected with server by sockets)
  */
 export function gameMap({ lat, lng, layerFactory, zoom }) {
-    const coordinates = country.borders.geometry.coordinates.flat().flat()
+    const coordinates = country.borders
     const states = country.states
     let map = new L.Map('game-map')
     map.name = 'gameMap'

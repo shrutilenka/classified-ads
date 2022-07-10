@@ -87,7 +87,7 @@ export const setupShared = () => {
             fetch(process.env.BORDERS_FILE_URL)
                 .then((response) => response.json())
                 .then((data) => {
-                    country.borders = data
+                    country.borders = data.features[0].geometry.geometries[0].coordinates
                     setupDelimitationsKeywords()
                     setupMaps()
                 })
