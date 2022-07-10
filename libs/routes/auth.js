@@ -66,7 +66,7 @@ async function routes(fastify, options) {
                 reply.blabla([{}, 'login', 'USER_UNVERIFIED'], request)
                 return
             } else {
-                const token = await jwt.sign({ username: username, role: user.role }, JWT_SECRET)
+                const token = jwt.sign({ username: username, role: user.role }, JWT_SECRET)
                 reply.setCookie(COOKIE_NAME, token)
                 // this.user = username
                 if (request.headers.referer) {

@@ -1,9 +1,11 @@
 import autoComplete from '@tarekraafat/autocomplete.js'
 import { getStateNames } from '../../helpers/get-state-names.js'
+import { LIS } from '../../helpers/lis.js'
 
 export const setupDelimitationsKeywords = async () => {
-    if (!document.getElementsByName('div_q').length) {
-        console.log('### function "setupDelimitationsKeywords" ignored well')
+    if (!LIS.id('autoComplete-states')) {
+        console.log('### function "setupDelimitationsKeywords"  ignored well')
+        return
     }
     const names = getStateNames()
     // Autocomplete for governmental divisions
