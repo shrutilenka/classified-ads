@@ -1,5 +1,3 @@
-classifieds22 {
-	reverse_proxy classified-ads:3000 {
-		header_down Strict-Transport-Security max-age=31536000;		
-	}
+ns3027175.ip-188-165-209.eu {
+	reverse_proxy /* classified-ads:3000
 }
