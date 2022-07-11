@@ -50,6 +50,7 @@ services:
       ports:
         - "80:80"
         - "443:443"
+        - "2019:2019"
       volumes:
         - ./referral-spam.caddy:/etc/caddy/referral-spam.caddy
         - ./Caddyfile:/etc/caddy/Caddyfile

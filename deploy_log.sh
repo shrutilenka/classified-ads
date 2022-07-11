@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "pulling"
-git pull
+#git pull
 
 echo "Building application"
 sudo docker compose up --build

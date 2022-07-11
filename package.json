@@ -125,9 +125,9 @@
     "tap": "^16.3.0"
   },
   "optionalDependencies": {
-    "sharp": "^0.30.3",
     "@smodin/fast-text-language-detection": "^0.2.3",
     "annoy": "^3.0.3",
-    "bull": "^4.8.1"
+    "bull": "^4.8.1",
+    "sharp": "^0.30.3"
   }
 }
