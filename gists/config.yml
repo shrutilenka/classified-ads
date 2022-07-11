@@ -85,6 +85,15 @@
 
 # sudo docker build -t classified-ads --network=host . 
 # sudo docker images
-# sudo docker run -it -p 9000:3000 classified-ads
 
 # Docker errors: https://robinwinslow.uk/fix-docker-networking-dns -- sudo service docker restart
+
+
+# Restart only classified-ads:
+# worker is the name given to the service in the yaml file and not anything that you see when running docker ps -a 
+# docker-compose stop -t 1 classified-ads
+# sudo docker-compose build classified-ads
+# docker-compose stop classified-ads       // go to hibernate
+# docker-compose rm classified-ads        // shutdown the PC 
+# docker-compose create classified-ads     // create the container from image and put it in hibernate
+# docker-compose start classified-ads //bring container to life from hibernation

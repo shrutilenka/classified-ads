@@ -2,7 +2,6 @@ import axios from 'axios'
 import showdown from 'showdown'
 import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
-import { give } from '../services/data.js'
 import { EphemeralData } from '../services/helpers.js'
 import queries from '../services/mongo.js'
 
@@ -249,13 +248,13 @@ async function routes(fastify, options) {
     })
 
     // Some easter-eggs
-    fastify.get('/fennec-fox', function (req, reply) {
-        const idx = Math.floor(Math.random() * 4) + 1
-        reply.view('/templates/pages/easter-egg', {
-            svg: give.SVGs[idx - 1],
-            style: `easter-egg-${idx}.css`,
-        })
-    })
+    // fastify.get('/fennec-fox', function (req, reply) {
+    //     const idx = Math.floor(Math.random() * 4) + 1
+    //     reply.view('/templates/pages/easter-egg', {
+    //         svg: give.SVGs[idx - 1],
+    //         style: `easter-egg-${idx}.css`,
+    //     })
+    // })
 
     let converter = new showdown.Converter()
     let dailyAnnouncements = new EphemeralData(86400000)

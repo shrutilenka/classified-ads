@@ -7,7 +7,7 @@ const states = require("./states.min.json");
 // TODO: DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 // DECODE YOUR GEOJSON. THIS MIGHT NOT WORK ON YOUR DATA
 function getBorders() {
-    return borders.geometry.coordinates[0]
+    return borders.features[0].geometry.geometries[0].coordinates
 }
 
 function getStates() {

@@ -117,14 +117,14 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
 
 ### Note
 
-The app bootstraps for Algeria country as an example, with a simple tweak, you could bootstrap the app on another location with a different map (I encourage you to try that).
+The app bootstraps for France country as an example, with a simple tweak, you could bootstrap the app on another location with a different map (I encourage you to try that).
 For instance, my `/client/.env` is like:
 
 ```
 LATITUDE=36.75
 LONGITUDE=3.05
-BORDERS_FILE_URL=https://raw.githubusercontent.com/bacloud14/listings-data/main/data/geo/borders-algeria-v0.json
-STATES_FILE_URL=https://raw.githubusercontent.com/bacloud14/listings-data/main/data/geo/states-algeria-v0.json
+BORDERS_FILE_URL=https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/geo/simple_fr.geojson
+STATES_FILE_URL=https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/geo/states.min.json
 ```
 With a center (LATITUDE, LONGITUDE) and a map. Check [here](https://github.com/bacloud22/Classified-ads-xx-data) or elswhere for more geoJson data.
 
