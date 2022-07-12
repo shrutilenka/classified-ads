@@ -16,6 +16,7 @@ import fastifySwagger from '@fastify/swagger'
 // import { createRequire } from 'module'
 import viewsPlugin from '@fastify/view'
 import fastifyWebsocket from '@fastify/websocket'
+import fastifyMetrics from 'fastify-metrics'
 import i18nextMiddleware from 'i18next-http-middleware'
 // const require = createRequire(import.meta.url)
 
@@ -37,6 +38,7 @@ const plugins = {
     fastifyRateLimit,
     fastifyRedis,
     fastifyServe,
+    fastifyMetrics
 }
 export { plugins }
 

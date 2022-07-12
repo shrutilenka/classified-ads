@@ -24,7 +24,8 @@ const { helmet, logger, swagger } = options
 const { adminRouter, authRouter, chatRouter, dataRouter, debugRouter, indexRouter, listingsRouter, wvRouter } = routes
 const { fastifyCompress, fastifyAuth, fastifyCookies, fastifyFlash, fastifyJWT } = plugins
 const { fastifySchedule, i18nextMiddleware, fastifySession, fastifySwagger, fastifyWebsocket, viewsPlugin } = plugins
-const { fastifyFormbody, fastifyHelmet, fastifyMongodb, fastifyRateLimit, fastifyRedis, fastifyServe } = plugins
+const { fastifyFormbody, fastifyHelmet, fastifyMongodb, fastifyRateLimit, fastifyRedis, fastifyServe, fastifyMetrics } =
+    plugins
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -240,7 +241,7 @@ async function build(doRun) {
     // TODO: CHAT @@@@@@@@@@@@@
     // fastify.register(chatRouter, { prefix: 'chat' })
     fastify.register(wvRouter, { prefix: 'wv' })
-    
+
     fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
     fastify.register(fastifyServe, {
         root: path.join(__dirname, 'static/images/'),
@@ -257,6 +258,16 @@ async function build(doRun) {
         prefix: '/static/pages/',
         decorateReply: false,
     })
+
+    /*********************************************************************************************** */
+    // !!APP AND USER METRICS!!
+    // Don't track for api env (API testing)
+    const secretPath = process.env.SECRET_PATH
+    const promURL = `/${secretPath}/metrics`
+    // const adminAuth = fastify.auth([fastify.verifyJWT('admin')])
+    if (NODE_ENV > -1 && process.env.worker_id == '1') {
+        fastify.register(fastifyMetrics, { endpoint: promURL, /*routeMetrics: { routeBlacklist: promURL }*/ })
+    }
 
     const start = async () => {
         try {
@@ -351,27 +362,6 @@ async function build(doRun) {
         // })
     }
 
-    /*********************************************************************************************** */
-    // !!APP AND USER METRICS!!
-    // Don't track for api env (API testing)
-    const secretPath = process.env.SECRET_PATH
-    const adminAuth = fastify.auth([fastify.verifyJWT('admin')])
-    if (NODE_ENV > -1 && process.env.worker_id == '1') {
-        // TODO: modify https://github.com/bacloud22/visitor-counter/ to
-        // accept fastify.mongo instance instead
-        // const myMongoDatabase = fastify.mongo.client.db('dbname')
-        // TODO: this has of async operations
-        /*
-        import visitors from "./libs/decorators/visitors-handler";
-        fastify.addHook('preHandler', async (req, reply) => {
-            let stats = await visitors.getStats()
-            stats.record(req, reply)
-        })
-        fastify.get(`/${secretPath}/visitors`, { preHandler: adminAuth }, visitors.handler)
-        */
-        // Metrics exporter at least for one node to have a view on performance
-        // fastify.register(metricsPlugin, { endpoint: '/metrics', blacklist: ['/metrics'], enableRouteMetrics: true })
-    }
 
     return fastify
 }

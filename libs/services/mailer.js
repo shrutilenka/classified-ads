@@ -56,15 +56,15 @@ class MailerOps {
                 html = req.t(`mail.${todo}.html`, data)
             }
 
-            console.log(`subject ${subject}`)
-            console.log(`text ${text}`)
-            console.log(`html ${html}`)
+            req.log.info(`subject ${subject}`)
+            // console.log(`text ${text}`)
+            // console.log(`html ${html}`)
 
             mailQueue.sendMail({ to, subject, text, html }, function (err, info) {
                 if (err) {
-                    console.log(err.message)
+                    req.log.error(err.message)
                 } else {
-                    console.log(info)
+                    // console.log(info)
                 }
             })
         }
