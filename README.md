@@ -6,8 +6,8 @@
   - It runs very fast,
   - It offers multiple sections (based on your target users),
   - It supports tags (like hundreds),
-  - Geolocations (up to thousands),
-  - Open possibilities for choices of geolocation to be targeted (country, states),
+  - Geo-locations (up to thousands),
+  - Open possibilities for choices of geo-location to be targeted (country, states),
   - Multiple human languages for the web-app and the posted content.  
   - All are supported in all aspects (UI, back-end, DB, choice of deployment and configuration). 
 
@@ -46,17 +46,6 @@ Notes:
 - Maps integration is quite good, you need to check that by yourself !
 - A pretty rich UI using dozens of lightweight JS browser libraries (all are very carefully picked !).
 
-## Captures
-
-__             |  __
-:-------------------------:|:-------------------------:
-![Today_s listings](/.github/Screenshot%202022-06-04%20at%2010-07-06%20Classified-ads%20-%20Today_s%20listings.png "Today_s listings")  |  ![Donations](/.github/Screenshot%202022-06-04%20at%2010-08-01%20Classified-ads%20-%20donations.png "Donations")
-![Events](/.github/Screenshot%202022-06-04%20at%2010-08-30%20Classified-ads%20-%20events.png "Events")  |  ![Skills](/.github/Screenshot%202022-06-04%20at%2010-09-13%20Classified-ads%20-%20skills.png "Skills")
-![Back and front search](/.github/Screenshot%202022-06-04%20at%2010-10-02%20Classified-ads%20-%20donations.png "Back and front search")  |  ![Clustered listings](/.github/Screenshot%202022-06-04%20at%2010-20-00%20Classified-ads%20-%20Today_s%20listings.png "Clustered listings")
-
-__             |  __
-:-------------------------:|:-------------------------:
-![User management page](/.github/Screenshot%202022-06-04%20at%2013-37-06%20Your%20listings.png "User management page")  |  ![Admin moderation page](/.github/Screenshot%202022-06-04%20at%2013-39-45%20admin.png "Admin moderation page")
 
 ## Notes
 
@@ -102,7 +91,7 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
    - NO_CLUSTER=true
    - DEFAULT_LANG=en-US
    
--  Preapare database  
+-  Prepare database  
    - Redis database must be up  
    - MongoDB must be up with the following dbs and collections  
 `DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, users, userstemp, visitors-default-current, visitors-default}`
@@ -126,7 +115,7 @@ LONGITUDE=3.05
 BORDERS_FILE_URL=https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/geo/simple_fr.geojson
 STATES_FILE_URL=https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/geo/states.min.json
 ```
-With a center (LATITUDE, LONGITUDE) and a map. Check [here](https://github.com/bacloud22/Classified-ads-xx-data) or elswhere for more geoJson data.
+With a center (LATITUDE, LONGITUDE) and a map. Check [here](https://github.com/bacloud22/Classified-ads-xx-data) or elsewhere for more geoJson data.
 
 With a different geoJSON data, you might need to change encoders in both files `/data/geo/geoJSONEncoder.js` and `/client/data/geo/geoJSONEncoder.js`.
 
@@ -162,7 +151,7 @@ With a different geoJSON data, you might need to change encoders in both files `
     This raises multiple challenges mainly for upgrading and actively maintained from their authors. We would like to rely always on the latest versions but we would change one library by another if the project seems inactive or very old (like not supporting modules or so).
     Leaflet particularly is the most important in this regard.
 
-    I don't know much yet about versionning in npm, although [it is very very important](https://docs.npmjs.com/about-semantic-versioning). I suggest to install [ndm](https://720kb.github.io/ndm/) and add two projects `./` and `./client/` to have an eye on last versions and what to expect.
+    I don't know much yet about versioning in npm, although [it is very very important](https://docs.npmjs.com/about-semantic-versioning). I suggest to install [ndm](https://720kb.github.io/ndm/) and add two projects `./` and `./client/` to have an eye on last versions and what to expect.
 
 On the occasion, I would like to thank the following contributors:  
   - [mbussert](https://github.com/mbussert) for helping dark theme  

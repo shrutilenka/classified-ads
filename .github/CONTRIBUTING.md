@@ -62,7 +62,7 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
    - NO_CLUSTER=true
    - DEFAULT_LANG=en-US
    
--  Preapare database
+-  Prepare database
 MongoDB must be up with the following dbs and collections  
 `DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, userstemp, users, visitors-default-current, visitors-default}`
 -  Fulfill Google Cloud credentials (for storage) (optional for localhost env)
@@ -75,16 +75,16 @@ MongoDB must be up with the following dbs and collections
 
 ### Note
 
-The app bootstraps for Algeria country as an example, with a simple tweak, you could bootstrap the app on another location with a different map (I encourage you to try that).
+The app bootstraps for France country as an example, with a simple tweak, you could bootstrap the app on another location with a different map (I encourage you to try that).
 For instance, my `/client/.env` is like:
 
 ```
 LATITUDE=36.75
 LONGITUDE=3.05
-BORDERS_FILE_URL=https://raw.githubusercontent.com/bacloud14/listings-data/main/data/geo/borders-algeria-v0.json
-STATES_FILE_URL=https://raw.githubusercontent.com/bacloud14/listings-data/main/data/geo/states-algeria-v0.json
+BORDERS_FILE_URL=https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/geo/simple_fr.geojson
+STATES_FILE_URL=https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/geo/states.min.json
 ```
-With a center (LATITUDE, LONGITUDE) and a map. Check [here](https://github.com/bacloud22/Classified-ads-xx-data) or elswhere for more geoJson data.
+With a center (LATITUDE, LONGITUDE) and a map. Check [here](https://github.com/bacloud22/Classified-ads-xx-data) or elsewhere for more geoJson data.
 
 With a different geoJSON data, you might need to change encoders in both files `/data/geo/geoJSONEncoder.js` and `/client/data/geo/geoJSONEncoder.js`.
 
@@ -117,7 +117,7 @@ With a different geoJSON data, you might need to change encoders in both files `
     This raises multiple challenges mainly for upgrading and actively maintained from their authors. We would like to rely always on the latest versions but we would change one library by another if the project seems inactive or very old (like not supporting modules or so).
     Leaflet particularly is the most important in this regard.
 
-    I don't know much yet about versionning in npm, although [it is very very important](https://docs.npmjs.com/about-semantic-versioning). I suggest to install [ndm](https://720kb.github.io/ndm/) and add two projects `./` and `./client/` to have an eye on last versions and what to expect.
+    I don't know much yet about versioning in npm, although [it is very very important](https://docs.npmjs.com/about-semantic-versioning). I suggest to install [ndm](https://720kb.github.io/ndm/) and add two projects `./` and `./client/` to have an eye on last versions and what to expect.
 
 
 ### Pull requests
