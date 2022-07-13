@@ -1,0 +1,67 @@
+{
+    "(donations)": "Spenden",
+    "(events)": "Sitzungten",
+    "(skills)": "Fähigkeiten",
+    "(hobbies)": "Hobbis",
+    "(so-c)": "digitale Karte",
+    "(blogs)": "Beiträge",
+    "(howto)": "wie",
+    "(tags)": "Stichworte",
+    "(contact)": "Kontakt",
+    "(policy)": "Richtlinien",
+    "(login)": "login",
+    "(signup)": "Anmelden",
+    "(password)": "Passwort",
+    "(reset)": "von Neu",
+    "(reset-pass)": "Neues Passwort",
+    "|date|": "irgendwo auf der Welt",
+    "(search)": "Suche",
+    "(exactsearch)": "genaue Suche",
+    "(exact?)": "Genau?",
+    "(sincedate)": "Seit",
+    "(fuzzysearch)": "ungefähre Suche",
+    "(description)": "Beschreibung",
+    "(title)": "Titer",
+    "(title|description)": "Titel oder Beschreibung",
+    "(divisions)": "Abteilungen",
+    "(today-listings)": "heutige Liste",
+    "(tour-hello)": "Probelauf",
+    "(posted-by)": "hochgeladen von:",
+    "blogs-intro": "Im Bereich Kleinanzeigen-Blogs befindet sich unsere Meta-Kategorie, in der Sie und wir uns auch frei von Tags ausdrücken können. Hier kann alles gepostet werden, einschließlich unserer täglichen Ankündigungen.",
+    "tags-page": {
+        "intro": "Hier können Sie einen bestimmten Tag für ihre Spende auswählen. Bitte nehmen Sie sich die Zeit das beste Angebot für Sie zu finden."
+    },
+    "geo": {
+        "(search)": "Standort Suche"
+    },
+    "blog-page": {
+        "add": "Füge einen Post hinzu"
+    },
+    "donation-page": {
+        "add": "Füge einen Spendenbetrag hinzu",
+        "(offer)": "Angebot?"
+    },
+    "event-page": {
+        "add": "Fügen Sie einen Post zum Ereignis hinzu",
+        "start-date": "Startdatum",
+        "end-date": "Enddatum"
+    },
+    "skill-page": {
+        "add": "Füge eine Fähigkeit hinzu",
+        "(offer)": "Angebot?"
+    },
+    "tag-language": "Wähle eine Sprache ",
+    "choose-tags": "Klicken Sie hier, um einen Tag zu wählen",
+    "listings-map": "Auflistungs Karte",
+    "(english)": "Englisch",
+    "(arabic)": "Arabisch",
+    "(today)": "Die Heutigen",
+    "(french)": "Französisch",
+    "(categories)": "Kategorien",
+    "(about)": "über",
+    "(weather)": "Wetter",
+    "hobby-page": {
+        "add": "Füge ein Hobby hinzu"
+    },
+    "delimitations-map": "Abgrenzungskarte"
+}
