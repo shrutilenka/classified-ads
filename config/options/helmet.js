@@ -32,6 +32,7 @@ export default () => {
                     "'self'",
                     "'unsafe-eval'",
                     'unpkg.com',
+                    'http://188.165.209.196:9091',
                     'cdn.jsdelivr.net',
                     'cdn.zinggrid.com',
                     'cdnjs.cloudflare.com',
