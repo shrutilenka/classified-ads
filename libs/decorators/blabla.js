@@ -81,6 +81,8 @@ function localize(data, route, kind, req, reply) {
     }
     // TODO: handle errors here !!!!
     // a translation could easily be missing !!!!
+    const announcements = req.t(`announcements`, { returnObjects: true, app_name: appName })
+    data['announcements'] = announcements
     const userFriendlyMsg = req.t(`${route}.${kind}`, sharedData)
     if (NODE_ENV < 1)
         Object.keys(userFriendlyMsg).forEach((key) => {
