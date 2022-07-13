@@ -1,13 +1,14 @@
 import multer from 'fastify-multer'
+import { tidy } from 'htmltidy2'
 // import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
+import { html } from '../constraints/regex.js'
 import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
 import postListingHandler from '../decorators/postListingHandler.js'
 import inputsValueMapping from '../decorators/valuesMapping.js'
 import { crypto, ops as helpers } from '../services/helpers.js'
 import queries from '../services/mongo.js'
-
 const NODE_ENV = {
     api: -1,
     localhost: 0,
@@ -15,8 +16,13 @@ const NODE_ENV = {
     production: 2,
 }[process.env.NODE_ENV]
 
+const tidyP = promisify(tidy)
+const opt = { 'show-body-only': 'yes' }
+const tags = html.allowedTags.map((tag) => `<${tag}>`).concat(html.allowedTags.map((tag) => `</${tag}>`))
+const escaper = new NLPEscape(tags)
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
+
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options, next) {
@@ -86,10 +92,10 @@ async function routes(fastify, options, next) {
         elem.email = crypto.encrypt(key, elem.usr)
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
 
-        const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
-        const readableChannel = `${author},${elem.title}`
+        // const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
+        // const readableChannel = `${author},${elem.title}`
         // Todo: if author == viewer then the author could have multiple channels on one thread
-        data = { data: elem, section: elem.section, author, channel, readableChannel }
+        data = { data: elem, section: elem.section, author/*, channel, readableChannel*/ }
         reply.blabla([data, 'listing', 'id'], req)
         return reply
     })
@@ -100,52 +106,52 @@ async function routes(fastify, options, next) {
      * If not, then get the unique channel between the viewer and the author for the current thread
      */
     // TODO: cache later on Redis
-    const allChannels = [
-        {
-            au: 'super_author',
-            vi: 'logged_in_viewer',
-            th: 'LISTING0435232',
-        },
-    ]
-    fastify.get('/id/:id/channels', { preHandler: auth }, async function (req, reply) {
-        let channels = []
-        let readableChannels = []
-        const viewer = req.params.username
-        const thread = req.params.id
-        const hex = /[0-9A-Fa-f]{6}/g
-        // replace getListingById by a quicker QInstance.listingExists()
-        const [err, elem] = hex.test(thread)
-            ? await to(QInstance.getListingById(thread, false, viewer))
-            : ['NOT_FOUND', undefined]
-        if (err === 'NOT_FOUND' || !elem) return reply.send({ err: 'NOT_FOUND' })
-        if (err) {
-            req.log.error(`get/id#getListingById: ${err.message}`)
-            return reply.send({ err: 'SERVER_ERROR' })
-        }
-        const author = elem.usr
-        const newChannel = { au: author, vi: viewer, th: thread }
+    // const allChannels = [
+    //     {
+    //         au: 'super_author',
+    //         vi: 'logged_in_viewer',
+    //         th: 'LISTING0435232',
+    //     },
+    // ]
+    // fastify.get('/id/:id/channels', { preHandler: auth }, async function (req, reply) {
+    //     let channels = []
+    //     let readableChannels = []
+    //     const viewer = req.params.username
+    //     const thread = req.params.id
+    //     const hex = /[0-9A-Fa-f]{6}/g
+    //     // replace getListingById by a quicker QInstance.listingExists()
+    //     const [err, elem] = hex.test(thread)
+    //         ? await to(QInstance.getListingById(thread, false, viewer))
+    //         : ['NOT_FOUND', undefined]
+    //     if (err === 'NOT_FOUND' || !elem) return reply.send({ err: 'NOT_FOUND' })
+    //     if (err) {
+    //         req.log.error(`get/id#getListingById: ${err.message}`)
+    //         return reply.send({ err: 'SERVER_ERROR' })
+    //     }
+    //     const author = elem.usr
+    //     const newChannel = { au: author, vi: viewer, th: thread }
 
-        // update allChannels with new channel if needed (new logged viewers landing on a thread)
-        if (!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
-            allChannels.push(newChannel)
-        }
-        console.log('all channels')
-        console.log(allChannels)
-        // get channels convenient to this thread and viewer
-        if (author === viewer) {
-            // get channels of all visitors (viewer) for the author
-            channels = allChannels.filter((ch) => ch.au == author && ch.th == thread)
-        } else {
-            // find the one channel for the current viewer
-            channels = [allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)]
-        }
-        console.log('result channels')
-        console.log(channels)
-        readableChannels = channels.map((ch) => `${ch.au},${ch.vi},${elem.title.slice(0, 20)}`)
-        // encrypt channels names
-        channels = channels.map((ch) => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
-        return reply.send({ channels, readableChannels })
-    })
+    //     // update allChannels with new channel if needed (new logged viewers landing on a thread)
+    //     if (!allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)) {
+    //         allChannels.push(newChannel)
+    //     }
+    //     console.log('all channels')
+    //     console.log(allChannels)
+    //     // get channels convenient to this thread and viewer
+    //     if (author === viewer) {
+    //         // get channels of all visitors (viewer) for the author
+    //         channels = allChannels.filter((ch) => ch.au == author && ch.th == thread)
+    //     } else {
+    //         // find the one channel for the current viewer
+    //         channels = [allChannels.find((ch) => ch.au == author && ch.vi == viewer && ch.th == thread)]
+    //     }
+    //     console.log('result channels')
+    //     console.log(channels)
+    //     readableChannels = channels.map((ch) => `${ch.au},${ch.vi},${elem.title.slice(0, 20)}`)
+    //     // encrypt channels names
+    //     channels = channels.map((ch) => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
+    //     return reply.send({ channels, readableChannels })
+    // })
 
     /* GET one listing; must not be deactivated. */
     // const COOKIE_NAME = config('COOKIE_NAME')
@@ -267,6 +273,20 @@ async function routes(fastify, options, next) {
                 // reply.blabla([{}, 'message', 'not found'], req)
                 return reply
             }
+
+            try {
+                body.message = await tidyP(body.message, opt)
+                body.message = new stringTransformer(body.message).sanitizeHTML().valueOf()
+                const clean = escaper.escape(body.message)
+                const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
+                body.message = escaper.unescape(transformed)
+            } catch (error) {
+                // TODO: stop request ?
+                req.log.error(
+                    `post/listings#postListingHandler: tidyP:: ${body.message.slice(0, 20)} | ${error.message} `,
+                )
+            }
+
             const message = {
                 to: receiver,
                 from: req.params.username,

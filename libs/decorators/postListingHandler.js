@@ -118,7 +118,7 @@ export default (fastify) => {
             } catch (error) {
                 // TODO: stop request ?
                 req.log.error(
-                    `post/listings#postListingHandler: tidyP:: ${body.cdesc.slice(0, 20)} | ${error.message} `,
+                    `post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `,
                 )
             }
             try {
