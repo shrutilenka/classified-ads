@@ -144,7 +144,7 @@ async function build(doRun) {
                 loadPath: __dirname + '/data/locales/{{lng}}/common.json',
             },
             fallbackLng: process.env.DEFAULT_LANG,
-            preload: ['en-US', 'ar', 'fr'],
+            preload: ['en-US', 'ar', 'fr', 'de'],
             cookiename: 'locale',
             detection: {
                 order: ['cookie'],

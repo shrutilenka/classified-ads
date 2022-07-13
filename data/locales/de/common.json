@@ -10,7 +10,7 @@
     },
     "listings": {
         "listings": {
-            "title": "{{app_name}} – Alle Abschnitte",
+            "title": "{{app_name}} - Alle Abschnitte",
             "intro": "Kleinanzeigen ins Internet gebracht. Hier können Sie kostenlos nicht-kommerzielle Angebote genießen",
             "success": "Wir haben die neuesten Einträge aus allen Bereichen :)"
         },
@@ -40,12 +40,12 @@
             "success": "Wir haben einige Blogs :)"
         },
         "gwoogl": {
-            "title": "{{app_name}} – Suchergebnisse",
+            "title": "{{app_name}} - Suchergebnisse",
             "intro": "Kleinanzeigen ins Internet gebracht. Verwenden Sie unsere Suche, um die besten Ergebnisse auch in verschiedenen Sprachen zu finden!",
             "success": "Wir haben einige Einträge für Ihre Suche :)"
         },
         "geolocation": {
-            "title": "{{app_name}} – Geolokalisierte Ergebnisse",
+            "title": "{{app_name}} - Geolokalisierte Ergebnisse",
             "intro": "Kleinanzeigen ins Internet gebracht. Verwenden Sie die Standortsuche, um Angebote in der Nähe zu finden!",
             "success": "Wir haben einige Angebote in der Nähe :)"
         },
