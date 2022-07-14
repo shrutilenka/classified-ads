@@ -1,16 +1,17 @@
-import dotenv from "dotenv";
-import Dotenv from "dotenv-webpack";
-import FileManagerPlugin from "filemanager-webpack-plugin";
-import fs from "fs";
-import gjv from "geojson-validation";
-import fetch from "node-fetch";
-import path from "path";
-import { fileURLToPath } from "url";
+import dotenv from 'dotenv'
+import Dotenv from 'dotenv-webpack'
+import FileManagerPlugin from 'filemanager-webpack-plugin'
+import fs from 'fs'
+import gjv from 'geojson-validation'
+import { DuplicatesPlugin } from 'inspectpack/plugin/index.js'
+import fetch from 'node-fetch'
+import path from 'path'
+import { fileURLToPath } from 'url'
 // import WebpackFavicons from "webpack-favicons";
 
 const envKeys = dotenv.config()
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const paths = {
     dist: path.resolve(__dirname, 'dist'),
@@ -22,7 +23,6 @@ const devConfig = {
     mode: 'development',
     devtool: 'source-map',
 }
-
 
 const downloadFile = async (url, path) => {
     const res = await fetch(url)
@@ -57,9 +57,14 @@ export default {
     module: {
         rules: [
             {
-                test: /\.json5$/i,
-                loader: 'json5-loader',
-                type: 'javascript/auto',
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                    },
+                },
             },
         ],
     },
@@ -83,6 +88,7 @@ export default {
         //         })
         //         .catch(console.error)
         // }),
+        new DuplicatesPlugin(),
         new FileManagerPlugin({
             events: {
                 onStart: {},
