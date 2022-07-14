@@ -84,7 +84,7 @@ async function build(doRun) {
     }
     fastify.register(fastifyHelmet, helmet())
     // fastify.register(cors, require('./config/options/cors'))
-    fastify.register(fastifyCompress) // Compress all possible types > 1024o
+    // fastify.register(fastifyCompress) // Compress all possible types > 1024o
     fastify.register(fastifyMongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
     fastify.register(fastifyRedis, { host: config('REDIS_URI') })
 

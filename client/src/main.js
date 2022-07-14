@@ -19,6 +19,7 @@
 
 // Browser loggings to let hints for different environments
 // on important events and actions.
+import '@popperjs/core';
 import 'bootstrap';
 import log from 'loglevel';
 import { consts } from './consts.js';
