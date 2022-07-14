@@ -182,27 +182,18 @@ ops.createIndexes = async function createIndexes(db) {
 
 /*********************************************************************************************** */
 // SEED DEVELOPMENT FAKE DATA
+// TODO: remove 'production' not to confuse 
 const docsCount = {
     api: 500,
     localhost: 10000,
     development: 10000,
+    production: 1000
 }[process.env.NODE_ENV]
 ops.seedDevelopmentData = async function seedDevelopmentData(db) {
     fakeItems(docsCount)
     const options = { ordered: true }
     const collection = db.collection('listing')
-    return new Promise(function (resolve, reject) {
-        collection.insertMany(items, options, async function (err, reply) {
-            items = null
-            // fastify.log.info('Inserted seed data into the collection')
-            if (err) {
-                return reject(err)
-            }
-            // const mails = await ops.seedMailHogData(db)
-            // await ops.seedCommunity(mails.emails)
-            return resolve(reply)
-        })
-    })
+    return await collection.insertMany(items, options)
 }
 
 ops.famousSearches = function famousSearches() {

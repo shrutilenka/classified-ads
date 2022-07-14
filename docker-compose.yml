@@ -40,8 +40,8 @@ services:
       # restart: unless-stopped
       ports:
         - '6379:6379'
-      volumes: 
-        - ./host-db/data:/data
+      #volumes: 
+      #  - ./host-db/data:/data/redis
 
   caddy:
       container_name: caddy-service

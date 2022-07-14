@@ -331,7 +331,8 @@ async function build(doRun) {
         const colUsers = db.collection('users')
         // Create indexes
         //process.env.NODE_ENV in {development, localhost, api}
-        if (NODE_ENV <= 1) {
+        // TODO: remove (testing prod now)
+        if (true/*NODE_ENV <= 1*/) {
             await colListings.deleteMany({})
             await colUsers.deleteMany({})
             bootstrap
