@@ -13,7 +13,7 @@ services:
     ports:
       - 3000:3000
     build:
-      context: ./
+      context: ./docker/classified-ads/
     # restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
@@ -28,20 +28,23 @@ services:
       container_name: mongodb-service
       image: mongo
       volumes:
-        - ./host-db/data:/data/db
+        - ./host-db/mongo-data:/data/db
         - ./bootstrap/init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
       ports:
         - '27017:27017'
       restart: unless-stopped
-
+  # our custom image 
   redis:
       container_name: redis-service
-      image: redis:7.0.0-alpine
+      build:
+        context: ./docker/redis/
+      privileged: true
+      command: sh -c "./dockerconf/redis/init.sh"
       # restart: unless-stopped
       ports:
         - '6379:6379'
-      #volumes: 
-      #  - ./host-db/data:/data/redis
+      volumes: 
+        - ./host-db/redis-data:/data/redis:rw
 
   caddy:
       container_name: caddy-service
