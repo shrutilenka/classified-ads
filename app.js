@@ -220,14 +220,14 @@ async function build(doRun) {
         ar: require('ajv-i18n/localize/ar'),
         fr: require('ajv-i18n/localize/fr'),
     }
-    fastify.setErrorHandler(function (error, request, reply) {
-        if (error.validation) {
-            localize[request.cookies.locale || 'en'](error.validation)
-            reply.status(422).send(error.validation)
-            return
-        }
-        reply.send(error)
-    })
+    // fastify.setErrorHandler(function (error, request, reply) {
+    //     if (error.validation) {
+    //         localize[request.cookies.locale || 'en'](error.validation)
+    //         reply.status(422).send(error.validation)
+    //         return
+    //     }
+    //     reply.send(error)
+    // })
     /*********************************************************************************************** */
     // !!REGISTER ROUTES !!
     fastify.register(authRouter)
