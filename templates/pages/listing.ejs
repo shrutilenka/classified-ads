@@ -59,10 +59,12 @@
                   <form class="p-3" id="message-dialog" action="/listings/sendmessage" method="POST" name="sendMessage">
                     <div class="form-group">
                       <label for="message">Message</label>
-                      <textarea class="form-control" id="message" name="message" rows="7"></textarea>
+                      <div id="editor" class="pell px-3 pt-3 bg-white border-bottom-0" data-target="#unique_target" data-max="500" style="color: #333!important;fill: #333!important;"></div>
+                      <div id="characters-left" class="px-2" style="font-size: 12px; font-family: 'Lucida Console', Arial, Helvetica, sans-serif;"></div>
                     </div>
                     <input type="hidden" name="email" value='<%= data.email %>'>
                     <input type="hidden" name="id" value='<%= data._id %>'>
+                    <input name="message" class="add" id="message" value="" type="hidden">
                     <div class="w-100">
                       <button class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Send</button>
                     </div>
@@ -72,8 +74,6 @@
             </div>
           </div>
         </div>
-
-
 
 
       </div>

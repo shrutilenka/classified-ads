@@ -1,3 +1,4 @@
+import { setupPell } from './editor/setup-pell.js'
 import { setupGravatar } from './gravatar/setup-gravatar.js'
 import { setupImageModal } from './modals/setup-image-modal.js'
 import { undrawOutput } from './undraw-output/undraw-output.js'
@@ -5,6 +6,7 @@ import { undrawOutput } from './undraw-output/undraw-output.js'
 setupGravatar()
 setupImageModal()
 undrawOutput()
+setupPell()
 
 // async function postData(url = '', data = {}) {
 //     // Default options are marked with *
