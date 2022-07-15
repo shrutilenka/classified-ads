@@ -10,7 +10,7 @@
 @import '../../node_modules/notyf/notyf.min';
 // most important comes last
 @import '../../node_modules/leaflet/dist/leaflet';
-// @import "../../node_modules/leaflet.fullscreen/Control.FullScreen";
+@import "../../node_modules/leaflet.fullscreen/Control.FullScreen";
 @import '../../node_modules/leaflet.markercluster/dist/MarkerCluster';
 @import '../../node_modules/leaflet.markercluster/dist/MarkerCluster.Default';
 // Doesn't provide scss

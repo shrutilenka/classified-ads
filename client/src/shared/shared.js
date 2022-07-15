@@ -13,7 +13,6 @@ import { dateFromObjectId } from './formatters/date-from-objectId.js'
 import { setupI18n } from './i18n/setup-i18n.js'
 import { loadFile } from './load-file/load-file.js'
 import { country } from './maps/create-maps/state.js'
-// import { setupLeaflet } from "./maps/setup-leaflet";
 import { setupMaps } from './maps/setup-maps.js'
 import { setupAutoComplete } from './search/setup-autocomplete.js'
 import { setupHolmes } from './search/setup-holmes.js'
