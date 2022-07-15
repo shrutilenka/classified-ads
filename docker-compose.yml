@@ -39,7 +39,7 @@ services:
       build:
         context: ./docker/redis/
       privileged: true
-      command: sh -c "./dockerconf/redis/init.sh"
+      command: sh -c "./init.sh"
       # restart: unless-stopped
       ports:
         - '6379:6379'
