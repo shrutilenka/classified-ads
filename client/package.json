@@ -1,5 +1,5 @@
 {
-  "name": "classified-ads-58-client",
+  "name": "classified-ads-client",
   "version": "1.0.0",
   "description": "Not a standalone client. It only generates client scripts and styles that are served publicly",
   "source": [
@@ -13,8 +13,7 @@
   ],
   "type": "module",
   "scripts": {
-    "dev:client": "webpack && sass src/style:../public/stylesheets",
-    "build": "parcel build --dist-dir ../public/javascripts",
+    "build": "parcel build --dist-dir ../public/javascripts && sass src/style:../public/stylesheets",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -51,21 +50,15 @@
     "vanilla-picker": "^2.12.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.6",
-    "@babel/eslint-parser": "^7.18.2",
     "@types/google.maps": "^3.49.2",
     "@types/leaflet.fullscreen": "^1.6.1",
     "@types/web": "0.0.68",
-    "babel-loader": "^8.2.5",
     "dotenv-webpack": "^7.1.1",
-    "filemanager-webpack-plugin": "^7.0.0",
     "parcel": "^2.6.2",
     "prettier": "^2.7.1",
     "process": "^0.11.10",
     "sass": "^1.53.0",
-    "scss": "^0.2.4",
-    "webpack": "^5.73.0",
-    "webpack-cli": "^4.10.0"
+    "scss": "^0.2.4"
   },
   "optionalDependencies": {},
   "keywords": [

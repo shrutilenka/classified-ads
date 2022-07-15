@@ -1,3 +1,21 @@
+// I'm leaving this poop file that tortured the project to compare with genius Parcel.
+// You know, this project does not care about reactive UI, or so fancy UI, But this poop
+// tortured me. Imagine that I in many times, run the whole docker-compose for like ten times to figure out a solution
+// It is non-deterministic, you run two times in two environments with same versions, you get one that works and one that doesn't.
+//  
+// ░░░░░░░░░░░█▀▀░░█░░░░░░
+// ░░░░░░▄▀▀▀▀░░░░░█▄▄░░░░
+// ░░░░░░█░█░░░░░░░░░░▐░░░
+// ░░░░░░▐▐░░░░░░░░░▄░▐░░░
+// ░░░░░░█░░░░░░░░▄▀▀░▐░░░
+// ░░░░▄▀░░░░░░░░▐░▄▄▀░░░░
+// ░░▄▀░░░▐░░░░░█▄▀░▐░░░░░
+// ░░█░░░▐░░░░░░░░▄░█░░░░░
+// ░░░█▄░░▀▄░░░░▄▀▐░█░░░░░
+// ░░░█▐▀▀▀░▀▀▀▀░░▐░█░░░░░
+// ░░▐█▐▄░░▀░░░░░░▐░█▄▄░░
+// ░░░▀▀░▄WP▄░░░▐▄▄▄▀░░░
+
 import dotenv from 'dotenv'
 import Dotenv from 'dotenv-webpack'
 import FileManagerPlugin from 'filemanager-webpack-plugin'
