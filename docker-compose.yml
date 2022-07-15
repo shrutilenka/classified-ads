@@ -13,7 +13,7 @@ services:
     ports:
       - 3000:3000
     build:
-      context: ./docker/classified-ads/
+      context: ./
     # restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
