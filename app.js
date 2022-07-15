@@ -86,7 +86,7 @@ async function build(doRun) {
     // fastify.register(cors, require('./config/options/cors'))
     // fastify.register(fastifyCompress) // Compress all possible types > 1024o
     fastify.register(fastifyMongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
-    fastify.register(fastifyRedis, config('REDIS_URL'))
+    fastify.register(fastifyRedis, { host: 'redis', port: 6379})
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)

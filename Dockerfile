@@ -31,7 +31,7 @@ RUN rm -rf /node_modules
 
 RUN npm i
 # RUN chmod -R a+rwx node_modules
-RUN npm run dev:client
+RUN npm run build
 
 WORKDIR /classified-ads
 # EXPOSE 3000
