@@ -1,9 +1,9 @@
 FROM node:14.19.3-alpine3.14
 # ADD https://raw.githubusercontent.com/Stevie-Ray/referrer-spam-blocker/master/referral-spam.caddy /etc/caddy/
 WORKDIR /classified-ads
-#COPY package.json ./
+COPY package.json ./
 RUN npm i -g npm
-# RUN rm -rf /node_modules
+RUN rm -rf /node_modules
 
 RUN apk add --no-cache --update --virtual .gyp \
     build-base vips-dev python3 go && npm i @smodin/fast-text-language-detection annoy && \
@@ -22,7 +22,7 @@ RUN apk add --no-cache --update --virtual .gyp \
 #RUN apk add git
 
 RUN npm i
-RUN chmod -R a+rwx node_modules/@msgpackr-extract
+#RUN chmod -R a+rwx node_modules/@msgpackr-extract
 COPY . ./
 
 WORKDIR /classified-ads/client
