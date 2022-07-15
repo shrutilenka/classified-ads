@@ -20,8 +20,6 @@
 // Browser loggings to let hints for different environments
 // on important events and actions.
 
-import 'bootstrap/js/dist/dropdown.js';
-import 'bootstrap/js/dist/modal.js';
 import log from 'loglevel';
 import { setupShared } from '../../shared/shared.js';
 import { consts } from './consts.js';
