@@ -3,7 +3,6 @@ import Dotenv from 'dotenv-webpack'
 import FileManagerPlugin from 'filemanager-webpack-plugin'
 import fs from 'fs'
 import gjv from 'geojson-validation'
-import { DuplicatesPlugin } from 'inspectpack/plugin/index.js'
 import fetch from 'node-fetch'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -54,6 +53,11 @@ export default {
         filename: '[name].js',
         path: paths.dist,
     },
+    resolve: {
+        alias: {
+            leaflet$: path.resolve(__dirname, 'node_modules/leaflet/dist/leaflet.js'),
+        },
+    },
     module: {
         rules: [
             {
@@ -88,7 +92,6 @@ export default {
         //         })
         //         .catch(console.error)
         // }),
-        new DuplicatesPlugin(),
         new FileManagerPlugin({
             events: {
                 onStart: {},

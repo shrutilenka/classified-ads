@@ -16,7 +16,7 @@
 @import "../../node_modules/leaflet.markercluster/dist/MarkerCluster.Default";
 // Doesn't provide scss
 @import '../../node_modules/tippy.js/dist/tippy';
-@import '../../node_modules/intro.js/introjs-rtl';
+// @import '../../node_modules/intro.js/introjs-rtl';
 
 
 :root {
@@ -404,7 +404,7 @@ details form {
   margin-top: 1rem;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  opacity: 0.6;
+  // opacity: 0.6;
   background-image: url(/images/symphony.png);
   background-position: bottom;
   animation: 15s linear 0s infinite bp;
