@@ -61,14 +61,9 @@ export default {
     module: {
         rules: [
             {
-                test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env'],
-                    },
-                },
+                test: /\.js$/,
+                include: path.resolve(__dirname, 'src'),
+                loader: 'babel-loader',
             },
         ],
     },
@@ -94,10 +89,20 @@ export default {
         // }),
         new FileManagerPlugin({
             events: {
-                onStart: {},
+                onStart: {
+                    delete: [
+                        paths.dist,
+                        {
+                            source: paths.public,
+                            options: {
+                                force: true,
+                            },
+                        },
+                    ],
+                },
                 onEnd: {
                     copy: [
-                        { source: 'dist', destination: paths.public },
+                        { source: paths.dist, destination: paths.public },
                         // { source: 'src/data/borders.json', destination: '../data/geo/borders.json' },
                         // { source: 'src/data/states.json', destination: '../data/geo/states.json' },
                         { source: 'node_modules/leaflet/dist/images', destination: paths.cssImages },

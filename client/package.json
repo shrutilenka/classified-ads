@@ -46,7 +46,6 @@
   "devDependencies": {
     "@babel/core": "^7.18.6",
     "@babel/eslint-parser": "^7.18.2",
-    "@babel/preset-env": "^7.18.6",
     "@types/google.maps": "^3.49.2",
     "@types/leaflet.fullscreen": "^1.6.1",
     "@types/web": "0.0.68",
