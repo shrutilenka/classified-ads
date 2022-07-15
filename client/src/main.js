@@ -19,7 +19,7 @@
 
 // Browser loggings to let hints for different environments
 // on important events and actions.
-import '@popperjs/core';
+// import '@popperjs/core';
 import 'bootstrap/js/dist/dropdown.js';
 import 'bootstrap/js/dist/modal.js';
 import log from 'loglevel';
