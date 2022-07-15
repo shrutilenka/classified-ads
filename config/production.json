@@ -4,7 +4,7 @@
     "HEROKU": false,
     "PIPELINE_KEYWORDS_SECONDS": 86400,
     "MONGODB_URI": "mongodb://localhost:27017/{dbName}",
-    "REDIS_URI": "127.0.0.1",
+    "REDIS_URI": "redis:6379",
     "APIHost": "https://ns3027175.ip-188-165-209.eu/",
     "COOKIE_NAME": "classified-ads-login",
     "SMTP_OUTLOOK": {

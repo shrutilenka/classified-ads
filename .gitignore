@@ -187,8 +187,9 @@ data/wiki.multi.en.vec
 
 /build/*
 build/config.gypi
-host-db/data/
-host-db/data/*
+
+host-db/redis-data/
+host-db/mongo-data/
 client/node_modules
 
 /uploads/*
