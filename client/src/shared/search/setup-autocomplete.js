@@ -4,7 +4,7 @@
  *    input id="autoComplete"
  */
 import autoComplete from '@tarekraafat/autocomplete.js'
-import { consts } from '../../consts.js'
+import { consts } from '../../views/main/consts.js'
 
 export const setupAutoComplete = async () => {
     return new Promise(function (resolve, reject) {

@@ -2,11 +2,19 @@
   "name": "classified-ads-58-client",
   "version": "1.0.0",
   "description": "Not a standalone client. It only generates client scripts and styles that are served publicly",
-  "main": "src/index.js",
+  "source": [
+    "src/views/main/main.js",
+    "src/views/listings/listing.js",
+    "src/views/biglistings/biglists.js",
+    "src/views/skills/skills.js",
+    "src/views/tags/tags.js",
+    "src/views/weathervenue/weathervenue.js",
+    "src/views/easteregg/easteregg.js"
+  ],
   "type": "module",
   "scripts": {
     "dev:client": "webpack && sass src/style:../public/stylesheets",
-    "build:client": "webpack",
+    "build": "parcel build --dist-dir ../public/javascripts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -51,7 +59,9 @@
     "babel-loader": "^8.2.5",
     "dotenv-webpack": "^7.1.1",
     "filemanager-webpack-plugin": "^7.0.0",
+    "parcel": "^2.6.2",
     "prettier": "^2.7.1",
+    "process": "^0.11.10",
     "sass": "^1.53.0",
     "scss": "^0.2.4",
     "webpack": "^5.73.0",

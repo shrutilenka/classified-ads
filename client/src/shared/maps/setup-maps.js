@@ -1,7 +1,7 @@
 import L from 'leaflet'
 import { MarkerClusterGroup } from 'leaflet.markercluster'
-import { consts } from '../../consts.js'
 import { LIS } from '../../helpers/lis.js'
+import { consts } from '../../views/main/consts.js'
 import { delimitationsMap } from './create-maps/create-delimitations-map.js'
 import { gameMap } from './create-maps/create-game-map.js'
 import { geoSearchMap } from './create-maps/create-geo-search-map.js'

@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import 'leaflet.fullscreen'
+// import 'leaflet.fullscreen'
 import { onEachFeatureClosure } from './helpers/on-each-feature/on-each-feature.js'
 import { styleStatesClosure } from './helpers/style-states.js'
 import { country, geoJson } from './state.js'

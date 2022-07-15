@@ -1,5 +1,5 @@
 import Tagify from '@yaireo/tagify'
-import { consts } from '../../../consts.js'
+import { consts } from '../../../views/main/consts.js'
 import { transformTag } from './transform-tag.js'
 
 const TAG_SIZE = consts.tagSize
