@@ -1,6 +1,12 @@
 {
   "extends": "@parcel/config-default",
+  "transformers": {
+    "src/*.js": [
+      "@parcel/transformer-babel",
+      "@parcel/transformer-js"
+    ]
+  },
   "validators": {
-    "*.{js}": ["@parcel/validator-eslint"]
+    "src/*.js": ["@parcel/validator-eslint"]
   }
 }
