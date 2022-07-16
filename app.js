@@ -243,11 +243,11 @@ async function build(doRun) {
     fastify.register(wvRouter, { prefix: 'wv' })
 
     fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, 'static/images/'),
-        prefix: '/static/images/',
-        decorateReply: false,
-    })
+    // fastify.register(fastifyServe, {
+    //     root: path.join(__dirname, 'static/images/'),
+    //     prefix: '/static/images/',
+    //     decorateReply: false,
+    // })
     fastify.register(fastifyServe, {
         root: path.join(__dirname, 'other_apps/so-cards/'),
         prefix: '/u/',
