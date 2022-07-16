@@ -1,4 +1,4 @@
-import L from 'leaflet';
+// import L from 'leaflet';
 import { moveableMarker } from './helpers/marker/setup-marker.js';
 import { country } from './state.js';
 
@@ -14,6 +14,10 @@ let moveable
  */
 export function listingMap({ lat, lng, zoom, layerFactory }) {
     const coordinates = country.borders
+    var container = L.DomUtil.get('listing-map')
+    if (container != null) {
+        container._leaflet_id = null
+    }
     map = new L.Map('listing-map')
     map.name = 'listingMap'
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

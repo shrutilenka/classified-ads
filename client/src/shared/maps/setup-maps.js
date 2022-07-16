@@ -1,15 +1,15 @@
-import L from 'leaflet'
-import { MarkerClusterGroup } from 'leaflet.markercluster'
-import { LIS } from '../../helpers/lis.js'
-import { consts } from '../../views/main/consts.js'
-import { delimitationsMap } from './create-maps/create-delimitations-map.js'
-import { gameMap } from './create-maps/create-game-map.js'
-import { geoSearchMap } from './create-maps/create-geo-search-map.js'
-import { listingMap } from './create-maps/create-listing-map.js'
-import { listingsMap } from './create-maps/create-listings-map.js'
-import { getIcon } from './create-maps/helpers/marker/icon.js'
-import { tweakLeaflet } from './tweak-leaflet.js'
-
+import * as L from 'leaflet';
+import { MarkerClusterGroup } from 'leaflet.markercluster';
+import { LIS } from '../../helpers/lis.js';
+import { consts } from '../../views/main/consts.js';
+import { delimitationsMap } from './create-maps/create-delimitations-map.js';
+import { gameMap } from './create-maps/create-game-map.js';
+import { geoSearchMap } from './create-maps/create-geo-search-map.js';
+import { listingMap } from './create-maps/create-listing-map.js';
+import { listingsMap } from './create-maps/create-listings-map.js';
+import { getIcon } from './create-maps/helpers/marker/icon.js';
+import { tweakLeaflet } from './tweak-leaflet.js';
+window.L = L
 const __lat__ = window.__lat__
 const __lng__ = window.__lng__
 const __section__ = window.__section__
@@ -36,10 +36,9 @@ function updateCenter() {
 }
 
 const zoom = 8
-const addressPoints = window.__addressPoints__
+
 
 export const setupMaps = () => {
-    
     tweakLeaflet()
     const { lat, lng } = updateCenter()
     // Safe instantiate map container
@@ -57,6 +56,7 @@ export const setupMaps = () => {
     }
 
     function clusterFactory() {
+        const addressPoints = window.__addressPoints__ || []
         const colors = {
             donations: '#bd5912',
             skills: '#ec496f',
@@ -65,8 +65,8 @@ export const setupMaps = () => {
             hobbies: '#b2bd12',
         }
         const markers = new MarkerClusterGroup()
-        for (let i = 0; i < addressPoints.length; i++) {
-            const a = addressPoints[i]
+        for (let i = 0; i < window.__addressPoints__.length; i++) {
+            const a = window.__addressPoints__[i]
             const title = `<a href='${consts.APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}</a>`
             let marker
             if (a[4]) {
@@ -77,7 +77,7 @@ export const setupMaps = () => {
             }
 
             marker.bindPopup(title)
-            // markers.addLayer(marker)
+            markers.addLayer(marker)
         }
         return markers
     }

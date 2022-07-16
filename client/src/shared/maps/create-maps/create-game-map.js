@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+// import * as L from 'leaflet';
 import 'leaflet.fullscreen';
 import screenfull from 'screenfull';
 import { io } from 'socket.io-client';
@@ -46,6 +46,10 @@ const osmAttrib =
 export function gameMap({ lat, lng, layerFactory, zoom }) {
     const coordinates = country.borders
     const states = country.states
+    var container = L.DomUtil.get('game-map')
+    if (container != null) {
+        container._leaflet_id = null
+    }
     let map = new L.Map('game-map')
     map.name = 'gameMap'
     map.addLayer(layerFactory(osmUrl, osmAttrib, false))

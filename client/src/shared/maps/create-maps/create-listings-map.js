@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+// import * as L from 'leaflet';
 import 'leaflet.fullscreen';
 import screenfull from 'screenfull';
 import { country } from './state.js';
@@ -16,6 +16,10 @@ let moveable
  */
 export function listingsMap({ lat, lng, layerFactory, clusterFactory, zoom }) {
     const coordinates = country.borders
+    var container = L.DomUtil.get('listings-map')
+    if (container != null) {
+        container._leaflet_id = null
+    }
     map = new L.Map('listings-map')
     map.name = 'listingsMap'
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
