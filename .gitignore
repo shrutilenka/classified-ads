@@ -136,7 +136,7 @@ dist
 /client/package-lock.json
 
 # Heroku
-/public/javascripts
+/public/javascripts/**/
 /public/stylesheets/style.css
 /public/stylesheets/style.css.map
 
