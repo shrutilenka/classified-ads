@@ -11,9 +11,19 @@
     "src/views/weathervenue/weathervenue.js",
     "src/views/easteregg/easteregg.js"
   ],
+  "targets": {
+    "default": {
+      "engines": {
+        "browsers": "> 0.25%"
+      },
+      "distDir": "../public/javascripts/",
+      "publicUrl": ".",
+      "sourceMap": true
+    }
+  },
   "type": "module",
   "scripts": {
-    "build": "parcel build --dist-dir ../public/javascripts && sass src/style:../public/stylesheets",
+    "build": "find ../public/javascripts/ -type f -delete && parcel build && sass src/style:../public/stylesheets",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

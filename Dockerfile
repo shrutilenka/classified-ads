@@ -26,11 +26,10 @@ RUN npm i
 COPY . ./
 
 WORKDIR /classified-ads/client
-#COPY /client/package.json ./
-#RUN rm -rf /node_modules
-
+COPY /client/package.json ./
+RUN rm -rf /node_modules
 RUN npm i
-# RUN chmod -R a+rwx node_modules
+RUN rm -rf /.parcel-cache
 RUN npm run build
 
 WORKDIR /classified-ads
