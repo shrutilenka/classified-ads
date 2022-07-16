@@ -1,6 +1,8 @@
 import * as L from 'leaflet';
 import 'leaflet.fullscreen';
+import screenfull from 'screenfull';
 import { country } from './state.js';
+window.screenfull = screenfull;
 
 let map
 let circle

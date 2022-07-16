@@ -42,6 +42,7 @@
     "mixitup": "^3.3.1",
     "notyf": "^3.10.0",
     "pell": "^1.0.6",
+    "screenfull": "^6.0.2",
     "simple-lightbox": "^2.1.0",
     "socket.io-client": "^4.5.1",
     "svg-injector": "^1.1.3",

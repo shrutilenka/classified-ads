@@ -1,7 +1,9 @@
 import * as L from 'leaflet';
 import 'leaflet.fullscreen';
+import screenfull from 'screenfull';
 import { moveableMarker } from './helpers/marker/setup-marker.js';
 import { country } from './state.js';
+window.screenfull = screenfull;
 
 let map
 let circle

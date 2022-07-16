@@ -1,8 +1,10 @@
-import L from 'leaflet'
-import 'leaflet.fullscreen'
-import { onEachFeatureClosure } from './helpers/on-each-feature/on-each-feature.js'
-import { styleStatesClosure } from './helpers/style-states.js'
-import { country, geoJson } from './state.js'
+import L from 'leaflet';
+import 'leaflet.fullscreen';
+import screenfull from 'screenfull';
+import { onEachFeatureClosure } from './helpers/on-each-feature/on-each-feature.js';
+import { styleStatesClosure } from './helpers/style-states.js';
+import { country, geoJson } from './state.js';
+window.screenfull = screenfull;
 /**
  * create delimitations's Map
  */
