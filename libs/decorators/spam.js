@@ -1,4 +1,3 @@
-import dns from 'dns'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -67,6 +66,7 @@ for (let ip of ips) {
 function spamFilter(req, reply, done) {
     // TODO: req.socket ? does it work ?
     let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+    req.log.info(ip)
     if (ip.substr(0, 7) === '::ffff:') {
         ip = ip.substr(7)
     }
@@ -83,25 +83,26 @@ function spamFilter(req, reply, done) {
         reply.send({ msg: 'site is under maintenance' })
         return
     }
+    req.log.info(`${ip} bypassed`)
     // Honeypot
-    const reversedIp = ip.split('.').reverse().join('.')
-    dns.resolve4([process.env.HONEYPOT_KEY, reversedIp, 'dnsbl.httpbl.org'].join('.'), function (err, addresses) {
-        if (!addresses) {
-            done()
-            return
-        } else {
-            const _response = addresses.toString().split('.').map(Number)
-            // https://www.projecthoneypot.org/threat_info.php
-            const test = _response[0] === 127 && _response[2] > 50
-            if (test) {
-                reply.send({ msg: 'site is under maintenance' })
-                return
-            }
-            pushToBucket(whiteBucket, ip)
-            done()
-            return
-        }
-    })
+    // const reversedIp = ip.split('.').reverse().join('.')
+    // dns.resolve4([process.env.HONEYPOT_KEY, reversedIp, 'dnsbl.httpbl.org'].join('.'), function (err, addresses) {
+    //     if (!addresses) {
+    //         done()
+    //         return
+    //     } else {
+    //         const _response = addresses.toString().split('.').map(Number)
+    //         // https://www.projecthoneypot.org/threat_info.php
+    //         const test = _response[0] === 127 && _response[2] > 50
+    //         if (test) {
+    //             reply.send({ msg: 'site is under maintenance' })
+    //             return
+    //         }
+    //         pushToBucket(whiteBucket, ip)
+    //         done()
+    //         return
+    //     }
+    // })
     done()
 }
 
