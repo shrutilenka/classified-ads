@@ -66,7 +66,10 @@ for (let ip of ips) {
 function spamFilter(req, reply, done) {
     // TODO: req.socket ? does it work ?
     let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-    req.log.info(ip)
+    if (!ip) {
+        reply.send({ msg: 'site is under maintenance' })
+        return
+    }
     if (ip.substr(0, 7) === '::ffff:') {
         ip = ip.substr(7)
     }
