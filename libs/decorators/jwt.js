@@ -36,15 +36,15 @@ function verifyJWT(roles = []) {
 }
 
 // Soft verification does not block the page from viewing if user is not logged in !!!!
-async function softVerifyJWT(request, reply) {
+function softVerifyJWT(request, reply, done) {
     if (!request.cookies) return false
     const cookie = request.cookies[COOKIE_NAME]
     const verificationCallback = (err, data) => {
         if (err) {
-            return
+            return done()
         }
         request.params.username = data.username
-        return
+        return done()
     }
     jwt.verify(cookie, JWT_SECRET, verificationCallback)
 }

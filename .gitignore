@@ -192,3 +192,4 @@ client/node_modules
 
 /uploads/*
 !/uploads/.gitkeep
+docker/redis/tmp.conf

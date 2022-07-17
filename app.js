@@ -65,6 +65,24 @@ async function build(doRun) {
         keepAliveTimeout: 10000,
         requestTimeout: 5000,
     })
+    // TODO: SERVE STATIC CONTENT! LATER PREFERABLY ON A SEPARATE SERVER WITH PROPER PROTECTION
+    fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
+    // fastify.register(fastifyServe, {
+    //     root: path.join(__dirname, 'static/images/'),
+    //     prefix: '/static/images/',
+    //     decorateReply: false,
+    // })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, 'other_apps/so-cards/'),
+        prefix: '/u/',
+        decorateReply: false,
+    })
+    fastify.register(fastifyServe, {
+        root: path.join(__dirname, `static/pages/${config('DEPLOYMENT_NAME')}`),
+        prefix: '/static/pages/',
+        decorateReply: false,
+    })
+
     fastify.decorate('conf', (tag) => config(tag))
 
     fastify.register(fastifySchedule)
@@ -86,7 +104,7 @@ async function build(doRun) {
     // fastify.register(cors, require('./config/options/cors'))
     // fastify.register(fastifyCompress) // Compress all possible types > 1024o
     fastify.register(fastifyMongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
-    fastify.register(fastifyRedis, { host: 'redis', port: 6379})
+    fastify.register(fastifyRedis, { host: 'redis', port: 6379 })
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)
@@ -242,22 +260,6 @@ async function build(doRun) {
     // fastify.register(chatRouter, { prefix: 'chat' })
     fastify.register(wvRouter, { prefix: 'wv' })
 
-    fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
-    // fastify.register(fastifyServe, {
-    //     root: path.join(__dirname, 'static/images/'),
-    //     prefix: '/static/images/',
-    //     decorateReply: false,
-    // })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, 'other_apps/so-cards/'),
-        prefix: '/u/',
-        decorateReply: false,
-    })
-    fastify.register(fastifyServe, {
-        root: path.join(__dirname, `static/pages/${config('DEPLOYMENT_NAME')}`),
-        prefix: '/static/pages/',
-        decorateReply: false,
-    })
 
     /*********************************************************************************************** */
     // !!APP AND USER METRICS!!
