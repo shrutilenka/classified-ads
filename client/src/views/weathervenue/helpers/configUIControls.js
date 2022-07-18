@@ -69,7 +69,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
 
     const infoWindow = new state.google.maps.InfoWindow()
     const locationButton = document.createElement('button')
-    locationButton.textContent = go-to-current-location
+    locationButton.textContent = 'go-to-current-location'
     locationButton.classList.add('custom-map-control-button')
     locationButton.setAttribute('type', 'submit')
     state.map.controls[state.google.maps.ControlPosition.TOP_RIGHT].clear()

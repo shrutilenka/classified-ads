@@ -1,9 +1,13 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+
 export default {
     crossOriginEmbedderPolicy: false,
     crossOriginResourcePolicy: { policy: 'same-site' },
     contentSecurityPolicy: {
         directives: {
-            'default-src': ["'self'", 'cdn.jsdelivr.net', 'https://*.googleapis.com;'],
+            ...require('@fastify/helmet').contentSecurityPolicy.getDefaultDirectives(),
+            'default-src': ["'self'", 'cdn.jsdelivr.net', 'https://*.googleapis.com'],
             'script-src': [
                 "'self'",
                 "'unsafe-inline'",
@@ -13,7 +17,7 @@ export default {
                 'https://*.gstatic.com',
                 '*.google.com',
                 'https://*.ggpht.com',
-                '*.googleusercontent.com;',
+                '*.googleusercontent.com',
             ],
             'img-src': [
                 "'self'",
@@ -21,17 +25,18 @@ export default {
                 'https://*.gstatic.com',
                 '*.google.com',
                 '*.googleusercontent.com',
-                "'data:;'",
+                'openweathermap.org',
+                'data:',
             ],
-            'frame-src': ['*.google.com;'],
+            'frame-src': ['*.google.com'],
             'connect-src': [
                 "'self'",
                 'https://*.googleapis.com',
                 '*.google.com',
                 'https://*.gstatic.com',
-                "'data: blob:;'",
+                'data: blob:',
             ],
-            'font-src': ['https://fonts.gstatic.com;'],
+            'font-src': ['https://fonts.gstatic.com'],
             'style-src': ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'https://fonts.googleapis.com'],
         },
     },

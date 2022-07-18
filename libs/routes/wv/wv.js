@@ -1,12 +1,12 @@
 import pkg from 'cityjs'
 import S from 'fluent-json-schema'
-// import googleHelmet from '../../../config/options/googleHelmet.js'
+import googleHelmet from '../../../config/options/googleHelmet.js'
 import { fetchWeather, fetchWeather0, formatCities, messages } from '../../services/wv/helpers.js'
 const { nearestCities } = pkg
 
 async function routes(fastify, options) {
     const { redis } = fastify
-    fastify.get('/', { helmet: false }, function (req, reply) {
+    fastify.get('/', { helmet: googleHelmet }, function (req, reply) {
         reply.view('/templates/wv/index', {
             key: process.env.GOOGLE_MAPS_API_KEY,
             lang: 'en',
@@ -14,7 +14,7 @@ async function routes(fastify, options) {
         })
     })
 
-    fastify.get('/fr', { helmet: false }, function (req, reply) {
+    fastify.get('/fr', { helmet: googleHelmet }, function (req, reply) {
         reply.view('/templates/wv/index_fr', {
             key: process.env.GOOGLE_MAPS_API_KEY,
             lang: 'en',
@@ -22,7 +22,7 @@ async function routes(fastify, options) {
         })
     })
 
-    fastify.get('/ar', { helmet: false }, function (req, reply) {
+    fastify.get('/ar', { helmet: googleHelmet }, function (req, reply) {
         reply.view('/templates/wv/index_en', {
             key: process.env.GOOGLE_MAPS_API_KEY,
             lang: 'en',
@@ -30,7 +30,7 @@ async function routes(fastify, options) {
         })
     })
 
-    fastify.get('/weather_map_view', { helmet: false }, function (req, reply) {
+    fastify.get('/weather_map_view', { helmet: googleHelmet }, function (req, reply) {
         reply.view('/templates/wv/weather_map_view', {
             key: process.env.GOOGLE_MAPS_API_KEY,
         })
