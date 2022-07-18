@@ -6,9 +6,13 @@
  *    .col-sm (what to search, show and hide in case it matches)
  */
 import holmes from 'holmes.js'
+const __context__ = window.__context__
 
 export const setupHolmes = async () => {
     return new Promise(function (resolve, reject) {
+        if (['listings', 'alllistings', 'index'].indexOf(__context__) < 0) {
+            return resolve('### function "setupHolmes" ignored well')
+        }
         if (!document.querySelector('.row .card p')) {
             return resolve('### function "setupHolmes" ignored well')
         }

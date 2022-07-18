@@ -4,12 +4,14 @@
 import tippy from 'tippy.js'
 import { LIS } from '../../helpers/lis.js'
 import { share } from './share.js'
+const __context__ = window.__context__
+
 export const setupInteractiveListings = async () => {
     return new Promise(function (resolve, reject) {
         if (['listings', 'alllistings', 'index'].indexOf(__context__) < 0) {
             return resolve('### function "setupInteractiveListings" ignored well')
         }
-        if (!LIS.classExists(['card', 'card-body']) || !document.querySelector('.sharer')) {
+        if (!LIS.classExists(['card', 'card-body', 'sharer']) ) {
             return resolve('### function "setupInteractiveListings" ignored well')
         }
 

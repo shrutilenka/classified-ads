@@ -45,7 +45,7 @@ export const setupShared = () => {
         [runToasts, true],
         [setupFavorites, true],
         [setupInteractiveListings, false],
-        [setupInteractiveNotifications, true]
+        [setupInteractiveNotifications, true],
         [setupAdsRotator, false],
         [setupTour, false],
         [setupScrollBlink, true],
@@ -69,15 +69,9 @@ export const setupShared = () => {
         toArray(errors).forEach((error) => log.info(error.message))
     }
 
-    if (['development', 'localhost'].includes(process.env.NODE_ENV)) {
-        Promise.all(promises)
-            .then((results) => logPromises(results))
-            .catch((errors) => logErrors(errors))
-    } else {
-        Promise.allSettled(promises)
-            .then((results) => logPromises(results))
-            .catch((errors) => logErrors(errors))
-    }
+    Promise.all(promises)
+        .then((results) => logPromises(results))
+        .catch((errors) => logErrors(errors))
 
     // Other function calls that are not yet promisified
     // because I'm not sure yet what's asynchronous in there
@@ -93,7 +87,7 @@ export const setupShared = () => {
                     setupMaps()
                 })
         })
-    
+
     // TODO: review sockets
     // setupSocket()
     // Global objects
