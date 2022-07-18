@@ -63,6 +63,8 @@ for (let ip of ips) {
 
 // Two checks are performed, one is ultra-fast IP lookup against a local blacklist
 // The second hits 'projecthoneypot.org' API
+const v4 = '(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}'
+const v4exact = new RegExp(`^${v4}$`)
 function spamFilter(req, reply, done) {
     // TODO: req.socket ? does it work ?
     let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
@@ -77,16 +79,22 @@ function spamFilter(req, reply, done) {
         done()
         return
     }
+    if (!v4exact.test(ip)) {
+        req.log.info(`${ip} strange`)
+        reply.send({ msg: 'site is under maintenance' })
+        return
+    }
     if (isIn(whiteBucket, ip)) {
         done()
         return
     }
     // Fast in-memory black list lookup
     if (isIn(blackBucket, ip)) {
+        req.log.info(`${ip} blacklist`)
         reply.send({ msg: 'site is under maintenance' })
         return
     }
-    req.log.info(`${ip} bypassed`)
+    
     // Honeypot
     // const reversedIp = ip.split('.').reverse().join('.')
     // dns.resolve4([process.env.HONEYPOT_KEY, reversedIp, 'dnsbl.httpbl.org'].join('.'), function (err, addresses) {
