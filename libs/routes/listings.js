@@ -295,7 +295,8 @@ async function routes(fastify, options, next) {
                 to: receiver,
                 from: req.params.username,
                 sent: new Date(),
-                thread: body.id,
+                threadId: body.id,
+                thread: elem.title.slice(0, 20) + '...',
                 message: body.message,
             }
             const [errr, acknowledged] = await to(QInstance.insertComment(message))

@@ -74,8 +74,8 @@ export default function (mongoDB, redisDB) {
      * @return {Promise}
      */
     this.insertComment = async function (elem) {
-        console.log('inserting')
-        console.log(elem)
+        // console.log('inserting')
+        // console.log(elem)
         let comment
         collection = mongoDB.collection('comment')
         comment = new Comment(elem)
@@ -320,10 +320,11 @@ export default function (mongoDB, redisDB) {
         collection = mongoDB.collection('comment')
         const query = { $or: [{ from: user }, { to: user }] }
         const projection = {}
-        const sort = [['thread', 1], ['sent', 1]]
+        const sort = [['threadId', 1], ['sent', 1]]
         // from: String,
         // to: String,
         // sent: Date,
+        // threadId: String,
         // thread: String,
         // message: String,
         const tmp = await collection.find(query).project(projection).sort(sort).toArray()

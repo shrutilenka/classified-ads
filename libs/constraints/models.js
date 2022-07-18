@@ -79,10 +79,11 @@ const Comment = new ObjectModel({
     to: String,
     sent: Date,
     thread: String,
+    threadId: String,
     message: String,
 })
     .assert((c) => c.from !== c.to, 'comment to someone else')
-    .assert((c) => ObjectId.isValid(c.thread), 'thread Id is not a valid Mongo Id')
+    .assert((c) => ObjectId.isValid(c.threadId), 'thread Id is not a valid Mongo Id')
 
 const User = new ObjectModel({
     username: String,
