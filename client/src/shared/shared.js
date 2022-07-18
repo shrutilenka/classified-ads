@@ -3,7 +3,8 @@ import { setupTour } from './accessibility/setupTour.js'
 import { setupAdsRotator } from './ads/setup-ads-rotator.js'
 import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords.js'
 import { setupUndrawKeywords } from './auto-complete/setup-undraw-keywords.js'
-import { setupInteractiveCards } from './cards/setup-interactive-cards.js'
+import { setupInteractiveListings } from './cards/setup-interactive-listings.js'
+import { setupInteractiveNotifications } from './cards/setup-interactive-notifications.js'
 import { setupSadFace } from './collaboration/setup-sad-face.js'
 import { setupPell } from './editor/setup-pell.js'
 import { setupFavorites } from './favorites/favorites.js'
@@ -43,7 +44,8 @@ export const setupShared = () => {
         [setupUndrawKeywords, true],
         [runToasts, true],
         [setupFavorites, true],
-        [setupInteractiveCards, false],
+        [setupInteractiveListings, false],
+        [setupInteractiveNotifications, true]
         [setupAdsRotator, false],
         [setupTour, false],
         [setupScrollBlink, true],

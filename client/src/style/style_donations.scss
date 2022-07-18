@@ -224,6 +224,11 @@ li.external {
     opacity: 0.7;
 }
 
+.modal-backdrop {
+    z-index: 20;
+}
+
+
 /* The Modal (background) */
 
 .modal {
@@ -231,7 +236,7 @@ li.external {
     /* Hidden by default */
     position: fixed;
     /* Stay in place */
-    z-index: 100;
+    z-index: 20;
     /* Sit on top */
     padding-top: 100px;
     /* Location of the box */

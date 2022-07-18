@@ -35,6 +35,7 @@ async function routes(fastify, options) {
         const { page, perPage } = req.pagination
         const data = {
             listings: listings.documents,
+            context: 'index',
             current: page,
             pages: Math.ceil(listings.count / perPage),
             addressPoints: [],

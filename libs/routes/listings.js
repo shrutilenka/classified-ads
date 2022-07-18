@@ -408,6 +408,7 @@ async function routes(fastify, options, next) {
             title: 'Your listings',
             intro: 'Classified advertising brought to the web',
             listings: listings,
+            context: 'alllistings',
             success: 'Yep, we got some :)',
             toFocus: req.params.id,
         })

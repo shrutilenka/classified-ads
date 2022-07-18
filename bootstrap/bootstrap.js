@@ -80,13 +80,7 @@ function getRandomInRange(from, to, fixed) {
 
 function fakeItems(docsCount) {
     for (let i = 0; i < docsCount; i++) {
-        let email
-        if (i < 10) {
-            email = 'bacloud14@gmail.com'
-        }
-        if (i < 20 && i > 10) {
-            email = 'sracer2016@yahoo.com'
-        }
+
         const randomLang = langs[Math.floor(Math.random() * langs.length)]
         const item = langsFaker[randomLang].jsf.generate(schema)
         item.tagsLang = item.lang = randomLang
@@ -103,6 +97,15 @@ function fakeItems(docsCount) {
         item.geolocation = {
             type: 'Point',
             coordinates: [item.lng, item.lat],
+        }
+        let email
+        if (i < 10) {
+            email = 'bacloud14@gmail.com'
+            item.d = false
+            item.a = true
+        }
+        if (i < 20 && i > 10) {
+            email = 'sracer2016@yahoo.com'
         }
         item.usr = email || item.usr
         items.push(item)

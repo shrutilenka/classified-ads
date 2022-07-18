@@ -4,10 +4,13 @@
 import tippy from 'tippy.js'
 import { LIS } from '../../helpers/lis.js'
 import { share } from './share.js'
-export const setupInteractiveCards = async () => {
+export const setupInteractiveListings = async () => {
     return new Promise(function (resolve, reject) {
-        if (!LIS.classExists(['card', 'card-body'])) {
-            return resolve('### function "setupInteractiveCards" ignored well')
+        if (['listings', 'alllistings', 'index'].indexOf(__context__) < 0) {
+            return resolve('### function "setupInteractiveListings" ignored well')
+        }
+        if (!LIS.classExists(['card', 'card-body']) || !document.querySelector('.sharer')) {
+            return resolve('### function "setupInteractiveListings" ignored well')
         }
 
         try {
@@ -22,10 +25,9 @@ export const setupInteractiveCards = async () => {
                     item = e.target
                 share(item)
             })
-            return resolve('### function "setupInteractiveCards" run successfully')
+            return resolve('### function "setupInteractiveListings" run successfully')
         } catch (error) {
-            console.log(error.message)
-            return reject(new Error('### function "setupInteractiveCards" failed'))
+            return reject(new Error('### function "setupInteractiveListings" failed'))
         }
     })
 }
