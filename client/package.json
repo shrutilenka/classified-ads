@@ -51,6 +51,7 @@
     "loglevel": "^1.8.0",
     "mixitup": "^3.3.1",
     "notyf": "^3.10.0",
+    "pbf": "^3.2.1",
     "pell": "^1.0.6",
     "screenfull": "^6.0.2",
     "simple-lightbox": "^2.1.0",
@@ -69,7 +70,6 @@
     "sass": "^1.53.0",
     "scss": "^0.2.4"
   },
-  "optionalDependencies": {},
   "keywords": [
     "javascript",
     "leaflet",

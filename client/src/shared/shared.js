@@ -1,4 +1,5 @@
 import InApp from 'detect-inapp'
+import Pbf from 'pbf'
 import { setupTour } from './accessibility/setupTour.js'
 import { setupAdsRotator } from './ads/setup-ads-rotator.js'
 import { setupDelimitationsKeywords } from './auto-complete/setup-delimitations-keywords.js'
@@ -20,7 +21,6 @@ import { setupHolmes } from './search/setup-holmes.js'
 import { renderShared } from './syncing/render-json.js'
 import { setupInputTags } from './tags/setup-input-tags.js'
 import { runToasts } from './toasts/toasts.js'
-
 /**
  * Fulfill promises on phone all other devices
  * Also crushes if one or all fail depending on environment
@@ -75,14 +75,16 @@ export const setupShared = () => {
 
     // Other function calls that are not yet promisified
     // because I'm not sure yet what's asynchronous in there
-    fetch(process.env.STATES_FILE_URL)
-        .then((response) => response.json())
-        .then((data) => {
-            country.states = data
-            fetch(process.env.BORDERS_FILE_URL)
-                .then((response) => response.json())
-                .then((data) => {
-                    country.borders = data.features[0].geometry.geometries[0].coordinates
+    fetch('/geo/states.min.pbf')
+        .then((response) => response.arrayBuffer())
+        .then((buffer) => {
+            const json = window.geobuf.decode(new Pbf(buffer))
+            country.states = json;
+            fetch('/geo/simple_fr.pbf')
+                .then((response) => response.arrayBuffer())
+                .then((buffer) => {
+                    const json = window.geobuf.decode(new Pbf(buffer))
+                    country.borders = json.features[0].geometry.geometries[0].coordinates
                     setupDelimitationsKeywords()
                     setupMaps()
                 })
