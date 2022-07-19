@@ -48,7 +48,8 @@ services:
 
   caddy:
       container_name: caddy-service
-      image: caddy/caddy:2.5.1-alpine
+      build:
+        context: ./docker/caddy/
       restart: unless-stopped
       ports:
         - "80:80"
