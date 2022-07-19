@@ -3,8 +3,15 @@
 }
 
 ns3027175.ip-188-165-209.eu {
+	@mygeofilter {
+		maxmind_geolocation {
+			db_path "/srv/data/raw/maxmind/GeoLite2-Country.mmdb"
+			deny_countries RU CN UNK
+		}
+  	}
+
 	# import ./referral-spam.caddy
-	reverse_proxy classified-ads:3000
+	reverse_proxy @mygeofilter classified-ads:3000
 
 	log {
 		output file /var/log/caddy/classifieds.ads-access.log {
