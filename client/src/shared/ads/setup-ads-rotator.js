@@ -7,12 +7,17 @@ import { checkPolicy } from './helpers/adsPolicy.js'
 import { noAds } from './state.js'
 export const setupAdsRotator = async () => {
     return new Promise(function (resolve, reject) {
-        checkPolicy()
-        if (!LIS.id('footer_ads') || noAds.choice) {
+        try {
+            checkPolicy()
+        } catch (error) {
+            console.log(error.message)
+            return reject(new Error('### function "setupAdsRotator" failed'))
+        }
+        
+        if (!LIS.id('footer_ads') || noAds.choice || !noAds.urls) {
             return resolve('### function "setupAdsRotator" ignored well')
         }
         try {
-            
             const instance = rotator(
                 LIS.id('footer_ads'), // a DOM element
                 noAds.urls
