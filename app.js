@@ -238,6 +238,14 @@ async function build(doRun) {
         ar: require('ajv-i18n/localize/ar'),
         fr: require('ajv-i18n/localize/fr'),
     }
+    
+    fastify.setErrorHandler(function (error, request, reply) {
+        if (reply.statusCode === 429) {
+          error.message = 'You hit the rate limit! Slow down please!'
+        }
+        reply.send(error)
+      })
+
     // fastify.setErrorHandler(function (error, request, reply) {
     //     if (error.validation) {
     //         localize[request.cookies.locale || 'en'](error.validation)

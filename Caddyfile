@@ -5,4 +5,13 @@
 ns3027175.ip-188-165-209.eu {
 	# import ./referral-spam.caddy
 	reverse_proxy classified-ads:3000
+
+	log {
+		output file /var/log/caddy/classifieds.ads-access.log {
+			roll_size 10mb
+			roll_keep 20
+			roll_keep_for 720h
+		}
+		format single_field common_log
+  	}
 }
