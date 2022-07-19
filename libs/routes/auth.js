@@ -17,11 +17,13 @@ async function routes(fastify, options) {
 
     const QInstance = new queries(db, redis)
     let { auth, adminAuth, softAuth } = authAdapter(fastify)
-
+    
+    const dbName = 'listings_db'
     const JWT_SECRET = process.env.JWT_SECRET
     const COOKIE_NAME = config('COOKIE_NAME')
+    const mongoURL = config('MONGODB_URI', { dbName })
     const loginSchema = constraints[process.env.NODE_ENV].POST.login.schema
-
+    
     // const mailer = Mailer.getInstance(null)
     fastify.decorateReply('blabla', blabla)
 
@@ -140,7 +142,7 @@ async function routes(fastify, options) {
                         })
                     })
                     .catch((err) => {
-                        req.log.error(`signup/Mailer: ${err.message}`)
+                        request.log.error(`signup/Mailer: ${err.message}`)
                     })
 
                 await QInstance.insertTmpUser(tempUser)
@@ -148,7 +150,7 @@ async function routes(fastify, options) {
                 return
             }
         } catch (err) {
-            req.log.error(`signup: ${err.message}`)
+            request.log.error(`signup: ${err.message}`)
             reply.blabla([{}, 'signup', 'SERVER_ERROR'], request)
             return
         }

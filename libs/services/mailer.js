@@ -13,8 +13,6 @@ const NODE_ENV = {
 class MailerOps {
     constructor(db) {
         const transports = []
-        // Mailhog SMTP
-        transports.push(nodemailer.createTransport(config('SMTP_MAILHOG')))
         // Outlook Apps SMTP
         transports.push(nodemailer.createTransport(config('SMTP_OUTLOOK')))
         const mailQueue = new MailTime({
@@ -64,7 +62,7 @@ class MailerOps {
                 if (err) {
                     req.log.error(err.message)
                 } else {
-                    // console.log(info)
+                    req.log.error(`Email sent: ${to}`)
                 }
             })
         }
