@@ -14,9 +14,9 @@ export const setupInteractiveNotifications = async () => {
         }
 
         try {
-            const threads = Array.from(document.getElementsByClassName('notifications')[0].children).map(
-                (node) => node.classList[node.classList.length - 1],
-            )
+            const threads = Array.from(document.getElementsByClassName('notifications')[0].children)
+                .filter((node) => node.classList.contains('thread'))
+                .map((node) => node.classList[node.classList.length - 1])
             console.log(threads)
             return resolve('### function "setupInteractiveNotifications" run successfully')
         } catch (error) {

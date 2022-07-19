@@ -30,7 +30,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
         state.map.controls[state.google.maps.ControlPosition.TOP_LEFT].push(sliderForm)
     }
     slider.oninput = function () {
-        LIS.id('rangeval').innerHTML = day-slider-value
+        LIS.id('rangeval').innerHTML = `Day ${slider.value}`
         moving = populateHeatMap(slider.value - 1)
         if (!moving) {
             slider.value = 1
@@ -69,7 +69,7 @@ function __class (cls) { return document.getElementsByClassName(cls) }
 
     const infoWindow = new state.google.maps.InfoWindow()
     const locationButton = document.createElement('button')
-    locationButton.textContent = 'go-to-current-location'
+    locationButton.textContent = 'Go to Current Location'
     locationButton.classList.add('custom-map-control-button')
     locationButton.setAttribute('type', 'submit')
     state.map.controls[state.google.maps.ControlPosition.TOP_RIGHT].clear()

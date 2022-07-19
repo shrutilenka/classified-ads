@@ -66,7 +66,7 @@ export const setupShared = () => {
     }
     const logErrors = (errors) => {
         log.info('Logging failed promises')
-        toArray(errors).forEach((error) => log.info(error.message))
+        toArray(errors).forEach((error) => log.info(error))
     }
 
     Promise.all(promises)
