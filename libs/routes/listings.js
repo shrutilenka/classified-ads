@@ -13,6 +13,7 @@ import { crypto, ops as helpers } from '../services/helpers.js'
 import queries from '../services/mongo.js'
 import { stringTransformer } from '../services/pipeLine.js'
 
+// TODO: rethink validation errors: 'request.validationError'
 const NODE_ENV = {
     api: -1,
     localhost: 0,
@@ -262,15 +263,20 @@ async function routes(fastify, options, next) {
     fastify.post('/events', { preHandler: auth }, handler)
     fastify.post('/hobbies', { preHandler: [auth, upload] }, handler)
 
-    // const geolocationSchema = constraints[process.env.NODE_ENV].POST.queryGeolocation.schema
+    const messageSchema = constraints[process.env.NODE_ENV].POST.messageSchema.schema
     /* Query listings withing a geo-point and radius */
     fastify.post(
         '/sendmessage',
         {
-            // schema: geolocationSchema,
+            schema: messageSchema,
             preHandler: auth,
+            attachValidation: true
         },
         async (req, reply) => {
+            // if (request.validationError) {
+            //     reply.blabla([{}, 'reset', 'MESSAGE_ERROR'], request)
+            //     return reply
+            // }
             const { body } = req
             const hex = /[0-9A-Fa-f]{6}/g
             let receiver = crypto.decrypt(key, body.email)

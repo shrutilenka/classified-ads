@@ -32,20 +32,19 @@ const signupSchema = {
     body: signup,
 }
 
-const reset = S.object()
-    .prop('password', S.string().minLength(8).maxLength(40))
-    .required(['username', 'password'])
+const reset = S.object().prop('password', S.string().minLength(8).maxLength(40)).required(['username', 'password'])
 const resetSchema = {
     body: reset,
 }
 
-
 const gwoogl = S.object()
-    .prop('title_desc', S.string().minLength(3).maxLength(100)).required()
+    .prop('title_desc', S.string().minLength(3).maxLength(100))
+    .required()
     .prop('exact', S.boolean().default(false))
     .prop('div_q', S.string().minLength(3).maxLength(40).default('und'))
     .prop('since', S.string().format(S.FORMATS.DATE))
-    .prop('section', S.string().enum(['donations', 'skills', 'hobbies', 'events', 'blogs'])).required()
+    .prop('section', S.string().enum(['donations', 'skills', 'hobbies', 'events', 'blogs']))
+    .required()
 const gwooglSchema = {
     body: gwoogl,
 }
@@ -148,9 +147,12 @@ const eventsSchema = () => {
     }
 }
 
-const comment = S.object().prop('message', S.string().minLength(20).maxLength(200).required())
-const commentSchema = {
-    body: comment,
+const message = S.object()
+    .prop('message', S.string().minLength(20).maxLength(200).required())
+    .prop('username', S.string().format(S.FORMATS.EMAIL))
+    .prop('id', '')
+const messageSchema = {
+    body: message,
 }
 
 /*
@@ -264,8 +266,8 @@ const constraints = {
                 illustrations: false,
                 schema: eventsSchema,
             },
-            comment: {
-                schema: commentSchema,
+            message: {
+                schema: messageSchema,
             },
         },
     },
@@ -358,8 +360,8 @@ const constraints = {
                 illustrations: false,
                 schema: eventsSchema,
             },
-            comment: {
-                schema: commentSchema,
+            message: {
+                schema: messageSchema,
             },
         },
     },
@@ -448,8 +450,8 @@ const constraints = {
                 illustrations: false,
                 schema: eventsSchema,
             },
-            comment: {
-                schema: commentSchema,
+            message: {
+                schema: messageSchema,
             },
         },
     },
@@ -538,8 +540,8 @@ const constraints = {
                 illustrations: false,
                 schema: eventsSchema,
             },
-            comment: {
-                schema: commentSchema,
+            message: {
+                schema: messageSchema,
             },
         },
     },
