@@ -13,6 +13,10 @@ export function renderTopSearches() {
     fetch(`/top/searches`)
         .then((response) => response.json())
         .then((data) => {
+            // empty array from server (because no data or because of an error)
+            if (!data) {
+                return
+            }
             const html = window.ejs.render(topSearchesTemplate, { tags: data })
             topSearches.innerHTML = html
         })
@@ -50,6 +54,10 @@ export function renderTopTags(section) {
     fetch(`/top/tags`)
         .then((response) => response.json())
         .then((data) => {
+            // empty array from server (because no data or because of an error)
+            if (!data) {
+                return
+            }
             const html = window.ejs.render(topTagsTemplate, { tags: data[section] })
             topTags.innerHTML = html
         })
@@ -68,6 +76,10 @@ export function renderTopByDiv() {
     fetch(`/top/div`)
         .then((response) => response.json())
         .then((data) => {
+            // empty array from server (because no data or because of an error)
+            if (!data) {
+                return
+            }
             const html = window.ejs.render(topDivsTemplate, { tags: data })
             topTags.innerHTML = html
         })

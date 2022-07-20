@@ -234,12 +234,14 @@ export default (fastify) => {
                             })
                             .catch((err) => {
                                 req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
-                                return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                                return reply
                             })
                     })
                     .catch((err) => {
                         req.log.error(`formatNInsertListing#upload: ${err.message}`)
-                        return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                        reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                        return reply
                     })
             }
         }

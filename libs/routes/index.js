@@ -30,7 +30,8 @@ async function routes(fastify, options) {
         const [err, listings] = await to(QInstance.getListingsSince(20, '', req.pagination))
         if (err) {
             req.log.error(`index#getListingsSince: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const { page, perPage } = req.pagination
         const data = {
@@ -60,7 +61,8 @@ async function routes(fastify, options) {
         const [err, listings] = await to(QInstance.getListingsByTag(tag, 'origin', req.pagination))
         if (err) {
             req.log.error(`index/tag#getListingsByTag: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const { page, perPage } = req.pagination
         const data = {
@@ -78,7 +80,8 @@ async function routes(fastify, options) {
         const [err, listings] = await to(QInstance.getListingsByTag(tag, 'parent', req.pagination))
         if (err) {
             req.log.error(`index/tag/parent#getListingsByTag: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const { page, perPage } = req.pagination
         const data = {
@@ -96,7 +99,8 @@ async function routes(fastify, options) {
         const [err, listings] = await to(QInstance.getListingsByTag(tag, 'granpa', req.pagination))
         if (err) {
             req.log.error(`index/tag/granpa#getListingsByTag: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const { page, perPage } = req.pagination
         const data = {
@@ -114,7 +118,8 @@ async function routes(fastify, options) {
         const [err, listings] = await to(QInstance.getListingsByDivision(division, req.pagination))
         if (err) {
             req.log.error(`index/division#getListingsByDivision: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const { page, perPage } = req.pagination
         const data = {
@@ -132,7 +137,8 @@ async function routes(fastify, options) {
         const [err, listings] = await to(QInstance.getListingsByKeyword(keyword, req.pagination))
         if (err) {
             req.log.error(`index/keyword#getListingsByKeyword: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const { page, perPage } = req.pagination
         const data = {
@@ -151,7 +157,9 @@ async function routes(fastify, options) {
         const [err, keywords] = await to(QInstance.autocomplete(keyword))
         if (err) {
             req.log.error(`index/autocomplete#autocomplete: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return []
+            // reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            // return reply
         }
         return keywords
     })
@@ -161,7 +169,9 @@ async function routes(fastify, options) {
         const [err, topTags] = await to(QInstance.topTags())
         if (err) {
             req.log.error(`index/top#topTags: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return []
+            // reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            // return reply
         }
         return topTags
     })
@@ -171,7 +181,9 @@ async function routes(fastify, options) {
         const [err, topTags] = await to(QInstance.topByDivision())
         if (err) {
             req.log.error(`index/top/div#topByDivision: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return []
+            // reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            // return reply
         }
         return topTags
     })
@@ -182,7 +194,9 @@ async function routes(fastify, options) {
         const [err, topTags] = await to(QInstance.topByParentTag())
         if (err) {
             req.log.error(`index/top/parent#topByParentTag: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return []
+            // reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            // return reply
         }
         return topTags
     })
@@ -192,7 +206,9 @@ async function routes(fastify, options) {
         const [err, topTags] = await to(QInstance.topByGranpaTag)
         if (err) {
             req.log.error(`index/top/granpa#topByGranpaTag: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return []
+            // reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            // return reply
         }
         return topTags
     })

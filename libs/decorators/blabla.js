@@ -53,7 +53,6 @@ export default function blabla(context) {
     const routeC = constraints[process.env.NODE_ENV].GET[route]
     const UXConstraints = routeC ? { UXConstraints: routeC } : {}
     const data = { ...userFriendlyMsg, ...UXConstraints }
-
     // Send JSON for API env
     if (NODE_ENV == -1) {
         this.send(context[0])

@@ -17,13 +17,13 @@ async function routes(fastify, options) {
 
     const QInstance = new queries(db, redis)
     let { auth, adminAuth, softAuth } = authAdapter(fastify)
-    
+
     const dbName = 'listings_db'
     const JWT_SECRET = process.env.JWT_SECRET
     const COOKIE_NAME = config('COOKIE_NAME')
     const mongoURL = config('MONGODB_URI', { dbName })
     const loginSchema = constraints[process.env.NODE_ENV].POST.login.schema
-    
+
     // const mailer = Mailer.getInstance(null)
     fastify.decorateReply('blabla', blabla)
 
@@ -52,38 +52,39 @@ async function routes(fastify, options) {
     fastify.post('/login', { schema: loginSchema, attachValidation: true }, async function (request, reply) {
         if (request.validationError) {
             reply.blabla([{}, 'login', 'VALIDATION_ERROR'], request)
+            return reply
         }
         const { username, password } = request.body
         const user = await QInstance.getUserById(username)
         if (!user) {
             reply.blabla([{}, 'login', 'INCORRECT_CREDENTIALS'], request)
-            return
+            return reply
         }
         try {
             const isMatch = await bcrypt.compare(password, user.passhash)
             if (!isMatch) {
                 reply.blabla([{}, 'login', 'INCORRECT_CREDENTIALS'], request)
-                return
+                return reply
             } else if (!user.isVerified) {
                 reply.blabla([{}, 'login', 'USER_UNVERIFIED'], request)
-                return
+                return reply
             } else {
                 const token = jwt.sign({ username: username, role: user.role }, JWT_SECRET)
                 reply.setCookie(COOKIE_NAME, token)
                 // this.user = username
                 if (request.headers.referer) {
                     reply.redirect(request.headers.referer)
-                    return
+                    return reply
                 } else {
                     request.flash('success', 'Successfully logged in')
                     reply.redirect('/')
-                    return
+                    return reply
                 }
             }
         } catch (err) {
             console.error(err)
             reply.blabla([{}, 'login', 'SERVER_ERROR'], request)
-            return
+            return reply
         }
     })
 
@@ -91,7 +92,7 @@ async function routes(fastify, options) {
     fastify.post('/signup', { schema: signupSchema, attachValidation: true }, async function (request, reply) {
         if (request.validationError) {
             reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
-            return
+            return reply
         }
         const { username, password } = request.body
         // Always 'regular' by default (except user@mail.com for tests)
@@ -101,11 +102,11 @@ async function routes(fastify, options) {
             const user = await QInstance.getUserById(username)
             if (user) {
                 reply.blabla([{}, 'signup', 'EMAIL_TAKEN'], request)
-                return
+                return reply
                 // throw { statusCode: 400, message: 'EMAIL_TAKEN' }
             } else if (helpers.isBadEmail(username)) {
                 reply.blabla([{}, 'signup', 'BAD_EMAIL'], request)
-                return
+                return reply
             } else {
                 let passhash = await bcrypt.hash(password, 10)
                 // Temporary user to be able to verify property of identity (email)
@@ -123,36 +124,30 @@ async function routes(fastify, options) {
                         role,
                     }),
                 )
-                if (err) return reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
+                if (err) {
+                    reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
+                    return reply
+                }
 
                 if (role === 'admin') {
                     reply.redirect('/')
-                    return
+                    return reply
                 }
-                Mailer.getInstance(mongoURL, dbName)
-                    .then((mailer) => {
-                        mailer.sendMail({
-                            to: username,
-                            todo: 'signup',
-                            req: request,
-                            data: {
-                                token: tempUser.token,
-                                host: config('APIHost'),
-                            },
-                        })
-                    })
-                    .catch((err) => {
-                        request.log.error(`signup/Mailer: ${err.message}`)
-                    })
-
+                const mailer = await Mailer.getInstance(mongoURL, dbName)
+                mailer.sendMail({
+                    to: username,
+                    todo: 'signup',
+                    req: request,
+                    data: { token: tempUser.token, host: config('APIHost') },
+                })
                 await QInstance.insertTmpUser(tempUser)
                 reply.blabla([{}, 'message', 'verification'], request)
-                return
+                return reply
             }
         } catch (err) {
             request.log.error(`signup: ${err.message}`)
             reply.blabla([{}, 'signup', 'SERVER_ERROR'], request)
-            return
+            return reply
         }
     })
 
@@ -183,7 +178,7 @@ async function routes(fastify, options) {
         async function (request, reply) {
             if (request.validationError) {
                 reply.blabla([{}, 'reset', 'VALIDATION_ERROR'], request)
-                return
+                return reply
             }
             const currentUser = req.params.username
             const { password } = request.body
@@ -191,20 +186,23 @@ async function routes(fastify, options) {
             // This must never happen really
             if (!user) {
                 reply.blabla([{}, 'reset', 'SERVER_ERROR'], request)
-                return
+                return reply
             }
             try {
                 let passhash = await bcrypt.hash(password, 10)
                 user.passhash = passhash
                 const [err, acknowledged] = await to(QInstance.updateUser(user))
-                if (err) return reply.blabla([{}, 'reset', 'VALIDATION_ERROR'], request)
+                if (err) {
+                    reply.blabla([{}, 'reset', 'VALIDATION_ERROR'], request)
+                    return reply
+                }
                 request.flash('success', 'Successfully updated password')
                 reply.redirect('/')
-                return
+                return reply
             } catch (err) {
                 req.log.error(`reset: ${err.message}`)
                 reply.blabla([{}, 'reset', 'SERVER_ERROR'], request)
-                return
+                return reply
             }
         },
     )

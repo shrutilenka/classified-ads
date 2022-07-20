@@ -55,7 +55,10 @@ async function routes(fastify, options, next) {
     const getSectionHandler = async (req, reply) => {
         const section = req.url.split('/')[2].split('?')[0]
         const [err, listings] = await to(QInstance.getListingsSince(100, section, req.pagination))
-        if (err) return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+        if (err) {
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
+        }
         const { page, perPage } = req.pagination
         const data = {
             section: section,
@@ -86,10 +89,14 @@ async function routes(fastify, options, next) {
         const [err, elem] = hex.test(req.params.id)
             ? await to(QInstance.getListingById(req.params.id, false, viewer))
             : ['NOT_FOUND', undefined]
-        if (err === 'NOT_FOUND' || !elem) return reply.blabla([{}, 'message', 'NOT_FOUND'], req)
+        if (err === 'NOT_FOUND' || !elem) {
+            reply.blabla([{}, 'message', 'NOT_FOUND'], req)
+            return reply
+        }
         if (err) {
             req.log.error(`get/id#getListingById: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         let data = {}
         const author = elem.usr
@@ -205,7 +212,8 @@ async function routes(fastify, options, next) {
             )
             if (err) {
                 req.log.error(`gwoogl#gwoogl: ${err.message}`)
-                return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                return reply
             }
             const data = {
                 section: body.section,
@@ -231,7 +239,8 @@ async function routes(fastify, options, next) {
             let [err, listings] = await to(QInstance.getListingsByGeolocation(body.lat, body.lng, body.section))
             if (err) {
                 req.log.error(`geolocation#getListingsByGeolocation: ${err.message}`)
-                return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                return reply
             }
             const data = {
                 section: body.section,
@@ -270,7 +279,8 @@ async function routes(fastify, options, next) {
                 : ['NOT_FOUND', undefined]
             if (err) {
                 req.log.error(`post/sendmessage#getListingById: ${err.message}`)
-                return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                return reply
             }
             if (!elem) {
                 reply.send({ boom: ':(' })
@@ -302,7 +312,8 @@ async function routes(fastify, options, next) {
             const [errr, acknowledged] = await to(QInstance.insertComment(message))
             if (errr) {
                 req.log.error(`post/sendmessage#getListingById: ${errr.message}`)
-                return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                return reply
             }
             reply.blabla([{ data: elem }, 'listing', 'contact'], req)
             return reply
@@ -319,7 +330,8 @@ async function routes(fastify, options, next) {
             : ['NOT_FOUND', undefined]
         if (err) {
             req.log.error(`post/comment#getListingById: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         if (!elem) {
             reply.send({ boom: ':(' })
@@ -362,7 +374,8 @@ async function routes(fastify, options, next) {
         const [err, listings] = await to(QInstance.getListingsByUser(req.params.username))
         if (err) {
             req.log.error(`user#getListingsByUser: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const user = { nickname: req.params.username }
         return reply.view('/templates/pages/listings', {
@@ -379,7 +392,8 @@ async function routes(fastify, options, next) {
         const [err, notifications] = await to(QInstance.getNotificationsByUser(req.params.username))
         if (err) {
             req.log.error(`user#getNotificationsByUser: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const user = { nickname: req.params.username }
         return reply.view('/templates/pages/notifications', {
@@ -396,12 +410,14 @@ async function routes(fastify, options, next) {
         const [err, res] = await to(QInstance.toggleValue(req.params.id, 'd', 'listing'))
         if (err) {
             req.log.error(`user/toggle#toggleValue: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const [err2, listings] = await to(QInstance.getListingsByUser(req.params.username))
         if (err2) {
             req.log.error(`user/toggle#getListingsByUser: ${err.message}`)
-            return reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            return reply
         }
         const user = { nickname: req.params.username }
         return reply.view('/templates/pages/listings', {
