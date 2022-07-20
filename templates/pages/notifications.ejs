@@ -26,38 +26,29 @@
             <div class="fa fa-paper-plane <%= notifications[i].direction === 'receiver' && 'fa-rotate-180' %>" id="<%= notifications[i]._id %>"></div>
             <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- notifications[i].message %></p>
             <code class="w-100" style="font-size:0.75rem"><%= notifications[i].peer %> | <a href="/listings/id/<%=notifications[i].threadId%>/"><%=notifications[i].thread%></a> | <%= new Date(parseInt(notifications[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
-          
-            <div class="w-100">
-              <button class="pull-right" id="<%=notifications[i].threadId%>">Reply</button>
-            </div>
+            <details style="margin: 2rem;">
+              <summary class="text-dark">Respond</summary>
+              <form id="respond" action="/listings/sendmessage" method="POST" name="sendMessage">
+                <div class="mb-3">
+                  <label for="message">Message</label>
+                  <textarea name="message" class="add" id="message" value="" type="text" rows="3"></textarea>
+                </div>
+                <% if(notifications[i].direction === 'receiver'){ %>
+                  <input type="hidden" value="<%= notifications[i].from %>" name="email">
+                <% } else { %>
+                  <input type="hidden" value="<%= notifications[i].to %>" name="email">
+                <% } %>
+                <input type="hidden" name="id" value='<%= notifications[i].threadId %>'>
+                
+                <div class="w-100">
+                  <button>Send</button>
+                </div>
+              </form>
+            </details>
           </div>
         </div>
       </div>
-      
-      <!-- Respond -->   
-
-      <form class="p-3" id="message-dialog" action="/listings/sendmessage" method="POST" name="sendMessage">
-        <div class="form-group">
-          <label for="message">Message</label>
-          <div id="message-editor" class="pell px-3 pt-3 bg-white border-bottom-0" data-target="#unique_target" data-max="500" style="color: #333!important;fill: #333!important;"></div>
-          <div id="characters-left" class="px-2" style="font-size: 12px; font-family: 'Lucida Console', Arial, Helvetica, sans-serif;"></div>
-        </div>
-        <% if(notifications[i].direction === 'receiver'){ %>
-          <input type="hidden" value="<%= notifications[i].from %>" name="email">
-        <% } else { %>
-          <input type="hidden" value="<%= notifications[i].to %>" name="email">
-        <% } %>
-        <input type="hidden" name="id" value='<%= notifications[i].threadId %>'>
-        <input name="message" class="add" id="message" value="" type="hidden">
-        <div class="w-100">
-          <button class="btn btn-primary">Send</button>
-        </div>
-      </form>
-
-      
-
-
-
+  
 
       <% } %>
     </div>
