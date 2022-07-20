@@ -65,8 +65,8 @@ export const setupMaps = () => {
             hobbies: '#b2bd12',
         }
         const markers = new MarkerClusterGroup()
-        for (let i = 0; i < window.__addressPoints__.length; i++) {
-            const a = window.__addressPoints__[i]
+        for (let i = 0; i < addressPoints.length; i++) {
+            const a = addressPoints[i]
             const title = `<a href='${consts.APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}</a>`
             let marker
             if (a[4]) {

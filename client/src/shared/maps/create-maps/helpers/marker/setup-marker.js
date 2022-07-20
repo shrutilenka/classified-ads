@@ -13,7 +13,7 @@ import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js';
  * @return {(marker|*[])[]} Just a reference
  */
 export function moveableMarker(map, marker, coordinates) {
-    const polygon = country.states.features
+    const polygon = country.states.features.geometry.coordinates[0]
     const names = getStateNames()
     const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera);
     let lastValid = []
