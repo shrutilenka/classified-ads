@@ -33,6 +33,16 @@ services:
       ports:
         - '27017:27017'
       restart: unless-stopped
+  mgob:
+    image: mgob:latest
+    #restart: always
+    container_name: "mgob"
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./docker/mongo/mgob.yml:/config/mgob.yml
+      - ./creds/service-account.json:/config/service-account.json
+      - ./backup:/storage
   # our custom image 
   redis:
       container_name: redis-service
