@@ -13,7 +13,7 @@ import { isMarkerInsidePolygon } from './is-marker-inside-polygon.js';
  * @return {(marker|*[])[]} Just a reference
  */
 export function moveableMarker(map, marker, coordinates) {
-    const polygon = country.states.features.geometry.coordinates[0]
+    const polygons = country.states.features.map(feature => feature.geometry.coordinates[0])
     const names = getStateNames()
     const inapp = new InApp(navigator.userAgent || navigator.vendor || window.opera);
     let lastValid = []
@@ -46,16 +46,16 @@ export function moveableMarker(map, marker, coordinates) {
     // First run of the map, find division based on marker
     // which is centered anyway
     if (map.name === 'geoSearchMap' || map.name === 'listingMap') {
-        const where = polygon.findIndex((coo) => isMarkerInsidePolygon(marker, coo))
+        const where = polygons.findIndex((coo) => isMarkerInsidePolygon(marker, coo))
         if (LIS.id('div')) LIS.id('div').value = names[where]
     }
     marker.on('mouseup', () => {
         map.dragging.enable()
         map.off('mousemove', trackCursor)
-        const where = polygon.findIndex((coo) => isMarkerInsidePolygon(marker, coo))
         if (isMarkerInsidePolygon(marker, coordinates)) {
             const center = marker.getBounds().getCenter()
             if (map.name === 'listingMap') {
+                const where = polygons.findIndex((coo) => isMarkerInsidePolygon(marker, coo))
                 LIS.id('lat').value = center.lat
                 LIS.id('lng').value = center.lng
                 LIS.id('div').value = names[where]

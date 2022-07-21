@@ -14,7 +14,7 @@ export const setupAdsRotator = async () => {
             return reject(new Error('### function "setupAdsRotator" failed'))
         }
         
-        if (!LIS.id('footer_ads') || noAds.choice || !noAds.urls) {
+        if (!LIS.id('footer_ads') || noAds.choice || !noAds.urls.length) {
             return resolve('### function "setupAdsRotator" ignored well')
         }
         try {
