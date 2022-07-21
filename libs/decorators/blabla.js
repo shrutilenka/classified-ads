@@ -1,5 +1,13 @@
+import { createRequire } from 'module'
 import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
+const require = createRequire(import.meta.url)
+const ajvLocalize = {
+    en: require('ajv-i18n/localize/en'),
+    'en-US': require('ajv-i18n/localize/en'),
+    ar: require('ajv-i18n/localize/ar'),
+    fr: require('ajv-i18n/localize/fr'),
+}
 
 const NODE_ENV = {
     api: -1,
@@ -95,10 +103,12 @@ function localize(data, route, kind, req, reply) {
     if (!userFriendlyMsg['error'] && reply.flash('error').length) {
         userFriendlyMsg['error'] = reply.flash('error')[0]
     }
-    // Reformatting (flattening) of AJV validation errors to send to client
+
+    // Internationalize and reformat (flattening) of AJV validation errors to send to client
     let errors = []
     if (req.validationError) {
-        errors = req.validationError.validation.map((err) => err.message)
+        ajvLocalize[req.locale || 'en'](req.validationError.validation)
+        errors = req.validationError.validation.map((err) => `"${err.instancePath || '****'}" ${err.message}`)
         // errors.push(userFriendlyMsg.error)
     }
     // When there are `errors` (generated in `pipeline#validationPipeLine` for example)

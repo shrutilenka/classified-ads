@@ -82,8 +82,6 @@ async function routes(fastify, options, next) {
     fastify.get('/hobbies', { preHandler: softAuth }, getSectionHandler)
 
     /* GET one listing; must not be deactivated. */
-    // TODO: remove author email
-    // TODO: remove chat all together
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
         const viewer = req.params.username
         const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
@@ -107,7 +105,7 @@ async function routes(fastify, options, next) {
         // const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
         // const readableChannel = `${author},${elem.title}`
         // Todo: if author == viewer then the author could have multiple channels on one thread
-        data = { data: elem, section: elem.section, author/*, channel, readableChannel*/ }
+        data = { data: elem, section: elem.section, author /*, channel, readableChannel*/ }
         reply.blabla([data, 'listing', 'id'], req)
         return reply
     })
@@ -204,8 +202,13 @@ async function routes(fastify, options, next) {
     /* Query listings not including deactivated */
     fastify.post(
         '/gwoogl',
-        { schema: gwooglSchema, preHandler: softAuth, preValidation: inputsValueMapping },
+        { schema: gwooglSchema, attachValidation: true, preHandler: softAuth, preValidation: inputsValueMapping },
         async (req, reply) => {
+            let data = { context: 'gwoogl', addressPoints: [], listings: [], crossLangListings: [] }
+            if (req.validationError.validation) {
+                reply.blabla([data, 'listings', 'gwoogl'], req)
+                return reply
+            }
             const { body } = req
             const lang = await helpers.getLanguage(body.title_desc)
             let [err, listings] = await to(
@@ -216,13 +219,11 @@ async function routes(fastify, options, next) {
                 reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                 return reply
             }
-            const data = {
+            Object.assign(data, {
                 section: body.section,
-                context: 'gwoogl',
-                addressPoints: [],
                 listings: listings.documents,
                 crossLangListings: listings.crossLangDocs,
-            }
+            })
             reply.blabla([data, 'listings', 'gwoogl'], req)
             return reply
         },
@@ -231,11 +232,13 @@ async function routes(fastify, options, next) {
     /* Query listings withing a geo-point and radius */
     fastify.post(
         '/geolocation',
-        {
-            schema: geolocationSchema,
-            preHandler: softAuth,
-        },
+        { schema: geolocationSchema, attachValidation: true, preHandler: softAuth },
         async (req, reply) => {
+            let data = { context: 'geolocation', addressPoints: [], listings: [] }
+            if (req.validationError.validation) {
+                reply.blabla([data, 'listings', 'geolocation'], req)
+                return reply
+            }
             const { body } = req
             let [err, listings] = await to(QInstance.getListingsByGeolocation(body.lat, body.lng, body.section))
             if (err) {
@@ -243,12 +246,7 @@ async function routes(fastify, options, next) {
                 reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                 return reply
             }
-            const data = {
-                section: body.section,
-                context: 'geolocation',
-                addressPoints: [],
-                listings: listings.documents,
-            }
+            Object.assign(data, { section: body.section, listings: listings.documents })
             reply.blabla([data, 'listings', 'geolocation'], req)
             return reply
         },
@@ -267,16 +265,8 @@ async function routes(fastify, options, next) {
     /* Query listings withing a geo-point and radius */
     fastify.post(
         '/sendmessage',
-        {
-            schema: messageSchema,
-            preHandler: auth,
-            attachValidation: true
-        },
+        { schema: messageSchema, preHandler: auth, attachValidation: true },
         async (req, reply) => {
-            // if (request.validationError) {
-            //     reply.blabla([{}, 'reset', 'MESSAGE_ERROR'], request)
-            //     return reply
-            // }
             const { body } = req
             const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
             let receiver = crypto.decrypt(key, body.email)
@@ -289,11 +279,13 @@ async function routes(fastify, options, next) {
                 return reply
             }
             if (!elem) {
-                reply.send({ boom: ':(' })
-                // reply.blabla([{}, 'message', 'not found'], req)
+                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                 return reply
             }
-
+            if (req.validationError.validation) {
+                reply.blabla([{ data: elem }, 'listing', 'contact'], req)
+                return reply
+            }
             try {
                 body.message = await tidyP(body.message, opt)
                 body.message = new stringTransformer(body.message).sanitizeHTML().valueOf()

@@ -105,7 +105,7 @@ async function build(doRun) {
     // fastify.register(cors, require('./config/options/cors'))
     // fastify.register(fastifyCompress) // Compress all possible types > 1024o
     fastify.register(fastifyMongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
-    fastify.register(fastifyRedis, { host: 'redis', port: 6379, password: config('PASSWORD') })
+    fastify.register(fastifyRedis, '127.0.0.1')
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)
@@ -240,14 +240,21 @@ async function build(doRun) {
         fr: require('ajv-i18n/localize/fr'),
     }
 
+    // All unhandled errors which are handled by fastify: just send http response
     fastify.setErrorHandler(function (error, request, reply) {
         if (reply.statusCode === 429) {
             error.message = 'You hit the rate limit! Slow down please!'
+            reply.send(error)
+            return reply
         }
+        
         if (error.validation) {
             localize[request.cookies.locale || 'en'](error.validation)
             reply.status(422).send(error.validation)
+            return reply
         }
+        request.log.error(error)
+        reply.status(409).send({ ok: false })
     })
 
     /*********************************************************************************************** */
