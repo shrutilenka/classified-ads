@@ -254,7 +254,8 @@ async function build(doRun) {
             return reply
         }
         request.log.error(error)
-        reply.status(409).send({ ok: false })
+        error.message = 'Server is having hard times :( Please try again later.'
+        reply.status(409).send(error)
     })
 
     /*********************************************************************************************** */

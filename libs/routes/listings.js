@@ -205,7 +205,7 @@ async function routes(fastify, options, next) {
         { schema: gwooglSchema, attachValidation: true, preHandler: softAuth, preValidation: inputsValueMapping },
         async (req, reply) => {
             let data = { context: 'gwoogl', addressPoints: [], listings: [], crossLangListings: [] }
-            if (req.validationError.validation) {
+            if (req.validationError && req.validationError.validation) {
                 reply.blabla([data, 'listings', 'gwoogl'], req)
                 return reply
             }
@@ -235,7 +235,7 @@ async function routes(fastify, options, next) {
         { schema: geolocationSchema, attachValidation: true, preHandler: softAuth },
         async (req, reply) => {
             let data = { context: 'geolocation', addressPoints: [], listings: [] }
-            if (req.validationError.validation) {
+            if (req.validationError && req.validationError.validation) {
                 reply.blabla([data, 'listings', 'geolocation'], req)
                 return reply
             }
@@ -282,7 +282,7 @@ async function routes(fastify, options, next) {
                 reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                 return reply
             }
-            if (req.validationError.validation) {
+            if (req.validationError && req.validationError.validation) {
                 reply.blabla([{ data: elem }, 'listing', 'contact'], req)
                 return reply
             }
