@@ -258,14 +258,14 @@ ops.fastifyInjects = async function fastifyInjects(app) {
     //     },
     // })
     // logRequest(response, app)
-    const post = (email) =>
+    const post = (email, password) =>
         request(
             {
                 method: 'POST',
                 url: 'http://0.0.0.0:' + app.server.address().port + '/signup',
                 form: {
                     username: email,
-                    password: 'blablabla111SSS.',
+                    password: password,
                 },
             },
             (err, response, body) => {
@@ -274,8 +274,7 @@ ops.fastifyInjects = async function fastifyInjects(app) {
                 if (process.env.NODE_ENV === -1) console.log(JSON.parse(body))
             },
         )
-    post('bacloud14@gmail.com')
-    post('sracer2016@yahoo.com')
+    post(process.env.ADMIN_EMAIL, process.env.ADMIN_PASS)
 }
 
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {

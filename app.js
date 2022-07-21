@@ -16,6 +16,7 @@ import isSpam from './libs/decorators/spam.js'
 import valuesMapping from './libs/decorators/valuesMapping.js'
 import isBot from './libs/decorators/visitorsFilter.js'
 import { routes } from './libs/routes/_routes_.js'
+import Mailer from './libs/services/mailer.js'
 import { cache } from './libs/services/mongo-mem.js'
 import RedisAPI from './libs/services/redis.js'
 import { plugins } from './_app_.js'
@@ -238,22 +239,17 @@ async function build(doRun) {
         ar: require('ajv-i18n/localize/ar'),
         fr: require('ajv-i18n/localize/fr'),
     }
-    
+
     fastify.setErrorHandler(function (error, request, reply) {
         if (reply.statusCode === 429) {
-          error.message = 'You hit the rate limit! Slow down please!'
+            error.message = 'You hit the rate limit! Slow down please!'
         }
-        reply.send(error)
-      })
+        if (error.validation) {
+            localize[request.cookies.locale || 'en'](error.validation)
+            reply.status(422).send(error.validation)
+        }
+    })
 
-    // fastify.setErrorHandler(function (error, request, reply) {
-    //     if (error.validation) {
-    //         localize[request.cookies.locale || 'en'](error.validation)
-    //         reply.status(422).send(error.validation)
-    //         return
-    //     }
-    //     reply.send(error)
-    // })
     /*********************************************************************************************** */
     // !!REGISTER ROUTES !!
     fastify.register(authRouter)
@@ -268,7 +264,6 @@ async function build(doRun) {
     // fastify.register(chatRouter, { prefix: 'chat' })
     fastify.register(wvRouter, { prefix: 'wv' })
 
-
     /*********************************************************************************************** */
     // !!APP AND USER METRICS!!
     // Don't track for api env (API testing)
@@ -276,7 +271,7 @@ async function build(doRun) {
     const promURL = `/${secretPath}/metrics`
     // const adminAuth = fastify.auth([fastify.verifyJWT('admin')])
     if (NODE_ENV > -1 && process.env.worker_id == '1') {
-        fastify.register(fastifyMetrics, { endpoint: promURL, /*routeMetrics: { routeBlacklist: promURL }*/ })
+        fastify.register(fastifyMetrics, { endpoint: promURL /*routeMetrics: { routeBlacklist: promURL }*/ })
     }
 
     const start = async () => {
@@ -289,18 +284,13 @@ async function build(doRun) {
             if (NODE_ENV === 0 /*process.env.worker_id == '1'*/) {
                 fastify.swagger()
             }
-            // Mailer.getInstance(mongoURL, dbName)
-            //     .then((mailer) => {
-            //         mailer.sendMail({
-            //             to: process.env.ADMIN_EMAIL,
-            //             subject: 'App instance bootstrap',
-            //             text: 'App instance bootstrapped correctly',
-            //             html: 'App instance bootstrapped correctly',
-            //         })
-            //     })
-            //     .catch((err) => {
-            //         fastify.log.error(err)
-            //     })
+            const mailer = await Mailer.getInstance(mongoURL, dbName)
+            mailer.sendMail({
+                to: process.env.ADMIN_EMAIL,
+                subject: 'App instance bootstrap',
+                text: 'App instance bootstrapped correctly',
+                html: 'App instance bootstrapped correctly',
+            })
             // gracefulServer.setReady()
         } catch (err) {
             console.log(err)
@@ -342,7 +332,7 @@ async function build(doRun) {
         // Create indexes
         //process.env.NODE_ENV in {development, localhost, api}
         // TODO: remove (testing prod now)
-        if (true/*NODE_ENV <= 1*/) {
+        if (true /*NODE_ENV <= 1*/) {
             await colListings.deleteMany({})
             await colUsers.deleteMany({})
             bootstrap
@@ -363,6 +353,7 @@ async function build(doRun) {
         } else {
             // TODO: deal with production indexes and map reduce functions
             await bootstrap.createIndexes(db)
+            await bootstrap.fastifyInjects(fastify)
             bootstrap.registerPipelines(db, fastify.scheduler, seconds)
             await cache(db, redis)
         }
@@ -372,7 +363,6 @@ async function build(doRun) {
         //     // global.mongodb.disconnect()
         // })
     }
-
 
     return fastify
 }
