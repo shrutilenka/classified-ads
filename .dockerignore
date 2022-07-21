@@ -154,8 +154,6 @@ dist
 /public/stylesheets/style_hobbies.css.map
 
 
-/creds
-
 # Heroku
 # /client/dist
 /logs/pm2/combined.log
