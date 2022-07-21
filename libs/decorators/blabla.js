@@ -107,7 +107,8 @@ function localize(data, route, kind, req, reply) {
     // Internationalize and reformat (flattening) of AJV validation errors to send to client
     let errors = []
     if (req.validationError) {
-        ajvLocalize[req.locale || 'en'](req.validationError.validation)
+        const lang = ['en', 'en-US', 'fr', 'ar'].indexOf(req.locale) > -1 ? req.locale : 'en'
+        ajvLocalize[lang](req.validationError.validation)
         errors = req.validationError.validation.map((err) => `"${err.instancePath || '****'}" ${err.message}`)
         // errors.push(userFriendlyMsg.error)
     }
