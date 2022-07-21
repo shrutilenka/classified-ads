@@ -225,7 +225,7 @@ li.external {
 }
 
 .modal-backdrop {
-    z-index: 20;
+    z-index: 100;
 }
 
 
@@ -236,7 +236,7 @@ li.external {
     /* Hidden by default */
     position: fixed;
     /* Stay in place */
-    z-index: 20;
+    z-index: 100;
     /* Sit on top */
     padding-top: 100px;
     /* Location of the box */

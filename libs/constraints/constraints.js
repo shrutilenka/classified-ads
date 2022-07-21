@@ -147,10 +147,12 @@ const eventsSchema = () => {
     }
 }
 
+const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
 const message = S.object()
     .prop('message', S.string().minLength(20).maxLength(200).required())
     .prop('username', S.string().format(S.FORMATS.EMAIL))
-    .prop('id', '')
+    .prop('id', S.string().pattern(mongoHex))
+
 const messageSchema = {
     body: message,
 }

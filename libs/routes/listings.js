@@ -86,8 +86,8 @@ async function routes(fastify, options, next) {
     // TODO: remove chat all together
     fastify.get('/id/:id/', { preHandler: softAuth }, async function (req, reply) {
         const viewer = req.params.username
-        const hex = /[0-9A-Fa-f]{6}/g
-        const [err, elem] = hex.test(req.params.id)
+        const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
+        const [err, elem] = mongoHex.test(req.params.id)
             ? await to(QInstance.getListingById(req.params.id, false, viewer))
             : ['NOT_FOUND', undefined]
         if (err === 'NOT_FOUND' || !elem) {
@@ -130,9 +130,9 @@ async function routes(fastify, options, next) {
     //     let readableChannels = []
     //     const viewer = req.params.username
     //     const thread = req.params.id
-    //     const hex = /[0-9A-Fa-f]{6}/g
+    //     const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
     //     // replace getListingById by a quicker QInstance.listingExists()
-    //     const [err, elem] = hex.test(thread)
+    //     const [err, elem] = mongoHex.test(thread)
     //         ? await to(QInstance.getListingById(thread, false, viewer))
     //         : ['NOT_FOUND', undefined]
     //     if (err === 'NOT_FOUND' || !elem) return reply.send({ err: 'NOT_FOUND' })
@@ -168,8 +168,8 @@ async function routes(fastify, options, next) {
     /* GET one listing; must not be deactivated. */
     // const COOKIE_NAME = config('COOKIE_NAME')
     // fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
-    //     const hex = /[0-9A-Fa-f]{6}/g
-    //     const [err, elem] = hex.test(req.params.id)
+    //     const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
+    //     const [err, elem] = mongoHex.test(req.params.id)
     //         ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
     //         : ['NOT_FOUND', undefined]
     //     if (err === 'NOT_FOUND' || !elem) return reply.send({ boom: ':(' })
@@ -263,7 +263,7 @@ async function routes(fastify, options, next) {
     fastify.post('/events', { preHandler: auth }, handler)
     fastify.post('/hobbies', { preHandler: [auth, upload] }, handler)
 
-    const messageSchema = constraints[process.env.NODE_ENV].POST.messageSchema.schema
+    const messageSchema = constraints[process.env.NODE_ENV].POST.message.schema
     /* Query listings withing a geo-point and radius */
     fastify.post(
         '/sendmessage',
@@ -278,9 +278,9 @@ async function routes(fastify, options, next) {
             //     return reply
             // }
             const { body } = req
-            const hex = /[0-9A-Fa-f]{6}/g
+            const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
             let receiver = crypto.decrypt(key, body.email)
-            const [err, elem] = hex.test(body.id)
+            const [err, elem] = mongoHex.test(body.id)
                 ? await to(QInstance.getListingById(body.id, false, receiver))
                 : ['NOT_FOUND', undefined]
             if (err) {
@@ -330,8 +330,8 @@ async function routes(fastify, options, next) {
     const commentSchema = constraints[process.env.NODE_ENV].POST.comment
     //  Contact poster one listing.
     fastify.post('/id/:id/comment', { schema: commentSchema, preHandler: auth }, async function (req, reply) {
-        const hex = /[0-9A-Fa-f]{6}/g
-        const [err, elem] = hex.test(req.params.id)
+        const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
+        const [err, elem] = mongoHex.test(req.params.id)
             ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
             : ['NOT_FOUND', undefined]
         if (err) {

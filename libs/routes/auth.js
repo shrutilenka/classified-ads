@@ -29,7 +29,6 @@ async function routes(fastify, options) {
 
     /* GET login page. */
     fastify.get('/login', function (req, reply) {
-        console.log('hell')
         reply.blabla([{}, 'login', 'login'], req)
     })
 
