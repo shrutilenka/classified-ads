@@ -394,10 +394,12 @@ async function routes(fastify, options, next) {
             return reply
         }
         const user = { nickname: req.params.username }
+        const threads = [...new Set(notifications.map(notif => notif.thread))]
         return reply.view('/templates/pages/notifications', {
             user: user,
             title: 'Notifications',
             intro: 'Classified advertising brought to the web',
+            threads: threads,
             notifications: notifications,
             context: 'messages',
             success: 'Yep, we got some :)',

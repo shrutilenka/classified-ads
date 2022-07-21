@@ -25,7 +25,7 @@
             <% } %>
             <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i></span></a>
             <% if(listings[i].lang != 'und'){ %>
-              <img class="pull-right flag" alt="<%- listings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- listings[i].lang %>.svg">
+            <img class="pull-right flag" alt="<%- listings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- listings[i].lang %>.svg">
             <% } %>
             <% if(typeof listings[i].d != 'undefined' && listings[i].d){ %>
             <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true"></i></span></a>
@@ -64,7 +64,7 @@
             <a href="/tag/<%- crossLangListings[i].tags[j] %>"><span class="badge bg-secondary"><%- crossLangListings[i].tags[j] %></span></a>
             <% } %>
             <% if(crossLangListings[i].lang != 'und'){ %>
-              <img class="pull-right flag" alt="<%- crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- crossLangListings[i].lang %>.svg">
+            <img class="pull-right flag" alt="<%- crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- crossLangListings[i].lang %>.svg">
             <% } %>
             <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i></span></a>
             <% if(typeof crossLangListings[i].d != 'undefined' && crossLangListings[i].d){ %>

@@ -16,12 +16,18 @@
 
     <hr>
     <h2 class="pb-2">Notifications</h2>
-
+    <% if(typeof threads != 'undefined'){ %>
+    <div class="controls">
+      <% for (var i = 0; threads.length> 0 && i < threads.length ; i++) { %>
+      <button type="button" class="btn btn-primary" data-filter=".<%=threads[i]%>"><%=threads[i]%></button>
+      <% } %>
+    </div>
+    <% } %>
     <% if(typeof notifications != 'undefined'){ %>
-    <div class="row align-items-stretch notifications">
+    <div class="mixitup_container row align-items-stretch notifications">
       <% for (var i = 0; notifications.length> 0 && i < notifications.length ; i++) { %>
-      <div class="h-100 pb-3 thread <%=notifications[i].threadId%>" id="<%= notifications[i]._id %>-@@@@@">
-        <div class="card mb-3 h-100 <%= notifications[i].direction %>">
+      <div class="h-100 pb-3 thread" id="<%= notifications[i]._id %>">
+        <div class="mix card mb-3 h-100 <%= notifications[i].thread %> <%= notifications[i].direction %>">
           <div class="card-body d-flex flex-wrap align-content-between">
             <div class="fa fa-paper-plane <%= notifications[i].direction === 'receiver' && 'fa-rotate-180' %>" id="<%= notifications[i]._id %>"></div>
             <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- notifications[i].message %></p>
@@ -34,12 +40,12 @@
                   <textarea name="message" class="add" id="message" value="" type="text" rows="3"></textarea>
                 </div>
                 <% if(notifications[i].direction === 'receiver'){ %>
-                  <input type="hidden" value="<%= notifications[i].from %>" name="email">
+                <input type="hidden" value="<%= notifications[i].from %>" name="email">
                 <% } else { %>
-                  <input type="hidden" value="<%= notifications[i].to %>" name="email">
+                <input type="hidden" value="<%= notifications[i].to %>" name="email">
                 <% } %>
                 <input type="hidden" name="id" value='<%= notifications[i].threadId %>'>
-                
+
                 <div class="w-100">
                   <button>Send</button>
                 </div>
@@ -48,7 +54,7 @@
           </div>
         </div>
       </div>
-  
+
 
       <% } %>
     </div>
