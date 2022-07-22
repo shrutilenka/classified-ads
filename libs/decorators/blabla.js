@@ -91,6 +91,7 @@ function localize(data, route, kind, req, reply) {
     const announcements = req.t(`announcements`, { returnObjects: true, app_name: appName })
     data['announcements'] = announcements
     const userFriendlyMsg = req.t(`${route}.${kind}`, sharedData)
+    
     if (NODE_ENV < 1)
         Object.keys(userFriendlyMsg).forEach((key) => {
             if (key !== 'success' && key !== 'error') userFriendlyMsg[key] = `[${userFriendlyMsg[key]}]`
@@ -122,7 +123,6 @@ function localize(data, route, kind, req, reply) {
     else userFriendlyMsg.error = []
 
     if (errors.length > 0) userFriendlyMsg.error = errors
-    // console.log(req.t(`${route}.${kind}`, UXData))
     return Object.assign(userFriendlyMsg, data)
 }
 /**

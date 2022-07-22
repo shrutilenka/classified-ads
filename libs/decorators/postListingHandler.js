@@ -43,10 +43,9 @@ const tidyP = promisify(tidy)
  * @param {*} upload
  * @returns
  */
-const formatNInsertListing = async (QInstance, req, blobNames, upload) => {
+const formatNInsertListing = (QInstance, req, blobNames, upload) => {
     const { body } = req
-    let publicUrl, publicUrlSmall, listing
-    listing = Object.assign(body, {
+    let listing = Object.assign(body, {
         d: false,
         a: false,
         usr: req.params.username,
@@ -60,12 +59,7 @@ const formatNInsertListing = async (QInstance, req, blobNames, upload) => {
             listing.img = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
         }
     }
-
-    const [err, insertedId] = await to(QInstance.insertListing(listing))
-    if (err) throw err
-    listing['id'] = insertedId.toHexString()
-    let data = { data: listing, section: listing.section }
-    return data
+    return listing
 }
 
 // Options http://api.html-tidy.org/tidy/tidylib_api_5.6.0/tidy_quickref.html
@@ -127,16 +121,13 @@ export default (fastify) => {
                 return reply
             }
             if (!upload) {
-                formatNInsertListing(QInstance, req, null, false)
-                    .then((data) => {
-                        reply.blabla([data, 'listing', 'id'], req)
-                        return reply
-                    })
-                    .catch((err) => {
-                        req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
-                        reply.blabla([{ title: 'TODO: blaaaaaaaaaaa' }, 'message', 'SERVER_ERROR'])
-                        return reply
-                    })
+                const listing = formatNInsertListing(QInstance, req, null, false)
+                const [err, insertedId] = await to(QInstance.insertListing(listing))
+                if (err) throw err
+                listing['id'] = insertedId.toHexString()
+                let data = { data: listing, section: listing.section }
+                reply.blabla([data, 'listing', 'id'], req)
+                return reply
             } else {
                 // Upload that damn pictures the original (req.file) and the thumbnail
                 // Create a new blob in the bucket and upload the file data.
@@ -153,14 +144,15 @@ export default (fastify) => {
                 let thumbnailBuffer, originalBuffer
                 originalBuffer = req.file.buffer
                 const { width } = config('IMG_THUMB')
-                const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-                const filename = suffix + path.extname(req.file.originalname)
-                const blob = bucket.file(filename)
+                const suffix = () => Date.now() + '-' + Math.round(Math.random() * 1e9)
+
                 try {
                     if (sharp)
                         thumbnailBuffer = await sharp(originalBuffer)
                             .metadata()
                             .then(({ width: originalWidth }) => {
+                                console.log('sharping')
+                                console.log(originalWidth)
                                 if (originalWidth > 400) {
                                     return sharp(originalBuffer)
                                         .resize(Math.round(originalWidth * 0.5))
@@ -175,6 +167,7 @@ export default (fastify) => {
                                 req.log.error(`post/listings#postListingHandler#sharp: ${err.message}`)
                             })
                     else {
+                        console.log('JimpJimpJimpJimpJimp')
                         thumbnailBuffer = await Jimp.read(originalBuffer)
                             .then(async (image) => {
                                 image.quality(80)
@@ -191,6 +184,8 @@ export default (fastify) => {
 
                 if (thumbnailBuffer)
                     uploadSmallImg = new Promise((resolve, reject) => {
+                        const filename = suffix() + path.extname(req.file.originalname)
+                        const blob = bucket.file(filename)
                         blob.createWriteStream({
                             resumable: false, //Good for small files
                         })
@@ -204,6 +199,8 @@ export default (fastify) => {
                     })
                 else uploadSmallImg = Promise.resolve({ name: undefined, small: true })
                 uploadImg = new Promise((resolve, reject) => {
+                    const filename = suffix() + path.extname(req.file.originalname)
+                    const blob = bucket.file(filename)
                     blob.createWriteStream({
                         metadata: { contentType: req.file.mimetype },
                         resumable: true,
@@ -216,24 +213,15 @@ export default (fastify) => {
                         })
                         .end(originalBuffer)
                 })
-                Promise.all([uploadImg, uploadSmallImg])
-                    .then((blobNames) => {
-                        formatNInsertListing(QInstance, req, blobNames, true)
-                            .then((data) => {
-                                reply.blabla([data, 'listing', 'id'], req)
-                                return reply
-                            })
-                            .catch((err) => {
-                                req.log.error(`formatNInsertListing#insertListing: ${err.message}`)
-                                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
-                                return reply
-                            })
-                    })
-                    .catch((err) => {
-                        req.log.error(`formatNInsertListing#upload: ${err.message}`)
-                        reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
-                        return reply
-                    })
+
+                const blobNames = await Promise.all([uploadImg, uploadSmallImg])
+                const listing = formatNInsertListing(QInstance, req, blobNames, true)
+                const [err, insertedId] = await to(QInstance.insertListing(listing))
+                if (err) throw err
+                listing['id'] = insertedId.toHexString()
+                let data = { data: listing, section: listing.section }
+                reply.blabla([data, 'listing', 'id'], req)
+                return reply
             }
         }
     }

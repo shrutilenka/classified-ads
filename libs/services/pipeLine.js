@@ -195,6 +195,11 @@ function ChainBool(solution, op) {
 PipeLine.prototype = {
     value: true,
     error: {},
+    cast: function () {
+        this.data.body.lat = parseFloat(this.data.body.lat)
+        this.data.body.lng = parseFloat(this.data.body.lng)
+        return this
+    },
     // Expects this.data to be a point
     isPointInsidePolygon: function (vs, op) {
         const predicate = (vs) => {
@@ -218,16 +223,18 @@ PipeLine.prototype = {
     },
     // We could just downcast (lat-lng) pff
     // We don't care if point in on the edge of polygon. Too much to care of.
-    randomizeCoordinations: function (meters) {
-        const x = this.data.lat
-        const y = this.data.lng
-        // If on the edge, keep it there, not bothering.
-        if (x > 90 || x < -90 || y > 180 || y < -180) return this
-        const rand = Math.random() - 0.5
-        meters = Math.round(rand * meters)
-        const coefficient = meters * 0.0000089
-        this.data.body.lat = x + coefficient
-        this.data.body.lng = y + coefficient / Math.cos(x * 0.018)
+    randomizeCoordinations: function (/*meters*/) {
+        // const x = this.data.lat
+        // const y = this.data.lng
+        // // If on the edge, keep it there, not bothering.
+        // if (x > 90 || x < -90 || y > 180 || y < -180) return this
+        // const rand = Math.random() - 0.5
+        // meters = Math.round(rand * meters)
+        // const coefficient = meters * 0.0000089
+        // this.data.body.lat = x + coefficient
+        // this.data.body.lng = y + coefficient / Math.cos(x * 0.018)
+        this.data.body.lat = parseFloat(this.data.body.lat).toPrecision(4)
+        this.data.body.lng = parseFloat(this.data.body.lng).toPrecision(4)
         return this
     },
     // Expects this.data to be body.tags
@@ -312,7 +319,7 @@ PipeLine.prototype = {
         }
         return this
     },
-    toTitle: function(limit) {
+    toTitle: function (limit) {
         try {
             this.data.title = ops.toTitle(this.data.title, limit)
         } catch (error) {
@@ -339,7 +346,7 @@ function validationPipeLine(req) {
     nlpPipeline.toTitle(100)
     const geoValid = !geolocation
         ? true
-        : geoPipeline.isPointInsidePolygon(coordinates).randomizeCoordinations(50).evaluate().isTrue
+        : geoPipeline.randomizeCoordinations().cast().isPointInsidePolygon(coordinates).evaluate().isTrue
     const tagsValid = !body.tags ? true : bodyPipeline2.isTagsValid().deriveTagsParents(section).evaluate().isTrue
     // value mapping is to deal with HTML input types, like the weird behavior of Checkboxes (https://stackoverflow.com/q/11424037/1951298)
     // Other value mappings (for the whole app are in ../decorators/valueMapping.js)
@@ -348,11 +355,15 @@ function validationPipeLine(req) {
     // Final validation according to schema / if not yet validated
     const validate = ajv.compile(singletonSchema.def.valueOf())
     const valid = singletonSchema.called ? true : validate(body)
-
+    
     let errors = []
     if (!valid) {
         localize[(req.i18n && req.i18n.language) || req.cookies.locale || 'en'](validate.errors)
-        errors = validate.errors.map((err) => `${err.dataPath.substring(1)} - ${err.message}`)
+        errors = validate.errors.map((err) => {
+            if (err.dataPath) return `"${err.dataPath.substring(1)}" - ${err.message}`
+            if (err.instancePath) return `"${err.instancePath.substring(1)}" - ${err.message}`
+            else return `${err.message}`
+        })
     }
     if (geoPipeline.error) {
         let friendlyErrors = Object.entries(geoPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
@@ -363,7 +374,6 @@ function validationPipeLine(req) {
         let friendlyErrors = Object.entries(nlpPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
         errors = errors.concat(friendlyErrors)
     }
-    
     return { errors, tagsValid, geoValid }
 }
 
