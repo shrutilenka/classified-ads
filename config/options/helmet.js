@@ -44,6 +44,7 @@ export default () => {
                     "'self'",
                     'data:',
                     '*.tile.osm.org',
+                    'via.placeholder.com',
                     'unpkg.com',
                     'live.staticflickr.com',
                     'storage.googleapis.com',

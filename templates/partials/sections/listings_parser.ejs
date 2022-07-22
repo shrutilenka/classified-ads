@@ -1,3 +1,12 @@
+<%
+var imgHolder = {
+  'donations': 'https://via.placeholder.com/512x350/bd5912/2f2702.png?text=Donation',
+  'skills': 'https://via.placeholder.com/512x350/ec496f/2e2eba.png?text=Skill',
+  'events': 'https://via.placeholder.com/512x350/934fe9/3332b8.png?text=Event',
+  'hobbies': 'https://via.placeholder.com/512x350/b2bd12/1e1d1e.png?text=Hobby',
+  'blogs': 'https://via.placeholder.com/512x350/f5eabf/2f2702.png?text=Blog'
+}
+%>
 <% if(typeof listings != 'undefined'){ %>
 <div class="row align-items-stretch ca-listings">
   <% for (var i = 0; listings.length> 0 && i < listings.length ; i++) { %>
@@ -7,7 +16,7 @@
         <% if(typeof listings[i].img != 'undefined'){ %>
         <img src="<%- listings[i].img %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
         <% } else { %>
-        <img src="/images/<%- listings[i].section %>.placeholder.png" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
+        <img src="<%- imgHolder[listings[i].section] %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
           <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title %></a></h5>

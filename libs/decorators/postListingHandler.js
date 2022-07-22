@@ -56,18 +56,11 @@ const formatNInsertListing = async (QInstance, req, blobNames, upload) => {
             const [blobName, blobNameSmall] = blobNames[0].small
                 ? [blobNames[1].name, blobNames[0].name]
                 : [blobNames[0].name, blobNames[1].name]
-            publicUrlSmall = format(`https://storage.googleapis.com/${bucket.name}/${blobNameSmall}`)
-            publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
-        } else {
-            // TODO: config('IMG') & config('IMG_THUMB')
-            publicUrl = publicUrlSmall = `/static/images/${req.file.filename}`
+            if (blobNameSmall) listing.thum = format(`https://storage.googleapis.com/${bucket.name}/${blobNameSmall}`)
+            listing.img = format(`https://storage.googleapis.com/${bucket.name}/${blobName}`)
         }
-        listing = Object.assign(listing, {
-            img: publicUrl,
-            thum: publicUrlSmall,
-        })
     }
-    
+
     const [err, insertedId] = await to(QInstance.insertListing(listing))
     if (err) throw err
     listing['id'] = insertedId.toHexString()
@@ -117,9 +110,7 @@ export default (fastify) => {
                 body.cdesc = stripped
             } catch (error) {
                 // TODO: stop request ?
-                req.log.error(
-                    `post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `,
-                )
+                req.log.error(`post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `)
             }
             try {
                 body.lang = stripped ? await helpers.getLanguage(stripped) : 'und'
@@ -211,7 +202,7 @@ export default (fastify) => {
                             })
                             .end(thumbnailBuffer)
                     })
-                else uploadSmallImg = Promise.resolve({ name: config('IMG_THUMB').url, small: true })
+                else uploadSmallImg = Promise.resolve({ name: undefined, small: true })
                 uploadImg = new Promise((resolve, reject) => {
                     blob.createWriteStream({
                         metadata: { contentType: req.file.mimetype },

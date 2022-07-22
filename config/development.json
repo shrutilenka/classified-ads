@@ -31,11 +31,12 @@
    },
    "TAG_SIZE": 35,
    "IMG": {
-      "size": 3145728
+      "size": 3145728,
+      "height": 350,
+      "width": 512
    },
    "IMG_THUMB": {
-      "url": "https://via.placeholder.com/200x170.png?text=No image",
-      "height": 170,
-      "width": 200
+      "height": 175,
+      "width": 256
    }
 }

@@ -253,6 +253,7 @@ async function build(doRun) {
             reply.status(422).send(error.validation)
             return reply
         }
+        error.message = error.message.slice(0, 3000)
         request.log.error(error)
         error.message = 'Server is having hard times :( Please try again later.'
         reply.status(409).send(error)
