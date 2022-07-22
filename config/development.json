@@ -29,14 +29,5 @@
       "max": 100,
       "timeWindow": "1 minute"
    },
-   "TAG_SIZE": 35,
-   "IMG": {
-      "size": 3145728,
-      "height": 350,
-      "width": 512
-   },
-   "IMG_THUMB": {
-      "height": 175,
-      "width": 256
-   }
+   "TAG_SIZE": 35
 }
