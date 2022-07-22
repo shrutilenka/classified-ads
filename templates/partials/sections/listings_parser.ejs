@@ -16,7 +16,7 @@ var imgHolder = {
         <% if(typeof listings[i].img != 'undefined'){ %>
         <img src="<%- listings[i].img %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
         <% } else { %>
-        <img src="<%- imgHolder[listings[i].section] %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
+        <img src="<%- imgHolder[listings[i].section] %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top placeholder">
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
           <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title %></a></h5>

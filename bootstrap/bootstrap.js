@@ -50,7 +50,7 @@ const getWords = (dic, n) => {
     for (let i = 0; i < n; i++) res += ` ${word()}`
     return res.substring(1)
 }
-const langs = ['en', 'ar', 'fr']
+const langs = ['en', 'ar', 'fr', 'fr', 'fr', 'fr']
 const langsFaker = {
     en: { jsf: jsf_en, words: (n) => getWords(english, n) },
     fr: { jsf: jsf_fr, words: (n) => getWords(french, n) },
@@ -80,15 +80,14 @@ function getRandomInRange(from, to, fixed) {
 
 function fakeItems(docsCount) {
     for (let i = 0; i < docsCount; i++) {
-
         const randomLang = langs[Math.floor(Math.random() * langs.length)]
         const item = langsFaker[randomLang].jsf.generate(schema)
         item.tagsLang = item.lang = randomLang
-        item.title = langsFaker[randomLang].words(5 + Math.floor(Math.random() * 10))//.slice(0, 100)
-        item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30))//.slice(5000)
+        item.title = langsFaker[randomLang].words(5 + Math.floor(Math.random() * 10)) //.slice(0, 100)
+        item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30)) //.slice(5000)
         item.cdesc = item.desc
         item.tags = [langsFaker[randomLang].words(1), langsFaker[randomLang].words(1), langsFaker[randomLang].words(1)]
-        item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
+        if (Math.random() < 0.5) item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
         item.div = states[randomLang][Math.floor(Math.random() * states[randomLang].length)]
         item.section = sections[Math.floor(Math.random() * sections.length)]
         item.offer = Math.random() < 0.5
@@ -185,12 +184,12 @@ ops.createIndexes = async function createIndexes(db) {
 
 /*********************************************************************************************** */
 // SEED DEVELOPMENT FAKE DATA
-// TODO: remove 'production' not to confuse 
+// TODO: remove 'production' not to confuse
 const docsCount = {
     api: 500,
     localhost: 10000,
     development: 10000,
-    production: 1000
+    production: 1000,
 }[process.env.NODE_ENV]
 ops.seedDevelopmentData = async function seedDevelopmentData(db) {
     fakeItems(docsCount)

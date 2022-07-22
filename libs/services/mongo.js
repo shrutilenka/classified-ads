@@ -224,7 +224,7 @@ export default function (mongoDB, redisDB) {
         if (section) {
             query.section = section
         } else {
-            sort = [['section']]
+            // sort = [['section']]
             pagination.perPage = 18
         }
         const upIds = await redisDB.hkeys(`up-ids`)
