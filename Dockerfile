@@ -19,12 +19,12 @@ RUN apk add --no-cache --update --virtual .gyp \
 
 
 # RUN npm run docker:build
-#RUN apk add git
+# RUN apk add git
 
 RUN npm i
 #RUN chmod -R a+rwx node_modules/@msgpackr-extract
 COPY . ./
-
+# RUN cd ./other_apps/ && git clone https://github.com/bacloud22/so-cards.git 
 WORKDIR /classified-ads/client
 COPY /client/package.json ./
 #RUN rm -rf /node_modules

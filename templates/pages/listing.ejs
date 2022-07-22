@@ -98,7 +98,11 @@
       <hr>
       <div class="d-flex">
         <div class="mx-auto mx-lg-0">
-          <img id="listingImg" src="<%- data.img %>" width="200rem">
+          <% if(typeof data.img != 'undefined'){ %>
+          <img id="listingImg" src="<%- data.img %>" alt="<%= data.title + ' image' %>" width="200rem">
+          <% } else { %>
+          <img id="listingImg" src="/images/<%- data.section %>.placeholder.png" alt="<%= data.title + ' image' %>" width="200rem">
+          <% } %>
         </div>
       </div>
       <!-- The Modal -->

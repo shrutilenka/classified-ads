@@ -6,6 +6,8 @@
       <div class="card mb-3 h-100 <%= listings[i].section %> <%= listings[i].a %> <%= listings[i].d %>">
         <% if(typeof listings[i].img != 'undefined'){ %>
         <img src="<%- listings[i].img %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
+        <% } else { %>
+        <img src="/images/<%- listings[i].section %>.placeholder.png" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
           <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title %></a></h5>
