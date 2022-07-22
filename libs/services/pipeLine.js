@@ -6,6 +6,7 @@ import { getBorders } from '../../data/geo/geoJSONEncoder.js'
 import constraints from '../constraints/constraints.js'
 import { html, reb, rew } from '../constraints/regex.js'
 import { give } from './data.js'
+import { ops } from './helpers.js'
 
 const require = createRequire(import.meta.url)
 const decancer = require('decancer')
@@ -311,6 +312,14 @@ PipeLine.prototype = {
         }
         return this
     },
+    toTitle: function(limit) {
+        try {
+            this.data.title = ops.toTitle(this.data.title, limit)
+        } catch (error) {
+            this.error['bad title'] = error.message
+        }
+        return this
+    },
     evaluate: function () {
         return { isTrue: this.value, data: this.data, error: this.error }
     },
@@ -324,9 +333,10 @@ function validationPipeLine(req) {
 
     ///////////////////////////////////THIS IS CONSTRUCTION OF THE PIPELINE (MAIN LIKE)//////////////////////////////////////////////////////////////////////
     const geoPipeline = new PipeLine({ lat: body.lat, lng: body.lng, body: body })
-    const bodyPipeline = new PipeLine(body)
+    const nlpPipeline = new PipeLine(body)
     const bodyPipeline2 = new PipeLine(body)
     const bodyPipeline3 = new PipeLine(body)
+    nlpPipeline.toTitle(100)
     const geoValid = !geolocation
         ? true
         : geoPipeline.isPointInsidePolygon(coordinates).randomizeCoordinations(50).evaluate().isTrue
@@ -349,11 +359,11 @@ function validationPipeLine(req) {
         errors = errors.concat(friendlyErrors)
     }
 
-    if (bodyPipeline.error) {
-        let friendlyErrors = Object.entries(bodyPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
+    if (nlpPipeline.error) {
+        let friendlyErrors = Object.entries(nlpPipeline.error).map(([key, value]) => errors.push(`${key}: ${value}`))
         errors = errors.concat(friendlyErrors)
     }
-
+    
     return { errors, tagsValid, geoValid }
 }
 

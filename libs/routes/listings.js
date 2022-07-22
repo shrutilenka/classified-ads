@@ -9,7 +9,7 @@ import authAdapter from '../decorators/auth.js'
 import blabla from '../decorators/blabla.js'
 import postListingHandler from '../decorators/postListingHandler.js'
 import inputsValueMapping from '../decorators/valuesMapping.js'
-import { crypto, ops as helpers } from '../services/helpers.js'
+import { crypto, ops as helpers, ops } from '../services/helpers.js'
 import queries from '../services/mongo.js'
 import { stringTransformer } from '../services/pipeLine.js'
 
@@ -27,7 +27,7 @@ const tags = html.allowedTags.map((tag) => `<${tag}>`).concat(html.allowedTags.m
 const escaper = new NLPEscape(tags)
 const key = crypto.passwordDerivedKey(process.env.PASSWORD)
 const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err, null])
-
+const onlyLatin = /[\b\t-'`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options, next) {
@@ -304,7 +304,7 @@ async function routes(fastify, options, next) {
                 from: req.params.username,
                 sent: new Date(),
                 threadId: body.id,
-                thread: elem.title.slice(0, 20) + '...',
+                thread: ops.toTitle(elem.title, 30),
                 message: body.message,
             }
             const [errr, acknowledged] = await to(QInstance.insertComment(message))
@@ -394,7 +394,14 @@ async function routes(fastify, options, next) {
             return reply
         }
         const user = { nickname: req.params.username }
-        const threads = [...new Set(notifications.map(notif => notif.thread))]
+        // Thread which are like titles will be used as CSS selectors. So reformat to be a valid CSS selector.
+        const threads = [
+            ...new Set(
+                notifications.map((notif) => {
+                    return `${notif.thread.replace(' ', '-')}`
+                }),
+            ),
+        ]
         return reply.view('/templates/pages/notifications', {
             user: user,
             title: 'Notifications',

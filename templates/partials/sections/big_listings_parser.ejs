@@ -14,7 +14,7 @@
         <img src="<%- listings[i].img %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
-          <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title.charAt(0).toUpperCase() + listings[i].title.slice(1) %></a></h5>
+          <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title %></a></h5>
           <div class="ca-listing" id="<%= listings[i]._id %>">Favorite</div>
           <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- listings[i].desc %></p>
           <code class="w-100" style="font-size:0.75rem"><%= new Date(parseInt(listings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
@@ -54,7 +54,7 @@
         <img src="<%- crossLangListings[i].img %>" alt="<%= crossLangListings[i].title + ' image' %>" class="card-img-top">
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
-          <h5 class="card-title" dir="auto"><a href='/listings/id/<%= crossLangListings[i]._id %>/'><%= crossLangListings[i].title.charAt(0).toUpperCase() + crossLangListings[i].title.slice(1) %></a></h5>
+          <h5 class="card-title" dir="auto"><a href='/listings/id/<%= crossLangListings[i]._id %>/'><%= crossLangListings[i].title %></a></h5>
           <div class="ca-listing" id="<%= crossLangListings[i]._id %>">Favorite</div>
           <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- crossLangListings[i].desc %></p>
           <code class="w-100" style="font-size:0.75rem"><%= new Date(parseInt(crossLangListings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
