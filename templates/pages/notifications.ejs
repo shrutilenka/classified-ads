@@ -34,7 +34,7 @@
             <code class="w-100" style="font-size:0.75rem"><%= notifications[i].peer %> | <a href="/listings/id/<%=notifications[i].threadId%>/"><%=notifications[i].thread%></a> | <%= new Date(parseInt(notifications[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
             <details style="margin: 2rem;">
               <summary class="text-dark">Respond</summary>
-              <form id="respond" action="/listings/sendmessage" method="POST" name="sendMessage">
+              <form class="respond" action="/listings/sendmessage" method="POST" name="sendMessage">
                 <div class="mb-3">
                   <label for="message">Message</label>
                   <textarea name="message" class="add" id="message" value="" type="text" rows="3"></textarea>

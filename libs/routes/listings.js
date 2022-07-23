@@ -98,14 +98,14 @@ async function routes(fastify, options, next) {
             return reply
         }
         let data = {}
-        const author = elem.usr
+        // const author = elem.usr
         elem.email = crypto.encrypt(key, elem.usr)
         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
 
         // const channel = crypto.encrypt(key, `${author},${viewer},${req.params.id}`)
         // const readableChannel = `${author},${elem.title}`
         // Todo: if author == viewer then the author could have multiple channels on one thread
-        data = { data: elem, section: elem.section, author /*, channel, readableChannel*/ }
+        data = { data: elem, section: elem.section, /*author , channel, readableChannel*/ }
         reply.blabla([data, 'listing', 'id'], req)
         return reply
     })
@@ -161,41 +161,6 @@ async function routes(fastify, options, next) {
     //     // encrypt channels names
     //     channels = channels.map((ch) => crypto.encrypt(key, `${ch.au},${ch.vi},${ch.th}`))
     //     return reply.send({ channels, readableChannels })
-    // })
-
-    /* GET one listing; must not be deactivated. */
-    // const COOKIE_NAME = config('COOKIE_NAME')
-    // fastify.get('/id/:id/comments', { preHandler: softAuth }, async function (req, reply) {
-    //     const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
-    //     const [err, elem] = mongoHex.test(req.params.id)
-    //         ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
-    //         : ['NOT_FOUND', undefined]
-    //     if (err === 'NOT_FOUND' || !elem) return reply.send({ boom: ':(' })
-    //     if (err) {
-    //         req.log.error(`get/id/comments#getListingById: ${err.message}`)
-    //         return reply.send({ boom: ':(' })
-    //     }
-    //     if (elem) {
-    //         const peer2 = elem.usr
-    //         elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
-    //         const user = {}
-    //         user['nickname'] = req.params.username ? req.params.username : req.cookies[COOKIE_NAME] ? '🏠' : ''
-    //         let comments = []
-    //         if (req.params.username) {
-    //             const peer1 = req.params.username
-    //             // console.log(`=====fetching comments=====\npeer1 ${peer1} & peer2 ${peer2} & thread ${req.params.id}\n`)
-    //             comments = await QInstance.getComments(peer1, peer2, req.params.id)
-    //             comments.forEach((comment) => {
-    //                 comment.from = helpers.initials(comment.from)
-    //                 comment.to = helpers.initials(comment.to)
-    //             })
-    //         }
-    //         reply.send({ comments: comments, user: user, author: peer2 })
-    //         return reply
-    //     }
-    //     req.log.error(`get/comments#getComments: either no listing ${req.params.id} or an error`)
-    //     reply.send({ boom: ':(' })
-    //     return reply
     // })
 
     const gwooglSchema = constraints[process.env.NODE_ENV].POST.queryGwoogl.schema
@@ -313,61 +278,15 @@ async function routes(fastify, options, next) {
                 reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                 return reply
             }
-            reply.blabla([{ data: elem }, 'listing', 'contact'], req)
+            let data = {}
+            elem.email = crypto.encrypt(key, elem.usr)
+            elem.usr = elem.usr ? helpers.initials(elem.usr) : 'YY'
+            data = { data: elem, section: elem.section }
+            reply.blabla([data, 'listing', 'contact'], req)
             return reply
         },
     )
 
-    /*
-    const commentSchema = constraints[process.env.NODE_ENV].POST.comment
-    //  Contact poster one listing.
-    fastify.post('/id/:id/comment', { schema: commentSchema, preHandler: auth }, async function (req, reply) {
-        const mongoHex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
-        const [err, elem] = mongoHex.test(req.params.id)
-            ? await to(QInstance.getListingById(req.params.id, false, req.params.username))
-            : ['NOT_FOUND', undefined]
-        if (err) {
-            req.log.error(`post/comment#getListingById: ${err.message}`)
-            reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
-            return reply
-        }
-        if (!elem) {
-            reply.send({ boom: ':(' })
-            // reply.blabla([{}, 'message', 'not found'], req)
-            return reply
-        }
-        const from = req.params.username
-        let to = elem.usr
-        const { body } = req
-        // from: the sender, which is the one logged in
-        // to: two scenarios:
-        // Sender is a visitor to the thread, then "to" is simply the "author" of the listing
-        // Sender is the "author" of the thread, then "comment id" must be present, to derive 'from' from it.
-        // author is the one logged in and now responding to a comment
-        if (to === from && body.commentId) {
-            const commentId = body.commentId
-            const [commentFrom, commentTo] = await QInstance.getCommentById(commentId)
-            to = commentFrom
-        }
-        const msg = {
-            from: from,
-            to: to,
-            sent: new Date(),
-            thread: req.params.id,
-            message: body.message,
-        }
-        QInstance.insertComment(msg)
-            .then((acknowledged) => {
-                reply.send({ boom: ':)' })
-                return reply
-            })
-            .catch((err) => {
-                req.log.error(`post/comment#insertComment: ${err.message}`)
-            })
-        // reply.blabla([{ data: elem }, 'listing', 'contact'], req)
-        // return reply
-    })
-    */
     fastify.get('/user', { preHandler: auth }, async function (req, reply) {
         const [err, listings] = await to(QInstance.getListingsByUser(req.params.username))
         if (err) {
@@ -398,7 +317,7 @@ async function routes(fastify, options, next) {
         const threads = [
             ...new Set(
                 notifications.map((notif) => {
-                    return `${notif.thread.replace(' ', '-')}`
+                    return `${notif.thread.replace(/ /g, '-')}`
                 }),
             ),
         ]
