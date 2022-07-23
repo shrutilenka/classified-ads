@@ -13,7 +13,9 @@ var imgHolder = {
   <div class="col-sm col-md-6 col-xl-4">
     <div class="h-100 pb-3" id="<%= listings[i]._id %>-@@@@@">
       <div class="card mb-3 h-100 <%= listings[i].section %> <%= listings[i].a %> <%= listings[i].d %>">
-        <% if(typeof listings[i].img != 'undefined'){ %>
+        <% if(typeof listings[i].thum != 'undefined'){ %>
+        <img src="<%- listings[i].thum %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
+        <% } else if (typeof listings[i].img != 'undefined') { %>
         <img src="<%- listings[i].img %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
         <% } else { %>
         <img src="<%- imgHolder[listings[i].section] %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top placeholder">

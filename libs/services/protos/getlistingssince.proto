@@ -15,10 +15,11 @@ message Listing{
     required string lang = 10;
     required string tagsLang = 11;
     optional string img = 12;
-    optional string div = 13;
-    optional bool a = 14;
-    optional bool d = 15;
-    optional bool offer = 16;
+    optional string thum = 13;
+    optional string div = 14;
+    optional bool a = 15;
+    optional bool d = 16;
+    optional bool offer = 17;
 }
 
 message GetListingsSince{
