@@ -103,7 +103,7 @@ function fakeItems(docsCount) {
             item.d = false
             item.a = true
         }
-        if (i < 20 && i > 10) {
+        if (i < 20 && i >= 10) {
             email = 'sracer2016@yahoo.com'
             item.d = false
             item.a = true

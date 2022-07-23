@@ -68,6 +68,7 @@ const Event = Listing.extend({
 const Skill = Listing.extend({
     section: 'skills',
     undraw: String,
+    color: String,
     offer: [Boolean],
 })
 

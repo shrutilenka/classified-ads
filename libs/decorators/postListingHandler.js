@@ -123,6 +123,7 @@ export default (fastify) => {
             if (!upload) {
                 const listing = formatNInsertListing(QInstance, req, null, false)
                 const [err, insertedId] = await to(QInstance.insertListing(listing))
+                console.log(insertedId)
                 if (err) throw err
                 listing['id'] = insertedId.toHexString()
                 let data = { data: listing, section: listing.section }

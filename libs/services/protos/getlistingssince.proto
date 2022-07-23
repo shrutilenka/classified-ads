@@ -20,6 +20,8 @@ message Listing{
     optional bool a = 15;
     optional bool d = 16;
     optional bool offer = 17;
+    optional string undraw = 18;
+    optional string color = 19;
 }
 
 message GetListingsSince{
