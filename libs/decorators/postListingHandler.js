@@ -123,9 +123,8 @@ export default (fastify) => {
             if (!upload) {
                 const listing = formatNInsertListing(QInstance, req, null, false)
                 const [err, insertedId] = await to(QInstance.insertListing(listing))
-                console.log(insertedId)
                 if (err) throw err
-                listing['id'] = insertedId.toHexString()
+                listing['_id'] = insertedId.toHexString()
                 let data = { data: listing, section: listing.section }
                 reply.blabla([data, 'listing', 'id'], req)
                 return reply
@@ -152,8 +151,6 @@ export default (fastify) => {
                         thumbnailBuffer = await sharp(originalBuffer)
                             .metadata()
                             .then(({ width: originalWidth }) => {
-                                console.log('sharping')
-                                console.log(originalWidth)
                                 if (originalWidth > 400) {
                                     return sharp(originalBuffer)
                                         .resize(Math.round(originalWidth * 0.5))
@@ -168,7 +165,6 @@ export default (fastify) => {
                                 req.log.error(`post/listings#postListingHandler#sharp: ${err.message}`)
                             })
                     else {
-                        console.log('JimpJimpJimpJimpJimp')
                         thumbnailBuffer = await Jimp.read(originalBuffer)
                             .then(async (image) => {
                                 image.quality(80)
@@ -219,7 +215,7 @@ export default (fastify) => {
                 const listing = formatNInsertListing(QInstance, req, blobNames, true)
                 const [err, insertedId] = await to(QInstance.insertListing(listing))
                 if (err) throw err
-                listing['id'] = insertedId.toHexString()
+                listing['_id'] = insertedId.toHexString()
                 let data = { data: listing, section: listing.section }
                 reply.blabla([data, 'listing', 'id'], req)
                 return reply

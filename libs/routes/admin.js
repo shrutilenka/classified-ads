@@ -41,7 +41,7 @@ async function routes(fastify, options) {
         else {
             const match = getMatch(req)
             realtimeJSON[match] = Object.assign({}, realtimeJSON[match], req.body)
-            await QInstance.updateDocument(realtimeJSON[match], 'listings')
+            await QInstance.updateDocument(realtimeJSON[match], 'listing')
             reply.send(realtimeJSON)
         }
     })
@@ -51,14 +51,14 @@ async function routes(fastify, options) {
     fastify.put('/:id', { preHandler: adminAuth }, async function (req, reply) {
         const match = getMatch(req)
         realtimeJSON[match] = req.body
-        await QInstance.updateDocument(realtimeJSON[match], 'listings')
+        await QInstance.updateDocument(realtimeJSON[match], 'listing')
         reply.send(realtimeJSON)
     })
 
     // DELETE
     fastify.delete('/:id', { preHandler: adminAuth }, async function (req, reply) {
         const match = getMatch(req)
-        await QInstance.removeDocument(realtimeJSON[match]._id.toString(), 'listings')
+        await QInstance.removeDocument(realtimeJSON[match]._id.toString(), 'listing')
         if (match !== -1) realtimeJSON.splice(match, 1)
         reply.send(realtimeJSON)
     })

@@ -44,7 +44,7 @@ export default function (mongoDB, redisDB) {
      */
     this.insertListing = async function (elem) {
         let listing
-        collection = mongoDB.collection('listings')
+        collection = mongoDB.collection('listing')
         // https://stackoverflow.com/a/59841285/1951298
         if (elem.lng)
             elem.geolocation = {

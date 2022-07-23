@@ -31,7 +31,7 @@ function getCityId (coord) {
   if (onecity) {
     return onecity.id
   } else {
-    console.log("getCityId called: \n city not found :(")
+    // console.log("getCityId called: \n city not found :(")
     return undefined
   }
 }
