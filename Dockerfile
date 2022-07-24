@@ -1,12 +1,9 @@
 FROM node:14.19.3-alpine3.14
-# ADD https://raw.githubusercontent.com/Stevie-Ray/referrer-spam-blocker/master/referral-spam.caddy /etc/caddy/
 WORKDIR /classified-ads
 
-
-
+RUN apk add git
 RUN cd ./other_apps/ && rm -rf so-cards && git clone https://github.com/bacloud22/so-cards.git
 RUN https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt > /data/raw/ipsum.txt
-
 
 COPY package.json ./
 RUN npm i -g npm
@@ -23,10 +20,6 @@ RUN apk add --no-cache --update --virtual .gyp \
 #     --repository http://dl-3.alpinelinux.org/alpine/edge/community \
 #     --repository http://dl-3.alpinelinux.org/alpine/edge/main \
 #     build-base vips-dev && npm i --verbose --unsafe-perm --ignore-scripts false sharp@0.28.3
-
-
-# RUN npm run docker:build
-RUN apk add git
 
 RUN npm i
 #RUN chmod -R a+rwx node_modules/@msgpackr-extract

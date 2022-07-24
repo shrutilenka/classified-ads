@@ -93,9 +93,9 @@ async function routes(fastify, options) {
             reply.blabla([{}, 'signup', 'VALIDATION_ERROR'], request)
             return reply
         }
-        const { username, password } = request.body
+        const { username, password, firstName, secondName } = request.body
         // Always 'regular' by default (except user@mail.com for tests)
-        const role = username === 'bacloud14@gmail.com' || username === 'sracer2016@yahoo.com' ? 'admin' : 'regular'
+        const role = username === process.env.ADMIN_EMAIL || username === process.env.ADMIN_EMAIL2 ? 'admin' : 'regular'
         const isVerified = role === 'admin' ? true : false
         try {
             const user = await QInstance.getUserById(username)
@@ -118,6 +118,8 @@ async function routes(fastify, options) {
                     QInstance.insertUser({
                         username,
                         password,
+                        firstName,
+                        secondName,
                         passhash,
                         isVerified,
                         role,

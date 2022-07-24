@@ -89,6 +89,8 @@ const Comment = new ObjectModel({
 const User = new ObjectModel({
     username: String,
     password: [String],
+    firstName: String,
+    lastName: String,
     passhash: String,
     isVerified: Boolean,
     role: ['admin', 'regular'],

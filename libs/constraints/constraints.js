@@ -18,7 +18,7 @@ const toDay = () => {
 
 const login = S.object()
     .prop('username', S.string().format(S.FORMATS.EMAIL))
-    .prop('password', S.string().minLength(6).maxLength(40))
+    .prop('password', S.string().minLength(8).maxLength(40))
     .required(['username', 'password'])
 const loginSchema = {
     body: login,
@@ -27,6 +27,8 @@ const loginSchema = {
 const signup = S.object()
     .prop('username', S.string().format(S.FORMATS.EMAIL))
     .prop('password', S.string().minLength(8).maxLength(40))
+    .prop('firstName', S.string().minLength(2).maxLength(40))
+    .prop('secondName', S.string().minLength(2).maxLength(40))
     .required(['username', 'password'])
 const signupSchema = {
     body: signup,
@@ -177,19 +179,19 @@ const constraints = {
             login: {
                 doLogin: {
                     requiredUXInputs: ['username', 'password'],
-                    minInputs: { username: 6, password: 6 },
+                    minInputs: { username: 6, password: 8 },
                 },
             },
             signup: {
                 doSignup: {
-                    requiredUXInputs: ['username', 'password'],
-                    minInputs: { username: 6, password: 6 },
+                    requiredUXInputs: ['username', 'password', 'firsName', 'secondName'],
+                    minInputs: { username: 6, password: 8, firsName: 2, secondName: 2 },
                 },
             },
             reset: {
                 doReset: {
                     requiredUXInputs: ['password'],
-                    minInputs: { password: 6 },
+                    minInputs: { password: 8 },
                 },
             },
             listings: {
@@ -279,19 +281,19 @@ const constraints = {
             login: {
                 doLogin: {
                     requiredUXInputs: ['username', 'password'],
-                    minInputs: { username: 6, password: 6 },
+                    minInputs: { username: 6, password: 8 },
                 },
             },
             signup: {
                 doSignup: {
-                    requiredUXInputs: ['username', 'password'],
-                    minInputs: { username: 6, password: 6 },
+                    requiredUXInputs: ['username', 'password', 'firsName', 'secondName'],
+                    minInputs: { username: 6, password: 8, firsName: 2, secondName: 2 },
                 },
             },
             reset: {
                 doReset: {
                     requiredUXInputs: ['password'],
-                    minInputs: { password: 6 },
+                    minInputs: { password: 8 },
                 },
             },
             listings: {
@@ -373,19 +375,19 @@ const constraints = {
             login: {
                 doLogin: {
                     requiredUXInputs: ['username', 'password'],
-                    minInputs: { username: 6, password: 6 },
+                    minInputs: { username: 6, password: 8 },
                 },
             },
             signup: {
                 doSignup: {
-                    requiredUXInputs: ['username', 'password'],
-                    minInputs: { username: 6, password: 6 },
+                    requiredUXInputs: ['username', 'password', 'firsName', 'secondName'],
+                    minInputs: { username: 6, password: 8, firsName: 2, secondName: 2 },
                 },
             },
             reset: {
                 doReset: {
                     requiredUXInputs: ['password'],
-                    minInputs: { password: 6 },
+                    minInputs: { password: 8 },
                 },
             },
             listings: {
@@ -463,19 +465,19 @@ const constraints = {
             login: {
                 doLogin: {
                     requiredUXInputs: ['username', 'password'],
-                    minInputs: { username: 6, password: 6 },
+                    minInputs: { username: 6, password: 8 },
                 },
             },
             signup: {
                 doSignup: {
-                    requiredUXInputs: ['username', 'password'],
-                    minInputs: { username: 6, password: 6 },
+                    requiredUXInputs: ['username', 'password', 'firsName', 'secondName'],
+                    minInputs: { username: 6, password: 8, firsName: 2, secondName: 2 },
                 },
             },
             reset: {
                 doReset: {
                     requiredUXInputs: ['password'],
-                    minInputs: { password: 6 },
+                    minInputs: { password: 8 },
                 },
             },
             listings: {

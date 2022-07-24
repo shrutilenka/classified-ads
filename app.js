@@ -219,12 +219,6 @@ async function build(doRun) {
     // }, function (request, reply) {
     //     reply.code(404).send({ hello: 'world' })
     // })
-    // fastify.register(require('under-pressure'), {
-    //     maxEventLoopDelay: 3000,
-    //     maxHeapUsedBytes: 100000000,
-    //     maxRssBytes: 100000000,
-    //     maxEventLoopUtilization:0.98
-    // })
 
     // TODO: Rate limiter && honeyPot except in process.env === "api"
     fastify.addHook('onRequest', isSpam)
@@ -337,7 +331,7 @@ async function build(doRun) {
         // Create indexes
         //process.env.NODE_ENV in {development, localhost, api}
         // TODO: remove (testing prod now)
-        if (true /*NODE_ENV <= 1*/) {
+        if (NODE_ENV <= 1) {
             await colListings.deleteMany({})
             await colUsers.deleteMany({})
             bootstrap

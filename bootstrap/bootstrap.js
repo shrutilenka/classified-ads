@@ -98,12 +98,12 @@ function fakeItems(docsCount) {
         }
         let email
         if (i < 10) {
-            email = 'bacloud14@gmail.com'
+            email = process.env.ADMIN_EMAIL
             item.d = false
             item.a = true
         }
         if (i < 20 && i >= 10) {
-            email = 'sracer2016@yahoo.com'
+            email = process.env.ADMIN_EMAIL2
             item.d = false
             item.a = true
         }
@@ -231,10 +231,10 @@ ops.famousSearches = function famousSearches() {
     // }
 }
 // INJECT ENDPOINTS TO TEST EVERYTHING IS FINE AND REGISTER NEW USERS
-const logRequest = (response, app) => {
-    app.log.info('status code: ', response.statusCode)
-    app.log.info('body: ', response.body)
-}
+// const logRequest = (response, app) => {
+//     app.log.info('status code: ', response.statusCode)
+//     app.log.info('body: ', response.body)
+// }
 ops.fastifyInjects = async function fastifyInjects(app) {
     console.log('Injecting Fastify requests')
     // Fastify inject doesn't work anymore for some reason !
@@ -243,8 +243,8 @@ ops.fastifyInjects = async function fastifyInjects(app) {
     //     url: '/signup',
     //     remoteAddress: '0.0.0.0',
     //     payload: {
-    //     username: 'bacloud14@gmail.com',
-    //     password: 'blablabla111SSS.',
+    //     username: process.env.ADMIN_EMAIL2,
+    //     password: process.env.ADMIN_PASS,
     //     },
     // })
     // logRequest(response, app)
@@ -253,8 +253,8 @@ ops.fastifyInjects = async function fastifyInjects(app) {
     //     url: '/signup',
     //     remoteAddress: '0.0.0.0',
     //     payload: {
-    //         username: 'sracer2016@yahoo.com',
-    //         password: 'blablabla111SSS.',
+    //         username: process.env.ADMIN_EMAIL2,
+    //         password: process.env.ADMIN_PASS,
     //     },
     // })
     // logRequest(response, app)
@@ -266,6 +266,8 @@ ops.fastifyInjects = async function fastifyInjects(app) {
                 form: {
                     username: email,
                     password: password,
+                    firstName: email,
+                    secondName: email
                 },
             },
             (err, response, body) => {
@@ -275,21 +277,19 @@ ops.fastifyInjects = async function fastifyInjects(app) {
             },
         )
     post(process.env.ADMIN_EMAIL, process.env.ADMIN_PASS)
-    post("sracer2016@yahoo.com", process.env.ADMIN_PASS)
+    post(process.env.ADMIN_EMAIL2, process.env.ADMIN_PASS)
 }
 
 ops.registerPipelines = function registerPipelines(db, scheduler, seconds) {
     const QInstance = new scripts(db)
     const task = new AsyncTask(
-        'Refereshing top words accross all listings',
-        () => {
-            return QInstance.refreshKeywords()
-                .then((result) => {
-                    // result is an empty cursor
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+        'Refreshing top words across all listings',
+        async () => {
+            try {
+                const result_1 = await QInstance.refreshKeywords()
+            } catch (err) {
+                console.log(err)
+            }
         },
         (err) => {
             console.log(err)
