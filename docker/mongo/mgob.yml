@@ -1,6 +1,6 @@
 scheduler:
   # run every day at 6:00 and 18:00 UTC
-  cron: "0 6,18 */1 * *"
+  cron: "0 0 12 ? * MON,WED,SAT *"
   # number of backups to keep locally
   retention: 30
   # backup operation timeout in minutes

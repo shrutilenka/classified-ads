@@ -257,8 +257,8 @@ async function routes(fastify, options, next) {
                 body.message = new stringTransformer(body.message).sanitizeHTML().valueOf()
                 const clean = escaper.escape(body.message)
                 const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
-                transformed = DOMPurify.sanitize(transformed)
                 body.message = escaper.unescape(transformed)
+                body.message = DOMPurify.sanitize(body.message)
             } catch (error) {
                 // TODO: stop request ?
                 req.log.error(

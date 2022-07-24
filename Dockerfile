@@ -1,6 +1,13 @@
 FROM node:14.19.3-alpine3.14
 # ADD https://raw.githubusercontent.com/Stevie-Ray/referrer-spam-blocker/master/referral-spam.caddy /etc/caddy/
 WORKDIR /classified-ads
+
+
+
+RUN cd ./other_apps/ && rm -rf so-cards && git clone https://github.com/bacloud22/so-cards.git
+RUN https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt > /data/raw/ipsum.txt
+
+
 COPY package.json ./
 RUN npm i -g npm
 RUN rm -rf /node_modules
@@ -19,12 +26,12 @@ RUN apk add --no-cache --update --virtual .gyp \
 
 
 # RUN npm run docker:build
-# RUN apk add git
+RUN apk add git
 
 RUN npm i
 #RUN chmod -R a+rwx node_modules/@msgpackr-extract
 COPY . ./
-# RUN cd ./other_apps/ && git clone https://github.com/bacloud22/so-cards.git 
+
 WORKDIR /classified-ads/client
 COPY /client/package.json ./
 #RUN rm -rf /node_modules

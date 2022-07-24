@@ -218,6 +218,7 @@ export default (fastify) => {
                 const [err, insertedId] = await to(QInstance.insertListing(listing))
                 if (err) throw err
                 listing['_id'] = insertedId.toHexString()
+                listing.usr = listing.usr ? helpers.initials(listing.usr) : 'YY'
                 let data = { data: listing, section: listing.section }
                 reply.blabla([data, 'listing', 'id'], req)
                 return reply
