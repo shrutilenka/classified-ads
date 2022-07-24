@@ -68,19 +68,15 @@ async function build(doRun) {
     })
     // TODO: SERVE STATIC CONTENT! LATER PREFERABLY ON A SEPARATE SERVER WITH PROPER PROTECTION
     fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
-    // fastify.register(fastifyServe, {
-    //     root: path.join(__dirname, 'static/images/'),
-    //     prefix: '/static/images/',
-    //     decorateReply: false,
-    // })
+
     fastify.register(fastifyServe, {
         root: path.join(__dirname, 'other_apps/so-cards/'),
         prefix: '/u/',
         decorateReply: false,
     })
     fastify.register(fastifyServe, {
-        root: path.join(__dirname, `static/pages/${config('DEPLOYMENT_NAME')}`),
-        prefix: '/static/pages/',
+        root: path.join(__dirname, `static/${config('DEPLOYMENT_NAME')}`),
+        prefix: '/static/',
         decorateReply: false,
     })
 

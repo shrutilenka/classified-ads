@@ -87,7 +87,6 @@ function fakeItems(docsCount) {
         item.desc = langsFaker[randomLang].words(10 + Math.floor(Math.random() * 30)) //.slice(5000)
         item.cdesc = item.desc
         item.tags = [langsFaker[randomLang].words(1), langsFaker[randomLang].words(1), langsFaker[randomLang].words(1)]
-        if (Math.random() < 0.5) item.img = 'https://live.staticflickr.com/3938/15615468856_92275201d5_b.jpg'
         item.div = states[randomLang][Math.floor(Math.random() * states[randomLang].length)]
         item.section = sections[Math.floor(Math.random() * sections.length)]
         item.offer = Math.random() < 0.5
