@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify'
 import multer from 'fastify-multer'
 import { tidy } from 'htmltidy2'
 import { NLPEscape } from 'nlp-escape'
@@ -256,6 +257,7 @@ async function routes(fastify, options, next) {
                 body.message = new stringTransformer(body.message).sanitizeHTML().valueOf()
                 const clean = escaper.escape(body.message)
                 const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
+                transformed = DOMPurify.sanitize(transformed)
                 body.message = escaper.unescape(transformed)
             } catch (error) {
                 // TODO: stop request ?

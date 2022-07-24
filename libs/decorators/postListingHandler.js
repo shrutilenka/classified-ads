@@ -1,4 +1,5 @@
 import { Storage } from '@google-cloud/storage'
+import DOMPurify from 'dompurify'
 import { tidy } from 'htmltidy2'
 import Jimp from 'jimp-compact'
 import { createRequire } from 'module'
@@ -100,6 +101,7 @@ export default (fastify) => {
                 const clean = escaper.escape(body.desc)
                 const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
                 body.desc = escaper.unescape(transformed)
+                body.desc = DOMPurify.sanitize(body.desc)
                 stripped = body.desc.replace(/<[^>]*>?/gm, '')
                 body.cdesc = stripped
             } catch (error) {
