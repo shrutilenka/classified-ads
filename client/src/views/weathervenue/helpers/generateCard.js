@@ -12,7 +12,7 @@ export const generateCard = (cardId) => {
     toBe.insertAdjacentHTML('afterbegin', title)
     if (isMobile) {
       const button = document.createElement('button')
-      button.innerHTML = '<i class="bi bi-share"></i>'
+      button.innerHTML = '<i class="bi bi-share">&#8203;</i>'
       button.classList.add('btn-sm')
       button.classList.add('btn-light')
       button.onclick = function () {

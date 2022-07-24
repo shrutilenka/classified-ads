@@ -68,8 +68,8 @@ export default class TemperatureCard {
 
   html () {
     const showClass = isMobile ? '' : 'show'
-    const collapseIcon = isMobile ? '<i class="bi bi-arrows-collapse"></i>' : ''
-    let autoDragBtn = isMobile ? `<button class="btn-sm btn-light" id="${this.getCurrentMarkedId()}-${this.co}-autodrag" onclick="autoDrag(this.id)"><i class="bi bi-binoculars"></i></button>` : ''
+    const collapseIcon = isMobile ? '<i class="bi bi-arrows-collapse">&#8203;</i>' : ''
+    let autoDragBtn = isMobile ? `<button class="btn-sm btn-light" id="${this.getCurrentMarkedId()}-${this.co}-autodrag" onclick="autoDrag(this.id)"><i class="bi bi-binoculars">&#8203;</i></button>` : ''
     return (`
       <div class="col-md-3" id="${this.getCurrentMarkedId()}-${this.co}" style="margin-top:20px;" draggable="true" ondragstart="drag(event)">
           <div class="card" style="${this.getHueColors()}">

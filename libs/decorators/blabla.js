@@ -60,12 +60,12 @@ export default function blabla(context) {
     const route = context[1]
     const routeC = constraints[process.env.NODE_ENV].GET[route]
     const UXConstraints = routeC ? { UXConstraints: routeC } : {}
-    const data = { ...userFriendlyMsg, ...UXConstraints }
+    const final = { ...userFriendlyMsg, ...UXConstraints }
     // Send JSON for API env
     if (NODE_ENV == -1) {
         this.send(context[0])
     } else {
-        this.view(`/templates/pages/${route}`, data)
+        this.view(`/templates/pages/${route}`, final)
     }
 }
 const appName = config('APP_NAME')
@@ -123,6 +123,7 @@ function localize(data, route, kind, req, reply) {
     else userFriendlyMsg.error = []
 
     if (errors.length > 0) userFriendlyMsg.error = errors
+    userFriendlyMsg['meta'] = userFriendlyMsg['intro'] ? userFriendlyMsg['intro'] : ''
     return Object.assign(userFriendlyMsg, data)
 }
 /**

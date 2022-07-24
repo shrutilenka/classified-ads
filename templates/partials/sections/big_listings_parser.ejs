@@ -37,15 +37,15 @@ var imgHolder = {
             <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < listings[i].tags.length ; j++) { %>
             <a href="/tag/<%- listings[i].tags[j] %>"><span class="badge bg-secondary"><%- listings[i].tags[j] %></span></a>
             <% } %>
-            <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i></span></a>
+            <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% if(listings[i].lang != 'und'){ %>
             <img class="pull-right flag" alt="<%- listings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- listings[i].lang %>.svg">
             <% } %>
             <% if(typeof listings[i].d != 'undefined' && listings[i].d){ %>
-            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true"></i></span></a>
+            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
             <% if(typeof listings[i].d != 'undefined' && !listings[i].d){ %>
-            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true"></i></span></a>
+            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
           </div>
 
@@ -84,12 +84,12 @@ var imgHolder = {
             <% if(crossLangListings[i].lang != 'und'){ %>
             <img class="pull-right flag" alt="<%- crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- crossLangListings[i].lang %>.svg">
             <% } %>
-            <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i></span></a>
+            <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% if(typeof crossLangListings[i].d != 'undefined' && crossLangListings[i].d){ %>
-            <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true"></i></span></a>
+            <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
             <% if(typeof crossLangListings[i].d != 'undefined' && !crossLangListings[i].d){ %>
-            <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true"></i></span></a>
+            <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
           </div>
 

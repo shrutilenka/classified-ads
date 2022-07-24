@@ -45,6 +45,7 @@ export const setupI18n = async () => {
                         i18next.changeLanguage(cookies.locale).then((t) => {
                             const localize = locI18next.init(i18next, { selectorAttr: 'data-trans' })
                             refreshTrans(localize)
+                            // TODO: seems not to be working sometimes !
                             document.documentElement.setAttribute('lang', cookies.locale)
                             document.body.setAttribute('lang', cookies.locale)
                             if (cookies.locale === 'ar') {

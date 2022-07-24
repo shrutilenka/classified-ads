@@ -25,7 +25,7 @@ export default class AqiCard {
     html() {
         let coo = 1
         const showClass = isMobile ? '' : 'show'
-        const collapseIcon = '<i class="bi bi-arrows-collapse"></i>'
+        const collapseIcon = '<i class="bi bi-arrows-collapse">&#8203;</i>'
         return `
           <div class="col-md-3" style="margin-top:20px;">
               <div class="card" style="${this.style}">
