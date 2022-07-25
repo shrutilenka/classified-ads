@@ -1,6 +1,6 @@
-import DOMPurify from 'dompurify'
 import multer from 'fastify-multer'
 import { tidy } from 'htmltidy2'
+import DOMPurify from 'isomorphic-dompurify'
 import { NLPEscape } from 'nlp-escape'
 import { promisify } from 'util'
 // import config from '../../configuration.js'
@@ -262,7 +262,7 @@ async function routes(fastify, options, next) {
             } catch (error) {
                 // TODO: stop request ?
                 req.log.error(
-                    `post/listings#postListingHandler: tidyP:: ${body.message.slice(0, 20)} | ${error.message} `,
+                    `post/listings#postListingHandler: tidyP|nlp-escape|dompurify|decancer:: ${body.message.slice(0, 20)} | ${error.message} `,
                 )
             }
 

@@ -1,6 +1,6 @@
 import { Storage } from '@google-cloud/storage'
-import DOMPurify from 'dompurify'
 import { tidy } from 'htmltidy2'
+import DOMPurify from 'isomorphic-dompurify'
 import Jimp from 'jimp-compact'
 import { createRequire } from 'module'
 import { NLPEscape } from 'nlp-escape'
@@ -106,7 +106,7 @@ export default (fastify) => {
                 body.cdesc = stripped
             } catch (error) {
                 // TODO: stop request ?
-                req.log.error(`post/listings#postListingHandler: tidyP:: ${body.desc.slice(0, 20)} | ${error.message} `)
+                req.log.error(`post/listings#postListingHandler: tidyP|nlp-escape|dompurify|decancer:: ${body.desc.slice(0, 20)} | ${error.message} `)
             }
             try {
                 body.lang = stripped ? await helpers.getLanguage(stripped) : 'und'
