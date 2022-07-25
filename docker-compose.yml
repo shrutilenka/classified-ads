@@ -34,7 +34,7 @@ services:
         - '27017:27017'
       restart: unless-stopped
   mgob:
-    image: mgob:latest
+    image: stefanprodan/mgob:latest
     #restart: always
     container_name: "mgob"
     ports:

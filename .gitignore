@@ -188,6 +188,8 @@ build/config.gypi
 
 host-db/redis-data/
 host-db/mongo-data/
+backup/*
+!/backup/.gitkeep
 client/node_modules
 
 /uploads/*

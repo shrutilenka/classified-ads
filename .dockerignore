@@ -175,6 +175,8 @@ build/config.gypi
 
 host-db/redis-data/
 host-db/mongo-data/
+backup/*
+!/backup/.gitkeep
 
 Dockerfile
 .dockerignore
@@ -183,3 +185,4 @@ Dockerfile
 
 /uploads/*
 !/uploads/.gitkeep
+
