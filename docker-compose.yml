@@ -31,6 +31,7 @@ services:
 
   app-listmonk:
     <<: *app-defaults
+    command: [sh, -c, "yes | ./listmonk --install --config config.toml && ./listmonk --config config.toml"]
     depends_on:
       - db-listmonk
     volumes:
@@ -108,7 +109,10 @@ services:
         - './:/srv'
         - caddy_data:/data
         - caddy_config:/config
+networks:
+  listmonk:
 
 volumes:
   caddy_data:
   caddy_config:
+  listmonk-data:
