@@ -1,7 +1,7 @@
 FROM node:14.19.3-alpine3.14
 WORKDIR /classified-ads
 
-RUN apk add git
+RUN apk add git curl
 RUN mkdir -p other_apps && cd other_apps/ && rm -rf so-cards && git clone https://github.com/bacloud22/so-cards.git
 RUN mkdir -p data/raw && curl https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt > data/raw/ipsum.txt
 
