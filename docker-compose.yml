@@ -1,5 +1,41 @@
 version: '3.7'
+
+x-app-defaults: &app-defaults
+  restart: unless-stopped
+  image: listmonk/listmonk:latest
+  ports:
+    - "9000:9000"
+  networks:
+    - listmonk
+
+x-db-defaults: &db-defaults
+    image: postgres:11
+    ports:
+      - "9432:5432"
+    networks:
+      - listmonk
+    environment:
+      - POSTGRES_PASSWORD=listmonk
+      - POSTGRES_USER=listmonk
+      - POSTGRES_DB=listmonk
+    restart: unless-stopped
+
 services:
+
+  db-listmonk:
+    <<: *db-defaults
+    volumes:
+      - type: volume
+        source: listmonk-data
+        target: /var/lib/postgresql/data
+
+  app-listmonk:
+    <<: *app-defaults
+    depends_on:
+      - db-listmonk
+    volumes:
+      - ./docker/listmonk/config.toml/:/listmonk/config.toml
+
   classified-ads:
     container_name: classified-ads
     depends_on:
@@ -8,7 +44,8 @@ services:
       - caddy-service
     # environment:
     #   - NODE_ENV=localhost
-    #volumes:
+    volumes:
+      - ./logs/all.log:/classified-ads/logs/all.log
     #  - .:/classified-ads
     ports:
       - 3000:3000
