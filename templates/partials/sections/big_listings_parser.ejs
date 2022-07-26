@@ -35,7 +35,7 @@ var imgHolder = {
 
           <div class="w-100">
             <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < listings[i].tags.length ; j++) { %>
-            <a href="/tag/<%- listings[i].tags[j] %>"><span class="badge bg-secondary"><%- listings[i].tags[j] %></span></a>
+            <a href="/tag/<%- encodeURIComponent(listings[i].tags[j]) %>"><span class="badge bg-secondary"><%- listings[i].tags[j] %></span></a>
             <% } %>
             <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% if(listings[i].lang != 'und'){ %>
@@ -79,7 +79,7 @@ var imgHolder = {
 
           <div class="w-100">
             <% for (var j=0; crossLangListings[i].tags && crossLangListings[i].tags.length > 0 && j < crossLangListings[i].tags.length ; j++) { %>
-            <a href="/tag/<%- crossLangListings[i].tags[j] %>"><span class="badge bg-secondary"><%- crossLangListings[i].tags[j] %></span></a>
+            <a href="/tag/<%- encodeURIComponent(crossLangListings[i].tags[j]) %>"><span class="badge bg-secondary"><%- crossLangListings[i].tags[j] %></span></a>
             <% } %>
             <% if(crossLangListings[i].lang != 'und'){ %>
             <img class="pull-right flag" alt="<%- crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- crossLangListings[i].lang %>.svg">

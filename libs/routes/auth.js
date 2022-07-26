@@ -94,6 +94,7 @@ async function routes(fastify, options) {
             return reply
         }
         const { username, password, firstName, secondName } = request.body
+        
         // Always 'regular' by default (except user@mail.com for tests)
         const role = username === process.env.ADMIN_EMAIL || username === process.env.ADMIN_EMAIL2 ? 'admin' : 'regular'
         const isVerified = role === 'admin' ? true : false

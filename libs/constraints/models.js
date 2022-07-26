@@ -90,7 +90,7 @@ const User = new ObjectModel({
     username: String,
     password: [String],
     firstName: String,
-    lastName: String,
+    secondName: String,
     passhash: String,
     isVerified: Boolean,
     role: ['admin', 'regular'],

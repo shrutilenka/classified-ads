@@ -1,10 +1,8 @@
 {
-	admin 0.0.0.0:2019
-}
-{
 	admin 0.0.0.0:9000
 }
-ns3027175.ip-188-165-209.eu {
+
+iciannonces.fr {
 	@mygeofilter {
 		maxmind_geolocation {
 			db_path "/srv/data/raw/maxmind/GeoLite2-Country.mmdb"

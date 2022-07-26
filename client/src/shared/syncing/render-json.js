@@ -2,7 +2,8 @@
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Sync data @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 import { markRequiredInputs, updatePostPostInputs } from './ReactiveUI/constraints.js'
-import { /*renderComments,*/ renderTopByDiv, renderTopSearches, renderTopTags } from './renderers/renderer.js'
+import { renderTopByDiv, renderTopSearches, renderTopTags } from './renderers/renderer.js'
+
 export const renderShared = async () => {
     return new Promise(function (resolve, reject) {
         try {
@@ -11,7 +12,6 @@ export const renderShared = async () => {
             }
             renderTopSearches()
             renderTopByDiv()
-            // renderComments()
             markRequiredInputs()
             updatePostPostInputs()
             return resolve('### function "renderShared" run successfully')

@@ -28,7 +28,7 @@ var imgHolder = {
 
           <div class="w-100">
             <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < listings[i].tags.length ; j++) { %>
-            <a href="/tag/<%- listings[i].tags[j] %>"><span class="badge bg-secondary"><%- listings[i].tags[j] %></span></a>
+            <a href="/tag/<%- encodeURIComponent(listings[i].tags[j]) %>"><span class="badge bg-secondary"><%- listings[i].tags[j] %></span></a>
             <% } %>
             <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i></span></a>
             <% if(listings[i].lang != 'und'){ %>

@@ -29,7 +29,7 @@ const signup = S.object()
     .prop('password', S.string().minLength(8).maxLength(40))
     .prop('firstName', S.string().minLength(2).maxLength(40))
     .prop('secondName', S.string().minLength(2).maxLength(40))
-    .required(['username', 'password'])
+    .required(['username', 'password', 'firstName', 'secondName'])
 const signupSchema = {
     body: signup,
 }
