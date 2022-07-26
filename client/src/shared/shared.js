@@ -80,11 +80,11 @@ export const setupShared = () => {
         .then((buffer) => {
             const json = window.geobuf.decode(new Pbf(buffer))
             country.states = json;
-            fetch('/geo/simple_fr.json')
-                .then((response) => response.json())
-                .then((json) => {
-                    // const json = window.geobuf.decode(new Pbf(buffer))
-                    country.borders = json.features[0].geometry.geometries[0].coordinates
+            fetch('/geo/simple_fr.pbf')
+                .then((response) => response.arrayBuffer())
+                .then((buffer) => {
+                    const json = window.geobuf.decode(new Pbf(buffer))
+                    country.borders = json.features[0].geometry.coordinates[0]
                     setupDelimitationsKeywords()
                     setupMaps()
                 })

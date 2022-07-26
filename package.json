@@ -17,7 +17,7 @@
     "tools:mlmodels:en": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec --output wiki.multi.en.vec",
     "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
     "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",
-    "tools:compress": "cd public/geo/ && json2geobuf states.min.json > states.min.pbf && json2geobuf simple_fr.geojson > simple_fr.pbf",
+    "tools:compress": "cd public/geo/ && json2geobuf states.min.json > states.min.pbf && json2geobuf simple_fr.json > simple_fr.pbf",
     "test:server": "NODE_ENV=api tap --no-coverage && ava",
     "test:unit": "ava test/units.js",
     "update_static": "license-report --only=prod --output=html --department.value= --relatedTo.value=  | tee  static/fr/third_parties.html static/dz/third_parties.html static/xx/third_parties.html > /dev/null",
