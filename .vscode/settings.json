@@ -5,10 +5,10 @@
     "source.fixAll"
   ],
   "emmet.includeLanguages": {
-    "ejs": "html",
+    "eta": "html",
   },
   "[html]": {
-    "editor.defaultFormatter": "j69.ejs-beautify"
+    "editor.defaultFormatter": "j69.ejs-eta-beautify"
   },
   "i18n-ally.localesPaths": [
     "data/locales",
@@ -19,5 +19,8 @@
     "editor.defaultFormatter": "vscode.json-language-features"
   },
   "i18n-ally.keystyle": "nested",
-  "i18n-ally.sourceLanguage": "en"
+  "i18n-ally.sourceLanguage": "en",
+  "[eta]": {
+    "editor.defaultFormatter": "besthyhy.ejs-eta-beautify"
+  }
 }

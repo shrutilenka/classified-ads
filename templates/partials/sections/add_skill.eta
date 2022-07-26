@@ -65,7 +65,7 @@
     <input name="color" id="color" value='' type="hidden">
     <input name="section" value='skills' type="hidden">
     <div>
-      <button class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Add listing</button>
+      <button type="submit" class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Add listing</button>
     </div>
   </form>
 </details>

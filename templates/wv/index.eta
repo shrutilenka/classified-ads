@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <%- include('head',
+  <%~ includeFile('head',
       { version: 'bootstrap' , centerLocation: 'london' , lang: 'en' , title: 'Welcome to WeatherVenue',
         description: 'WeatherVenue lets you find best places to visit in your entourage; Easily finding warmer winter vacation or cool summer escapes.',
       });
@@ -21,11 +21,11 @@
   <div id="spinner-front">
     <img src="/wv/images/loading.gif" /><br>
   </div>
-  <%- include('navbar', { lang: 'en' }); %>
+  <%~ includeFile('navbar', { lang: 'en' }); %>
   <div class="container-fluid">
   <h2 class="text-center" id="explanatory-text">Let people find best places to visit in their entourage; For warmer winter weather vacation or cool summer escapes.</h2>
   </div>
-  <%- include('map', { command: 'Enter a location' }); %>
+  <%~ includeFile('map', { command: 'Enter a location' }); %>
 
 
   <div class="container-fluid" data-intro=<%- messages.tour[lang].cards %> data-position="auto">
@@ -61,9 +61,9 @@
   <div class="row" id="imgGrid" data-intro=<%- messages.tour[lang].gallery %> data-position="auto">
 
   </div>
-  <%- include('footer'); %>
+  <%~ includeFile('footer'); %>
 
 </body>
-<%- include('after_body'); %>
+<%~ includeFile('after_body'); %>
 
 </html>

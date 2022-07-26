@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%~ includeFile('../partials/shared/head'); %>
+</head>
+
+<body>
+  <div id="lower_right" class="svg"></div>
+  <div class="container">
+    <%~ includeFile('../partials/shared/navbar'); %>
+    <h1 class="servervar">
+      <%= title %>
+    </h1>
+    <p class="servervar"> 🗯 <%= message %> </p>
+
+    <%~ includeFile('../partials/conf/prepare_js'); %>
+    <%~ includeFile('../partials/shared/footer'); %>
+  </div>
+  <%~ includeFile('../partials/conf/beforebodyclose'); %>
+</body>
+
+</html>

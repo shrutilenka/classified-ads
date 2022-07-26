@@ -8,7 +8,7 @@
     <input type="hidden" type="number" id="lat3" name="lat">
     <input type="hidden" type="number" id="lng3" name="lng">
     <input type="hidden" name="section" value='<%=section%>'>
-    <button class="btn btn-primary w-100" data-trans="geo.(search)">Search</button>
+    <button type="submit" class="btn btn-primary w-100" data-trans="geo.(search)">Search</button>
   </form>
 </details>
 <% } %>

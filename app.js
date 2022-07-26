@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { config as dotenv } from 'dotenv'
-import ejs from 'ejs'
+import * as Eta from 'eta'
 import fastify_ from 'fastify'
 import i18next from 'i18next'
 import Backend from 'i18next-fs-backend'
@@ -188,7 +188,7 @@ async function build(doRun) {
     // TODO: find a way to strip very long ejs logging errors
     fastify.register(viewsPlugin, {
         engine: {
-            ejs: ejs,
+            eta: Eta,
             defaultContext: {
                 dev: process.env.NODE_ENV === 'development',
             },
@@ -237,7 +237,7 @@ async function build(doRun) {
             reply.send(error)
             return reply
         }
-        
+
         if (error.validation) {
             localize[request.cookies.locale || 'en'](error.validation)
             reply.status(422).send(error.validation)

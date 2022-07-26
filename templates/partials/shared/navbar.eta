@@ -72,7 +72,7 @@
     </form>
 
     <div class="dropdown ms-3">
-      <button class="btn btn-bd-light dropdown-toggle" id="bd-versions" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
+      <button type="button" class="btn btn-bd-light dropdown-toggle" id="bd-versions" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
         <span class="d-none d-lg-inline">Accessibility</span> v5.0
       </button>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-versions">

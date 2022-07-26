@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <%- include('partials/head'); %>
+  <%~ includeFile('partials/head'); %>
 </head>
 
 <body lang="en">
@@ -11,7 +11,7 @@
   <!-- <div id="lower_left"></div> -->
   <div id="lower_right" class="svg"></div>
   <div class="container">
-    <%- include('partials/navbar'); %>
+    <%~ includeFile('partials/navbar'); %>
     <div class="bg-light p-5 rounded">
       <h1><%= title %></h1>
       <p class="lead"><%= intro %></p>
@@ -19,9 +19,9 @@
     </div>
     <br>
     <div id="game-map"></div>
-    <%- include('partials/footer'); %>
+    <%~ includeFile('partials/footer'); %>
   </div>
-  <%- include('partials/beforebodyclose'); %>
+  <%~ includeFile('partials/beforebodyclose'); %>
 </body>
 
 </html>

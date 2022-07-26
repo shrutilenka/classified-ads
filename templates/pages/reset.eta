@@ -2,12 +2,12 @@
 <html>
 
 <head>
-  <%- include('../partials/shared/head'); %>
+  <%~ includeFile('../partials/shared/head'); %>
 </head>
 
 <body>
   <div class="container">
-    <%- include('../partials/shared/navbar'); %>
+    <%~ includeFile('../partials/shared/navbar'); %>
     <% if(typeof(title) != 'undefined' && typeof(intro) != 'undefined') { %>
     <div class="bg-light p-5 rounded">
       <h1><%= title %></h1>
@@ -38,10 +38,10 @@
 
     </div>
 
-    <%- include('../partials/conf/prepare_js'); %>
-    <%- include('../partials/shared/footer'); %>
+    <%~ includeFile('../partials/conf/prepare_js'); %>
+    <%~ includeFile('../partials/shared/footer'); %>
   </div>
-  <%- include('../partials/conf/beforebodyclose'); %>
+  <%~ includeFile('../partials/conf/beforebodyclose'); %>
 </body>
 
 </html>

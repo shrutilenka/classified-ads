@@ -3,11 +3,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
 <head>
-  <%- include('../partials/others/datatables'); %>
+  <%~ includeFile('../partials/others/datatables'); %>
 </head>
 
 <body class="dark">
-  <%- include('../partials/shared/navbar'); %>
+  <%~ includeFile('../partials/shared/navbar'); %>
   <div class="container">
     <div class="bg-light p-5 rounded">
       <h1><%= title %></h1>
@@ -47,7 +47,7 @@
     <p class="next-step">
 
     </p>
-    <%- include('../partials/shared/footer'); %>
+    <%~ includeFile('../partials/shared/footer'); %>
   </div>
 </body>
 <script src="https://cdn.datatables.net/v/dt/dt-1.10.24/sp-1.2.2/sl-1.3.3/datatables.min.js"></script>

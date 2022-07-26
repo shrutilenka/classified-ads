@@ -22,7 +22,7 @@
         <input class="w-auto flex text-muted p-1 flex-grow-1" type="date" name="since" id="since" value="2021-04-01" min="2021-04-01">
       </div>
       <div class="w-100 my-auto py-1 col-lg">
-        <button class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1" data-trans="(search)">Search</button>
+        <button type="submit" class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1" data-trans="(search)">Search</button>
       </div>
     </div>
     <input type="hidden" name="section" value='<%=section%>'>

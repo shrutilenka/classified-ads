@@ -14,8 +14,8 @@
     <h2 class="title">fennec-fox-p-0</h2>
     <%- svg %>
     <div class="controls">
-      <button class="btn-draw">draw</button>
-      <button class="btn-erase">erase</button>
+      <button type="button" class="btn-draw">draw</button>
+      <button type="button" class="btn-erase">erase</button>
     </div>
   </div>
 </body>

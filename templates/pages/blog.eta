@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%~ includeFile('../partials/shared/head'); %>
+    </head>
+    <body>
+        <%~ includeFile('../partials/shared/navbar'); %>
+        <div class="container">
+            <% if(typeof(title) != 'undefined' && typeof(intro) != 'undefined') { %>
+                <div class="bg-light p-5 rounded">
+                    <h1><%= title %></h1>
+                    <p class="lead"><%= intro %></p>
+                    <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs</a>
+                </div>
+            <% } else { %>
+                <div class="bg-light p-5 rounded">
+                    <h1>TEMP TITLE(O_o)</h1>
+                    <p class="lead">TEMP intro (O_o) TEMP intro (O_o) TEMP intro (O_o) TEMP intro (O_o) TEMP intro (O_o) TEMP intro (O_o)
+                    </p>
+                    <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs</a>
+                </div>
+            <% } %>
+            <section id="docs">
+                <header class="row">
+                    <div class="col-sm-6">
+                        <h1 class="display-2 py-2 text-xs-center text-sm-left servervar">
+                            <%= title %>
+                        </h1>
+                    </div>
+                    <div class="col-sm-6 hidden">
+                        <h2>docs</h2>
+                    </div>
+                    <div class="col-sm-6 d-flex align-items-center justify-content-stretch">
+                        <nav class="navbar navbar-expand navbar-light bg-light mb-0 w-100">
+                            <ul class="navbar-nav w-100 justify-content-around">
+                                <% for(var i=0; i < sections.length; i++) { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#<%= sections[i].id %>"><%= sections[i].id %></a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    </div>
+                </header>
+            </section>
+            <% for(var i=0; i < sections.length; i++) { %>
+                <h3 id="<%= sections[i].id %>"><%= sections[i].id %></h3>
+                <p><%- sections[i].html %></p>
+            <% } %>
+            <%~ includeFile('../partials/shared/footer'); %>
+        </div>
+        <%~ includeFile('../partials/conf/prepare_js'); %>
+        <%~ includeFile('../partials/conf/beforebodyclose'); %>
+    </body>
+</html>
