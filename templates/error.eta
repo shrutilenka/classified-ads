@@ -1,3 +1,3 @@
-<h1 class="servervar"><%= message %></h1>
-<h2 class="servervar"><%= error.status %></h2>
-<pre class="servervar"><%= error.stack %></pre>
+<h1 class="servervar"><%= it.message %></h1>
+<h2 class="servervar"><%= it.error.status %></h2>
+<pre class="servervar"><%= it.error.stack %></pre>

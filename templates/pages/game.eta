@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <%~ includeFile('partials/head'); %>
+  <%~ includeFile('partials/head', it); %>
 </head>
 
 <body lang="en">
@@ -11,17 +11,17 @@
   <!-- <div id="lower_left"></div> -->
   <div id="lower_right" class="svg"></div>
   <div class="container">
-    <%~ includeFile('partials/navbar'); %>
+    <%~ includeFile('partials/navbar', it); %>
     <div class="bg-light p-5 rounded">
-      <h1><%= title %></h1>
-      <p class="lead"><%= intro %></p>
+      <h1><%= it.title %></h1>
+      <p class="lead"><%= it.intro %></p>
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
     </div>
     <br>
     <div id="game-map"></div>
     <%~ includeFile('partials/footer'); %>
   </div>
-  <%~ includeFile('partials/beforebodyclose'); %>
+  <%~ includeFile('partials/beforebodyclose', it); %>
 </body>
 
 </html>

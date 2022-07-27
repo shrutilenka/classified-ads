@@ -2,8 +2,8 @@
 <html>
 
 <head>
-  <%~ includeFile('../partials/shared/head'); %>
-  <% if(typeof(title) != 'undefined' && title === 'Reactivate') { %>
+  <%~ includeFile('../partials/shared/head', it); %>
+  <% if(typeof(it.title) != 'undefined' && it.title === 'Reactivate') { %>
   <style>
     body {
       background-image: linear-gradient(transparent 50%, rgb(226 169 169 / 50%) 50%);
@@ -16,12 +16,12 @@
 <body>
 
   <div id="lower_right" class="svg"></div>
-  <%~ includeFile('../partials/shared/navbar'); %>
+  <%~ includeFile('../partials/shared/navbar', it); %>
   <div class="container">
-    <% if(typeof(title) != 'undefined' && typeof(intro) != 'undefined') { %>
+    <% if(typeof(it.title) != 'undefined' && typeof(it.intro) != 'undefined') { %>
     <div class="bg-light p-5 rounded">
-      <h1><%= title %></h1>
-      <p class="lead"><%= intro %></p>
+      <h1><%= it.title %></h1>
+      <p class="lead"><%= it.intro %></p>
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs</a>
     </div>
     <% } else { %>
@@ -36,7 +36,7 @@
       <% } else { %>
       <div class="listing" dir="rtl">
         <% }%>
-        <%~ includeFile('../partials/sections/breadcrumb'); %>
+        <%~ includeFile('../partials/sections/breadcrumb', it); %>
 
         <p data-trans="(posted-by)">Posted by:</p>
         <div id="user">
@@ -62,8 +62,8 @@
                       <div id="message-editor" class="pell px-3 pt-3 bg-white border-bottom-0" data-target="#unique_target" data-max="500" style="color: #333!important;fill: #333!important;"></div>
                       <div id="characters-left" class="px-2" style="font-size: 12px; font-family: 'Lucida Console', Arial, Helvetica, sans-serif;"></div>
                     </div>
-                    <input type="hidden" name="email" value='<%= data.email %>'>
-                    <input type="hidden" name="id" value='<%= data._id %>'>
+                    <input type="hidden" name="email" value='<%= it.data.email %>'>
+                    <input type="hidden" name="id" value='<%= it.data._id %>'>
                     <input name="message" class="add" id="message" value="" type="hidden">
                     <div class="w-100">
                       <button type="submit" class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Send</button>
@@ -82,24 +82,24 @@
       <% } %>
       <% if (data.undraw) { %>
       <div id="undraw-output">
-        <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= data.undraw+'.svg' %>" alt="<%= data.undraw %>" style="width: 40rem;">
+        <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= it.data.undraw+'.svg' %>" alt="<%= it.data.undraw %>" style="width: 40rem;">
       </div>
       <% } %>
 
       <div id="font-picker"></div>
 
-      <% if (data.title && data.desc) { %>
-      <h2><%= data.title %></h2>
-      <p class="apply-font"><%- data.desc %></p>
+      <% if (it.data.title && it.data.desc) { %>
+      <h2><%= it.data.title %></h2>
+      <p class="apply-font"><%- it.data.desc %></p>
       <% if (data.section == 'donations') { %>
       <div class="map" id="listing-map"></div>
       <% } %>
       <br>
       <hr>
-      <% if(typeof data.img != 'undefined'){ %>
+      <% if(typeof it.data.img != 'undefined'){ %>
       <div class="d-flex">
         <div class="mx-auto mx-lg-0">
-          <img id="listingImg" src="<%- data.img %>" alt="<%= data.title + ' image' %>" width="200rem">
+          <img id="listingImg" src="<%- data.img %>" alt="<%= it.data.title + ' image' %>" width="200rem">
         </div>
       </div>
       <% } %>
@@ -112,15 +112,15 @@
       <% } %>
 
     </div>
-    <%~ includeFile('../partials/conf/prepare_js'); %>
-    <%# if(typeof channel !== 'undefined'){ %>
+    <%~ includeFile('../partials/conf/prepare_js', it); %>
+    <%# if(typeof it.channel !== 'undefined'){ %>
     <!-- // TODO: CHAT @@@@@@@@@@@@@ -->
-    <%# include('../partials/chat'); %>
+    <%# include('../partials/chat', it); %>
     <%# } %>
     <%~ includeFile('../partials/shared/footer'); %>
   </div>
 
-  <%~ includeFile('../partials/conf/beforebodyclose'); %>
+  <%~ includeFile('../partials/conf/beforebodyclose', it); %>
   <script src="/unversioned_js/ejs.min.js"></script>
   <script>
     {

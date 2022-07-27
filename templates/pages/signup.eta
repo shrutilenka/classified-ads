@@ -2,16 +2,16 @@
 <html>
 
 <head>
-  <%~ includeFile('../partials/shared/head'); %>
+  <%~ includeFile('../partials/shared/head', it); %>
 </head>
 
 <body>
   <div class="container">
-    <%~ includeFile('../partials/shared/navbar'); %>
-    <% if(typeof(title) != 'undefined' && typeof(intro) != 'undefined') { %>
+    <%~ includeFile('../partials/shared/navbar', it); %>
+    <% if(typeof(it.title) != 'undefined' && typeof(it.intro) != 'undefined') { %>
     <div class="bg-light p-5 rounded">
-      <h1><%= title %></h1>
-      <p class="lead"><%= intro %></p>
+      <h1><%= it.title %></h1>
+      <p class="lead"><%= it.intro %></p>
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
     </div>
     <% } else { %>
@@ -50,10 +50,10 @@
 
     </div>
 
-    <%~ includeFile('../partials/conf/prepare_js'); %>
+    <%~ includeFile('../partials/conf/prepare_js', it); %>
     <%~ includeFile('../partials/shared/footer'); %>
   </div>
-  <%~ includeFile('../partials/conf/beforebodyclose'); %>
+  <%~ includeFile('../partials/conf/beforebodyclose', it); %>
 </body>
 
 </html>

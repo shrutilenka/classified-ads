@@ -1,4 +1,4 @@
-<% if(typeof section != 'undefined' && section == 'skills'){ %>
+<% if(typeof section != 'undefined' && it.section == 'skills'){ %>
 <style>
   /* This interfers with leaflet, so no leaflet in Art section */
   .injected-svg {

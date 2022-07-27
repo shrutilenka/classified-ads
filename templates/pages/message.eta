@@ -2,22 +2,22 @@
 <html>
 
 <head>
-  <%~ includeFile('../partials/shared/head'); %>
+  <%~ includeFile('../partials/shared/head', it); %>
 </head>
 
 <body>
   <div id="lower_right" class="svg"></div>
   <div class="container">
-    <%~ includeFile('../partials/shared/navbar'); %>
+    <%~ includeFile('../partials/shared/navbar', it); %>
     <h1 class="servervar">
-      <%= title %>
+      <%= it.title %>
     </h1>
-    <p class="servervar"> 🗯 <%= message %> </p>
+    <p class="servervar"> 🗯 <%= it.message %> </p>
 
-    <%~ includeFile('../partials/conf/prepare_js'); %>
+    <%~ includeFile('../partials/conf/prepare_js', it); %>
     <%~ includeFile('../partials/shared/footer'); %>
   </div>
-  <%~ includeFile('../partials/conf/beforebodyclose'); %>
+  <%~ includeFile('../partials/conf/beforebodyclose', it); %>
 </body>
 
 </html>

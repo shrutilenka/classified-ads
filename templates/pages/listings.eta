@@ -2,40 +2,40 @@
 <html>
 
 <head>
-  <%~ includeFile('../partials/shared/head'); %>
+  <%~ includeFile('../partials/shared/head', it); %>
 </head>
 
 <body>
-  <%~ includeFile('../partials/shared/navbar'); %>
+  <%~ includeFile('../partials/shared/navbar', it); %>
   <div class="container">
     <div class="bg-light p-5 rounded">
-      <h1><%= title %></h1>
-      <p class="lead"><%= intro %></p>
+      <h1><%= it.title %></h1>
+      <p class="lead"><%= it.intro %></p>
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
     </div>
 
     <div class="nav-scroller py-1 mb-2" id="sync-top-tags"></div>
-    <%~ includeFile('../partials/sections/geo_search_map'); %>
-    <%~ includeFile('../partials/forms/gwoogl'); %>
+    <%~ includeFile('../partials/sections/geo_search_map', it); %>
+    <%~ includeFile('../partials/forms/gwoogl', it); %>
 
     <hr>
     <h2 class="pb-2">Listings</h2>
     <% if(typeof section == 'undefined' && typeof context != 'undefined' && (context == 'geolocation' || context == 'gwoogl' || context == 'alllistings')){ %>
-    <%~ includeFile('../partials/sections/big_listings_parser'); %>
+    <%~ includeFile('../partials/sections/big_listings_parser', it); %>
     <% } else { %>
-    <%~ includeFile('../partials/sections/listings_parser'); %>
+    <%~ includeFile('../partials/sections/listings_parser', it); %>
     <% } %>
-    <%~ includeFile('../partials/shared/pagination'); %>
-    <%~ includeFile('../partials/sections/add_donation'); %>
-    <%~ includeFile('../partials/sections/add_skill'); %>
-    <%~ includeFile('../partials/sections/add_event'); %>
-    <%~ includeFile('../partials/sections/add_blog'); %>
-    <%~ includeFile('../partials/sections/add_hobby'); %>
+    <%~ includeFile('../partials/shared/pagination', it); %>
+    <%~ includeFile('../partials/sections/add_donation', it); %>
+    <%~ includeFile('../partials/sections/add_skill', it); %>
+    <%~ includeFile('../partials/sections/add_event', it); %>
+    <%~ includeFile('../partials/sections/add_blog', it); %>
+    <%~ includeFile('../partials/sections/add_hobby', it); %>
 
-    <%~ includeFile('../partials/conf/prepare_js'); %>
+    <%~ includeFile('../partials/conf/prepare_js', it); %>
     <%~ includeFile('../partials/shared/footer'); %>
   </div>
-  <%~ includeFile('../partials/conf/beforebodyclose'); %>
+  <%~ includeFile('../partials/conf/beforebodyclose', it); %>
   <script>
     {
       if (window.__context__ === 'alllistings') {

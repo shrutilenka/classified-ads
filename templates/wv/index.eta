@@ -64,6 +64,6 @@
   <%~ includeFile('footer'); %>
 
 </body>
-<%~ includeFile('after_body'); %>
+<%~ includeFile('after_body', it); %>
 
 </html>

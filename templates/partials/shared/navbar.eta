@@ -1,6 +1,6 @@
 <% if(typeof announcement!=='undefined'){ %>
 <div class="announcement">
-  <p>Announcement Here!<%= announcement %></p>
+  <p>Announcement Here!<%= it.announcement %></p>
 </div>
 <% }%>
 <header class="p-3 bg-dark text-white">
@@ -14,19 +14,19 @@
         <li>
           <a data-trans="(categories)" href="/categories" class="nav-link px-2 text-secondary">Categories</a>
         </li>
-        <li class="<%= typeof(section)!== 'undefined' && section === 'donations' && section %>">
+        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'donations' && section %>">
           <a data-trans="(donations)" href="/listings/donations" class="nav-link px-2 text-white">Donations</a>
         </li>
-        <li class="<%= typeof(section)!== 'undefined' && section === 'events' && section %>">
+        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'events' && section %>">
           <a data-trans="(events)" href="/listings/events" class="nav-link px-2 text-white">Events</a>
         </li>
-        <li class="<%= typeof(section)!== 'undefined' && section === 'skills' && section %>">
+        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'skills' && section %>">
           <a data-trans="(skills)" href="/listings/skills" class="nav-link px-2 text-white">Skills</a>
         </li>
-        <li class="<%= typeof(section)!== 'undefined' && section === 'hobbies' && section %>">
+        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'hobbies' && section %>">
           <a data-trans="(hobbies)" href="/listings/hobbies" class="nav-link px-2 text-white">Hobbies</a>
         </li>
-        <li class="<%= typeof(section)!== 'undefined' && section === 'blogs' && section %>">
+        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'blogs' && section %>">
           <a data-trans="(blogs)" href="/listings/blogs" class="nav-link px-2 text-white">Blogs</a>
         </li>
         <li class="external"><a data-trans="(so-c)" href="/u/" class="nav-link px-2 text-white">Digital card</a></li>
@@ -43,7 +43,7 @@
         <a class="btn btn-outline-light me-2" href="/login">Login</a>
         <a class="btn btn-warning" href="/signup">Sign-up</a>
         <% } else { %>
-        <a href="/listings/user"><span class="fa fa-user">&#8203;</span> Welcome <%= user.nickname %></a>
+        <a href="/listings/user"><span class="fa fa-user">&#8203;</span> Welcome <%= it.user.nickname %></a>
         <a href="/listings/user/notifications"><span class="fa fa-bell">&#8203;</span> Notifications</a>
         <a class="btn btn-outline-light me-2" href="/logout">Logout</a>
         <% }%>

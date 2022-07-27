@@ -38,8 +38,8 @@
             Languages
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="<%= arRoute %>">عربية</a>
-            <a class="dropdown-item" href="<%= frRoute %>">Français</a>
+            <a class="dropdown-item" href="<%= it.arRoute %>">عربية</a>
+            <a class="dropdown-item" href="<%= it.frRoute %>">Français</a>
           </div>
         </li>
       </ul>

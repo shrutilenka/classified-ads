@@ -5,7 +5,7 @@
 <% } %>
 <% if(typeof success != 'undefined'){ %>
 <script>
-  var getTest = "<%= success  %>"
+  var getTest = "<%= it.success  %>"
   if (getTest)
     __successes__.push(getTest)
 </script>
@@ -17,58 +17,58 @@
 <% } %>
 <% if(typeof toFocus != 'undefined'){ %>
 <script>
-  var __toFocus__ = "<%= toFocus  %>"
+  var __toFocus__ = "<%= it.toFocus  %>"
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data._id != 'undefined'){ %>
 <script>
-  var __id__ = "<%= data._id  %>"
+  var __id__ = "<%= it.data._id  %>"
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data.lat != 'undefined'){ %>
 <script>
-  var __lat__ = "<%= data.lat  %>"
+  var __lat__ = "<%= it.data.lat  %>"
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data.lng != 'undefined'){ %>
 <script>
-  var __lng__ = "<%= data.lng  %>"
+  var __lng__ = "<%= it.data.lng  %>"
 </script>
 <% } %>
 <% if(typeof context != 'undefined'){ %>
 <script>
-  var __context__ = "<%= context  %>"
+  var __context__ = "<%= it.context  %>"
 </script>
 <% } %>
 <% if(typeof section != 'undefined'){ %>
 <script>
-  var __section__ = "<%= section  %>"
+  var __section__ = "<%= it.section  %>"
 </script>
 <% } %>
 <% if(typeof channel != 'undefined'){ %>
 <script>
-  var __channel__ = "<%= channel  %>"
+  var __channel__ = "<%= it.channel  %>"
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data.font != 'undefined'){ %>
 <script>
-  var __font__ = "<%= data.font  %>"
+  var __font__ = "<%= it.data.font  %>"
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data.usr != 'undefined'){ %>
 <script>
-  var __initials__ = "<%= data.usr  %>"
+  var __initials__ = "<%= it.data.usr  %>"
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data.email != 'undefined'){ %>
 <script>
-  var __email__ = "<%= data.email  %>"
+  var __email__ = "<%= it.data.email  %>"
 </script>
 <% } %>
 <% if(typeof data != 'undefined' && typeof data.undraw != 'undefined'){ %>
 <script>
-  var __undrawURL__ = "<%= data.undraw  %>"
-  var __color__ = "<%= data.color  %>"
+  var __undrawURL__ = "<%= it.data.undraw  %>"
+  var __color__ = "<%= it.data.color  %>"
 </script>
 <% } %>
 <% if(typeof addressPoints != 'undefined'){ %>
@@ -88,7 +88,7 @@
 <% } %>
 <% if(typeof noads != 'undefined'){ %>
 <script>
-  var __grade__ = "<%= noads.grade  %>"
+  var __grade__ = "<%= it.noads.grade  %>"
   __urls__ = <%- JSON.stringify(noads.urls) %>
 </script>
 <% } %>
