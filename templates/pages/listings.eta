@@ -20,7 +20,7 @@
 
     <hr>
     <h2 class="pb-2">Listings</h2>
-    <% if(typeof section == 'undefined' && typeof context != 'undefined' && (context == 'geolocation' || context == 'gwoogl' || context == 'alllistings')){ %>
+    <% if(typeof it.section == 'undefined' && typeof it.context != 'undefined' && (it.context == 'geolocation' || it.context == 'gwoogl' || it.context == 'alllistings')){ %>
     <%~ includeFile('../partials/sections/big_listings_parser', it); %>
     <% } else { %>
     <%~ includeFile('../partials/sections/listings_parser', it); %>

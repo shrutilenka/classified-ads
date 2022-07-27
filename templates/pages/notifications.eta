@@ -16,22 +16,22 @@
 
     <hr>
     <h2 class="pb-2">Notifications</h2>
-    <% if(typeof threads != 'undefined'){ %>
+    <% if(typeof it.threads != 'undefined'){ %>
     <div class="controls">
-      <% for (var i = 0; threads.length> 0 && i < threads.length ; i++) { %>
-      <button type="button" class="btn btn-primary" data-filter="._<%=threads[i]%>"><%=threads[i]%>...</button>
+      <% for (var i = 0; it.threads.length> 0 && i < it.threads.length ; i++) { %>
+      <button type="button" class="btn btn-primary" data-filter="._<%=it.threads[i]%>"><%=it.threads[i]%>...</button>
       <% } %>
     </div>
     <% } %>
-    <% if(typeof notifications != 'undefined'){ %>
+    <% if(typeof it.notifications != 'undefined'){ %>
     <div class="mixitup_container row align-items-stretch notifications">
-      <% for (var i = 0; notifications.length> 0 && i < notifications.length ; i++) { %>
+      <% for (var i = 0; it.notifications.length> 0 && i < it.notifications.length ; i++) { %>
       <div class="h-100 pb-3 thread" id="<%= it.notifications[i]._id %>">
         <div class="mix card mb-3 h-100 _<%= it.notifications[i].thread %> <%= it.notifications[i].direction %>">
           <div class="card-body d-flex flex-wrap align-content-between">
             <div class="fa fa-paper-plane <%= it.notifications[i].direction === 'receiver' && 'fa-rotate-180' %>" id="<%= it.notifications[i]._id %>"></div>
-            <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- notifications[i].message %></p>
-            <code class="w-100" style="font-size:0.75rem"><%= it.notifications[i].peer %> | <a href="/listings/id/<%=notifications[i].threadId%>/"><%=notifications[i].thread%></a> | <%= it.new Date(parseInt(notifications[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
+            <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- it.notifications[i].message %></p>
+            <code class="w-100" style="font-size:0.75rem"><%= it.notifications[i].peer %> | <a href="/listings/id/<%=it.notifications[i].threadId%>/"><%=it.notifications[i].thread%></a> | <%= new Date(parseInt(it.notifications[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
             <details style="margin: 2rem;">
               <summary class="text-dark">Respond</summary>
               <form class="respond" action="/listings/sendmessage" method="POST" name="sendMessage">
@@ -39,7 +39,7 @@
                   <label for="message">Message</label>
                   <textarea name="message" class="add" id="message" value="" type="text" rows="3"></textarea>
                 </div>
-                <% if(notifications[i].direction === 'receiver'){ %>
+                <% if(it.notifications[i].direction === 'receiver'){ %>
                 <input type="hidden" value="<%= it.notifications[i].from %>" name="email">
                 <% } else { %>
                 <input type="hidden" value="<%= it.notifications[i].to %>" name="email">

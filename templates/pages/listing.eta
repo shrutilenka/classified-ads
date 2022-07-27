@@ -31,7 +31,7 @@
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs</a>
     </div>
     <% } %>
-    <% if(typeof data.lang === 'undefined' || data.lang !== 'ar'){ %>
+    <% if(typeof it.data.lang === 'undefined' || it.data.lang !== 'ar'){ %>
     <div class="listing">
       <% } else { %>
       <div class="listing" dir="rtl">
@@ -78,9 +78,9 @@
 
       </div>
       <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
-      <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
+      <a href="/tag/<%- it.data.tags[i] %>"><span class="badge bg-secondary"><%- it.data.tags[i] %></span></a>
       <% } %>
-      <% if (data.undraw) { %>
+      <% if (it.data.undraw) { %>
       <div id="undraw-output">
         <img class="svg2" src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/<%= it.data.undraw+'.svg' %>" alt="<%= it.data.undraw %>" style="width: 40rem;">
       </div>
@@ -91,7 +91,7 @@
       <% if (it.data.title && it.data.desc) { %>
       <h2><%= it.data.title %></h2>
       <p class="apply-font"><%- it.data.desc %></p>
-      <% if (data.section == 'donations') { %>
+      <% if (it.data.section == 'donations') { %>
       <div class="map" id="listing-map"></div>
       <% } %>
       <br>
@@ -99,7 +99,7 @@
       <% if(typeof it.data.img != 'undefined'){ %>
       <div class="d-flex">
         <div class="mx-auto mx-lg-0">
-          <img id="listingImg" src="<%- data.img %>" alt="<%= it.data.title + ' image' %>" width="200rem">
+          <img id="listingImg" src="<%- it.data.img %>" alt="<%= it.data.title + ' image' %>" width="200rem">
         </div>
       </div>
       <% } %>

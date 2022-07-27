@@ -8,7 +8,7 @@ var imgHolder = {
 }
 %>
 
-<% if(typeof listings != 'undefined' && (context == 'alllistings' || context == 'geolocation' || context == 'gwoogl')){ %>
+<% if(typeof it.listings != 'undefined' && (it.context == 'alllistings' || it.context == 'geolocation' || it.context == 'gwoogl')){ %>
 <div class="controls">
   <button type="button" class="btn btn-primary" data-filter=".donations">Donations</button>
   <button type="button" class="btn btn-primary" data-filter=".events">Meetups</button>
@@ -20,31 +20,31 @@ var imgHolder = {
   <div class="col-sm col-md-6 col-xl-4">
     <div class="h-100 pb-3" id="<%= it.listings[i]._id %>-@@@@@">
       <div class="mix card mb-3 h-100 <%= it.listings[i].section %> <%= it.listings[i].a %> <%= it.listings[i].d %>" data-order="1">
-        <% if(typeof listings[i].thum != 'undefined'){ %>
-        <img src="<%- listings[i].thum %>" alt="<%= it.listings[i].title + ' image' %>" class="card-img-top">
+        <% if(typeof it.listings[i].thum != 'undefined'){ %>
+        <img src="<%- it.listings[i].thum %>" alt="<%= it.listings[i].title + ' image' %>" class="card-img-top">
         <% } else if (typeof it.listings[i].img != 'undefined') { %>
-        <img src="<%- listings[i].img %>" alt="<%= it.listings[i].title + ' image' %>" class="card-img-top">
+        <img src="<%- it.listings[i].img %>" alt="<%= it.listings[i].title + ' image' %>" class="card-img-top">
         <% } else { %>
-        <img src="<%- imgHolder[listings[i].section] %>" alt="<%= it.listings[i].title + ' image' %>" class="card-img-top">
+        <img src="<%- imgHolder[it.listings[i].section] %>" alt="<%= it.listings[i].title + ' image' %>" class="card-img-top">
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
           <h5 class="card-title" dir="auto"><a href='/listings/id/<%= it.listings[i]._id %>/'><%= it.listings[i].title %></a></h5>
           <div class="ca-listing" id="<%= it.listings[i]._id %>">Favorite</div>
-          <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- listings[i].desc %></p>
-          <code class="w-100" style="font-size:0.75rem"><%= it.new Date(parseInt(listings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
+          <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- it.listings[i].desc %></p>
+          <code class="w-100" style="font-size:0.75rem"><%= new Date(parseInt(it.listings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
 
           <div class="w-100">
-            <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < listings[i].tags.length ; j++) { %>
-            <a href="/tag/<%- encodeURIComponent(listings[i].tags[j]) %>"><span class="badge bg-secondary"><%- listings[i].tags[j] %></span></a>
+            <% for (var j=0; it.listings[i].tags && it.listings[i].tags.length > 0 && j < it.listings[i].tags.length ; j++) { %>
+            <a href="/tag/<%- encodeURIComponent(it.listings[i].tags[j]) %>"><span class="badge bg-secondary"><%- it.listings[i].tags[j] %></span></a>
             <% } %>
             <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
-            <% if(listings[i].lang != 'und'){ %>
-            <img class="pull-right flag" alt="<%- listings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- listings[i].lang %>.svg">
+            <% if(it.listings[i].lang != 'und'){ %>
+            <img class="pull-right flag" alt="<%- it.listings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- it.listings[i].lang %>.svg">
             <% } %>
-            <% if(typeof listings[i].d != 'undefined' && listings[i].d){ %>
+            <% if(typeof it.listings[i].d != 'undefined' && it.listings[i].d){ %>
             <a href='/listings/user/toggle/<%= it.listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
-            <% if(typeof listings[i].d != 'undefined' && !listings[i].d){ %>
+            <% if(typeof it.listings[i].d != 'undefined' && !it.listings[i].d){ %>
             <a href='/listings/user/toggle/<%= it.listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
           </div>
@@ -57,38 +57,38 @@ var imgHolder = {
 </div>
 <% } %>
 
-<% if(typeof crossLangListings != 'undefined' && crossLangListings.length> 0){ %>
+<% if(typeof it.crossLangListings != 'undefined' && it.crossLangListings.length> 0){ %>
 <h3>Cross language listings</h3>
 <div class="row align-items-stretch ca-listings">
-  <% for (var i = 0; crossLangListings.length> 0 && i < crossLangListings.length ; i++) { %>
+  <% for (var i = 0; && i < it.crossLangListings.length ; i++) { %>
   <div class="col-sm col-md-6 col-xl-4">
     <div class="h-100 pb-3" id="<%= it.crossLangListings[i]._id %>-@@@@@">
       <div class="card mb-3 h-100 crosslang <%= it.crossLangListings[i].a %> <%= it.crossLangListings[i].d %>">
-        <% if(typeof crossLangListings[i].thum != 'undefined'){ %>
-        <img src="<%- crossLangListings[i].thum %>" alt="<%= it.crossLangListings[i].title + ' image' %>" class="card-img-top">
-        <% } else if (typeof it.listings[i].img != 'undefined') { %>
-        <img src="<%- crossLangListings[i].img %>" alt="<%= it.crossLangListings[i].title + ' image' %>" class="card-img-top">
+        <% if(typeof it.crossLangListings[i].thum != 'undefined'){ %>
+        <img src="<%- it.crossLangListings[i].thum %>" alt="<%= it.crossLangListings[i].title + ' image' %>" class="card-img-top">
+        <% } else if (typeof it.crossLangListings[i].img != 'undefined') { %>
+        <img src="<%- it.crossLangListings[i].img %>" alt="<%= it.crossLangListings[i].title + ' image' %>" class="card-img-top">
         <% } else { %>
-        <img src="<%- imgHolder[crossLangListings[i].section] %>" alt="<%= it.crossLangListings[i].title + ' image' %>" class="card-img-top">
+        <img src="<%- imgHolder[it.crossLangListings[i].section] %>" alt="<%= it.crossLangListings[i].title + ' image' %>" class="card-img-top">
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
           <h5 class="card-title" dir="auto"><a href='/listings/id/<%= it.crossLangListings[i]._id %>/'><%= it.crossLangListings[i].title %></a></h5>
           <div class="ca-listing" id="<%= it.crossLangListings[i]._id %>">Favorite</div>
-          <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- crossLangListings[i].desc %></p>
-          <code class="w-100" style="font-size:0.75rem"><%= it.new Date(parseInt(crossLangListings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
+          <p class="card-text w-100 text-truncate mb-1" dir="auto"><%- it.crossLangListings[i].desc %></p>
+          <code class="w-100" style="font-size:0.75rem"><%= new Date(parseInt(it.crossLangListings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
 
           <div class="w-100">
-            <% for (var j=0; crossLangListings[i].tags && crossLangListings[i].tags.length > 0 && j < crossLangListings[i].tags.length ; j++) { %>
-            <a href="/tag/<%- encodeURIComponent(crossLangListings[i].tags[j]) %>"><span class="badge bg-secondary"><%- crossLangListings[i].tags[j] %></span></a>
+            <% for (var j=0; it.crossLangListings[i].tags && it.crossLangListings[i].tags.length > 0 && j < it.crossLangListings[i].tags.length ; j++) { %>
+            <a href="/tag/<%- encodeURIComponent(it.crossLangListings[i].tags[j]) %>"><span class="badge bg-secondary"><%- it.crossLangListings[i].tags[j] %></span></a>
             <% } %>
-            <% if(crossLangListings[i].lang != 'und'){ %>
-            <img class="pull-right flag" alt="<%- crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- crossLangListings[i].lang %>.svg">
+            <% if(it.crossLangListings[i].lang != 'und'){ %>
+            <img class="pull-right flag" alt="<%- it.crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%- it.crossLangListings[i].lang %>.svg">
             <% } %>
             <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
-            <% if(typeof crossLangListings[i].d != 'undefined' && crossLangListings[i].d){ %>
+            <% if(typeof it.crossLangListings[i].d != 'undefined' && it.crossLangListings[i].d){ %>
             <a href='/listings/user/toggle/<%= it.crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
-            <% if(typeof crossLangListings[i].d != 'undefined' && !crossLangListings[i].d){ %>
+            <% if(typeof it.crossLangListings[i].d != 'undefined' && !it.crossLangListings[i].d){ %>
             <a href='/listings/user/toggle/<%= it.crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
           </div>

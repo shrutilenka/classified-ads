@@ -14,19 +14,19 @@
         <li>
           <a data-trans="(categories)" href="/categories" class="nav-link px-2 text-secondary">Categories</a>
         </li>
-        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'donations' && section %>">
+        <li class="<%= typeof(it.section)!== 'undefined' && it.section === 'donations' && it.section %>">
           <a data-trans="(donations)" href="/listings/donations" class="nav-link px-2 text-white">Donations</a>
         </li>
-        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'events' && section %>">
+        <li class="<%= typeof(it.section)!== 'undefined' && it.section === 'events' && it.section %>">
           <a data-trans="(events)" href="/listings/events" class="nav-link px-2 text-white">Events</a>
         </li>
-        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'skills' && section %>">
+        <li class="<%= typeof(it.section)!== 'undefined' && it.section === 'skills' && it.section %>">
           <a data-trans="(skills)" href="/listings/skills" class="nav-link px-2 text-white">Skills</a>
         </li>
-        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'hobbies' && section %>">
+        <li class="<%= typeof(it.section)!== 'undefined' && it.section === 'hobbies' && it.section %>">
           <a data-trans="(hobbies)" href="/listings/hobbies" class="nav-link px-2 text-white">Hobbies</a>
         </li>
-        <li class="<%= it.typeof(it.section)!== 'undefined' && it.section === 'blogs' && section %>">
+        <li class="<%= typeof(it.section)!== 'undefined' && it.section === 'blogs' && it.section %>">
           <a data-trans="(blogs)" href="/listings/blogs" class="nav-link px-2 text-white">Blogs</a>
         </li>
         <li class="external"><a data-trans="(so-c)" href="/u/" class="nav-link px-2 text-white">Digital card</a></li>
@@ -38,8 +38,8 @@
       </form>
 
       <div class="text-end">
-        <% if(typeof user!=='undefined'){ %>
-        <% if(typeof user.nickname==='undefined' || user.nickname==='' ){ %>
+        <% if(typeof it.user!=='undefined'){ %>
+        <% if(typeof it.user.nickname==='undefined' || it.user.nickname==='' ){ %>
         <a class="btn btn-outline-light me-2" href="/login">Login</a>
         <a class="btn btn-warning" href="/signup">Sign-up</a>
         <% } else { %>

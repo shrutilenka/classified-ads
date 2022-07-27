@@ -1,6 +1,11 @@
-import config from "../../configuration.js"
+const NODE_ENV = {
+    api: -1,
+    localhost: 0,
+    production: 1,
+}[process.env.NODE_ENV]
+
 export default () => {
-    return config('HEROKU')
+    return NODE_ENV < 1 
         ? true
         : {
               file: './logs/all.log',
