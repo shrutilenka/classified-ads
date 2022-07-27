@@ -1,4 +1,4 @@
-<% if(typeof section != 'undefined' && it.section == 'hobbies'){ %>
+<% if(typeof section != 'undefined' && section == 'hobbies'){ %>
 <br>
 <hr>
 <details>

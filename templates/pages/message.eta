@@ -10,9 +10,9 @@
   <div class="container">
     <%~ includeFile('../partials/shared/navbar', it); %>
     <h1 class="servervar">
-      <%= it.title %>
+      <%= title %>
     </h1>
-    <p class="servervar"> 🗯 <%= it.message %> </p>
+    <p class="servervar"> 🗯 <%= message %> </p>
 
     <%~ includeFile('../partials/conf/prepare_js', it); %>
     <%~ includeFile('../partials/shared/footer'); %>

@@ -1,24 +1,24 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<%= it.meta %>">
+<meta name="description" content="<%= meta %>">
 
-<script src="https://kit.fontawesome.com/6c4c781788.js" crossorigin="anonymous"></script>
+<script src="https://kfontawesome.com/6c4c781788.js" crossorigin="anonymous"></script>
 
 
-<% if (it.title) { %>
-<title><%= it.title %></title>
+<% if (typeof title != 'undefined') { %>
+<title><%= title %></title>
 <% } else { %>
 <title>Classified-ads</title>
 <% } %>
 
-<% if (it.section == 'donations') { %>
+<% if (typeof section != 'undefined' && section == 'donations') { %>
 <link rel="stylesheet" href="/stylesheets/style_donations.css">
-<% } else if (typeof it.section != 'undefined' && it.section == 'skills') { %>
+<% } else if (typeof section != 'undefined' && section == 'skills') { %>
 <link rel="stylesheet" href="/stylesheets/style_skills.css">
-<% } else if (typeof it.section != 'undefined' && it.section == 'events') { %>
+<% } else if (typeof section != 'undefined' && section == 'events') { %>
 <link rel="stylesheet" href="/stylesheets/style_events.css">
-<% } else if (typeof it.section != 'undefined' && it.section == 'hobbies') { %>
+<% } else if (typeof section != 'undefined' && section == 'hobbies') { %>
 <link rel="stylesheet" href="/stylesheets/style_hobbies.css">
 <% } else { %>
 <link rel="stylesheet" href="/stylesheets/style.css">

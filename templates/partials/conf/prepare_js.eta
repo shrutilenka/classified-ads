@@ -1,94 +1,94 @@
-<% if(typeof it.announcements != 'undefined'){ %>
+<% if(typeof announcements != 'undefined'){ %>
 <script>
-  __announcements__ = <%- JSON.stringify(it.announcements) %>
+  __announcements__ = <%- JSON.stringify(announcements) %>
 </script>
 <% } %>
-<% if(typeof it.success != 'undefined'){ %>
+<% if(typeof success != 'undefined'){ %>
 <script>
-  var getTest = "<%= it.success  %>"
+  var getTest = "<%= success  %>"
   if (getTest)
     __successes__.push(getTest)
 </script>
 <% } %>
-<% if(typeof it.error != 'undefined'){ %>
+<% if(typeof error != 'undefined'){ %>
 <script>
-  __errors__ = <%- JSON.stringify(it.error) %>
+  __errors__ = <%- JSON.stringify(error) %>
 </script>
 <% } %>
-<% if(typeof it.toFocus != 'undefined'){ %>
+<% if(typeof toFocus != 'undefined'){ %>
 <script>
-  var __toFocus__ = "<%= it.toFocus  %>"
+  var __toFocus__ = "<%= toFocus  %>"
 </script>
 <% } %>
-<% if(typeof it.data != 'undefined' && typeof it.data._id != 'undefined'){ %>
+<% if(typeof data != 'undefined' && typeof data._id != 'undefined'){ %>
 <script>
-  var __id__ = "<%= it.data._id  %>"
+  var __id__ = "<%= data._id  %>"
 </script>
 <% } %>
-<% if(typeof it.data != 'undefined' && typeof it.data.lat != 'undefined'){ %>
+<% if(typeof data != 'undefined' && typeof data.lat != 'undefined'){ %>
 <script>
-  var __lat__ = "<%= it.data.lat  %>"
+  var __lat__ = "<%= data.lat  %>"
 </script>
 <% } %>
-<% if(typeof it.data != 'undefined' && typeof it.data.lng != 'undefined'){ %>
+<% if(typeof data != 'undefined' && typeof data.lng != 'undefined'){ %>
 <script>
-  var __lng__ = "<%= it.data.lng  %>"
+  var __lng__ = "<%= data.lng  %>"
 </script>
 <% } %>
-<% if(typeof it.context != 'undefined'){ %>
+<% if(typeof context != 'undefined'){ %>
 <script>
-  var __context__ = "<%= it.context  %>"
+  var __context__ = "<%= context  %>"
 </script>
 <% } %>
-<% if(typeof it.section != 'undefined'){ %>
+<% if(typeof section != 'undefined'){ %>
 <script>
-  var __section__ = "<%= it.section  %>"
+  var __section__ = "<%= section  %>"
 </script>
 <% } %>
-<% if(typeof it.channel != 'undefined'){ %>
+<% if(typeof channel != 'undefined'){ %>
 <script>
-  var __channel__ = "<%= it.channel  %>"
+  var __channel__ = "<%= channel  %>"
 </script>
 <% } %>
-<% if(typeof it.data != 'undefined' && typeof it.data.font != 'undefined'){ %>
+<% if(typeof data != 'undefined' && typeof data.font != 'undefined'){ %>
 <script>
-  var __font__ = "<%= it.data.font  %>"
+  var __font__ = "<%= data.font  %>"
 </script>
 <% } %>
-<% if(typeof it.data != 'undefined' && typeof it.data.usr != 'undefined'){ %>
+<% if(typeof data != 'undefined' && typeof data.usr != 'undefined'){ %>
 <script>
-  var __initials__ = "<%= it.data.usr  %>"
+  var __initials__ = "<%= data.usr  %>"
 </script>
 <% } %>
-<% if(typeof it.data != 'undefined' && typeof it.data.email != 'undefined'){ %>
+<% if(typeof data != 'undefined' && typeof data.email != 'undefined'){ %>
 <script>
-  var __email__ = "<%= it.data.email  %>"
+  var __email__ = "<%= data.email  %>"
 </script>
 <% } %>
-<% if(typeof it.data != 'undefined' && typeof it.data.undraw != 'undefined'){ %>
+<% if(typeof data != 'undefined' && typeof data.undraw != 'undefined'){ %>
 <script>
-  var __undrawURL__ = "<%= it.data.undraw  %>"
-  var __color__ = "<%= it.data.color  %>"
+  var __undrawURL__ = "<%= data.undraw  %>"
+  var __color__ = "<%= data.color  %>"
 </script>
 <% } %>
-<% if(typeof it.addressPoints != 'undefined'){ %>
+<% if(typeof addressPoints != 'undefined'){ %>
 <script>
-  var __addressPoints__ = <%- JSON.stringify(it.addressPoints) %>
+  var __addressPoints__ = <%- JSON.stringify(addressPoints) %>
 </script>
 <% } %>
-<% if(typeof it.UXConstraints != 'undefined'){ %>
+<% if(typeof UXConstraints != 'undefined'){ %>
 <script>
-  var __UXConstraints__ = <%- JSON.stringify(it.UXConstraints) %>
+  var __UXConstraints__ = <%- JSON.stringify(UXConstraints) %>
 </script>
 <% } %>
-<% if(typeof it.formData != 'undefined'){ %>
+<% if(typeof formData != 'undefined'){ %>
 <script>
-  var __formData__ = <%- JSON.stringify(it.formData) %>
+  var __formData__ = <%- JSON.stringify(formData) %>
 </script>
 <% } %>
-<% if(typeof it.noads != 'undefined'){ %>
+<% if(typeof noads != 'undefined'){ %>
 <script>
-  var __grade__ = "<%= it.noads.grade  %>"
-  __urls__ = <%- JSON.stringify(it.noads.urls) %>
+  var __grade__ = "<%= noads.grade  %>"
+  __urls__ = <%- JSON.stringify(noads.urls) %>
 </script>
 <% } %>

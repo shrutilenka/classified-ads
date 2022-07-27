@@ -50,9 +50,9 @@
     <input name="title_en" value="english" placeholder="english">
     <input name="title_ar" value="arabic" placeholder="arabic">
     <input name="title_fr" value="french" placeholder="french">
-    <textarea name="english" cols=40 rows=4>I urge you to see it.</textarea>
-    <textarea name="arabic" cols=40 rows=4>I urge you to see it.</textarea>
-    <textarea name="french" cols=40 rows=4>I urge you to see it.</textarea>
+    <textarea name="english" cols=40 rows=4>I urge you to see this.</textarea>
+    <textarea name="arabic" cols=40 rows=4>I urge you to see this.</textarea>
+    <textarea name="french" cols=40 rows=4>I urge you to see this.</textarea>
     <input type="submit" value="Publish">
   </form>
 

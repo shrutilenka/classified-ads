@@ -13,8 +13,8 @@
   <div class="container">
     <%~ includeFile('partials/navbar', it); %>
     <div class="bg-light p-5 rounded">
-      <h1><%= it.title %></h1>
-      <p class="lead"><%= it.intro %></p>
+      <h1><%= title %></h1>
+      <p class="lead"><%= intro %></p>
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
     </div>
     <br>

@@ -9,8 +9,8 @@
   <%~ includeFile('../partials/shared/navbar', it); %>
   <div class="container">
     <div class="bg-light p-5 rounded">
-      <h1><%= it.title %></h1>
-      <p class="lead"><%= it.intro %></p>
+      <h1><%= title %></h1>
+      <p class="lead"><%= intro %></p>
       <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a>
     </div>
 
@@ -20,7 +20,7 @@
 
     <hr>
     <h2 class="pb-2">Listings</h2>
-    <% if(typeof it.section == 'undefined' && typeof it.context != 'undefined' && (it.context == 'geolocation' || it.context == 'gwoogl' || it.context == 'alllistings')){ %>
+    <% if(typeof section == 'undefined' && typeof context != 'undefined' && (context == 'geolocation' || context == 'gwoogl' || context == 'alllistings')){ %>
     <%~ includeFile('../partials/sections/big_listings_parser', it); %>
     <% } else { %>
     <%~ includeFile('../partials/sections/listings_parser', it); %>

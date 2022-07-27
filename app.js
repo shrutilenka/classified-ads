@@ -188,9 +188,10 @@ async function build(doRun) {
     // TODO: find a way to strip very long ejs logging errors
     fastify.register(viewsPlugin, {
         engine: {
-            eta: Eta
+            eta: Eta,
         },
         templates: 'templates',
+        options: { useWith: true },
     })
     /*********************************************************************************************** */
     // !!PREHANDERS AND HOOKS !!

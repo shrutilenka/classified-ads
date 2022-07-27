@@ -36,8 +36,8 @@
           Langues
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<%= it.enRoute %>">English</a>
-          <a class="dropdown-item" href="<%= it.arRoute %>">عربية</a>
+          <a class="dropdown-item" href="<%= enRoute %>">English</a>
+          <a class="dropdown-item" href="<%= arRoute %>">عربية</a>
         </div>
       </li>
     </ul>
@@ -81,7 +81,7 @@ aria-hidden="true">
          Notez également que ce site Web repose entièrement sur les données fournies par d'autres services météorologiques comme Openweathermap.org.
          Cela signifie que les prévisions peuvent être inexactes ou incomplètes. Le site Web peut ne pas fonctionner correctement, y compris l'affichage de l'interface utilisateur et
          la cohérence des données.
-         Le service ne recueille et n'utilise aucune information des utilisateurs de quelque manière que ce soit.
+         Le service ne recueille et n'utilise aucune information des utilisateurs de quelque manière que ce so
          Nous utilisons cependant Google Analytics qui suit et rapporte le trafic du site Web en se basant sur les cookies qui stockent des informations anonymes. Le seul cache est "les villes recherchées"
          pour des réponses plus rapides;
       </div>
