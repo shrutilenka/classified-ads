@@ -6,7 +6,7 @@ const transports = []
 
 // Private SMTP
 transports.push(
-    nodemailer.createTransport(config('SMTP_OUTLOOK')),
+    nodemailer.createTransport(config('SMTP')),
 )
 
 const dbName = 'listings_db'

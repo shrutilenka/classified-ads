@@ -6,8 +6,7 @@ const __dirname = path.dirname(__filename)
 const NODE_ENV = {
     api: -1,
     localhost: 0,
-    development: 1,
-    production: 2,
+    production: 1,
 }[process.env.NODE_ENV]
 const filePath = '../../data/raw/ipsum.txt'
 const textContent = fs.readFileSync(path.join(__dirname, filePath)).toString()
@@ -75,7 +74,7 @@ function spamFilter(req, reply, done) {
     if (ip.substr(0, 7) === '::ffff:') {
         ip = ip.substr(7)
     }
-    if (NODE_ENV <= 1 || ip.split('.')[0] === '127') {
+    if (NODE_ENV <= 0 || ip.split('.')[0] === '127') {
         done()
         return
     }

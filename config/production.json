@@ -4,10 +4,10 @@
     "HEROKU": false,
     "PIPELINE_KEYWORDS_SECONDS": 86400,
     "MONGODB_URI": "mongodb://localhost:27017/{dbName}",
-    "REDIS_URI": "redis:6379",
+    "REDIS_HOST": "redis",
     "APIHost": "https://iciannonces.fr/",
     "COOKIE_NAME": "classified-ads-login",
-    "SMTP_OUTLOOK": {
+    "SMTP": {
        "host": "smtp.sendgrid.net",
        "from": "{ADMIN_EMAIL}",
        "port": 587,

@@ -1,8 +1,7 @@
 const NODE_ENV = {
     api: -1,
     localhost: 0,
-    development: 1,
-    production: 2,
+    production: 1,
 }[process.env.NODE_ENV]
 
 export default function authAdapter(fastify) {

@@ -6,20 +6,13 @@ import build from './app.js'
 
 config()
 process.title = 'classified-ads'
-// Incremental is better
-const NODE_ENV = {
-    api: -1,
-    localhost: 0,
-    development: 1,
-    production: 2,
-}[process.env.NODE_ENV]
 
 // !!CLUSTER SETUP!!
 if (process.env.NO_CLUSTER) {
     process.env.worker_id = '1'
     build(true)
 } else {
-    const CPUS = NODE_ENV < 1 ? 2 : os.cpus().length - 1
+    const CPUS = os.cpus().length - 1
 
     if (cluster.isMaster) {
         for (let i = 0; i < CPUS; i++) {

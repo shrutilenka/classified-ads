@@ -60,10 +60,6 @@ Notes:
 
 ## Deployment
 
-`.env` files hold secret keys and configurations which you want to hide
-All other configurations should live in `/config/{NODE_env}.json` file.
-
-
 `.env` files hold secret keys and configurations which you want to hide.  
 All other configurations should live in `/config/{NODE_env}.json` file.
 
@@ -74,10 +70,9 @@ All other configurations should live in `/config/{NODE_env}.json` file.
 -  Create environment files
 `touch /.env && /client/.env`
 -  Fulfill environment variables on server (note that `localhost` is meant for easy deployment on your machine  
-while `development` is meant for deployment on cloud providers (tested on Heroku))
+or on cloud providers (tested on Heroku)). But I advice to use your own machine !
    - NODE_ENV=localhost
    - HONEYPOT_KEY=
-   - MONGODB_URI=mongodb+srv://### (optional for localhost env)
    - CREDS_PATH=./creds/##.json
    - GCLOUD_STORAGE_BUCKET=NameOfBucket
    - JWT_SECRET=Just@Passw0rd
@@ -87,14 +82,17 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
    - DEBUG=sws:*
    - REDIS_URI=127.0.0.1
    - ADMIN_PASS=PASSWORD
-   - ADMIN_EMAIL=some_outlook_email@outlook.com
+   - ADMIN_EMAIL=moderatorEmail
+   - ADMIN_EMAIL2=moderatorEmail
+   - SENDGRID_API_KEY=
    - NO_CLUSTER=true
-   - DEFAULT_LANG=en-US
+   - DEPLOYMENT_NAME=fr/it/..
+   - DEFAULT_LANG=en-US/fr/..
    
 -  Prepare database  
    - Redis database must be up  
    - MongoDB must be up with the following dbs and collections  
-`DBs: {listings_db_dev, listings_db} & Collections: {listing, words, comment, users, userstemp, visitors-default-current, visitors-default}`
+`DBs: {listings_db} & Collections: {listing, words, comment, users, userstemp, visitors-default-current, visitors-default}`
 -  Fulfill Google Cloud credentials (for storage) (optional for localhost env)
 `./creds/############.json` 
 -  Change environment files accordingly
@@ -107,15 +105,7 @@ while `development` is meant for deployment on cloud providers (tested on Heroku
 ### Note
 
 The app bootstraps for France country as an example, with a simple tweak, you could bootstrap the app on another location with a different map (I encourage you to try that).
-For instance, my `/client/.env` is like:
-
-```
-LATITUDE=36.75
-LONGITUDE=3.05
-BORDERS_FILE_URL=https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/geo/simple_fr.geojson
-STATES_FILE_URL=https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/geo/states.min.json
-```
-With a center (LATITUDE, LONGITUDE) and a map. Check [here](https://github.com/bacloud22/Classified-ads-xx-data) or elsewhere for more geoJson data.
+Just check `client/.env`
 
 With a different geoJSON data, you might need to change encoders in both files `/data/geo/geoJSONEncoder.js` and `/client/data/geo/geoJSONEncoder.js`.
 
@@ -123,15 +113,11 @@ With a different geoJSON data, you might need to change encoders in both files `
 
 ## Contribution
 
-- **Contribution is VERY WELCOME, I already thank you in advance. This project needs you, I passed literally a year on this, knowing I'm your average developer, another one would take way less time.**
+- **Contribution is VERY WELCOME, I already thank you in advance.**
 
-- **Deploying it elsewhere is fine for non-commercial uses (see license), but please, consider to contribute to this main project pushing everything you find important: a new functionality, a bug or security fix, better design...**
+- **Deploying it elsewhere is fine for non-commercial uses (see license). If you want to deploy it for any business needs we can negotiate that. Please contact me I will respond shortly. Please, consider to contribute to this main project pushing everything you find important: a new functionality, a bug or security fix, better design...**
 
 - **I will be very active with pull requests (testing and approving) but less active on resolving raised issue. With this being said, I really appreciate new issues raised after a proper installation and tests.**
-
-- **The app is full of bugs ! I know.**
-
-- **There are dozens of TODOs I leave in code. You can pick one and help the project! Some are left for you to customize depending on your preferences.**
 
 - As a contributor, you are simply advised to read documentation here and in code very meticulously though, raising issues that are known, raising issues about installation (in general) are not really appreciated.
 

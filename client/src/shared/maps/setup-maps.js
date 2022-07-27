@@ -15,8 +15,8 @@ const __lng__ = window.__lng__
 const __section__ = window.__section__
 
 function updateCenter() {
-    const lat = typeof __lat__ !== 'undefined' ? __lat__ : parseFloat(process.env.LATITUDE)
-    const lng = typeof __lng__ !== 'undefined' ? __lng__ : parseFloat(process.env.LONGITUDE)
+    const lat = typeof __lat__ !== 'undefined' ? __lat__ : parseFloat(process.env.DEFAULT_LAT)
+    const lng = typeof __lng__ !== 'undefined' ? __lng__ : parseFloat(process.env.DEFAULT_LNG)
     // map 1 hidden inputs
     const latInput = LIS.id('lat')
     const lngInput = LIS.id('lng')

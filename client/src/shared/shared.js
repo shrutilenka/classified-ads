@@ -75,12 +75,12 @@ export const setupShared = () => {
 
     // Other function calls that are not yet promisified
     // because I'm not sure yet what's asynchronous in there
-    fetch('/geo/states.min.pbf')
+    fetch(process.env.STATES_FILE_URL)
         .then((response) => response.arrayBuffer())
         .then((buffer) => {
             const json = window.geobuf.decode(new Pbf(buffer))
-            country.states = json;
-            fetch('/geo/simple_fr.pbf')
+            country.states = json
+            fetch(process.env.BORDERS_FILE_URL)
                 .then((response) => response.arrayBuffer())
                 .then((buffer) => {
                     const json = window.geobuf.decode(new Pbf(buffer))
@@ -92,7 +92,7 @@ export const setupShared = () => {
 
     // TODO: review sockets
     // setupSocket()
-    // Global objects
+    // Global objects that I need as inline JS inside HTML (Could be attached 100% in JS though)
     window.loadFile = loadFile
     window.dateFromObjectId = dateFromObjectId
 }

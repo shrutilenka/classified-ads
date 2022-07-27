@@ -125,7 +125,7 @@ ops.checkEnvironmentData = async function checkEnvironmentData(url) {
     // List all the available databases
     const dbs = await adminDb.listDatabases()
     const databases = dbs.databases.map((n) => n.name)
-    const dbName = process.env.NODE_ENV === 'development' ? 'listings_db_dev' : 'listings_db'
+    const dbName = 'listings_db'
     const checkDBs = databases.indexOf(dbName) >= 0
     if (!checkDBs) {
         throw new Error('Not all databases are present.')

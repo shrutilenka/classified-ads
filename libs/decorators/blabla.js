@@ -12,8 +12,7 @@ const ajvLocalize = {
 const NODE_ENV = {
     api: -1,
     localhost: 0,
-    development: 1,
-    production: 2,
+    production: 1,
 }[process.env.NODE_ENV]
 const COOKIE_NAME = config('COOKIE_NAME')
 
@@ -65,7 +64,8 @@ export default function blabla(context) {
     if (NODE_ENV == -1) {
         this.send(context[0])
     } else {
-        this.view(`/templates/pages/${route}`, final)
+        // console.log(final)
+        this.view(`/pages/${route}`, final)
     }
 }
 const appName = config('APP_NAME')
@@ -91,7 +91,7 @@ function localize(data, route, kind, req, reply) {
     const announcements = req.t(`announcements`, { returnObjects: true, app_name: appName })
     data['announcements'] = announcements
     const userFriendlyMsg = req.t(`${route}.${kind}`, sharedData)
-    
+
     if (NODE_ENV < 1)
         Object.keys(userFriendlyMsg).forEach((key) => {
             if (key !== 'success' && key !== 'error') userFriendlyMsg[key] = `[${userFriendlyMsg[key]}]`

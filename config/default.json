@@ -4,7 +4,7 @@
    "HEROKU": false,
    "PIPELINE_KEYWORDS_SECONDS": 86400,
    "MONGODB_URI": "mongodb://localhost:27017/{dbName}",
-   "REDIS_URI": "127.0.0.1",
+   "REDIS_HOST": "127.0.0.1",
    "APIHost": "http://localhost:3000",
    "COOKIE_NAME": "classified-ads-login",
    "SMTP_MAILHOG": {
@@ -12,7 +12,7 @@
       "port": 1025,
       "from": "no-reply@example.com"
    },
-   "SMTP_OUTLOOK": {},
+   "SMTP": {},
    "PING_LIMITER": {
       "max": 100,
       "timeWindow": "1 minute"

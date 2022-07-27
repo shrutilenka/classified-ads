@@ -38,10 +38,10 @@ dotenv()
 const NODE_ENV = {
     api: -1,
     localhost: 0,
-    development: 1,
-    production: 2,
+    production: 1,
 }[process.env.NODE_ENV]
-const dbName = process.env.NODE_ENV === 'development' ? 'listings_db_dev' : 'listings_db'
+
+const dbName = 'listings_db'
 // In case we add ElasticSearch we can benefit 'swagger-stats'
 // downloadFile('http://localhost:3000/documentation/json', 'swagger.json')
 // const apiSpec = require('./swagger.json')
@@ -101,7 +101,7 @@ async function build(doRun) {
     // fastify.register(cors, require('./config/options/cors'))
     // fastify.register(fastifyCompress) // Compress all possible types > 1024o
     fastify.register(fastifyMongodb, { forceClose: true, url: config('MONGODB_URI', { dbName }) })
-    fastify.register(fastifyRedis, { host: 'redis', port: 6379, password: config('PASSWORD') })
+    fastify.register(fastifyRedis, { host: config('REDIS_HOST'), port: 6379, password: config('PASSWORD') })
 
     await fastify.register(fastifyJWT, { secret: process.env.JWT_SECRET })
     await fastify.register(fastifyAuth)
@@ -188,11 +188,9 @@ async function build(doRun) {
     // TODO: find a way to strip very long ejs logging errors
     fastify.register(viewsPlugin, {
         engine: {
-            eta: Eta,
-            defaultContext: {
-                dev: process.env.NODE_ENV === 'development',
-            },
+            eta: Eta
         },
+        templates: 'templates',
     })
     /*********************************************************************************************** */
     // !!PREHANDERS AND HOOKS !!
@@ -209,7 +207,7 @@ async function build(doRun) {
 
     /*********************************************************************************************** */
     // !!SPAM ASSASSIN !!
-    if (NODE_ENV > 1) {
+    if (NODE_ENV === 1) {
         fastify.register(fastifyRateLimit, config('PING_LIMITER'))
     }
 
@@ -279,17 +277,17 @@ async function build(doRun) {
             const port = process.env.PORT || fastify.conf('NODE_PORT')
             console.log('The app is accessible on port: ' + port)
             await fastify.listen({ port, host: '0.0.0.0' })
-            //  Run only on one node
-            if (NODE_ENV === 0 /*process.env.worker_id == '1'*/) {
-                fastify.swagger()
-            }
             const mailer = await Mailer.getInstance(mongoURL, dbName)
-            mailer.sendMail({
-                to: process.env.ADMIN_EMAIL,
-                subject: 'App instance bootstrap',
-                text: 'App instance bootstrapped correctly',
-                html: 'App instance bootstrapped correctly',
-            })
+            //  Run only on one node
+            if (NODE_ENV === 0 /*process.env.worker_id == '1'*/) fastify.swagger()
+
+            if (NODE_ENV === 1)
+                mailer.sendMail({
+                    to: process.env.ADMIN_EMAIL,
+                    subject: 'App instance bootstrap',
+                    text: 'App instance bootstrapped correctly',
+                    html: 'App instance bootstrapped correctly',
+                })
             // gracefulServer.setReady()
         } catch (err) {
             console.log(err)
@@ -329,9 +327,9 @@ async function build(doRun) {
         const colListings = db.collection('listing')
         const colUsers = db.collection('users')
         // Create indexes
-        //process.env.NODE_ENV in {development, localhost, api}
+        //process.env.NODE_ENV in {localhost, api}
         // TODO: remove (testing prod now)
-        if (NODE_ENV <= 1) {
+        if (NODE_ENV < 1) {
             await colListings.deleteMany({})
             await colUsers.deleteMany({})
             bootstrap
