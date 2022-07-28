@@ -27,8 +27,7 @@
   </div>
   <%~ includeFile('map', { command: 'Enter a location' }); %>
 
-
-  <div class="container-fluid" data-intro=<%- messages.tour[lang].cards %> data-position="auto">
+  <div class="container-fluid" data-intro=<%= messages.tour[lang].cards %> data-position="auto">
     <h3 class="section_head" id="location">Search for your city to display next days forecasts.</h3>
     <p id="date"></p>
     <div class="row text-center" id="minibar1">
@@ -43,7 +42,7 @@
     <div class="row collapse show" id="forecast-items"></div>
   </div>
 
-  <div class="container-fluid" data-intro=<%- messages.tour[lang].comparision %> data-position="auto">
+  <div class="container-fluid" data-intro=<%= messages.tour[lang].comparision %> data-position="auto">
     <h3 class="section_head">Weather comparison</h3>
     <div class="row text-center" id="minibar2">
       <button id="collapse2" type="button" aria-label="collapse" class="btn btn-light" data-toggle="collapse" href="#comparision-items">
@@ -58,12 +57,12 @@
   </div>
 
   <h3 class="section_head" id="gallery">Local pictures of the main city will appear below</h3>
-  <div class="row" id="imgGrid" data-intro=<%- messages.tour[lang].gallery %> data-position="auto">
+  <div class="row" id="imgGrid" data-intro=<%= messages.tour[lang].gallery %> data-position="auto">
 
   </div>
   <%~ includeFile('footer'); %>
 
 </body>
-<%~ includeFile('after_body', it); %>
+<%~ includeFile('after_body'); %>
 
 </html>

@@ -45,7 +45,7 @@
             </section>
             <% for(var i=0; i < sections.length; i++) { %>
                 <h3 id="<%= sections[i].id %>"><%= sections[i].id %></h3>
-                <p><%- sections[i].html %></p>
+                <p><%= sections[i].html %></p>
             <% } %>
             <%~ includeFile('../partials/shared/footer'); %>
         </div>

@@ -5,7 +5,7 @@
 <meta name="description" content="<%= meta %>">
 <% } %>
 
-<script src="https://kfontawesome.com/6c4c781788.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/6c4c781788.js" crossorigin="anonymous"></script>
 
 
 <% if (typeof title != 'undefined') { %>

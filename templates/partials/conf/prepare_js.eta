@@ -1,6 +1,6 @@
 <% if(typeof announcements != 'undefined'){ %>
 <script>
-  __announcements__ = <%- JSON.stringify(announcements) %>
+  __announcements__ = <%= JSON.stringify(announcements) %>
 </script>
 <% } %>
 <% if(typeof success != 'undefined'){ %>
@@ -12,7 +12,7 @@
 <% } %>
 <% if(typeof error != 'undefined'){ %>
 <script>
-  __errors__ = <%- JSON.stringify(error) %>
+  __errors__ = <%= JSON.stringify(error) %>
 </script>
 <% } %>
 <% if(typeof toFocus != 'undefined'){ %>
@@ -73,22 +73,22 @@
 <% } %>
 <% if(typeof addressPoints != 'undefined'){ %>
 <script>
-  var __addressPoints__ = <%- JSON.stringify(addressPoints) %>
+  var __addressPoints__ = <%= JSON.stringify(addressPoints) %>
 </script>
 <% } %>
 <% if(typeof UXConstraints != 'undefined'){ %>
 <script>
-  var __UXConstraints__ = <%- JSON.stringify(UXConstraints) %>
+  var __UXConstraints__ = <%= JSON.stringify(UXConstraints) %>
 </script>
 <% } %>
 <% if(typeof formData != 'undefined'){ %>
 <script>
-  var __formData__ = <%- JSON.stringify(formData) %>
+  var __formData__ = <%= JSON.stringify(formData) %>
 </script>
 <% } %>
 <% if(typeof noads != 'undefined'){ %>
 <script>
   var __grade__ = "<%= noads.grade  %>"
-  __urls__ = <%- JSON.stringify(noads.urls) %>
+  __urls__ = <%= JSON.stringify(noads.urls) %>
 </script>
 <% } %>

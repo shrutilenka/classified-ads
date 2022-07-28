@@ -98,7 +98,7 @@ const messages = {
     en: {
       h1: 'Oops!',
       h2: 'Page is not found',
-      details: 'Sorry, an error has occured or the requested page is not found.',
+      details: 'Sorry, an error has occurred or the requested page is not found.',
       actions: 'Take me home'
     },
     ar: {

@@ -3,7 +3,7 @@
 
 <head>
   <%~ includeFile('../partials/shared/head', it); %>
-  <% if(typeof(title) != 'undefined' && title === 'Reactivate') { %>
+  <% if(typeof title != 'undefined' && title === 'Reactivate') { %>
   <style>
     body {
       background-image: linear-gradient(transparent 50%, rgb(226 169 169 / 50%) 50%);
@@ -18,7 +18,7 @@
   <div id="lower_right" class="svg"></div>
   <%~ includeFile('../partials/shared/navbar', it); %>
   <div class="container">
-    <% if(typeof(title) != 'undefined' && typeof(intro) != 'undefined') { %>
+    <% if(typeof title !== 'undefined' && typeof intro !== 'undefined') { %>
     <div class="bg-light p-5 rounded">
       <h1><%= title %></h1>
       <p class="lead"><%= intro %></p>
@@ -33,52 +33,47 @@
     <% } %>
     <% if(typeof data.lang === 'undefined' || data.lang !== 'ar'){ %>
     <div class="listing">
-      <% } else { %>
-      <div class="listing" dir="rtl">
-        <% }%>
-        <%~ includeFile('../partials/sections/breadcrumb', it); %>
-
-        <p data-trans="(posted-by)">Posted by:</p>
-        <div id="user">
-          <img id='avatar' width="80" height="80" alt="User">
-
-
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-backdrop="false">
-            Send a message
-          </button>
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Address a private message to the author</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form class="p-3" id="message-dialog" action="/listings/sendmessage" method="POST" name="sendMessage">
-                    <div class="form-group">
-                      <label for="message">Message</label>
-                      <div id="message-editor" class="pell px-3 pt-3 bg-white border-bottom-0" data-target="#unique_target" data-max="500" style="color: #333!important;fill: #333!important;"></div>
-                      <div id="characters-left" class="px-2" style="font-size: 12px; font-family: 'Lucida Console', Arial, Helvetica, sans-serif;"></div>
-                    </div>
-                    <input type="hidden" name="email" value='<%= data.email %>'>
-                    <input type="hidden" name="id" value='<%= data._id %>'>
-                    <input name="message" class="add" id="message" value="" type="hidden">
-                    <div class="w-100">
-                      <button type="submit" class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Send</button>
-                    </div>
-                  </form>
-                </div>
+    <% } else { %>
+    <div class="listing" dir="rtl">
+    <% }%>
+      <%~ includeFile('../partials/sections/breadcrumb', it); %>
+      <p data-trans="(posted-by)">Posted by:</p>
+      <div id="user">
+        <img id='avatar' width="80" height="80" alt="User">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-backdrop="false">
+          Send a message
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Address a private message to the author</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form class="p-3" id="message-dialog" action="/listings/sendmessage" method="POST" name="sendMessage">
+                  <div class="form-group">
+                    <label for="message">Message</label>
+                    <div id="message-editor" class="pell px-3 pt-3 bg-white border-bottom-0" data-target="#unique_target" data-max="500" style="color: #333!important;fill: #333!important;"></div>
+                    <div id="characters-left" class="px-2" style="font-size: 12px; font-family: 'Lucida Console', Arial, Helvetica, sans-serif;"></div>
+                  </div>
+                  <input type="hidden" name="email" value='<%= data.email %>'>
+                  <input type="hidden" name="id" value='<%= data._id %>'>
+                  <input name="message" class="add" id="message" value="" type="hidden">
+                  <div class="w-100">
+                    <button type="submit" class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Send</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
-
-
       </div>
+    </div>
       <% for (var i=0; data.tags && data.tags.length > 0 && i < data.tags.length ; i++) { %>
-      <a href="/tag/<%- data.tags[i] %>"><span class="badge bg-secondary"><%- data.tags[i] %></span></a>
+      <a href="/tag/<%= data.tags[i] %>"><span class="badge bg-secondary"><%= data.tags[i] %></span></a>
       <% } %>
       <% if (data.undraw) { %>
       <div id="undraw-output">
@@ -90,16 +85,15 @@
 
       <% if (data.title && data.desc) { %>
       <h2><%= data.title %></h2>
-      <p class="apply-font"><%- data.desc %></p>
+      <p class="apply-font"><%= data.desc %></p>
       <% if (data.section == 'donations') { %>
       <div class="map" id="listing-map"></div>
       <% } %>
       <br>
-      <hr>
-      <% if(typeof data.img != 'undefined'){ %>
+      <% if(typeof data.img !== 'undefined'){ %>
       <div class="d-flex">
         <div class="mx-auto mx-lg-0">
-          <img id="listingImg" src="<%- data.img %>" alt="<%= data.title + ' image' %>" width="200rem">
+          <img id="listingImg" src="<%= data.img %>" alt="<%= data.title + ' image' %>" width="200rem">
         </div>
       </div>
       <% } %>
@@ -113,10 +107,6 @@
 
     </div>
     <%~ includeFile('../partials/conf/prepare_js', it); %>
-    <%# if(typeof channel !== 'undefined'){ %>
-    <!-- // TODO: CHAT @@@@@@@@@@@@@ -->
-    <%# include('../partials/chat', it); %>
-    <%# } %>
     <%~ includeFile('../partials/shared/footer'); %>
   </div>
 
