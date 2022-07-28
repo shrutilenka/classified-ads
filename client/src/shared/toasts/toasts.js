@@ -14,8 +14,8 @@ export const runToasts = async () => {
             __successes__.forEach((success) => {
                 notyfInfo.success(success)
             })
-
-            if (__announcements__) {
+            const sometimes = Math.random() < 0.3
+            if (__announcements__ && sometimes) {
                 __announcements__.forEach((info) => {
                     notyfInfo.open({ type: 'info', message: info })
                 })

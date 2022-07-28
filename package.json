@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "sudo apt-get install -y build-essential golang-go && go install github.com/mailhog/MailHog@v1.0.1 && npm install && sudo chmod -R a+rwx node_modules && cd client && npm install && npm run dev:client && cd ..",
-    "docker:build": "go install github.com/mailhog/MailHog@v1.0.1",
+    "build:tools": "go install github.com/mailhog/MailHog@v1.0.1",
     "start": "node server",
     "dev:start": "~/go/bin/MailHog > '/dev/null' 2>&1 & node server.js",
     "dev:stop": "pkill --signal SIGINT classified-ads && kill -9 `pidof ~/go/bin/MailHog`",
@@ -96,7 +96,7 @@
     "middie": "^6.1.0",
     "naughty-words": "^1.2.0",
     "nlp-escape": "^1.0.1",
-    "objectmodel": "^4.3.0",
+    "objectmodel": "^4.3.2",
     "pino": "^7.11.0",
     "pino-pretty": "^7.6.1",
     "prom-client": "^12.0.0",

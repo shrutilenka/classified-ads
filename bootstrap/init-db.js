@@ -7,3 +7,5 @@ db.createCollection('words', { capped: false });
 db.createCollection('listing', { capped: false });
 db.createCollection('userstemp', { capped: false });
 db.createCollection('comment', { capped: false });
+
+// console.log(mongorestore)

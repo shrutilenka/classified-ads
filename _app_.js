@@ -12,10 +12,10 @@ import fastifySchedule from '@fastify/schedule'
 import fastifySession from '@fastify/session'
 import fastifyServe from '@fastify/static'
 import fastifySwagger from '@fastify/swagger'
-// import GracefulServer from '@gquittet/graceful-server'
 // import { createRequire } from 'module'
 import viewsPlugin from '@fastify/view'
 import fastifyWebsocket from '@fastify/websocket'
+import GracefulServer from '@gquittet/graceful-server'
 import fastifyMetrics from 'fastify-metrics'
 import i18nextMiddleware from 'i18next-http-middleware'
 // const require = createRequire(import.meta.url)
@@ -38,7 +38,8 @@ const plugins = {
     fastifyRateLimit,
     fastifyRedis,
     fastifyServe,
-    fastifyMetrics
+    fastifyMetrics,
+    GracefulServer
 }
 export { plugins }
 

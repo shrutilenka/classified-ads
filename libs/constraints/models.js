@@ -30,7 +30,7 @@ const Donation = Listing.extend({
     lng: Number,
     offer: [Boolean],
     img: new RegExp(URL),
-    thum: new RegExp(URL),
+    thum: [new RegExp(URL)],
     geolocation: {
         type: 'Point',
         coordinates: ArrayModel(Coordinate)

@@ -23,7 +23,7 @@ import { plugins } from './_app_.js'
 
 const { helmet, logger, swagger } = options
 const { adminRouter, authRouter, chatRouter, dataRouter, debugRouter, indexRouter, listingsRouter, wvRouter } = routes
-const { fastifyCompress, fastifyAuth, fastifyCookies, fastifyFlash, fastifyJWT } = plugins
+const { fastifyCompress, fastifyAuth, fastifyCookies, fastifyFlash, fastifyJWT, GracefulServer } = plugins
 const { fastifySchedule, i18nextMiddleware, fastifySession, fastifySwagger, fastifyWebsocket, viewsPlugin } = plugins
 const { fastifyFormbody, fastifyHelmet, fastifyMongodb, fastifyRateLimit, fastifyRedis, fastifyServe, fastifyMetrics } =
     plugins
@@ -65,6 +65,20 @@ async function build(doRun) {
         disableRequestLogging: true,
         keepAliveTimeout: 10000,
         requestTimeout: 5000,
+    })
+    const gracefulServer = GracefulServer(fastify.server)
+    // TODO: manage open resources (not working !)
+    gracefulServer.on(GracefulServer.READY, () => {
+        fastify.log.info('Server is ready')
+        console.log('Server is ready')
+    })
+    gracefulServer.on(GracefulServer.SHUTTING_DOWN, () => {
+        fastify.log.error('Server is shutting down')
+        console.error('Server is shutting down')
+    })
+    gracefulServer.on(GracefulServer.SHUTDOWN, (error) => {
+        fastify.log.error('Server is down because of', error.message)
+        console.error('Server is down because of', error.message)
     })
     // TODO: SERVE STATIC CONTENT! LATER PREFERABLY ON A SEPARATE SERVER WITH PROPER PROTECTION
     fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
@@ -129,24 +143,6 @@ async function build(doRun) {
     // const { db } = fastify.mongo
 
     const mongoURL = config('MONGODB_URI', { dbName })
-
-    // TODO: manage open resources (not working !)
-    // const gracefulServer = GracefulServer(fastify.server)
-
-    // gracefulServer.on(GracefulServer.READY, () => {
-    //     console.log('Server is ready')
-    //     if (config(INSIDE_DOCKER)) {
-    //         console.warn('Server running inside Docker container\n' + 'keep an eye on resources !')
-    //     }
-    // })
-
-    // gracefulServer.on(GracefulServer.SHUTTING_DOWN, () => {
-    //     console.error('Server is shutting down')
-    // })
-
-    // gracefulServer.on(GracefulServer.SHUTDOWN, (error) => {
-    //     console.error('Server is down because of', error.message)
-    // })
 
     /*********************************************************************************************** */
     // Seeming heavy so use/register these after starting the app
@@ -289,7 +285,7 @@ async function build(doRun) {
                     text: 'App instance bootstrapped correctly',
                     html: 'App instance bootstrapped correctly',
                 })
-            // gracefulServer.setReady()
+            gracefulServer.setReady()
         } catch (err) {
             console.log(err)
             fastify.log.error(err)
