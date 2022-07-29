@@ -96,7 +96,7 @@
     "middie": "^6.1.0",
     "naughty-words": "^1.2.0",
     "nlp-escape": "^1.0.1",
-    "objectmodel": "^4.3.2",
+    "objectmodel": "^4.3.0",
     "pino": "^7.11.0",
     "pino-pretty": "^7.6.1",
     "prom-client": "^12.0.0",
