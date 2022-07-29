@@ -1,5 +1,14 @@
 import authAdapter from '../decorators/auth.js'
 import queries from '../services/mongo.js'
+
+let imgHolder = {
+    donations: 'https://via.placeholder.com/512x350/bd5912/100d00.png?text=Donation',
+    skills: 'https://via.placeholder.com/512x350/ec496f/0f0f3f.png?text=Skill',
+    events: 'https://via.placeholder.com/512x350/934fe9/11113e.png?text=Event',
+    hobbies: 'https://via.placeholder.com/512x350/b2bd12/0a090a.png?text=Hobby',
+    blogs: 'https://via.placeholder.com/512x350/f5eabf/100d00.png?text=Blog',
+}
+
 // The function would need to be declared async for return to work.
 // Only routes accept next parameter.
 async function routes(fastify, options) {
@@ -9,13 +18,18 @@ async function routes(fastify, options) {
     const QInstance = new queries(db, redis)
     let { adminAuth } = authAdapter(fastify)
     // CLONE BASE DATA LIST
-    let realtimeJSON
+    let realtimeJSON = []
 
     fastify.get('/', { preHandler: adminAuth }, async function (req, reply) {
         const listings = await QInstance.getListingsForModeration(true)
-        realtimeJSON = listings.documents
-        // realtimeJSON.forEach((a, idx) => a.id = idx+1)
-        reply.send(realtimeJSON)
+        listings.documents.forEach((elem) => {
+            if (!elem.img) elem.img = imgHolder[elem['section']]
+            elem._id = elem._id.toHexString()
+        })
+        listings.documents.forEach((elem) => {
+            realtimeJSON[elem._id] = elem
+        })
+        reply.send(listings.documents)
     })
 
     fastify.get('/dashboard', { preHandler: adminAuth }, async function (req, reply) {
@@ -41,6 +55,7 @@ async function routes(fastify, options) {
         else {
             const match = getMatch(req)
             realtimeJSON[match] = Object.assign({}, realtimeJSON[match], req.body)
+            if (realtimeJSON[match].img.includes('via.placeholder')) realtimeJSON[match].img = ''
             await QInstance.updateDocument(realtimeJSON[match], 'listing')
             reply.send(realtimeJSON)
         }
@@ -58,13 +73,13 @@ async function routes(fastify, options) {
     // DELETE
     fastify.delete('/:id', { preHandler: adminAuth }, async function (req, reply) {
         const match = getMatch(req)
-        await QInstance.removeDocument(realtimeJSON[match]._id.toString(), 'listing')
+        await QInstance.removeDocument(realtimeJSON[match]._id, 'listing')
         if (match !== -1) realtimeJSON.splice(match, 1)
         reply.send(realtimeJSON)
     })
 
     function getMatch(req) {
-        return realtimeJSON.findIndex((a) => a._id.toString() === req.params.id.toString())
+        return realtimeJSON.findIndex((a) => a._id === req.params.id)
     }
 
     // Add an announcement

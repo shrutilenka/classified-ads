@@ -9,8 +9,10 @@ import { give } from './data.js'
 import { ops } from './helpers.js'
 
 const require = createRequire(import.meta.url)
+// const purifier = require('html5-purifier')
 const decancer = require('decancer')
 const naughtyWords = require('naughty-words')
+
 const badWords = naughtyWords.ar.concat(naughtyWords.fr).concat(naughtyWords.en)
 const Filter = require('bad-words'),
     filter = new Filter()

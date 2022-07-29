@@ -748,13 +748,13 @@ export default function (mongoDB, redisDB) {
      * @return {Promise}
      */
     this.updateDocument = async function (elem, collName) {
-        const id = elem._id.toHexString()
+        const id = elem._id
         if (!locks.has(id)) locks.set(id, new Mutex())
         const release = await locks.get(id).acquire()
         const result = await mongoDB
             .collection(collName)
             .updateOne({ _id: ObjectId(elem._id) }, { $set: elem }, { upsert: false })
-        await redisDB.hset(`up-ids`, elem._id.toHexString(), '1')
+        await redisDB.hset(`up-ids`, id, '1')
         release()
         return result
     }
