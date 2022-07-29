@@ -264,7 +264,14 @@ async function routes(fastify, options, next) {
                     `post/listings#postListingHandler: tidyP|nlp-escape|dompurify|decancer:: ${body.message.slice(0, 20)} | ${error.message} `,
                 )
             }
-
+            // try {
+                
+            // } catch (error) {
+            //     req.log.error(`post/sendmessage#getListingById: ${errr.message}`)
+            //     reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+            //     return reply
+            // }
+            
             const message = {
                 to: receiver,
                 from: req.params.username,

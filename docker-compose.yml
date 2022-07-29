@@ -52,7 +52,7 @@ services:
       - 3000:3000
     build:
       context: ./
-    # restart: unless-stopped
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=pass

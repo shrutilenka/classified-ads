@@ -107,6 +107,7 @@ export default (fastify) => {
                 // TODO: stop request ?
                 req.log.error(`post/listings#postListingHandler: tidyP|nlp-escape|dompurify|decancer:: ${body.desc.slice(0, 20)} | ${error.message} `)
             }
+            
             try {
                 body.lang = stripped ? await helpers.getLanguage(stripped) : 'und'
             } catch (error) {
