@@ -259,19 +259,12 @@ async function routes(fastify, options, next) {
                 body.message = escaper.unescape(transformed)
                 body.message = DOMPurify.sanitize(body.message)
             } catch (error) {
-                // TODO: stop request ?
                 req.log.error(
-                    `post/listings#postListingHandler: tidyP|nlp-escape|dompurify|decancer:: ${body.message.slice(0, 20)} | ${error.message} `,
+                    `post/sendmessage#tidyP|nlp-escape|dompurify|decancer:: ${body.message.slice(0, 100)} | ${error.message} `,
                 )
+                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                return reply
             }
-            // try {
-                
-            // } catch (error) {
-            //     req.log.error(`post/sendmessage#getListingById: ${errr.message}`)
-            //     reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
-            //     return reply
-            // }
-            
             const message = {
                 to: receiver,
                 from: req.params.username,

@@ -104,8 +104,9 @@ export default (fastify) => {
                 stripped = body.desc.replace(/<[^>]*>?/gm, '')
                 body.cdesc = stripped
             } catch (error) {
-                // TODO: stop request ?
-                req.log.error(`post/listings#postListingHandler: tidyP|nlp-escape|dompurify|decancer:: ${body.desc.slice(0, 20)} | ${error.message} `)
+                req.log.error(`post/listings#postListingHandler: tidyP|nlp-escape|dompurify|decancer:: ${body.desc.slice(0, 100)} | ${error.message} `)
+                reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
+                return reply
             }
             
             try {
@@ -113,7 +114,7 @@ export default (fastify) => {
             } catch (error) {
                 body.lang = 'und'
                 req.log.error(
-                    `post/listings#postListingHandler: getLanguage:: ${stripped.slice(0, 20)} | ${error.message} `,
+                    `post/listings#postListingHandler: getLanguage:: ${stripped.slice(0, 100)} | ${error.message} `,
                 )
             }
             const { upload } = constraints[process.env.NODE_ENV][method][section]
