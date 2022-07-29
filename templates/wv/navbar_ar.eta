@@ -49,13 +49,6 @@
           <input type="checkbox" class="custom-control-input" id="darkSwitch" />
           <label class="custom-control-label" for="darkSwitch">الحلة المظلمة</label>
           </div>
-          <!-- <script src="./js/libraries/ dependencies['dark-mode-switch.js'] "></script> -->
-      </li>
-      <li class="nav-link">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="themeSwitch" />
-            <label class="custom-control-label" for="themeSwitch">حلة المناخ</label>
-          </div>
       </li>
       </ul>
       </ul>

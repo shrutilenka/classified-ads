@@ -256,7 +256,7 @@ async function build(doRun) {
     }
     // TODO: CHAT @@@@@@@@@@@@@
     // fastify.register(chatRouter, { prefix: 'chat' })
-    // fastify.register(wvRouter, { prefix: 'wv' })
+    fastify.register(wvRouter, { prefix: 'wv' })
 
     /*********************************************************************************************** */
     // !!APP AND USER METRICS!!
