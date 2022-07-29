@@ -21,8 +21,3 @@ test('foo', t => {
 
 	t.pass();
 });
-
-// test("Escape keeps natural language intact", (t) => {
-//     stripped = text.replace(/<[^>]*>?/gm, '')
-//     text = await tidyP(text, opt)
-// });

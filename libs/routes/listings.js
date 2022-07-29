@@ -1,8 +1,6 @@
 import multer from 'fastify-multer'
-import { tidy } from 'htmltidy2'
 import DOMPurify from 'isomorphic-dompurify'
 import { NLPEscape } from 'nlp-escape'
-import { promisify } from 'util'
 // import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
 import { html } from '../constraints/regex.js'
@@ -21,7 +19,6 @@ const NODE_ENV = {
     production: 1,
 }[process.env.NODE_ENV]
 
-const tidyP = promisify(tidy)
 const opt = { 'show-body-only': 'yes' }
 const tags = html.allowedTags.map((tag) => `<${tag}>`).concat(html.allowedTags.map((tag) => `</${tag}>`))
 const escaper = new NLPEscape(tags)
@@ -252,7 +249,6 @@ async function routes(fastify, options, next) {
                 return reply
             }
             try {
-                body.message = await tidyP(body.message, opt)
                 body.message = new stringTransformer(body.message).sanitizeHTML().valueOf()
                 const clean = escaper.escape(body.message)
                 const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
@@ -260,7 +256,7 @@ async function routes(fastify, options, next) {
                 body.message = DOMPurify.sanitize(body.message)
             } catch (error) {
                 req.log.error(
-                    `post/sendmessage#tidyP|nlp-escape|dompurify|decancer:: ${body.message.slice(0, 100)} | ${error.message} `,
+                    `post/sendmessage#nlp-escape|dompurify|decancer:: ${body.message.slice(0, 100)} | ${error.message} `,
                 )
                 reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                 return reply

@@ -80,7 +80,6 @@
     "fastify-nodemailer": "^5.0.0",
     "fluent-json-schema": "^3.1.0",
     "fuzzyset": "^1.0.7",
-    "htmltidy2": "^1.0.0",
     "i18next": "^21.8.11",
     "i18next-fs-backend": "^1.1.4",
     "i18next-http-middleware": "^3.2.1",

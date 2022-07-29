@@ -1,11 +1,10 @@
 import { Storage } from '@google-cloud/storage'
-import { tidy } from 'htmltidy2'
 import DOMPurify from 'isomorphic-dompurify'
 import Jimp from 'jimp-compact'
 import { createRequire } from 'module'
 import { NLPEscape } from 'nlp-escape'
 import path from 'path'
-import { format, promisify } from 'util'
+import { format } from 'util'
 import config from '../../configuration.js'
 import constraints from '../constraints/constraints.js'
 import { html } from '../constraints/regex.js'
@@ -34,7 +33,7 @@ storage = new Storage({ keyFilename: process.env.CREDS_PATH })
 bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
 // }
 
-const tidyP = promisify(tidy)
+
 /**
  *
  * @param {*} QInstance
@@ -62,8 +61,7 @@ const formatNInsertListing = (QInstance, req, blobNames, upload) => {
     return listing
 }
 
-// Options http://api.html-tidy.org/tidy/tidylib_api_5.6.0/tidy_quickref.html
-const opt = { 'show-body-only': 'yes' }
+// const opt = { 'show-body-only': 'yes' }
 const tags = html.allowedTags.map((tag) => `<${tag}>`).concat(html.allowedTags.map((tag) => `</${tag}>`))
 const escaper = new NLPEscape(tags)
 
@@ -95,7 +93,7 @@ export default (fastify) => {
         } else {
             let stripped
             try {
-                body.desc = await tidyP(body.desc, opt)
+                // body.desc = await tidyP(body.desc, opt)
                 body.desc = new stringTransformer(body.desc).sanitizeHTML().valueOf()
                 const clean = escaper.escape(body.desc)
                 const transformed = new stringTransformer(clean).decancer().badWords().cleanSensitive().valueOf()
@@ -104,7 +102,7 @@ export default (fastify) => {
                 stripped = body.desc.replace(/<[^>]*>?/gm, '')
                 body.cdesc = stripped
             } catch (error) {
-                req.log.error(`post/listings#postListingHandler: tidyP|nlp-escape|dompurify|decancer:: ${body.desc.slice(0, 100)} | ${error.message} `)
+                req.log.error(`post/listings#postListingHandler: nlp-escape|dompurify|decancer:: ${body.desc.slice(0, 100)} | ${error.message} `)
                 reply.blabla([{}, 'message', 'SERVER_ERROR'], req)
                 return reply
             }

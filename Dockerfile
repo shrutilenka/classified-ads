@@ -22,7 +22,6 @@ RUN apk add --no-cache --update --virtual .gyp \
 #     build-base vips-dev && npm i --verbose --unsafe-perm --ignore-scripts false sharp@0.28.3
 
 RUN npm i
-RUN chmod -R a+rwx node_modules/htmltidy2
 RUN chmod -R a+rwx node_modules/@vierofernando
 RUN chmod -R a+rwx node_modules/decancer
 RUN chmod -R a+rwx node_modules/sharp
