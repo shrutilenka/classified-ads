@@ -42,7 +42,7 @@
     <%~ includeFile('../partials/sections/listings_parser', it); %>
     <%~ includeFile('../partials/shared/pagination', it); %>
 
-    <%~ includeFile('../partials/shared/footer'); %>
+    <%~ includeFile('../partials/shared/footer', it); %>
   </div>
   <%~ includeFile('../partials/conf/beforebodyclose', it); %>
 </body>

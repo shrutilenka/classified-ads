@@ -47,7 +47,7 @@
                 <h3 id="<%= sections[i].id %>"><%= sections[i].id %></h3>
                 <p><%= sections[i].html %></p>
             <% } %>
-            <%~ includeFile('../partials/shared/footer'); %>
+            <%~ includeFile('../partials/shared/footer', it); %>
         </div>
         <%~ includeFile('../partials/conf/prepare_js', it); %>
         <%~ includeFile('../partials/conf/beforebodyclose', it); %>

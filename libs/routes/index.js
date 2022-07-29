@@ -216,14 +216,14 @@ async function routes(fastify, options) {
 
     /* GET Top listings by tag. */
     fastify.get('/explore/tags', { preHandler: softAuth }, async function (req, reply) {
-        reply.view('/templates/pages/tags', {
+        reply.view('/pages/tags', {
             title: 'Explore all tags!',
         })
     })
 
     // Blog pages are pages with little server processing
     fastify.get('/categories', { preHandler: softAuth }, function (req, reply) {
-        reply.view('/templates/pages/blog', {
+        reply.view('/pages/blog', {
             title: 'Categories',
             sections: [
                 { id: 'Donations', html: req.t('doc.donations') },
@@ -234,7 +234,7 @@ async function routes(fastify, options) {
     })
 
     fastify.get('/about', { preHandler: softAuth }, function (req, reply) {
-        reply.view('/templates/pages/blog', {
+        reply.view('/pages/blog', {
             title: 'What is Classified-ads',
             sections: [
                 { id: 'About', html: req.t('doc.about') },
@@ -244,7 +244,7 @@ async function routes(fastify, options) {
     })
 
     fastify.get('/how-to', { preHandler: softAuth }, function (req, reply) {
-        reply.view('/templates/pages/blog', {
+        reply.view('/pages/blog', {
             title: 'How to post on Listings',
             sections: [
                 { id: 'User agreement', html: req.t('doc.agreement') },
@@ -255,7 +255,7 @@ async function routes(fastify, options) {
     })
 
     fastify.get('/policy', { preHandler: softAuth }, function (req, reply) {
-        reply.view('/templates/pages/blog', {
+        reply.view('/pages/blog', {
             title: 'Terms of usage',
             sections: [
                 { id: 'sec1', html: 'bob' },
@@ -268,7 +268,7 @@ async function routes(fastify, options) {
     // Some easter-eggs
     // fastify.get('/fennec-fox', function (req, reply) {
     //     const idx = Math.floor(Math.random() * 4) + 1
-    //     reply.view('/templates/pages/easter-egg', {
+    //     reply.view('/pages/easter-egg', {
     //         svg: give.SVGs[idx - 1],
     //         style: `easter-egg-${idx}.css`,
     //     })
@@ -282,7 +282,7 @@ async function routes(fastify, options) {
         let listings = []
         if (dailyAnnouncements.isSame()) {
             listings = dailyAnnouncements.data
-            return reply.view('/templates/pages/blog', {
+            return reply.view('/pages/blog', {
                 title: 'Announcements',
                 intro: req.t('blog.intro'),
                 sections: listings,
@@ -301,7 +301,7 @@ async function routes(fastify, options) {
                     listings.push({ id: title, html: announcement })
                 })
                 dailyAnnouncements.data = listings
-                return reply.view('/templates/pages/blog', {
+                return reply.view('/pages/blog', {
                     title: 'Announcements',
                     intro: req.t('blog.intro'),
                     sections: listings,

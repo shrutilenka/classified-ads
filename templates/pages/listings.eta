@@ -33,7 +33,7 @@
     <%~ includeFile('../partials/sections/add_hobby', it); %>
 
     <%~ includeFile('../partials/conf/prepare_js', it); %>
-    <%~ includeFile('../partials/shared/footer'); %>
+    <%~ includeFile('../partials/shared/footer', it); %>
   </div>
   <%~ includeFile('../partials/conf/beforebodyclose', it); %>
   <script>

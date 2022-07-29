@@ -15,7 +15,7 @@
     <p class="servervar"> 🗯 <%= message %> </p>
 
     <%~ includeFile('../partials/conf/prepare_js', it); %>
-    <%~ includeFile('../partials/shared/footer'); %>
+    <%~ includeFile('../partials/shared/footer', it); %>
   </div>
   <%~ includeFile('../partials/conf/beforebodyclose', it); %>
 </body>

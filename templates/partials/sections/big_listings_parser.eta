@@ -57,10 +57,10 @@ var imgHolder = {
 </div>
 <% } %>
 
-<% if(typeof crossLangListings != 'undefined' && crossLangListings.length> 0){ %>
+<% if(typeof crossLangListings != 'undefined' ){ %>
 <h3>Cross language listings</h3>
 <div class="row align-items-stretch ca-listings">
-  <% for (var i = 0; && i < crossLangListings.length ; i++) { %>
+  <% for (var i = 0; crossLangListings.length> 0 && i < crossLangListings.length ; i++) { %>
   <div class="col-sm col-md-6 col-xl-4">
     <div class="h-100 pb-3" id="<%= crossLangListings[i]._id %>-@@@@@">
       <div class="card mb-3 h-100 crosslang <%= crossLangListings[i].a %> <%= crossLangListings[i].d %>">

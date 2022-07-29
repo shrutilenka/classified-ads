@@ -60,9 +60,9 @@
   <div class="row" id="imgGrid" data-intro=<%= messages.tour[lang].gallery %> data-position="auto">
 
   </div>
-  <%~ includeFile('footer'); %>
+  <%~ includeFile('footer', it); %>
 
 </body>
-<%~ includeFile('after_body'); %>
+<%~ includeFile('after_body', it); %>
 
 </html>

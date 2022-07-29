@@ -19,7 +19,7 @@ async function routes(fastify, options) {
     })
 
     fastify.get('/dashboard', { preHandler: adminAuth }, async function (req, reply) {
-        reply.view('/templates/pages/admin', {})
+        reply.view('/pages/admin', {})
     })
 
     // CREATE

@@ -296,7 +296,7 @@ async function routes(fastify, options, next) {
             return reply
         }
         const user = { nickname: req.params.username }
-        return reply.view('/templates/pages/listings', {
+        return reply.view('/pages/listings', {
             user: user,
             title: 'Your listings',
             intro: 'Classified advertising brought to the web',
@@ -322,7 +322,7 @@ async function routes(fastify, options, next) {
                 }),
             ),
         ]
-        return reply.view('/templates/pages/notifications', {
+        return reply.view('/pages/notifications', {
             user: user,
             title: 'Notifications',
             intro: 'Classified advertising brought to the web',
@@ -347,7 +347,7 @@ async function routes(fastify, options, next) {
             return reply
         }
         const user = { nickname: req.params.username }
-        return reply.view('/templates/pages/listings', {
+        return reply.view('/pages/listings', {
             user: user,
             title: 'Your listings',
             intro: 'Classified advertising brought to the web',

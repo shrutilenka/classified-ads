@@ -39,14 +39,14 @@
 
       <div class="text-end">
         <% if(typeof user!=='undefined'){ %>
-        <% if(typeof user.nickname==='undefined' || user.nickname==='' ){ %>
-        <a class="btn btn-outline-light me-2" href="/login">Login</a>
-        <a class="btn btn-warning" href="/signup">Sign-up</a>
-        <% } else { %>
-        <a href="/listings/user"><span class="fa fa-user">&#8203;</span> Welcome <%= user.nickname %></a>
-        <a href="/listings/user/notifications"><span class="fa fa-bell">&#8203;</span> Notifications</a>
-        <a class="btn btn-outline-light me-2" href="/logout">Logout</a>
-        <% }%>
+          <% if(typeof user.nickname==='undefined' || user.nickname==='' ){ %>
+          <a class="btn btn-outline-light me-2" href="/login">Login</a>
+          <a class="btn btn-warning" href="/signup">Sign-up</a>
+          <% } else { %>
+          <a href="/listings/user"><span class="fa fa-user">&#8203;</span> Welcome <%= user.nickname %></a>
+          <a href="/listings/user/notifications"><span class="fa fa-bell">&#8203;</span> Notifications</a>
+          <a class="btn btn-outline-light me-2" href="/logout">Logout</a>
+          <% }%>
         <% }%>
       </div>
       <ul class="nav float-end">
