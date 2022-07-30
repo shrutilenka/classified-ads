@@ -281,7 +281,7 @@ ops['getWithExpiry'] = (key) => {
     return item.value
 }
 
-LIS.id('themeSwitch').addEventListener('click', function () {
+ops['themeSwitch'] = () => {
     const isChecked = LIS.id('themeSwitch').checked
     const value = isChecked ? 1 : 0
     value ? localStorage.setItem('themeSwitch', 'true') : localStorage.removeItem('themeSwitch')
@@ -289,7 +289,8 @@ LIS.id('themeSwitch').addEventListener('click', function () {
         document.body.style.backgroundImage = ''
         document.documentElement.style.backgroundImage = ''
     }
-})
+}
+
 
 conf['autocompleteOptions'] = {
     types: ['(cities)'],
