@@ -154,8 +154,11 @@ async function routes(fastify, options) {
     })
 
     /* Confirmation of email identity. */
-    fastify.get('/confirmation/:token', async function (request, reply) {
-        const token = request.params.token
+    fastify.get('/confirmation', function (req, reply) {
+        reply.blabla([{}, 'confirmation', 'confirmation'], req)
+    })
+    fastify.post('/confirmation', async function (request, reply) {
+        const { token } = request.body
         const tmpUser = await QInstance.getTmpUserByToken(token)
         if (!tmpUser) {
             throw { statusCode: 401, message: 'UNAUTHORIZED' }
@@ -173,6 +176,7 @@ async function routes(fastify, options) {
         return
     })
 
+    /* Reset of email password. */
     const resetSchema = constraints[process.env.NODE_ENV].POST.reset.schema
     fastify.post(
         '/reset',

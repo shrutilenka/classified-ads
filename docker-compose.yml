@@ -81,6 +81,8 @@ services:
       - ./docker/mongo/mgob.yml:/config/mgob.yml
       - ./creds/service-account.json:/config/service-account.json
       - ./backup:/storage
+    command:
+      /docker/mongo/restore_latest.sh
   # our custom image 
   redis:
       container_name: redis-service

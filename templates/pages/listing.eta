@@ -63,7 +63,7 @@
                   <input type="hidden" name="id" value='<%= data._id %>'>
                   <input name="message" class="add" id="message" value="" type="hidden">
                   <div class="w-100">
-                    <button type="submit" class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1">Send</button>
+                    <button type="submit" class="btn btn-primary w-100 py-2 sm:w-auto sm:py-1" data-trans="(send)">Send</button>
                   </div>
                 </form>
               </div>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <%~ includeFile('head',
-      { version: 'bootstrap' , centerLocation: 'london' , lang: 'en' , title: 'Welcome to WeatherVenue',
-        description: 'WeatherVenue lets you find best places to visit in your entourage; Easily finding warmer winter vacation or cool summer escapes.',
+      { version: 'bootstrap' , centerLocation: 'london' , lang: 'fr' , title: 'Bienvenue',
+        description: 'WeatherVenue vous permet de trouver les meilleurs endroits à visiter dans votre entourage ; Trouvez facilement des vacances d\'hiver plus chaudes ou des escapades estivales fraîches.',
       });
   %>
 </head>
@@ -15,14 +15,14 @@
   <div id="spinner-front">
     <img src="/wv/images/loading.gif" /><br>
   </div>
-  <%~ includeFile('navbar', { lang: 'en' }); %>
+  <%~ includeFile('navbar', { lang: 'fr' }); %>
   <div class="container-fluid">
-  <h2 class="text-center" id="explanatory-text">Let people find best places to visit in their entourage; For warmer winter weather vacation or cool summer escapes.</h2>
+  <h3 class="text-center" id="explanatory-text">Retrouver les meilleurs endroits à visiter dans votre entourage ; Pour des vacances hivernales plus chaudes ou des escapades estivales fraîches.</h3>
   </div>
   <%~ includeFile('map', { command: 'Enter a location', messages: messages, lang: lang }); %>
 
   <div class="container-fluid" data-intro=<%= messages.tour[lang].cards %> data-position="auto">
-    <h3 class="section_head" id="location">Search for your city to display next days forecasts.</h3>
+    <h3 class="section_head" id="location">Entrer votre ville pour avoir les prévisions</h3>
     <p id="date"></p>
     <div class="row text-center" id="minibar1">
       <button id="collapse1" type="button" aria-label="collapse" class="btn btn-light" data-toggle="collapse" href="#forecast-items">
@@ -37,7 +37,7 @@
   </div>
 
   <div class="container-fluid" data-intro=<%= messages.tour[lang].comparision %> data-position="auto">
-    <h3 class="section_head">Weather comparison</h3>
+    <h3 class="section_head">Comparaison météo</h3>
     <div class="row text-center" id="minibar2">
       <button id="collapse2" type="button" aria-label="collapse" class="btn btn-light" data-toggle="collapse" href="#comparision-items">
         <i class="bi bi-arrows-collapse">&#8203;</i>
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <h3 class="section_head" id="gallery">Local pictures of the main city will appear below</h3>
+  <h3 class="section_head" id="gallery">Des images locales de la ville principale apparaîtront ci-dessous</h3>
   <div class="row" id="imgGrid" data-intro=<%= messages.tour[lang].gallery %> data-position="auto">
 
   </div>
