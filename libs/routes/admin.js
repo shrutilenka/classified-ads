@@ -38,9 +38,7 @@ async function routes(fastify, options) {
 
     // CREATE
     fastify.post('/', { preHandler: adminAuth }, async function (req, reply) {
-        realtimeJSON.push(req.body)
-        // Return list
-        reply.send(realtimeJSON)
+        reply.send('listing creation not implemented')
     })
 
     // UPDATE (Patch for single-cell edit)
@@ -53,10 +51,14 @@ async function routes(fastify, options) {
         }
         // Update the target object
         else {
-            const match = getMatch(req)
+            const match = req.params.id
             realtimeJSON[match] = Object.assign({}, realtimeJSON[match], req.body)
             if (realtimeJSON[match].img.includes('via.placeholder')) realtimeJSON[match].img = ''
             await QInstance.updateDocument(realtimeJSON[match], 'listing')
+            if(realtimeJSON[match].a) {
+                console.log('document approved')
+                delete realtimeJSON[match]
+            }
             reply.send(realtimeJSON)
         }
     })
@@ -64,23 +66,20 @@ async function routes(fastify, options) {
     // PUT (For multi-cell edit)
     // Replaces record instead of merging (patch)
     fastify.put('/:id', { preHandler: adminAuth }, async function (req, reply) {
-        const match = getMatch(req)
+        const match = req.params.id
         realtimeJSON[match] = req.body
         await QInstance.updateDocument(realtimeJSON[match], 'listing')
+        if(realtimeJSON[match].a) delete realtimeJSON[match]
         reply.send(realtimeJSON)
     })
 
     // DELETE
     fastify.delete('/:id', { preHandler: adminAuth }, async function (req, reply) {
-        const match = getMatch(req)
-        await QInstance.removeDocument(realtimeJSON[match]._id, 'listing')
-        if (match !== -1) realtimeJSON.splice(match, 1)
+        const match = req.params.id
+        await QInstance.removeDocument(match, 'listing')
+        delete realtimeJSON[match]
         reply.send(realtimeJSON)
     })
-
-    function getMatch(req) {
-        return realtimeJSON.findIndex((a) => a._id === req.params.id)
-    }
 
     // Add an announcement
     fastify.post('/announce', { preHandler: adminAuth }, async function (req, reply) {

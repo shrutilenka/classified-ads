@@ -751,6 +751,7 @@ export default function (mongoDB, redisDB) {
         const id = elem._id
         if (!locks.has(id)) locks.set(id, new Mutex())
         const release = await locks.get(id).acquire()
+        delete elem._id
         const result = await mongoDB
             .collection(collName)
             .updateOne({ _id: ObjectId(elem._id) }, { $set: elem }, { upsert: false })
