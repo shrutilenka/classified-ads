@@ -326,7 +326,7 @@ async function build(doRun) {
         // Create indexes
         //process.env.NODE_ENV in {localhost, api}
         // TODO: remove (testing prod now)
-        if (NODE_ENV < 1) {
+        if (NODE_ENV <= 1) {
             await colListings.deleteMany({})
             await colUsers.deleteMany({})
             bootstrap
