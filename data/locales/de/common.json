@@ -1,5 +1,5 @@
 {
-    "announcements": ["{{app_name}} is in Beta mode. Your data is safe but service is still in active development", "German language is supported partially"],
+    "announcements": ["{{app_name}} is in Demo mode. You can absolutely try it ! Your data is safe but service is still in active development"],
     "doc": {
         "skills": "<blockquote class='blockquote border p-2'>Eine Fähigkeit ist die erlernte Fähigkeit, eine Handlung mit bestimmten Ergebnissen und guter Ausführung oft innerhalb einer bestimmten Zeit, Energie oder beidem auszuführen. Fähigkeiten können oft in domänenübergreifende und domänenspezifische Fähigkeiten unterteilt werden. Beispielsweise würden im Bereich der Arbeit einige allgemeine Fähigkeiten Zeitmanagement, Teamarbeit und Führung, Selbstmotivation und andere umfassen, während domänenspezifische Fähigkeiten nur für einen bestimmten Job verwendet würden.</blockquote><footer class=' blockquote-footer'><cite title='Wikipedia'>[Wikipedia]</cite></footer>",
         "blogs": "In diesem Abschnitt blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. blablablablabla. ",

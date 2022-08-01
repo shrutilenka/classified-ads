@@ -67,7 +67,7 @@ export const setupMaps = () => {
         const markers = new MarkerClusterGroup()
         for (let i = 0; i < addressPoints.length; i++) {
             const a = addressPoints[i]
-            const title = `<a href='${consts.APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}</a>`
+            const title = `<a href='${consts.APIHost[process.env.NODE_ENV]}/listings/id/${a[3]}'>${a[2]}/</a>`
             let marker
             if (a[4]) {
                 const icon = getIcon(colors[a[4]])
