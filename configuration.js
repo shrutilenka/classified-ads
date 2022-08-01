@@ -4,7 +4,7 @@ import path from 'path'
 import pupa from 'pupa'
 import { fileURLToPath } from 'url'
 dotenv()
-process.title = 'classified-ads'
+process.title = process.env['APP_NAME']
 const require = createRequire(import.meta.url)
 const nodeConfig = require('config')
 const __filename = fileURLToPath(import.meta.url)

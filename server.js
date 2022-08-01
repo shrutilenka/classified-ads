@@ -5,7 +5,7 @@ import os from 'os'
 import build from './app.js'
 
 config()
-process.title = 'classified-ads'
+process.title = process.env['APP_NAME']
 
 // !!CLUSTER SETUP!!
 if (process.env.NO_CLUSTER) {

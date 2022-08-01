@@ -1,6 +1,5 @@
 {
     "NODE_PORT": 3000,
-    "APP_NAME": "Classified-ads",
     "HEROKU": false,
     "PIPELINE_KEYWORDS_SECONDS": 86400,
     "MONGODB_URI": "mongodb://localhost:27017/{dbName}",

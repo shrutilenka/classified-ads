@@ -220,6 +220,6 @@
       }
    },
    "blog": {
-      "intro": "In Classified-ads blogs section is our meta category where you and us also can express ourselves freely from tags. Anything can be posted here, including our daily announcements."
+      "intro": "In {{app_name}} blogs section is our meta category where you and us also can express ourselves freely from tags. Anything can be posted here, including our daily announcements."
    }
 }

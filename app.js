@@ -89,7 +89,7 @@ async function build(doRun) {
         decorateReply: false,
     })
     fastify.register(fastifyServe, {
-        root: path.join(__dirname, `static/${config('DEPLOYMENT_NAME')}`),
+        root: path.join(__dirname, `static/${config('APP_NAME')}`),
         prefix: '/static/',
         decorateReply: false,
     })

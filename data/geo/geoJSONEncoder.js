@@ -18,8 +18,8 @@ function getStates() {
 // name_{lang}: optional - the name of the region (Other languages)
 // If feature.properties.name_{lang} doesn't exist, it falls to feature.properties.name (English)
 const getStateNames = (lang) => {
-    switch (process.env.DEPLOYMENT_NAME) {
-        case 'fr':
+    switch (process.env.APP_NAME) {
+        case 'Ici-Annonces':
             return states.features.map((f) => f.properties.nom)
         case 'dz':
             return lang === 'en'

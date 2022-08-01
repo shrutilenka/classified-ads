@@ -86,7 +86,7 @@ or on cloud providers (tested on Heroku)). But I advice to use your own machine 
    - ADMIN_EMAIL2=moderatorEmail
    - SENDGRID_API_KEY=
    - NO_CLUSTER=true
-   - DEPLOYMENT_NAME=fr/it/..
+   - APP_NAME=fr/it/..
    - DEFAULT_LANG=en-US/fr/..
    
 -  Prepare database  

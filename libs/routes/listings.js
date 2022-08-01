@@ -295,7 +295,6 @@ async function routes(fastify, options, next) {
         return reply.view('/pages/listings', {
             user: user,
             title: 'Your listings',
-            intro: 'Classified advertising brought to the web',
             listings: listings,
             context: 'alllistings',
             success: 'Yep, we got some :)',
@@ -321,7 +320,6 @@ async function routes(fastify, options, next) {
         return reply.view('/pages/notifications', {
             user: user,
             title: 'Notifications',
-            intro: 'Classified advertising brought to the web',
             threads: threads,
             notifications: notifications,
             context: 'messages',
@@ -346,7 +344,6 @@ async function routes(fastify, options, next) {
         return reply.view('/pages/listings', {
             user: user,
             title: 'Your listings',
-            intro: 'Classified advertising brought to the web',
             listings: listings,
             context: 'alllistings',
             success: 'Yep, we got some :)',
