@@ -85,7 +85,7 @@
 
       <% if (data.title && data.desc) { %>
       <h2><%= data.title %></h2>
-      <p class="apply-font"><%= data.desc %></p>
+      <p class="apply-font"><%~ data.desc %></p>
       <% if (data.section == 'donations') { %>
       <div class="map" id="listing-map"></div>
       <% } %>
