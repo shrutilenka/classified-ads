@@ -28,9 +28,9 @@
     }
 }
 
-* {
-    border-radius: 0 !important;
-}
+// * {
+//     border-radius: 0 !important;
+// }
 
 #footer_ads {
     /* sets Ad size */
@@ -44,14 +44,12 @@
 }
 
 .ca-listing {
-    background-color: cadetblue;
 }
 .ca-listings .ca-listing {
     cursor: pointer;
     right: 0;
     top: 0;
     position: absolute;
-    background-color: cadetblue;
 }
 .ca-listings .ca-listing:hover:after,
 .ca-listings .ca-listing.favorites:after {
@@ -126,14 +124,13 @@ pre {
 }
 
 .card {
-    border-style: dashed;
-    border-width: thin;
-    border-color: #a19f9a50;
     background-color: #f5eabf28;
 }
 
 .card.nonapproved {
-    border-width: thick;
+    border-style: dashed;
+    border-width: thin;
+    border-color: #a19f9a50;
 }
 
 .card.deactivated {

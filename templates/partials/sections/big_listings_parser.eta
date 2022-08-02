@@ -1,11 +1,18 @@
 <%
-var imgHolder = {
-  'donations': 'https://via.placeholder.com/512x350/bd5912/2f2702.png?text=Donation',
-  'skills': 'https://via.placeholder.com/512x350/ec496f/2e2eba.png?text=Skill',
-  'events': 'https://via.placeholder.com/512x350/934fe9/3332b8.png?text=Event',
-  'hobbies': 'https://via.placeholder.com/512x350/b2bd12/1e1d1e.png?text=Hobby',
-  'blogs': 'https://via.placeholder.com/512x350/f5eabf/2f2702.png?text=Blog'
-}
+  let type = ''
+  const titlizer = (longBadTitle, limit) => {
+    const betterTitle = longBadTitle.split(' ').reduce((acc, word) => {
+        if (!acc) return word
+        if (acc.length >= limit || acc.length > limit - 3) return acc
+        if (acc.length + word.length >= limit) {
+            if (word.length < 6) return acc + ' ' + word
+            return (acc + ' ' + word).slice(0, limit)
+        } else {
+            return acc + ' ' + word
+        }
+    }, type)
+    return longBadTitle.length > betterTitle.length ? betterTitle + ' ...' : betterTitle
+  }
 %>
 
 <% if(typeof listings != 'undefined' && (context == 'alllistings' || context == 'geolocation' || context == 'gwoogl')){ %>
@@ -25,7 +32,10 @@ var imgHolder = {
         <% } else if (typeof listings[i].img != 'undefined') { %>
         <img src="<%= listings[i].img %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
         <% } else { %>
-        <img src="<%= imgHolder[listings[i].section] %>" alt="<%= listings[i].title + ' image' %>" class="card-img-top">
+        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <title>Placeholder</title>
+          <rect width="100%" height="100%" fill="#55595c" /><text dominant-baseline="middle" text-anchor="middle" x="50%" y="50%" fill="#eceeef" font-size="30"><%= listings[i].section %></text>
+        </svg>
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
           <h5 class="card-title" dir="auto"><a href='/listings/id/<%= listings[i]._id %>/'><%= listings[i].title %></a></h5>
@@ -35,17 +45,17 @@ var imgHolder = {
 
           <div class="w-100">
             <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < listings[i].tags.length ; j++) { %>
-            <a href="/tag/<%= encodeURIComponent(listings[i].tags[j]) %>"><span class="badge bg-secondary"><%= listings[i].tags[j] %></span></a>
+            <button type="button" class="btn btn-sm btn-outline-secondary" href="/tag/<%= encodeURIComponent(listings[i].tags[j]) %>"><%= listings[i].tags[j] %></button></a>
             <% } %>
-            <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
+            <a href="#" class="sharer"><span class="float-end"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% if(listings[i].lang != 'und'){ %>
-            <img class="pull-right flag" alt="<%= listings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%= listings[i].lang %>.svg">
+            <img class="float-end flag" alt="<%= listings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%= listings[i].lang %>.svg">
             <% } %>
             <% if(typeof listings[i].d != 'undefined' && listings[i].d){ %>
-            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true">&#8203;</i></span></a>
+            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="float-end"><i class="fa fa-toggle-off fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
             <% if(typeof listings[i].d != 'undefined' && !listings[i].d){ %>
-            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true">&#8203;</i></span></a>
+            <a href='/listings/user/toggle/<%= listings[i]._id %>'><span class="float-end"><i class="fa fa-toggle-on fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
           </div>
 
@@ -69,7 +79,10 @@ var imgHolder = {
         <% } else if (typeof crossLangListings[i].img != 'undefined') { %>
         <img src="<%= crossLangListings[i].img %>" alt="<%= crossLangListings[i].title + ' image' %>" class="card-img-top">
         <% } else { %>
-        <img src="<%= imgHolder[crossLangListings[i].section] %>" alt="<%= crossLangListings[i].title + ' image' %>" class="card-img-top">
+        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <title>Placeholder</title>
+          <rect width="100%" height="100%" fill="#55595c" /><text dominant-baseline="middle" text-anchor="middle" x="50%" y="50%" fill="#eceeef" font-size="30"><%= crossLangListings[i].section %></text>
+        </svg>
         <% } %>
         <div class="card-body d-flex flex-wrap align-content-between">
           <h5 class="card-title" dir="auto"><a href='/listings/id/<%= crossLangListings[i]._id %>/'><%= crossLangListings[i].title %></a></h5>
@@ -79,17 +92,17 @@ var imgHolder = {
 
           <div class="w-100">
             <% for (var j=0; crossLangListings[i].tags && crossLangListings[i].tags.length > 0 && j < crossLangListings[i].tags.length ; j++) { %>
-            <a href="/tag/<%= encodeURIComponent(crossLangListings[i].tags[j]) %>"><span class="badge bg-secondary"><%= crossLangListings[i].tags[j] %></span></a>
+            <button type="button" class="btn btn-sm btn-outline-secondary" href="/tag/<%= encodeURIComponent(crossLangListings[i].tags[j]) %>"><%= crossLangListings[i].tags[j] %></button></a>
             <% } %>
             <% if(crossLangListings[i].lang != 'und'){ %>
-            <img class="pull-right flag" alt="<%= crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%= crossLangListings[i].lang %>.svg">
+            <img class="float-end flag" alt="<%= crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%= crossLangListings[i].lang %>.svg">
             <% } %>
-            <a href="#" class="sharer"><span class="pull-right"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
+            <a href="#" class="sharer"><span class="float-end"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% if(typeof crossLangListings[i].d != 'undefined' && crossLangListings[i].d){ %>
-            <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-off fa-fw" aria-hidden="true">&#8203;</i></span></a>
+            <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="float-end"><i class="fa fa-toggle-off fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
             <% if(typeof crossLangListings[i].d != 'undefined' && !crossLangListings[i].d){ %>
-            <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="pull-right"><i class="fa fa-toggle-on fa-fw" aria-hidden="true">&#8203;</i></span></a>
+            <a href='/listings/user/toggle/<%= crossLangListings[i]._id %>'><span class="float-end"><i class="fa fa-toggle-on fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% } %>
           </div>
 
