@@ -215,8 +215,26 @@ async function routes(fastify, options) {
     })
 
     /* GET Top listings by tag. */
-    fastify.get('/explore/all-tags', { preHandler: softAuth }, async function (req, reply) {
-        reply.view('/pages/all-tags', {
+    fastify.get('/explore/all-tags-donations', { preHandler: softAuth }, async function (req, reply) {
+        reply.view('/pages/all-tags-donations', {
+            title: 'Explore all tags!',
+            context: 'all-tags'
+        })
+    })
+    fastify.get('/explore/all-tags-skills', { preHandler: softAuth }, async function (req, reply) {
+        reply.view('/pages/all-tags-skills', {
+            title: 'Explore all tags!',
+            context: 'all-skills'
+        })
+    })
+    fastify.get('/explore/all-tags-events', { preHandler: softAuth }, async function (req, reply) {
+        reply.view('/pages/all-tags-events', {
+            title: 'Explore all tags!',
+            context: 'all-tags'
+        })
+    })
+    fastify.get('/explore/all-tags-meetings', { preHandler: softAuth }, async function (req, reply) {
+        reply.view('/pages/all-tags-meetings', {
             title: 'Explore all tags!',
             context: 'all-tags'
         })

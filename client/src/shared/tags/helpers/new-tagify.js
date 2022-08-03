@@ -14,14 +14,13 @@ export function newTagify(tagified, input, tags, maxTags = 3) {
         tagified.destroy()
     }
     if (__context__ === 'all-tags') {
-        input.value = tags.map((tag) => {
-            return { value: tag }
-        })
+        input.value = tags.slice(0, maxTags).map(tag => tag.replaceAll(',', '|')).join(',')
+        maxTags = 200
     }
     tagified = new Tagify(input, {
         // limit text size to 35
         pattern: new RegExp(`^.{0,${TAG_SIZE}}$`),
-        delimiters: ',| ',
+        delimiters: ',',
         keepInvalidTags: false,
         editTags: {
             clicks: 1, // single click to edit a tag
