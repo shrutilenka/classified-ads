@@ -13,6 +13,11 @@ export function newTagify(tagified, input, tags, maxTags = 3) {
     if (tagified) {
         tagified.destroy()
     }
+    if (__context__ === 'all-tags') {
+        input.value = tags.map((tag) => {
+            return { value: tag }
+        })
+    }
     tagified = new Tagify(input, {
         // limit text size to 35
         pattern: new RegExp(`^.{0,${TAG_SIZE}}$`),

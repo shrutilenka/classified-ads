@@ -215,6 +215,14 @@ async function routes(fastify, options) {
     })
 
     /* GET Top listings by tag. */
+    fastify.get('/explore/all-tags', { preHandler: softAuth }, async function (req, reply) {
+        reply.view('/pages/all-tags', {
+            title: 'Explore all tags!',
+            context: 'all-tags'
+        })
+    })
+    
+    /* GET Top listings by tag. */
     fastify.get('/explore/tags', { preHandler: softAuth }, async function (req, reply) {
         reply.view('/pages/tags', {
             title: 'Explore all tags!',
