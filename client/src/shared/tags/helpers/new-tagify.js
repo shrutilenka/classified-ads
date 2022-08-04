@@ -1,6 +1,6 @@
 import Tagify from '@yaireo/tagify'
 import { consts } from '../../../views/main/consts.js'
-import { transformTag } from './transform-tag.js'
+import { colorContext } from './transform-tag.js'
 
 const TAG_SIZE = consts.tagSize
 /**
@@ -14,8 +14,9 @@ export function newTagify(tagified, input, tags, maxTags = 3) {
         tagified.destroy()
     }
     if (__context__ === 'all-tags') {
-        input.value = tags.slice(0, maxTags).map(tag => tag.replaceAll(',', '|')).join(',')
         maxTags = 200
+        tags = tags.slice(0, maxTags).filter(Boolean)
+        input.value = tags.map(tag => tag.replaceAll(',', '|')).join(',')
     }
     tagified = new Tagify(input, {
         // limit text size to 35
@@ -28,7 +29,7 @@ export function newTagify(tagified, input, tags, maxTags = 3) {
         },
         maxTags,
         whitelist: tags,
-        transformTag: transformTag,
+        transformTag: colorContext(__context__),
         // originalInputValueFormat: valuesArr => `[${valuesArr.map(item => item.value).join(',')}]`,
         backspace: 'edit',
         placeholder: 'Type something',

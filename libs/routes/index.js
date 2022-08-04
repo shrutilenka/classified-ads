@@ -224,7 +224,7 @@ async function routes(fastify, options) {
     fastify.get('/explore/all-tags-skills', { preHandler: softAuth }, async function (req, reply) {
         reply.view('/pages/all-tags-skills', {
             title: 'Explore all tags!',
-            context: 'all-skills'
+            context: 'all-tags'
         })
     })
     fastify.get('/explore/all-tags-events', { preHandler: softAuth }, async function (req, reply) {

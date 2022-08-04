@@ -116,7 +116,10 @@ give.cptallTagsAr = require('../../data/taxonomy/cptall_ar.json')
 give.wikiHobbiesEn = require('../../data/taxonomy/hobbies_en.json')
 give.wikiHobbiesFr = require('../../data/taxonomy/hobbies_fr.json')
 give.wikiHobbiesAr = require('../../data/taxonomy/hobbies_ar.json')
-
+// TODO: sacrifice Parents for now.
+give.wikiHobbiesEn = Object.values(give.wikiHobbiesEn).flat()
+give.wikiHobbiesFr = Object.values(give.wikiHobbiesFr).flat()
+give.wikiHobbiesAr = Object.values(give.wikiHobbiesAr).flat()
 
 give.blogsTagsEn = give.googleTagsEnLite.concat(give.ESCOTagsEn).concat(give.cptallTagsEn).concat(give.wikiHobbiesEn)
 give.blogsTagsFr = give.googleTagsFrLite.concat(give.ESCOTagsFr).concat(give.cptallTagsFr).concat(give.wikiHobbiesFr) 
