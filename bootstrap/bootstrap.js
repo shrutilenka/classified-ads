@@ -189,8 +189,7 @@ ops.createIndexes = async function createIndexes(db) {
 const docsCount = {
     api: 500,
     localhost: 10000,
-    development: 10000,
-    production: 1000,
+    production: 10000,
 }[process.env.NODE_ENV]
 ops.seedDevelopmentData = async function seedDevelopmentData(db) {
     fakeItems(docsCount)
