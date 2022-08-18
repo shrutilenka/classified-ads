@@ -19,7 +19,6 @@ Notes:
 🧰 Tech stack
 ---
 [<img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" alt="JavaScript logo" width="50" height="50" />](https://www.javascript.com/) 
-[<img src="https://github.com/devicons/devicon/blob/master/icons/webpack/webpack-original.svg" alt="Webpack logo" width="50" height="50" />](https://webpack.js.org/)
 [<img src="https://github.com/devicons/devicon/blob/master/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap logo" width="50" height="50" />](https://getbootstrap.com/docs/5.0/)
 [<img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original.svg" alt="NodeJS logo" width="50" height="50" />](https://nodejs.org/)
 [<img src="https://github.com/fastify/graphics/raw/HEAD/fastify-landscape-outlined.svg" alt="Fastify logo" width="50" height="50" />](https://fastify.io/)
@@ -63,17 +62,12 @@ Notes:
 `.env` files hold secret keys and configurations which you want to hide.  
 All other configurations should live in `/config/{NODE_env}.json` file.
 
-- Install sass globally
-`npm install -g sass`
--  Install webpack globally
-`npm install -g webpack`
 -  Create environment files
 `touch /.env && /client/.env`
 -  Fulfill environment variables on server (note that `localhost` is meant for easy deployment on your machine  
 or on cloud providers (tested on Heroku)). But I advice to use your own machine !
-   - NODE_ENV=localhost
+   - NODE_ENV=localhost/api/production
    - HONEYPOT_KEY=
-   - CREDS_PATH=./creds/##.json
    - GCLOUD_STORAGE_BUCKET=NameOfBucket
    - JWT_SECRET=Just@Passw0rd
    - COOKIE_NAME=Just@Name
@@ -94,12 +88,12 @@ or on cloud providers (tested on Heroku)). But I advice to use your own machine 
    - MongoDB must be up with the following dbs and collections  
 `DBs: {listings_db} & Collections: {listing, words, comment, users, userstemp, visitors-default-current, visitors-default}`
 -  Fulfill Google Cloud credentials (for storage) (optional for localhost env)
-`./creds/############.json` 
+`./creds/service-account.json` 
 -  Change environment files accordingly
 -  Verify configuration on your environments as you want here `/config`
-- Build the whole project
+- Build the whole project (run in root folder and also in client folder)
 `npm run build`
-- Or don't be afraid of running commands here step by step: `sudo apt-get install -y build-essential && npm install && cd client && npm install && npm run dev:client && cd ..`
+- Or don't be afraid of running commands here step by step: `sudo apt-get install -y build-essential && npm install && cd client && npm install && npm run build && cd ..`
 
 
 ### Note

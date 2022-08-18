@@ -29,7 +29,7 @@ const to = (promise) => promise.then((data) => [null, data]).catch((err) => [err
 
 let storage, bucket
 // if (NODE_ENV ) {
-storage = new Storage({ keyFilename: process.env.CREDS_PATH })
+storage = new Storage({ keyFilename: './creds/service-account.json' })
 bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET)
 // }
 
