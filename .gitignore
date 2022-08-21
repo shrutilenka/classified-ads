@@ -195,6 +195,6 @@ client/node_modules
 /uploads/*
 !/uploads/.gitkeep
 docker/redis/tmp.conf
-docker/redis/.conf
+!docker/redis/.conf
 
 data/raw/ipsum.txt
