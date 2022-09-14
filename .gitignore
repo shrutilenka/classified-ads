@@ -186,8 +186,10 @@ data/wiki.multi.en.vec
 /build/*
 build/config.gypi
 
-host-db/redis-data/
-host-db/mongo-data/
+host-db/redis-data/*
+!host-db/redis-data/.gitkeep
+host-db/mongo-data/*
+!host-db/mongo-data/.gitkeep
 backup/*
 !/backup/.gitkeep
 client/node_modules

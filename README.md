@@ -109,8 +109,6 @@ With a different geoJSON data, you might need to change encoders in both files `
 
 - **Contribution is VERY WELCOME, I already thank you in advance.**
 
-- **Deploying it elsewhere is fine for non-commercial uses (see license). If you want to deploy it for any business needs we can negotiate that. Please contact me I will respond shortly. Please, consider to contribute to this main project pushing everything you find important: a new functionality, a bug or security fix, better design...**
-
 - **I will be very active with pull requests (testing and approving) but less active on resolving raised issue. With this being said, I really appreciate new issues raised after a proper installation and tests.**
 
 - As a contributor, you are simply advised to read documentation here and in code very meticulously though, raising issues that are known, raising issues about installation (in general) are not really appreciated.

@@ -122,7 +122,7 @@ export default function (mongoDB, redisDB) {
     // glid-@@@@@@@@@@@@ cached document
     // gls-#### cached pages
 
-    // Cache mecanism
+    // Cache mechanism
     // update doc then add it to up-ids[doc._id] with up = 3
     // 1- getListingById
     // if cached check:
