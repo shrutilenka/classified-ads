@@ -1,4 +1,4 @@
-# Classified-ads: The web project you will fall in love. Because it does not try to intimidate you ! No React, Angular, or other similar codes.
+# Classified-ads: The web project you will fall in love. Because it does not try to intimidate you ! No React, Angular, or other similar codes. [FR](README_FR.md)
 
 **Classified-ads is a listings website, particularly, similar to the classified-ads we see on news-papers. Let's bring the same idea to the web; This time offering rich input forms, interactive UI, an interactive Map all presented to user with multiple languages and most importantly respecting users privacy.**  
 
