@@ -1,4 +1,4 @@
-# Classified-ads: Le projet web dont vous allez tomber amoureux; Comme qu'il ne cherche pas à vous intimider ! Pas de React, Angular ou autres solutions similaires.
+# Classified-ads
 
 **Classified-ads est un site d'annonces, notamment, similaire aux petites annonces que l'on retrouve dans les journaux. Apportons la même idée au Web; Cette fois-ci, offrant des formulaires riches, une interface utilisateur et une carte interactives, le tout présenté à l'utilisateur en plusieurs langues et, surtout, respectant la confidentialité des utilisateurs**  
 
