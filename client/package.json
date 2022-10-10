@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Not a standalone client. It only generates client scripts and styles that are served publicly",
   "source": [
-    "src/views/main/main.js",
+    "src/views/main/index.js",
     "src/views/listings/listing.js",
     "src/views/biglistings/biglists.js",
     "src/views/skills/skills.js",
@@ -12,12 +12,12 @@
     "src/views/easteregg/easteregg.js"
   ],
   "targets": {
-    "default": {
+    "app": {
       "engines": {
         "browsers": "> 0.25%"
       },
       "distDir": "../public/javascripts/",
-      "publicUrl": ".",
+      "publicUrl": "./",
       "sourceMap": true
     }
   },

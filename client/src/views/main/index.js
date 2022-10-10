@@ -1,11 +1,11 @@
 /*
-  'main.js' has access to DOM objects and runs on every page.
+  'index.js' has access to DOM objects and runs on every page.
   This is why it should be safe because
   pages contain different HTML elements
 
   GLOBAL VARIABLES besides DOM objects are
   coming sequentially from imported scripts
-  before 'main.js' is imported. These are variables renamed
+  before 'index.js' is imported. These are variables renamed
 
   - pell -> __pell: https://github.com/jaredreich/pell
   - new Tagify: https://github.com/yairEO/tagify
