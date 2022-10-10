@@ -31,7 +31,6 @@
         </li>
         <li class="external"><a data-trans="(so-c)" href="/u/" class="nav-link px-2 text-white">Digital card</a></li>
         <li class="external"><a data-trans="(weather)" href="/wv/" class="nav-link px-2 text-white">Weather</a></li>
-        <li class="external"><a data-trans="(buy)" href="https://docs.google.com/presentation/d/1B3q0vsa2vvFchvDcNCCbdlHPWjjy3s87NATKQ-KNlyg/edit?usp=sharing" class="nav-link px-2 text-white">Buy a deployment !</a></li>
       </ul>
 
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
