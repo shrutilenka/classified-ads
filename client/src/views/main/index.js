@@ -24,6 +24,7 @@ import log from 'loglevel';
 import { setupShared } from '../../shared/shared.js';
 import { consts } from './consts.js';
 
+
 log.setDefaultLevel(consts.logLevel[process.env.NODE_ENV])
 window.log = log
 if (['development', 'localhost'].includes(process.env.NODE_ENV)) {

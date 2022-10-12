@@ -67,7 +67,7 @@
     {
       if (window.__context__ === 'messages') {
         const scriptElement = document.createElement("script")
-        scriptElement.src = "/javascripts/biglistings/biglists.js"
+        scriptElement.src = "/javascripts/biglists/biglists.js"
         document.body.appendChild(scriptElement)
       }
     }

@@ -2,28 +2,9 @@
   "name": "classified-ads-client",
   "version": "1.0.0",
   "description": "Not a standalone client. It only generates client scripts and styles that are served publicly",
-  "source": [
-    "src/views/main/index.js",
-    "src/views/listings/listing.js",
-    "src/views/biglistings/biglists.js",
-    "src/views/skills/skills.js",
-    "src/views/tags/tags.js",
-    "src/views/weathervenue/weathervenue.js",
-    "src/views/easteregg/easteregg.js"
-  ],
-  "targets": {
-    "app": {
-      "engines": {
-        "browsers": "> 0.25%"
-      },
-      "distDir": "../public/javascripts/",
-      "publicUrl": "./",
-      "sourceMap": true
-    }
-  },
   "type": "module",
   "scripts": {
-    "build": "find ../public/javascripts/ -type f -delete && parcel build && sass src/style:../public/stylesheets",
+    "build": "webpack && sass src/style:../public/stylesheets",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -62,11 +43,12 @@
     "@types/google.maps": "^3.50.4",
     "@types/leaflet.fullscreen": "^1.6.1",
     "@types/web": "0.0.75",
-    "parcel": "^2.7.0",
+    "dotenv-webpack": "^8.0.1",
     "prettier": "^2.7.1",
-    "process": "^0.11.10",
     "sass": "^1.55.0",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   },
   "keywords": [
     "javascript",

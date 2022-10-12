@@ -115,7 +115,7 @@
   <script>
     {
       const scriptElement = document.createElement("script")
-      scriptElement.src = "/javascripts/listings/listing.js"
+      scriptElement.src = "/javascripts/listing/listing.js"
       document.body.appendChild(scriptElement)
 
     }
