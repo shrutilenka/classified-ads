@@ -14,9 +14,6 @@
     "dev:beautiful:inspect:2": "NO_CLUSTER=true clinic doctor --on-port 'autocannon localhost:3000' -- node server.js",
     "dev:beautiful:inspect:3": "NO_CLUSTER=true clinic bubbleprof --on-port 'autocannon -c 5 -a 500 localhost:3000' -- node server.js",
     "dev:tools": "cd tools && curl -L -O https://github.com/jcbvm/i18n-editor/releases/download/1.0.0/i18n-editor-1.0.0.zip --output i18n-editor-1.0.0.zip && unzip i18n-editor-1.0.0.zip",
-    "tools:mlmodels:en": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec --output wiki.multi.en.vec",
-    "tools:mlmodels:ar": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.ar.vec --output wiki.multi.ar.vec",
-    "tools:mlmodels:fr": "cd data && curl -L -O https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec --output wiki.multi.fr.vec",
     "tools:compress": "cd public/geo/ && json2geobuf states.min.json > states.min.pbf && json2geobuf simple_fr.json > simple_fr.pbf",
     "test:server": "NODE_ENV=api tap --no-coverage && ava",
     "test:unit": "ava test/units.js",
@@ -110,8 +107,6 @@
     "tap": "^16.3.0"
   },
   "optionalDependencies": {
-    "@smodin/fast-text-language-detection": "^0.2.3",
-    "annoy": "^3.0.3",
     "bull": "^4.8.1",
     "sharp": "^0.30.3"
   }

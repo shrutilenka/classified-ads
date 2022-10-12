@@ -3,7 +3,6 @@ import { Mutex } from 'async-mutex'
 import emailToName from 'email-to-name'
 import { Blog, Comment, Donation, Skill, User } from '../constraints/models.js'
 import { refreshTopK } from '../services/miner.js'
-import Dictionary from './dictionary.js'
 import { crypto, EphemeralData } from './helpers.js'
 import { getListingById, getListingsSince } from './mongo-protobuff.js'
 /**
@@ -392,8 +391,6 @@ export default function (mongoDB, redisDB) {
         return await collection.findOne(query)
     }
 
-    const translator = new Dictionary(['en', 'ar', 'fr'])
-
     /**
      * Approximate search based on indexed text fields: title, desc, tags
      * It also feeds topK miner
@@ -430,7 +427,8 @@ export default function (mongoDB, redisDB) {
         }
         if (count < 6 && phrase.indexOf(' ') < 0) {
             // console.log(`---------${lang}--------`)
-            let translations = translator.translate(phrase, lang, 3)
+            // TODO: brain
+            let translations = []
             // console.log(translations)
             for (const [lang, keywords] of Object.entries(translations)) {
                 collation = { locale: lang }

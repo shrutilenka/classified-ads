@@ -9,10 +9,6 @@ COPY package.json ./
 RUN npm i -g npm
 RUN rm -rf /node_modules
 
-RUN apk add --no-cache --update --virtual .gyp \
-    build-base vips-dev python3 go && npm i @smodin/fast-text-language-detection annoy && \
-    apk del .gyp
-
 # Couldn't install Sharp, moving on with the project without Sharp !
 # RUN npm install -g node-gyp
 # vips-dev has moved from to edge/community, and updated to version 8.8.0-r0.

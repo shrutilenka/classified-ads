@@ -1,19 +1,9 @@
 import Multer from 'fastify-multer'
 import fs from 'fs'
-import { createRequire } from 'module'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import config from '../../configuration.js'
-import Dictionary from './dictionary.js'
-const require = createRequire(import.meta.url)
 
-let LanguageDetection, lid
-try {
-    LanguageDetection = require('@smodin/fast-text-language-detection')
-    lid = new LanguageDetection()
-} catch (e) {
-    console.log('oh no no fast-text module. I hope this is not production environment')
-}
 
 const ops = {}
 const crypto = {}
@@ -40,17 +30,10 @@ ops.cloudMulter = Multer({
 
 ops.localMulter = Multer({ dest: 'static/images/' }).single('avatar')
 
-const dictionary = new Dictionary(['en', 'ar', 'fr'])
-
+// TODO: brain
 ops.getLanguage = async (text) => {
     // Wrong detection here when fast-text not present (for test environments)
-    if (!lid) {
-        return dictionary.getWordLang(text.split(' ')[0])
-    }
-    const language = await lid.predict(text, 3)
-    if (language[0].prob > 0.5 && ['en', 'ar', 'fr'].indexOf(language[0].lang) > -1) return language[0].lang
-    else if (text.indexOf(' ') < 0) return dictionary.getWordLang(text)
-    else return 'und'
+    return 'und'
 }
 
 /**
