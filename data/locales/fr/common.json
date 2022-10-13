@@ -215,8 +215,8 @@
       "bootstrap": "app instance bootstrapped correctly",
       "signup": {
          "subject": "Account Verification Token",
-         "text": "Hello,\n\nPlease verify your account by entering this secret '{{token}}' in this page:\n{{host}}confirmation/",
-         "html": "Hello,\n\nPlease verify your account by entering this secret <b>{{token}}</b> in this page:\n{{host}}confirmation/"
+         "text": "Hello,\n\nPlease verify your account by copying and entering this secret '{{token}}' in this page:\n{{host}}confirmation/",
+         "html": "Hello,\n\nPlease verify your account by copying and entering this secret <b>{{token}}</b> in this page:\n{{host}}confirmation/"
       }
    },
    "blog": {
