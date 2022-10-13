@@ -37,7 +37,7 @@
           <code class="w-100" style="font-size:0.75rem"><%= new Date(parseInt(listings[i]._id.toString().substring(0, 8), 16) * 1000).toISOString().slice(0,10) %></code>
           <div class="w-100">
             <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < 2 && j < listings[i].tags.length ; j++) { %>
-            <button type="button" class="btn btn-sm btn-outline-secondary" href="/tag/<%= encodeURIComponent(listings[i].tags[j]) %>"><%= listings[i].tags[j] %></button></a>
+            <a href="/tag/<%= encodeURIComponent(listings[i].tags[j]) %>"><button type="button" class="btn btn-sm btn-outline-secondary" ><%= listings[i].tags[j] %></button></a>
             <% } %>
             <a href="#" class="sharer"><span class="float-end"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i></span></a>
             <% if(listings[i].lang != 'und'){ %>

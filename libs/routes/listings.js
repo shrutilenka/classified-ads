@@ -295,6 +295,7 @@ async function routes(fastify, options, next) {
         return reply.view('/pages/listings', {
             user: user,
             title: 'Your listings',
+            intro: "These are your own listings ! You can always verify and deactivate some",
             listings: listings,
             context: 'alllistings',
             success: 'Yep, we got some :)',

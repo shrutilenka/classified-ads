@@ -53,7 +53,7 @@
          "error": ""
       },
       "geolocation": {
-         "title": "{{app_name}} - Geolocated results",
+         "title": "{{app_name}} - Geo-located results",
          "intro": "Classified advertising brought to the web. Use geo-location search to find listings nearby !",
          "success": "We got some listings nearby :)",
          "error": ""

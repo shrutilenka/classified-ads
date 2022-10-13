@@ -45,7 +45,7 @@
 
           <div class="w-100">
             <% for (var j=0; listings[i].tags && listings[i].tags.length > 0 && j < listings[i].tags.length ; j++) { %>
-            <button type="button" class="btn btn-sm btn-outline-secondary" href="/tag/<%= encodeURIComponent(listings[i].tags[j]) %>"><%= listings[i].tags[j] %></button></a>
+            <a href="/tag/<%= encodeURIComponent(listings[i].tags[j]) %>"><button type="button" class="btn btn-sm btn-outline-secondary" ><%= listings[i].tags[j] %></button></a>
             <% } %>
             <a href="#" class="sharer"><span class="float-end"><i class="fa fa-share-alt fa-fw" aria-hidden="true">&#8203;</i></span></a>
             <% if(listings[i].lang != 'und'){ %>
@@ -92,7 +92,7 @@
 
           <div class="w-100">
             <% for (var j=0; crossLangListings[i].tags && crossLangListings[i].tags.length > 0 && j < crossLangListings[i].tags.length ; j++) { %>
-            <button type="button" class="btn btn-sm btn-outline-secondary" href="/tag/<%= encodeURIComponent(crossLangListings[i].tags[j]) %>"><%= crossLangListings[i].tags[j] %></button></a>
+            <a href="/tag/<%= encodeURIComponent(crossLangListings[i].tags[j]) %>"><button type="button" class="btn btn-sm btn-outline-secondary" ><%= crossLangListings[i].tags[j] %></button></a>
             <% } %>
             <% if(crossLangListings[i].lang != 'und'){ %>
             <img class="float-end flag" alt="<%= crossLangListings[i].lang %>" src="https://unpkg.com/language-icons/icons/<%= crossLangListings[i].lang %>.svg">
