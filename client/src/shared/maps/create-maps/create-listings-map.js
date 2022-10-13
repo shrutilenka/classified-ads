@@ -1,4 +1,4 @@
-// import * as L from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet.fullscreen';
 import screenfull from 'screenfull';
 import { country } from './state.js';

@@ -43,6 +43,7 @@
     "@types/google.maps": "^3.50.4",
     "@types/leaflet.fullscreen": "^1.6.1",
     "@types/web": "0.0.75",
+    "dotenv": "^16.0.3",
     "dotenv-webpack": "^8.0.1",
     "prettier": "^2.7.1",
     "sass": "^1.55.0",
