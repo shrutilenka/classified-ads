@@ -1,11 +1,11 @@
-// import * as L from 'leaflet';
-import 'leaflet.fullscreen';
-import screenfull from 'screenfull';
+import * as L from 'leaflet';
+// import 'leaflet.fullscreen';
+// import screenfull from 'screenfull';
 import { io } from 'socket.io-client';
 import { onEachFeatureClosure } from './helpers/on-each-feature/on-each-feature.js';
 import { styleStatesClosure } from './helpers/style-states.js';
 import { country, geoJson } from './state.js';
-window.screenfull = screenfull;
+// window.screenfull = screenfull;
 
 const latLngs = []
 const someColor = (idx) => {
@@ -59,17 +59,17 @@ export function gameMap({ lat, lng, layerFactory, zoom }) {
         onEachFeature: onEachFeatureClosure(map),
     }).addTo(map)
     // create a fullscreen button and add it to the map
-    L.control
-        .fullscreen({
-            position: 'topleft', // change the position of the button can be topleft, topright, bottomright or bottomleft, default topleft
-            title: 'Show me the fullscreen !', // change the title of the button, default Full Screen
-            titleCancel: 'Exit fullscreen mode', // change the title of the button when fullscreen is on, default Exit Full Screen
-            content: null, // change the content of the button, can be HTML, default null
-            forceSeparateButton: true, // force separate button to detach from zoom buttons, default false
-            forcePseudoFullscreen: true, // force use of pseudo full screen even if full screen API is available, default false
-            fullscreenElement: false, // Dom element to render in full screen, false by default, fallback to map._container
-        })
-        .addTo(map)
+    // L.control
+    //     .fullscreen({
+    //         position: 'topleft', // change the position of the button can be topleft, topright, bottomright or bottomleft, default topleft
+    //         title: 'Show me the fullscreen !', // change the title of the button, default Full Screen
+    //         titleCancel: 'Exit fullscreen mode', // change the title of the button when fullscreen is on, default Exit Full Screen
+    //         content: null, // change the content of the button, can be HTML, default null
+    //         forceSeparateButton: true, // force separate button to detach from zoom buttons, default false
+    //         forcePseudoFullscreen: true, // force use of pseudo full screen even if full screen API is available, default false
+    //         fullscreenElement: false, // Dom element to render in full screen, false by default, fallback to map._container
+    //     })
+    //     .addTo(map)
     // transform geojson coordinates into an array of L.LatLng
     for (let i = 0; i < coordinates.length; i++) {
         latLngs.push(new L.LatLng(coordinates[i][1], coordinates[i][0]))

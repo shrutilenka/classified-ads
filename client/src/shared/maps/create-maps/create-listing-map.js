@@ -1,4 +1,4 @@
-// import L from 'leaflet';
+import L from 'leaflet';
 import { moveableMarker } from './helpers/marker/setup-marker.js';
 import { country } from './state.js';
 
