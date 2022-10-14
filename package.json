@@ -18,7 +18,7 @@
     "test:server": "NODE_ENV=api tap --no-coverage && ava",
     "test:unit": "ava test/units.js",
     "update_static": "license-report --only=prod --output=html --department.value= --relatedTo.value=  | tee  static/fr/third_parties.html static/dz/third_parties.html static/xx/third_parties.html > /dev/null",
-    "update_other_apps": "cd other_apps && git clone https://github.com/bacloud22/so-cards.git"
+    "update_other_apps": "cd other_apps && git clone https://github.com/bacloud23/mylinks.git"
   },
   "type": "module",
   "keywords": [
@@ -28,7 +28,7 @@
     "Maps",
     "web-app"
   ],
-  "author": "bacloud22",
+  "author": "bacloud23",
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^7.5.0",

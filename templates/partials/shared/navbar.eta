@@ -84,7 +84,7 @@
 
 
     <svg id="github" width="40" height="40" viewbox="0 0 120 120">
-      <a href="https://github.com/bacloud22/classified-ads/issues">
+      <a href="https://github.com/bacloud23/classified-ads/issues">
         <g id="face" transform='translate(60 60)'>
           <circle id="facecircle" cx="0" cy="0" r="50" stroke="#000000" stroke-width="2" fill="#FAD257" />
           <circle cx="-20" cy="-10" r="5" fill="#000000" />

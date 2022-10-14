@@ -2,7 +2,7 @@
 	admin 0.0.0.0:9000
 }
 
-iciannonces.fr {
+MYMARVELOUSDOMAIN.XX {
 	@mygeofilter {
 		maxmind_geolocation {
 			db_path "/srv/data/raw/maxmind/GeoLite2-Country.mmdb"

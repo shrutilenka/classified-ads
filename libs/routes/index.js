@@ -303,7 +303,7 @@ async function routes(fastify, options) {
     let converter = new showdown.Converter()
     let dailyAnnouncements = new EphemeralData(86400000)
     let github =
-        'https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/announcements/fr/announcements.md'
+        'https://raw.githubusercontent.com/bacloud23/Classified-ads-xx-data/main/data/announcements/fr/announcements.md'
     fastify.get('/announcements', function (req, reply) {
         let listings = []
         if (dailyAnnouncements.isSame()) {

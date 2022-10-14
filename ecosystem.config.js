@@ -1,3 +1,5 @@
+// This is only if we decide to use pm2 as a process manager
+// It is not used now. We only rely on node
 // TODO: revise paths
 const path = require('path');
 

@@ -15,6 +15,6 @@ Si vous n'êtes pas développeur vous pouvez aussi contribuer! On veut faire év
 
 Lien vers le projet:
 
-https://github.com/bacloud22/classified-ads/issues
+https://github.com/bacloud23/classified-ads/issues
 
 Noter s'il vous plaît que l'administrateur a mis beaucoup de temps et d'effort sur l'existant, et se focalisera dans le future beaucoup plus sur vos contributions que de faire évoluer l'existant tout seul.

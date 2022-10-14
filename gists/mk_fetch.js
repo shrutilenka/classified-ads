@@ -2,7 +2,7 @@ import axios from 'axios'
 let listings = []
 axios
     .get(
-        'https://raw.githubusercontent.com/bacloud22/Classified-ads-xx-data/main/data/announcements/fr/announcements.md',
+        'https://raw.githubusercontent.com/bacloud23/Classified-ads-xx-data/main/data/announcements/fr/announcements.md',
     )
     .then(function (response) {
         // handle success

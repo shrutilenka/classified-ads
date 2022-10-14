@@ -4,7 +4,7 @@
     "PIPELINE_KEYWORDS_SECONDS": 86400,
     "MONGODB_URI": "mongodb://localhost:27017/{dbName}",
     "REDIS_HOST": "redis",
-    "APIHost": "https://iciannonces.fr/",
+    "APIHost": "https://MYMARVELOUSDOMAIN.XX/",
     "COOKIE_NAME": "classified-ads-login",
     "SMTP": {
        "host": "smtp.sendgrid.net",

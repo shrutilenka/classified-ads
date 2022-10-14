@@ -1,3 +1,9 @@
+// Running the web-app as a cluster of processes has never been properly tested !
+// It seems to me a possible option. But it is to be considered very carefully; 
+// As functionalities generally related to "cache" like sessions, caching top searches, or other variables,
+// would result to inconsistent app; Unless we take every cache to a shared memory like Redis (not the case now)
+// This is why we are using the environment option "NO_CLUSTER" for now.
+
 import cluster from 'cluster'
 // Require app configurations
 import { config } from 'dotenv'

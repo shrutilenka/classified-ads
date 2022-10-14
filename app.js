@@ -84,7 +84,7 @@ async function build(doRun) {
     fastify.register(fastifyServe, { root: path.join(__dirname, 'public') })
 
     fastify.register(fastifyServe, {
-        root: path.join(__dirname, 'other_apps/so-cards/'),
+        root: path.join(__dirname, 'other_apps/mylinks/'),
         prefix: '/u/',
         decorateReply: false,
     })

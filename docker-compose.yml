@@ -1,5 +1,8 @@
 version: '3.7'
 
+# This configuration is only for listmonk (a newsletter service !)
+# We can dispatch this service from Classified-ads to a separate server, it has nothing to do with
+# Classified-ads Node app. It is part of the business !
 x-app-defaults: &app-defaults
   restart: unless-stopped
   image: listmonk/listmonk:latest

@@ -6,7 +6,7 @@ export default {
     swagger: {
         info: {
             title: 'Classified-ads API',
-            description: 'Check the API, any help or bug fix is really appreciated! <a href="github.com/bacloud22/classified-ads/issues">Open an issue or follow with a pull request</a>',
+            description: 'Check the API, any help or bug fix is really appreciated! <a href="github.com/bacloud23/classified-ads/issues">Open an issue or follow with a pull request</a>',
             version: '1.0.0'
         },
         externalDocs: {
