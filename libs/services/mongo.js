@@ -306,32 +306,58 @@ export default function (mongoDB, redisDB) {
         })
         return tmp
     }
-    
+
     /**
      * Get notification (messages/...) attached to a specific user
      * @param {*} user user email
      * @return {Promise}
      */
-    this.getNotificationsByUser = async function (user) {
-        collection = mongoDB.collection('comment')
-        const query = { $or: [{ from: user }, { to: user }] }
-        const projection = {}
-        const sort = [['threadId', 1], ['sent', 1]]
-        const tmp = await collection.find(query).project(projection).sort(sort).toArray()
-        tmp.forEach((element) => {
-            if (element.from === user) {
-                element['peer'] = emailToName.process(element.to)
-                element['direction'] = 'sender'
-            }
-            else {
-                element['peer'] = emailToName.process(element.from)
-                element['direction'] = 'receiver'
-            }
-            element.from = crypto.encrypt(key, element.from)
-            element.to = crypto.encrypt(key, element.to)
-            element.thread = element.thread.replace(/ /g, '-')
-        })
-        return tmp
+    this.getNotificationsByUser = async function (username) {
+        const getComments = async (username) => {
+            collection = mongoDB.collection('comment')
+            const query = { $or: [{ from: username }, { to: username }] }
+            const projection = {}
+            const sort = [
+                ['threadId', 1],
+                ['sent', 1],
+            ]
+            const tmp = await collection.find(query).project(projection).sort(sort).toArray()
+            tmp.forEach((element) => {
+                element.type = 'comment'
+                if (element.from === username) {
+                    element['peer'] = emailToName.process(element.to)
+                    element['direction'] = 'sender'
+                } else {
+                    element['peer'] = emailToName.process(element.from)
+                    element['direction'] = 'receiver'
+                }
+                element.from = crypto.encrypt(key, element.from)
+                element.to = crypto.encrypt(key, element.to)
+                element.thread = element.thread.replace(/ /g, '-')
+            })
+            return tmp
+        }
+
+        const getTopicListings = async (username) => {
+            collection = mongoDB.collection('users')
+            const query = {}
+            query.username = username
+            const topics = await collection.findOne(query)['topics']
+            // Subscribed-to topics for one user are like
+            // { topics: [{type: 'user', value: 'user1@mail.com'}, {type: 'tag', value: 'tag1'}] }
+            const subsToUsers = topics.filter((topic) => topic['t'] === 'u').map((t) => t['value'])
+            const subsToTags = topics.filter((topic) => topic['t'] === 't').map((t) => t['value'])
+            // Now having the subscribed to topics, get listings in question
+            collection = mongoDB.collection('listing')
+            query = {}
+            query['usr'] = { $in: subsToUsers }
+            const tmp1 = collection.find(query).project(baseProjection).sort(baseSort).limit(21).toArray()
+            query = {}
+            query['tag'] = { $in: subsToTags }
+            const tmp2 = collection.find(query).project(baseProjection).sort(baseSort).limit(21).toArray()
+            return tmp1.concat(tmp2)
+        }
+        return (await getComments(username)).concat(await getTopicListings(username))
     }
 
     /**
